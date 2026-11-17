@@ -140,6 +140,46 @@ pre code{background:none;padding:0;font-size:inherit;overflow-wrap:normal}
 .manage button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px}
 .manage button.danger{border-color:var(--again);color:var(--again)}
 footer{color:var(--muted);font-size:13px}
+
+/* listen view */
+.wrap[data-view="home"] #listenView{display:none!important}
+.lhint{font-size:13px;color:var(--muted);margin:0}
+.lopts{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.lopts label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.lopts select{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 8px;max-width:190px}
+.lopts button,.seg button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px}
+.seg{display:inline-flex}
+.seg button{border-radius:0}.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0;margin-left:-1px}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);position:relative}
+.ltotal{font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:0}
+.ltree{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px 0}
+.ltree details>summary{list-style:none}
+.ltree details>summary::-webkit-details-marker{display:none}
+.lrow{display:flex;align-items:center;gap:10px;padding:9px 12px;min-height:44px}
+.lrow input{width:20px;height:20px;flex:none;accent-color:var(--accent);margin:0}
+.lrow .lname{flex:1;min-width:0}
+.lrow .lcount{font:500 11px var(--f-mono);color:var(--muted);flex:none}
+.ltree .ltopic+.ltopic{border-top:1px solid var(--line)}
+.ltopic>summary .lname{font-weight:650}
+.lgroup{padding-left:18px}
+.lgroup>summary .lname{font-size:14px;color:var(--muted);font-weight:600}
+.lconcept{padding-left:36px;font-size:14px}
+.lrow.playing .lname{color:var(--accent);font-weight:600}
+.lplan{color:var(--muted);font-size:14px;padding:9px 12px;margin:0}
+.lbar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surface);border-top:1px solid var(--line);
+  padding:8px max(16px, env(safe-area-inset-left,0px)) calc(8px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px}
+.lbar .lnow{border:0;background:none;padding:0;text-align:left;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:800px;margin:0 auto;width:100%}
+.lbar .lnow b{color:var(--ink)}
+.lctl{display:flex;align-items:center;justify-content:center;gap:10px;max-width:800px;margin:0 auto;width:100%}
+.lctl button{border:1px solid var(--line);background:var(--surface);border-radius:999px;min-width:44px;height:44px;padding:0 12px;font-weight:600;position:relative}
+.lctl #lPlay{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);min-width:64px}
+.lctl #lRepeat[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.lctl select{font:600 13px var(--f-mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;height:44px;padding:0 8px}
+.lnowlist{max-height:45vh;overflow:auto;max-width:800px;margin:0 auto;width:100%;border-top:1px solid var(--line);padding-top:4px}
+.lnowlist button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 4px;font-size:14px;border-radius:6px}
+.lnowlist button small{color:var(--muted);font:500 11px var(--f-mono);margin-right:8px}
+.lnowlist button[aria-current="true"]{color:var(--accent);font-weight:600;background:var(--accent-soft)}
+body.has-lbar{padding-bottom:130px}
 @media (max-width:520px){.inner{padding-left:14px}.grades{grid-template-columns:repeat(2,1fr)}}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
 </style>
@@ -158,6 +198,7 @@ footer{color:var(--muted);font-size:13px}
     <div class="modes" role="group" aria-label="Mode">
       <button type="button" id="modeRead" aria-pressed="true">Read</button>
       <button type="button" id="modeStudy" aria-pressed="false">Study</button>
+      <button type="button" id="modeListen" aria-pressed="false">Listen</button>
     </div>
   </div>
 
@@ -209,10 +250,39 @@ footer{color:var(--muted);font-size:13px}
     </details>
   </section>
 
+  <section id="listenView" hidden style="flex-direction:column;gap:12px">
+    <p class="lhint" id="lHint">Tick what to hear, then press play. It reads the selection in order with your device's English voice.</p>
+    <div class="lopts">
+      <div class="seg" role="group" aria-label="What to read">
+        <button type="button" id="lSummary" aria-pressed="false">Summaries</button>
+        <button type="button" id="lFull" aria-pressed="false">Full notes</button>
+      </div>
+      <button type="button" id="lAll">All</button>
+      <button type="button" id="lNone">None</button>
+      <label for="lVoice">Voice <select id="lVoice"></select></label>
+    </div>
+    <p class="ltotal" id="lTotal" aria-live="polite"></p>
+    <div class="ltree" id="lTree"></div>
+  </section>
+
   <footer id="footer">Content is written to be accurate as of each topic's date. Product features, names and defaults change; check the vendor docs before relying on a specific number.</footer>
 </div>
 
+<div class="lbar" id="lBar" hidden>
+  <button type="button" class="lnow" id="lNow" aria-expanded="false" aria-controls="lNowList">Nothing selected</button>
+  <div class="lnowlist" id="lNowList" hidden></div>
+  <div class="lctl">
+    <button type="button" id="lRepeat" aria-pressed="false" aria-label="Repeat each concept">⟲<span id="lRepeatN"></span></button>
+    <button type="button" id="lPrev" aria-label="Previous">⏮</button>
+    <button type="button" id="lPlay" aria-label="Play">▶</button>
+    <button type="button" id="lNext" aria-label="Next">⏭</button>
+    <select id="lSpeed" aria-label="Speed"></select>
+  </div>
+</div>
+
 <!--TOPICS-->
+
+<!--LISTEN-->
 
 <script>
 // ================= CONFIG (edit to reconfigure) =================
@@ -283,7 +353,18 @@ const CONFIG = {
     hardFactor: 1.2, easyBonus: 1.3,
     maxDays: 365
   },
-  storage: { docPrefix: "srs-", localPrefix: "fieldguide-srs-", loadTimeoutMs: 10000 }
+  storage: { docPrefix: "srs-", localPrefix: "fieldguide-srs-", loadTimeoutMs: 10000 },
+  listen: {                    // Listen mode: the device's own English voice reads the selected concepts
+    speeds: [0.8, 1, 1.2, 1.4, 1.6, 1.8, 2], defaultSpeed: 1,
+    repeatCounts: [1, 2, 3],   // repeat button: each concept plays once (off), x2, x3
+    defaultContent: "full",    // "summary" = name + one-line summary; "full" = every section too
+    chunkChars: 220,           // longest single utterance (long ones get cut off on some browsers)
+    gapMs: 900,                // pause between concepts at 1x
+    prevGraceMs: 2500,         // previous within this long of an item's start goes to the item before
+    wordsPerMinute: 165,       // for the length estimate at 1x
+    voice: { langPrefix: "en", preferredLangs: ["en-US", "en-GB", "en-AU", "en-IE", "en-CA"], quality: ["premium", "enhanced", "natural", "neural"] },
+    storageKey: "fieldguide-listen"
+  }
 };
 const GRADES = [
   { key: "again", label: "Again" }, { key: "hard", label: "Hard" },
@@ -453,6 +534,7 @@ function setTopic(id){
   renderNote(); renderRead();
   document.getElementById("resetLabel").textContent = "Reset progress for " + TOPIC_BY_ID[id].title;
   if (ui.mode === "study") startSession();
+  if (ui.mode === "listen") renderListen();
 }
 function setMode(m){
   ui.mode = m;
@@ -460,10 +542,15 @@ function setMode(m){
   document.getElementById("modeStudy").setAttribute("aria-pressed", String(m === "study"));
   document.getElementById("readView").hidden = m !== "read";
   const sv = document.getElementById("studyView"); sv.hidden = m !== "study"; sv.style.display = m === "study" ? "flex" : "";
+  document.getElementById("modeListen").setAttribute("aria-pressed", String(m === "listen"));
+  const lv = document.getElementById("listenView"); lv.hidden = m !== "listen"; lv.style.display = m === "listen" ? "flex" : "";
   if (m === "study") startSession();
+  if (m === "listen") renderListen();
+  paintListenBar();
 }
 document.getElementById("modeRead").addEventListener("click", () => setMode("read"));
 document.getElementById("modeStudy").addEventListener("click", () => setMode("study"));
+document.getElementById("modeListen").addEventListener("click", () => setMode("listen"));
 
 // ================= SPACED REPETITION =================
 const S = CONFIG.srs, MIN = 6e4, DAY = 864e5;
@@ -653,6 +740,208 @@ async function initStore(){
     useLocal("Your saved progress couldn't be reached, so this session is saved in this browser only.");
   }
 }
+
+
+// ================= LISTEN =================
+// Pick concepts in a tree (this category's topics -> groups -> concepts), then play the selection as one queue with
+// the device's English voice. Selection, content, repeat, speed and voice are remembered on this device.
+const LC = CONFIG.listen, synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+const BUILT = TOPICS.filter(t => !t.placeholder);
+const lp = (() => {
+  let raw = {};
+  try { raw = JSON.parse(localStorage.getItem(LC.storageKey) || "{}") || {}; } catch (e) {}
+  const valid = new Set(BUILT.flatMap(t => Listen.keysOf(t)));
+  return {
+    sel: new Set(Array.isArray(raw.sel) ? raw.sel.filter(k => valid.has(k)) : []),
+    fresh: !Array.isArray(raw.sel),
+    content: raw.content === "summary" || raw.content === "full" ? raw.content : LC.defaultContent,
+    repeat: LC.repeatCounts.includes(raw.repeat) ? raw.repeat : 1,
+    speed: Listen.clampSpeed(LC.speeds, raw.speed, LC.defaultSpeed),
+    voice: typeof raw.voice === "string" ? raw.voice : ""
+  };
+})();
+function saveListen(){
+  try { localStorage.setItem(LC.storageKey, JSON.stringify({ sel: [...lp.sel], content: lp.content, repeat: lp.repeat, speed: lp.speed, voice: lp.voice })); } catch (e) {}
+}
+const $ = id => document.getElementById(id);
+let lq = [], li = 0, lpart = 0, lplaying = false, lstarted = 0, lgen = 0, ltimer = null, lnowOpen = false;
+
+function voices(){ return synth ? Listen.rankVoices(synth.getVoices(), LC.voice) : []; }
+function chosenVoice(){ const vs = voices(); return vs.find(v => v.voiceURI === lp.voice) || vs[0] || null; }
+function fillVoices(){
+  const sel = $("lVoice"), vs = voices();
+  sel.innerHTML = "";
+  if (!vs.length) { const o = document.createElement("option"); o.textContent = synth ? "Device default" : "No speech on this device"; sel.appendChild(o); sel.disabled = !synth; return; }
+  sel.disabled = false;
+  vs.forEach(v => { const o = document.createElement("option"); o.value = v.voiceURI; o.textContent = v.name + " (" + v.lang.replace("_", "-") + ")"; sel.appendChild(o); });
+  const c = chosenVoice(); if (c) sel.value = c.voiceURI;
+}
+if (synth && "onvoiceschanged" in synth) synth.addEventListener("voiceschanged", fillVoices);
+$("lVoice").addEventListener("change", e => { lp.voice = e.target.value; saveListen(); if (lplaying) restartPart(); });
+
+LC.speeds.forEach(sp => { const o = document.createElement("option"); o.value = sp; o.textContent = sp + "×"; $("lSpeed").appendChild(o); });
+$("lSpeed").value = String(lp.speed);
+$("lSpeed").addEventListener("change", e => { lp.speed = Number(e.target.value); saveListen(); paintTotal(); if (lplaying) restartPart(); });
+
+function requeue(){
+  const was = lq[li];
+  lq = Listen.buildQueue(BUILT, lp.sel, { content: lp.content, chunkChars: LC.chunkChars, repeat: lp.repeat });
+  let at = was ? lq.findIndex(it => it.key === was.key) : 0;
+  if (at < 0) { at = 0; if (lplaying) { li = 0; lpart = 0; stopListen(); } }
+  else if (was && at !== li) { li = at; }
+  if (li >= lq.length) li = 0;
+  paintTotal(); paintListenBar();
+}
+function paintTotal(){
+  const n = lp.sel.size, words = lq.filter(it => it.pass === 1).reduce((w, it) => w + it.parts.join(" ").split(/\s+/).length, 0) * lp.repeat;
+  const min = Math.max(1, Math.round(words / LC.wordsPerMinute / lp.speed));
+  $("lTotal").textContent = n ? n + (n === 1 ? " concept" : " concepts") + " selected across the guide · about " + min + " min" : "Nothing selected";
+}
+
+// tree
+function lrow(tag, keys, label, extra, onOpen){
+  const row = document.createElement(tag); row.className = "lrow";
+  const box = document.createElement("input"); box.type = "checkbox"; box.dataset.keys = keys.join(" ");
+  box.setAttribute("aria-label", "Select " + label);
+  box.addEventListener("click", e => {
+    e.stopPropagation();
+    const on = Listen.tri(keys, lp.sel) !== "all";
+    keys.forEach(k => on ? lp.sel.add(k) : lp.sel.delete(k));
+    saveListen(); requeue(); paintBoxes();
+  });
+  const name = document.createElement("span"); name.className = "lname"; name.textContent = label;
+  const count = document.createElement("span"); count.className = "lcount"; count.textContent = extra || "";
+  row.append(box, name, count);
+  return row;
+}
+function renderListen(){
+  const tree = $("lTree"); tree.innerHTML = "";
+  const cat = CATS.find(c => c.key === ui.category);
+  if (lp.fresh && !lp.sel.size) { const t = TOPIC_BY_ID[ui.topic]; if (!t.placeholder) Listen.keysOf(t).forEach(k => lp.sel.add(k)); }
+  cat.topics.map(id => TOPIC_BY_ID[id]).forEach(t => {
+    const d = document.createElement("details"); d.className = "ltopic"; d.open = t.id === ui.topic;
+    if (t.placeholder) {
+      const s = document.createElement("summary"); s.className = "lrow"; const n = document.createElement("span"); n.className = "lname"; n.textContent = t.title + " (planned)"; s.appendChild(n); d.appendChild(s);
+      tree.appendChild(d); return;
+    }
+    d.appendChild(lrow("summary", Listen.keysOf(t), t.title, t.concepts.length + " concepts"));
+    t.groups.forEach(g => {
+      const keys = Listen.keysOf(t, g.key); if (!keys.length) return;
+      const gd = document.createElement("details"); gd.className = "lgroup";
+      gd.appendChild(lrow("summary", keys, g.label, String(keys.length)));
+      keys.forEach(k => {
+        const ci = Number(k.split("/")[1]);
+        const r = lrow("div", [k], t.concepts[ci].n, ""); r.classList.add("lconcept"); r.dataset.key = k;
+        r.addEventListener("click", e => { if (e.target.tagName !== "INPUT") r.querySelector("input").click(); });
+        gd.appendChild(r);
+      });
+      d.appendChild(gd);
+    });
+    tree.appendChild(d);
+  });
+  fillVoices(); paintContent(); requeue(); paintBoxes();
+}
+function paintBoxes(){
+  $("lTree").querySelectorAll("input[data-keys]").forEach(b => {
+    const st = Listen.tri(b.dataset.keys.split(" "), lp.sel);
+    b.checked = st === "all"; b.indeterminate = st === "some";
+  });
+  const cur = lq[li] && lq[li].key;
+  $("lTree").querySelectorAll(".lconcept").forEach(r => r.classList.toggle("playing", lplaying && r.dataset.key === cur));
+}
+function paintContent(){
+  $("lSummary").setAttribute("aria-pressed", String(lp.content === "summary"));
+  $("lFull").setAttribute("aria-pressed", String(lp.content === "full"));
+}
+const setContent = c => { lp.content = c; saveListen(); paintContent(); const was = lplaying; requeue(); if (was && lplaying) { lpart = 0; restartPart(); } };
+$("lSummary").addEventListener("click", () => setContent("summary"));
+$("lFull").addEventListener("click", () => setContent("full"));
+const catKeys = () => CATS.find(c => c.key === ui.category).topics.map(id => TOPIC_BY_ID[id]).filter(t => !t.placeholder).flatMap(t => Listen.keysOf(t));
+$("lAll").addEventListener("click", () => { catKeys().forEach(k => lp.sel.add(k)); saveListen(); requeue(); paintBoxes(); });
+$("lNone").addEventListener("click", () => { catKeys().forEach(k => lp.sel.delete(k)); saveListen(); requeue(); paintBoxes(); });
+
+// engine
+function speakPart(){
+  const it = lq[li]; if (!it || !synth) { stopListen(); return; }
+  const u = new SpeechSynthesisUtterance(it.parts[lpart]);
+  const v = chosenVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LC.voice.preferredLangs[0];
+  u.rate = lp.speed;
+  const my = ++lgen;
+  u.onend = () => { if (my === lgen && lplaying) advance(); };
+  u.onerror = e => { if (my === lgen && lplaying && e.error !== "interrupted" && e.error !== "canceled") advance(); };
+  synth.speak(u);
+}
+function advance(){
+  lpart++;
+  if (lpart < lq[li].parts.length) { speakPart(); return; }
+  const n = Listen.following(li, lq.length);
+  if (n === null) { li = 0; lpart = 0; stopListen(); return; }
+  ltimer = setTimeout(() => { if (lplaying) goTo(n); }, LC.gapMs / lp.speed);
+}
+function restartPart(){ lgen++; clearTimeout(ltimer); synth.cancel(); speakPart(); }
+function goTo(i){
+  li = i; lpart = 0; lstarted = Date.now();
+  if (lplaying) restartPart();
+  paintListenBar(); paintBoxes();
+}
+function playListen(){
+  if (!synth || !lq.length) return;
+  lplaying = true; lstarted = Date.now(); restartPart();
+  paintListenBar(); paintBoxes();
+}
+function stopListen(){
+  lplaying = false; lgen++; clearTimeout(ltimer); if (synth) synth.cancel();
+  paintListenBar(); paintBoxes();
+}
+$("lPlay").addEventListener("click", () => lplaying ? stopListen() : playListen());
+$("lNext").addEventListener("click", () => { const n = Listen.following(li, lq.length); if (n !== null) goTo(n); });
+$("lPrev").addEventListener("click", () => goTo(lplaying ? Listen.prevIndex(li, Date.now() - lstarted, LC.prevGraceMs) : Math.max(0, li - 1)));
+$("lRepeat").addEventListener("click", () => { lp.repeat = Listen.nextRepeat(lp.repeat, LC.repeatCounts); saveListen(); requeue(); });
+$("lNow").addEventListener("click", () => { lnowOpen = !lnowOpen; paintListenBar(); });
+
+function paintListenBar(){
+  const bar = $("lBar"), show = ui.mode === "listen" || lplaying;
+  bar.hidden = !show; document.body.classList.toggle("has-lbar", show);
+  if (!show) return;
+  const it = lq[li];
+  const now = $("lNow"); now.innerHTML = "";
+  if (it) { const b = document.createElement("b"); b.textContent = it.title; now.append(b, " · " + it.topic + (lp.repeat > 1 ? " · " + it.pass + "/" + lp.repeat : "")); }
+  else now.textContent = synth ? "Nothing selected" : "This browser can't speak. Try Safari or Chrome.";
+  now.setAttribute("aria-expanded", String(lnowOpen));
+  $("lPlay").textContent = lplaying ? "❚❚" : "▶"; $("lPlay").setAttribute("aria-label", lplaying ? "Pause" : "Play");
+  $("lPlay").disabled = !synth || !lq.length;
+  $("lRepeat").setAttribute("aria-pressed", String(lp.repeat > 1)); $("lRepeatN").textContent = lp.repeat > 1 ? "×" + lp.repeat : "";
+  const list = $("lNowList"); list.hidden = !lnowOpen;
+  if (lnowOpen) {
+    list.innerHTML = "";
+    const seen = new Set();
+    lq.forEach((q, i) => {
+      if (seen.has(q.key)) return; seen.add(q.key);
+      const b = document.createElement("button"); b.type = "button";
+      const sm = document.createElement("small"); sm.textContent = q.topic; b.append(sm, q.title);
+      if (it && q.key === it.key) b.setAttribute("aria-current", "true");
+      b.addEventListener("click", () => { goTo(i); if (!lplaying) playListen(); });
+      list.appendChild(b);
+    });
+  }
+  if ("mediaSession" in navigator && it) {
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title: it.title, artist: it.topic, album: "Mastery Field Guide" }); } catch (e) {}
+  }
+}
+if ("mediaSession" in navigator) {
+  const set = (a, h) => { try { navigator.mediaSession.setActionHandler(a, h); } catch (e) {} };
+  set("play", playListen); set("pause", stopListen);
+  set("nexttrack", () => $("lNext").click()); set("previoustrack", () => $("lPrev").click());
+}
+document.addEventListener("keydown", e => {
+  if (ui.mode !== "listen" || e.target.matches("input,select,textarea")) return;
+  if (e.key === " ") { e.preventDefault(); $("lPlay").click(); }
+  else if (e.key === "ArrowRight") $("lNext").click();
+  else if (e.key === "ArrowLeft") $("lPrev").click();
+  else if (e.key.toLowerCase() === "r") $("lRepeat").click();
+});
+if (!synth) $("lHint").textContent = "This browser has no speech voices, so Listen can't play here. Try Safari or Chrome.";
+else $("lHint").textContent += " On iPhone, speech stops if you leave the page or lock the screen.";
 
 // ================= BOOT =================
 const startId = location.hash.slice(1);
