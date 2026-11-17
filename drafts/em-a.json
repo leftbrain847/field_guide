@@ -1,0 +1,1389 @@
+{
+ "groups": [
+  {
+   "key": "resus",
+   "label": "Approach and resuscitation"
+  },
+  {
+   "key": "cardio",
+   "label": "Cardiovascular emergencies"
+  },
+  {
+   "key": "resp",
+   "label": "Respiratory emergencies"
+  },
+  {
+   "key": "neuro",
+   "label": "Neurologic emergencies"
+  },
+  {
+   "key": "trauma",
+   "label": "Trauma"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Primary survey and the undifferentiated sick patient",
+   "g": "resus",
+   "s": "Stabilize before you diagnose: stop exsanguination, secure airway and breathing, restore perfusion, check glucose, and hunt reversible killers in parallel.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<p>The sick patient declares through physiology before a diagnosis exists. Look for altered mental status, increased work of breathing or a falling respiratory effort, hypoxemia, hypotension or a narrowing pulse pressure, tachycardia out of proportion, mottled skin, slow capillary refill and low urine output.</p><ul><li><b>Shock can hide behind a normal blood pressure.</b> Young patients compensate with tachycardia and vasoconstriction; older patients on beta-blockers may not mount a tachycardia at all.</li><li><b>Must-not-miss list for the crashing undifferentiated patient:</b> hypoxia, hypoglycemia, hyperkalemia, sepsis, hemorrhage (GI, AAA, ectopic, trauma), tension pneumothorax, cardiac tamponade, massive PE, ACS or arrhythmia, aortic dissection, anaphylaxis, toxic ingestion, intracranial catastrophe, and hypothermia.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>In the first minutes:</b> monitor, pulse oximetry, waveform capnography if ventilation is in doubt, bedside glucose, 12-lead ECG, venous blood gas with lactate and potassium.</li><li><b>Lactate:</b> the 2026 Surviving Sepsis Campaign guideline suggests measuring lactate when sepsis is possible and repeating it to guide resuscitation.</li><li><b>Point-of-care ultrasound</b> sorts shock quickly: pericardial effusion with RV collapse, a dilated RV, poor LV function, IVC size, free fluid, absent lung sliding, and abdominal aortic diameter.</li><li><b>Early tests:</b> CBC, chemistry, troponin, type and screen, cultures when infection is possible, pregnancy test in anyone who could be pregnant.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>x: exsanguinating external hemorrhage.</b> The ATLS 11th edition moved control of catastrophic external bleeding (tourniquet, packing, pressure) ahead of the airway.</li><li><b>A: airway.</b> Position, suction, adjuncts; intubate for failure to protect, oxygenate, or ventilate, or for the expected course. Resuscitate blood pressure before induction.</li><li><b>B: breathing.</b> Oxygen to target, decompress a tension pneumothorax clinically, support with noninvasive ventilation when appropriate.</li><li><b>C: circulation.</b> Two large-bore IVs or IO, blood for hemorrhage, crystalloid for sepsis, vasopressors when MAP stays low (norepinephrine first in septic shock per the 2026 Surviving Sepsis Campaign guideline).</li><li><b>D: disability.</b> GCS, pupils, glucose. Treat hypoglycemia (glucose under 70 mg/dL) at once: WikEM gives D50W 50 mL (25 g, one ampule) IV, a recheck about 5 minutes later with a repeat dose if still low, and IM or SQ glucagon when IV access is not available. Diluting D50W 1:1 with saline limits vein injury.</li><li><b>E: exposure.</b> Undress fully, look for rash, wounds, and track marks, then prevent hypothermia.</li></ol><p>Reassess after every intervention and after every transfer. A change in mental status or vitals restarts the survey.</p>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Anchoring on the first label (for example \"intoxicated\") and missing hypoglycemia, head injury, or sepsis underneath it.</div><ul><li>A normal SpO2 does not exclude carbon monoxide poisoning, methemoglobinemia, or impending ventilatory failure.</li><li>Intubating a hypotensive, acidotic patient without first raising the pressure and matching minute ventilation is a common cause of peri-intubation arrest.</li><li>Patients needing vasopressors, ongoing airway support, or repeated interventions go to ICU; involve the definitive service (surgery, cath lab, interventional radiology) early.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Shock is inadequate oxygen delivery for demand. Delivery depends on cardiac output (rate times stroke volume) and arterial oxygen content (mostly hemoglobin times saturation). Each intervention in the primary survey targets one of these terms, which is why airway, oxygenation, volume, and pump are addressed in order.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In the ATLS 11th edition, what comes before the airway in the primary survey?",
+     "a": "Control of exsanguinating external hemorrhage (the x in xABCDE)."
+    },
+    {
+     "q": "Which bedside test must be checked in every patient with altered mental status during the primary survey?",
+     "a": "Point-of-care glucose."
+    },
+    {
+     "q": "Why can a beta-blocked older patient in hemorrhagic shock look deceptively stable?",
+     "a": "Beta-blockade blunts the compensatory tachycardia, so heart rate fails to signal volume loss."
+    },
+    {
+     "q": "Name the four physiologic shock categories that bedside ultrasound helps distinguish.",
+     "a": "Hypovolemic, distributive, cardiogenic, and obstructive."
+    },
+    {
+     "q": "What should you correct before inducing a hypotensive patient for intubation?",
+     "a": "Blood pressure (volume, blood, or vasopressors) so induction does not precipitate arrest."
+    }
+   ]
+  },
+  {
+   "n": "Cardiac arrest and post-ROSC care (2025 AHA ACLS)",
+   "g": "resus",
+   "s": "High-quality compressions with minimal pauses, early defibrillation for VF or pulseless VT, epinephrine every 3 to 5 minutes, and a disciplined post-ROSC bundle drive survival.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Unresponsive with no normal breathing (agonal gasps count as no breathing) and no definite pulse within 10 seconds: start compressions.</li><li><b>Shockable:</b> ventricular fibrillation and pulseless ventricular tachycardia. <b>Nonshockable:</b> pulseless electrical activity and asystole.</li><li><b>Reversible causes (Hs and Ts)</b> on the 2025 AHA algorithm: hypovolemia, hypoxia, hydrogen ion (acidosis), hypo- or hyperkalemia, hypothermia, tension pneumothorax, cardiac tamponade, toxins, pulmonary thrombosis, coronary thrombosis.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Rhythm check every 2 minutes; prolonged pulse checks are discouraged.</li><li><b>Waveform capnography</b> confirms and monitors the tube (Class 1). Supporting text in the 2025 AHA adult ALS guideline uses an ETCO2 of at least 10 mm Hg, ideally 20 mm Hg or more, as a marker of adequate compressions; an abrupt rise may signal ROSC.</li><li>An arterial line can show ROSC, but the 2025 guideline sets no adult diastolic target.</li><li>Point-of-care ultrasound for reversible causes is of uncertain value (Class 2b) and must not lengthen pauses.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses below are from the 2025 AHA adult cardiac arrest algorithm and the 2025 AHA adult ALS guideline.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>CPR:</b> rate 100 to 120 per minute, depth at least 2 inches (5 cm), full recoil, rotate compressors every 2 minutes, 30:2 without an advanced airway or 1 breath every 6 seconds with continuous compressions once an airway is placed.</li><li><b>Defibrillation:</b> biphasic at the manufacturer's dose (typically 120 to 200 J initial; maximum if unknown), monophasic 360 J. Single shocks, then resume compressions immediately. Escalating energy may be considered (2b).</li><li><b>Epinephrine 1 mg IV/IO every 3 to 5 minutes.</b> Nonshockable rhythms: give as soon as feasible. Shockable rhythms: give after initial defibrillation attempts fail. High-dose epinephrine and vasopressin add nothing.</li><li><b>Refractory VF/pVT:</b> amiodarone 300 mg IV/IO, then 150 mg; or lidocaine 1 to 1.5 mg/kg, then 0.5 to 0.75 mg/kg.</li><li><b>Access:</b> attempt IV first (Class 1, new emphasis in 2025); IO if IV fails or is not feasible.</li><li><b>Airway:</b> supraglottic airway or endotracheal tube are both reasonable depending on local intubation success.</li><li><b>Not routine:</b> calcium, sodium bicarbonate, and magnesium (Class 3, no benefit). Reserve them for a specific indication such as hyperkalemia, a sodium channel blocker overdose, or torsades.</li><li><b>Vector change and double sequential defibrillation</b> after 3 or more failed shocks: usefulness not established (2b), despite the DOSE-VF trial.</li></ol>",
+     "c": [
+      {
+       "t": "Post-ROSC bundle (2025 AHA post-cardiac arrest algorithm)",
+       "b": "<ul><li>FiO2 100% until saturation can be measured reliably, then SpO2 90 to 98% (PaO2 60 to 105 mm Hg).</li><li>PaCO2 35 to 45 mm Hg unless severe acidemia.</li><li>MAP at least 65 mm Hg.</li><li>12-lead ECG; consider CT and ultrasound for the cause.</li><li>Emergent coronary angiography for STEMI, cardiogenic shock, or electrical or hemodynamic instability; not routine for comatose patients without STEMI.</li><li>Deliberate temperature control at 32 to 37.5 degrees C in patients who do not follow commands, maintained at least 36 hours per the 2025 AHA post-arrest guideline; routine rapid infusion of cold IV fluid for prehospital cooling is not recommended (Class 3: No Benefit).</li><li>Avoid hypoglycemia (keep glucose above 70 mg/dL) and hyperglycemia.</li><li>EEG for seizures, treat seizures promptly.</li><li>Multimodal neuroprognostication consolidated at a minimum of 72 hours after normothermia per the 2025 post-arrest guideline (the algorithm phrases it as 72 hours or more from ROSC or normothermia); never base it on a single finding.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Pausing compressions for intubation, line placement, or ultrasound. Every pause drops coronary perfusion pressure, and it takes many compressions to rebuild it.</div><ul><li>Hyperventilation after an airway is placed raises intrathoracic pressure and lowers venous return.</li><li>Termination: in an intubated patient, failure to reach an ETCO2 above 10 mm Hg after 20 minutes of ALS may be one part of a multimodal decision (2b). Using an ETCO2 cutoff to stop resuscitation in a nonintubated patient is Class 3: Harm.</li><li>Synchronized cardioversion of AF starts at 200 J or more per the 2025 guideline; do not carry arrest energies into a perfusing rhythm without synchronization.</li><li>All ROSC patients go to ICU or the cath lab; early prognostication and withdrawal before 72 hours is a known cause of avoidable death.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>During CPR, myocardial blood flow depends on the aortic diastolic minus right atrial pressure gradient. Compressions build that gradient slowly and pauses collapse it, which is why compression fraction, epinephrine (alpha-mediated aortic tone), and avoiding positive-pressure excess matter more than any single drug.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Per the 2025 AHA algorithm, what are the amiodarone doses for refractory VF/pVT?",
+     "a": "300 mg IV/IO bolus first, then 150 mg."
+    },
+    {
+     "q": "When should epinephrine be given in a nonshockable versus a shockable arrest under the 2025 AHA guideline?",
+     "a": "Nonshockable: as soon as feasible. Shockable: after initial defibrillation attempts have failed. Dose 1 mg every 3 to 5 minutes."
+    },
+    {
+     "q": "Which vascular access route does the 2025 AHA ALS guideline recommend attempting first in cardiac arrest?",
+     "a": "IV first (Class 1); IO is reasonable if IV fails or is not feasible."
+    },
+    {
+     "q": "What oxygen, CO2, and MAP targets does the 2025 AHA post-arrest algorithm use?",
+     "a": "SpO2 90 to 98% (PaO2 60 to 105), PaCO2 35 to 45 mm Hg, MAP at least 65 mm Hg."
+    },
+    {
+     "q": "What temperature range and minimum duration does 2025 AHA post-arrest care use for comatose survivors?",
+     "a": "32 to 37.5 degrees C for at least 36 hours (2a), with multimodal prognostication at a minimum of 72 hours after normothermia."
+    }
+   ]
+  },
+  {
+   "n": "Shock types, septic shock, and vasopressors",
+   "g": "resus",
+   "s": "Classify shock as hypovolemic, distributive, cardiogenic, or obstructive, then treat the cause while restoring MAP, with norepinephrine first in septic shock.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Hypovolemic:</b> hemorrhage, GI losses, burns. Flat IVC, hyperdynamic heart.</li><li><b>Distributive:</b> sepsis, anaphylaxis, neurogenic shock (bradycardia with hypotension after cord injury), adrenal crisis. Warm extremities early, wide pulse pressure.</li><li><b>Cardiogenic:</b> MI, myocarditis, arrhythmia, acute valve failure. Pulmonary edema, poor LV on echo, cold extremities.</li><li><b>Obstructive:</b> tension pneumothorax, tamponade, massive PE. Distended neck veins, dilated RV or effusion on echo.</li><li>Mixed shock is common: septic cardiomyopathy and sepsis with hypovolemia.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Lactate, repeated to guide resuscitation (2026 Surviving Sepsis Campaign).</li><li>ECG, troponin, CBC, chemistry, coagulation, cultures, source imaging, POCUS.</li><li><b>Screening:</b> the 2026 SSC guideline recommends NEWS/NEWS2, MEWS, or SIRS over qSOFA alone for screening.</li><li><b>Fluid responsiveness:</b> SSC 2026 suggests dynamic measures (passive leg raise, stroke volume variation) over exam or static measures alone.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Septic shock recommendations come from the 2026 Surviving Sepsis Campaign (SSC) adult guideline unless noted.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Antimicrobials:</b> immediately, ideally within 1 hour, for septic shock or probable sepsis. For possible sepsis without shock, a rapid time-limited workup, then antimicrobials within 3 hours if concern persists. Add anaerobic coverage only with risk factors (intra-abdominal, gynecologic, necrotizing soft tissue, head and neck, CNS abscess). No routine empiric antifungals.</li><li><b>Fluids:</b> at least 30 mL/kg IV crystalloid in the first 3 hours for sepsis-induced hypoperfusion (low certainty), using adjusted or ideal body weight when BMI exceeds 30. Balanced crystalloid over 0.9% saline, except 0.9% saline when sepsis coexists with traumatic brain injury (where albumin should also be avoided). Crystalloid alone over adding albumin.</li><li><b>MAP target:</b> 65 mm Hg managed as a range (about 5 mm Hg either way); 60 to 65 mm Hg for patients 65 or older.</li><li><b>Norepinephrine first</b> (strong over dopamine or epinephrine). Start peripherally rather than waiting for central access.</li><li><b>Vasopressin</b> when norepinephrine is escalating; an ACEP critical care review uses 0.03 units/min once norepinephrine reaches 0.25 to 0.5 mcg/kg/min.</li><li><b>Epinephrine</b> if MAP stays low on norepinephrine plus vasopressin (low dose 0.01 to 0.05 mcg/kg/min, high dose 0.1 mcg/kg/min or more per the same ACEP review).</li><li><b>Dobutamine</b> added to norepinephrine (or epinephrine alone) for persistent shock with cardiac dysfunction.</li><li><b>Corticosteroids:</b> SSC 2026 suggests IV corticosteroids in septic shock (low certainty) without specifying a dose in its summary; the ACEP critical care review gives hydrocortisone 200 mg/day IV as 50 mg every 6 hours.</li></ol><p><b>Other shock types:</b> blood and hemorrhage control for hemorrhagic shock, epinephrine for anaphylaxis, decompression or pericardiocentesis or thrombolysis for obstruction, revascularization and inotropes or mechanical support for cardiogenic shock.</p>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating every hypotensive patient with liters of fluid. Cardiogenic and obstructive shock worsen with volume, and SSC 2026 now suggests active fluid removal once the acute resuscitation phase ends.</div><ul><li>Refractory shock: an ACEP review cites the SSC 2021 definition of norepinephrine or epinephrine at 0.25 mcg/kg/min or more for at least 4 hours. Reassess source control, adrenal insufficiency, and missed cardiogenic or obstructive causes.</li><li>Invasive arterial monitoring is suggested when vasopressor doses are intermediate to high or escalating.</li><li>Any patient on vasopressors goes to ICU.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>MAP equals cardiac output times systemic vascular resistance. Distributive shock lowers resistance, hypovolemic and obstructive shock lower preload and output, and cardiogenic shock lowers contractility. Choosing a vasopressor or inotrope means choosing which term to raise.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What initial crystalloid volume does the 2026 Surviving Sepsis Campaign suggest for sepsis-induced hypoperfusion?",
+     "a": "At least 30 mL/kg in the first 3 hours (low certainty), using adjusted or ideal body weight if BMI is above 30."
+    },
+    {
+     "q": "What MAP target does SSC 2026 use, and what is different for patients 65 or older?",
+     "a": "About 65 mm Hg managed as a range; 60 to 65 mm Hg is suggested for patients 65 or older."
+    },
+    {
+     "q": "Within what time should antimicrobials be given in septic shock, and in possible sepsis without shock, per SSC 2026?",
+     "a": "Septic shock: immediately, ideally within 1 hour. Possible sepsis without shock: within 3 hours if concern persists after a rapid workup."
+    },
+    {
+     "q": "What is the usual vasopressin dose added in septic shock?",
+     "a": "0.03 units/min, typically once norepinephrine reaches about 0.25 to 0.5 mcg/kg/min."
+    },
+    {
+     "q": "Which screening tool should not be used alone to screen for sepsis per SSC 2026?",
+     "a": "qSOFA; NEWS/NEWS2, MEWS, or SIRS are recommended over qSOFA alone."
+    }
+   ]
+  },
+  {
+   "n": "Airway management and rapid sequence intubation",
+   "g": "resus",
+   "s": "Preoxygenate, resuscitate before induction, give a full paralytic dose with a hemodynamically adjusted induction dose, and confirm the tube with waveform capnography.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Indications:</b> failure to protect the airway, failure to oxygenate, failure to ventilate, or an anticipated clinical course (for example, airway burns or a patient leaving for CT who is deteriorating).</li><li><b>Anatomic difficulty:</b> limited mouth opening or neck mobility, obesity, facial trauma, airway edema or blood.</li><li><b>Physiologic difficulty:</b> hypotension, hypoxemia, severe metabolic acidosis, right ventricular failure. These cause peri-intubation arrest more often than a failed view.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Preoxygenation</b> (WikEM): non-rebreather at flush rate for 3 to 5 minutes or 8 vital-capacity breaths by bag-valve mask with high-flow oxygen; noninvasive ventilation when shunt physiology limits saturation.</li><li><b>Apneic oxygenation:</b> nasal cannula at 6 L/min during setup, 15 L/min once sedated.</li><li><b>Equipment:</b> video laryngoscopy is the preferred primary device in ATLS 11th edition teaching; have a bougie, supraglottic device, and surgical airway kit open.</li><li><b>Confirmation:</b> continuous waveform capnography (Class 1 in the 2025 AHA guideline).</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses are from WikEM's RSI page unless noted.</p><ul><li><b>Etomidate</b> 0.2 to 0.4 mg/kg IV (0.3 mg/kg typical). WikEM's trauma RSI guidance halves it to 0.15 mg/kg when hypotensive.</li><li><b>Ketamine</b> 1 to 2 mg/kg IV (3 to 4 mg/kg IM). Reduced to about 1 mg/kg in shock.</li><li><b>Propofol</b> 1 to 3 mg/kg IV; causes the most hypotension.</li><li><b>Midazolam</b> 0.2 to 0.3 mg/kg IV; slow onset and hypotension make it a poor RSI agent.</li><li><b>Succinylcholine</b> 1.5 mg/kg IV (2 mg/kg under age 10; 4 mg/kg IM).</li><li><b>Rocuronium</b> 1.2 mg/kg IV for RSI (WikEM also lists 1 to 1.2); duration 25 to 60 minutes.</li><li><b>Paralytic doses are not reduced in shock</b>; slower circulation needs a full dose.</li><li><b>Post-intubation analgesia first, then sedation:</b> fentanyl 1 to 2 mcg/kg bolus then 25 to 250 mcg/h; propofol 5 to 80 mcg/kg/min; midazolam 1 to 5 mg bolus then 0.04 to 0.2 mg/kg/h.</li></ul><p><b>Ketamine versus etomidate:</b> in the RSI trial (NEJM 2025, 2,365 critically ill adults), 28-day mortality was 28.1% with ketamine and 29.1% with etomidate (no significant difference); cardiovascular collapse was more common with ketamine (22% vs 17%), driven by vasopressor starts.</p>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Succinylcholine in a patient at risk of hyperkalemia: known hyperkalemia or hyperkalemic ECG changes, neuromuscular disease (muscular dystrophy, multiple sclerosis), denervation from stroke or spinal cord injury beyond the first few days, and malignant hyperthermia history. Use rocuronium.</div><ul><li>Rocuronium outlasts the induction agent; start analgesia and sedation within minutes to prevent awareness under paralysis.</li><li>Severe metabolic acidosis: the patient's own respiratory compensation is lost at apnea. Match a high minute ventilation immediately after intubation.</li><li>Obstructive lung disease: low rate, long expiratory time, watch plateau pressure and auto-PEEP.</li><li>Post-intubation deterioration: check tube displacement, obstruction, pneumothorax, equipment, and breath stacking; disconnect from the ventilator if auto-PEEP is suspected.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Induction removes sympathetic tone, and positive-pressure ventilation reduces venous return. In a patient whose blood pressure depends on catecholamines and preload, both effects arrive within a minute of each other, which is why pressure is fixed before the drugs go in.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the standard RSI dose of rocuronium?",
+     "a": "1.2 mg/kg IV (range 1 to 1.2 mg/kg)."
+    },
+    {
+     "q": "What is the adult IV RSI dose of succinylcholine?",
+     "a": "1.5 mg/kg IV."
+    },
+    {
+     "q": "In a hypotensive patient, which RSI drug dose do you reduce and which do you keep full?",
+     "a": "Reduce the induction agent (for example etomidate to about 0.15 mg/kg); keep the paralytic dose full."
+    },
+    {
+     "q": "What did the 2025 RSI trial find for ketamine versus etomidate?",
+     "a": "No significant difference in 28-day mortality (28.1% vs 29.1%); more cardiovascular collapse with ketamine (22% vs 17%)."
+    },
+    {
+     "q": "What confirms endotracheal tube placement per the AHA?",
+     "a": "Continuous waveform capnography."
+    }
+   ]
+  },
+  {
+   "n": "Bradycardia and tachycardia algorithms",
+   "g": "cardio",
+   "s": "Decide first whether the rhythm is causing instability; unstable tachycardia gets synchronized cardioversion and unstable bradycardia gets atropine, then pacing or a chronotropic infusion.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Instability</b> on the 2025 AHA algorithms: hypotension, acutely altered mental status, signs of shock, ischemic chest discomfort, or acute heart failure.</li><li><b>Bradycardia</b> is typically a rate under 50 per minute. Causes: ischemia or infarction, drugs and toxins (calcium channel blockers, beta-blockers, digoxin), hypoxia, hyperkalemia.</li><li><b>Tachycardia</b> at a ventricular rate of 150 or less rarely causes instability by itself; look for another cause.</li><li>Wide QRS means 0.12 seconds or more. Treat a wide regular tachycardia as VT until proven otherwise.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>12-lead ECG for every stable patient: regular or irregular, narrow or wide, P waves, pre-excitation, QT.</li><li>Potassium, magnesium, calcium, digoxin level when relevant, troponin, thyroid function in new AF.</li><li>Medication and toxin review (beta-blocker, calcium channel blocker, digoxin, clonidine, sodium channel blockers).</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses below are from the 2025 AHA bradycardia, tachyarrhythmia, and electrical cardioversion algorithms and the 2025 AHA adult ALS guideline.</p>",
+     "c": [
+      {
+       "t": "Bradycardia with compromise",
+       "b": "<ul><li><b>Atropine</b> 1 mg IV, repeat every 3 to 5 minutes, maximum 3 mg.</li><li>If atropine fails: <b>transcutaneous pacing</b> and/or <b>dopamine</b> 5 to 20 mcg/kg/min or <b>epinephrine</b> 2 to 10 mcg/min, titrated.</li><li>Expert consultation and <b>transvenous pacing</b> for persistent unstable bradycardia (2a).</li><li>Treat the cause: calcium and high-dose insulin for calcium channel blocker toxicity, glucagon for beta-blocker toxicity, digoxin Fab, calcium for hyperkalemia (confirm antidote doses in a current reference).</li></ul>"
+      },
+      {
+       "t": "Unstable tachycardia: synchronized cardioversion energies",
+       "b": "<ul><li>Atrial fibrillation 200 J; atrial flutter 200 J; narrow regular tachycardia 100 J; monomorphic VT 100 J. Use the device's recommended energy or maximum if unknown.</li><li>Polymorphic VT: unsynchronized high-energy shock (defibrillation).</li><li>Sedate when feasible. If synchronization fails in a crashing patient, switch to unsynchronized shocks.</li></ul>"
+      },
+      {
+       "t": "Stable tachycardia",
+       "b": "<ul><li><b>Narrow regular:</b> vagal maneuvers, then <b>adenosine</b> 6 mg rapid IV push with a saline flush, then 12 mg if needed. Then a beta-blocker or calcium channel blocker.</li><li><b>Wide regular monomorphic:</b> adenosine is acceptable only if regular and monomorphic. <b>Procainamide</b> 20 to 50 mg/min until the arrhythmia stops, hypotension occurs, QRS widens by more than 50%, or 17 mg/kg is given; maintenance 1 to 4 mg/min; avoid with prolonged QT or heart failure. <b>Amiodarone</b> 150 mg over 10 minutes, repeat as needed, then 1 mg/min for 6 hours.</li><li><b>AF/flutter rate control</b> (2025 AHA ALS table): diltiazem 0.25 mg/kg IV over 2 minutes, infusion 5 to 10 mg/h; metoprolol 2.5 to 5 mg IV over 2 minutes, up to 3 doses; esmolol 500 mcg/kg over 1 minute, then 50 to 300 mcg/kg/min; amiodarone 300 mg over 1 hour, then 10 to 50 mg/h; digoxin 0.25 mg IV, repeated to a maximum of 1.5 mg in 24 hours (caution in renal impairment). Avoid diltiazem and verapamil in hypotension, heart failure, cardiomyopathy, or ACS, and beta-blockers in decompensated heart failure.</li><li><b>Torsades:</b> stop QT-prolonging drugs and replete potassium. WikEM gives magnesium sulfate 1 to 2 g IV over 1 to 2 minutes, repeated in 5 to 15 minutes if needed, then 1 to 2 g/h; for recurrence, overdrive pacing at 90 to 120 per minute or isoproterenol 2 to 8 mcg/min. The 2025 AHA ALS guideline rates magnesium Class 2b for recurrent polymorphic VT and gives no dose. Unstable or pulseless torsades gets defibrillation.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> AV nodal blockers (adenosine, calcium channel blockers, beta-blockers, digoxin) in irregular wide-complex tachycardia from pre-excited AF. Blocking the node can drive conduction down the accessory pathway into VF. Cardiovert or use procainamide.</div><ul><li>Atropine is unlikely to work in high-degree infranodal block or a transplanted heart; go straight to pacing.</li><li>Verify mechanical capture on transcutaneous pacing by pulse or ultrasound, not by the electrical spikes.</li><li>Sinus tachycardia is a symptom: treating the rate in sepsis, hemorrhage, or PE removes compensation.</li><li>Admit unstable rhythms, new high-grade AV block, and VT; many stable SVT and rate-controlled AF patients can be discharged with follow-up.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the 2025 AHA atropine dose for unstable bradycardia?",
+     "a": "1 mg IV every 3 to 5 minutes, maximum 3 mg."
+    },
+    {
+     "q": "What magnesium dose does WikEM give for torsades de pointes?",
+     "a": "Magnesium sulfate 1 to 2 g IV over 1 to 2 minutes, repeat in 5 to 15 minutes if needed, then 1 to 2 g/h."
+    },
+    {
+     "q": "What are the 2025 AHA synchronized cardioversion energies for AF, flutter, narrow regular SVT, and monomorphic VT?",
+     "a": "AF 200 J, flutter 200 J, narrow regular 100 J, monomorphic VT 100 J."
+    },
+    {
+     "q": "What are the adenosine doses in the 2025 AHA tachycardia algorithm?",
+     "a": "6 mg rapid IV push with a flush, then 12 mg if needed."
+    },
+    {
+     "q": "What are the stopping points for a procainamide load?",
+     "a": "Arrhythmia suppressed, hypotension, QRS widening over 50%, or 17 mg/kg given."
+    }
+   ]
+  },
+  {
+   "n": "Acute coronary syndrome and STEMI (2025 ACC/AHA)",
+   "g": "cardio",
+   "s": "Get an ECG within 10 minutes, recognize STEMI and its equivalents, give aspirin and anticoagulation, and reperfuse within the 90 or 120 minute targets set by the 2025 ACC/AHA/ACEP/NAEMSP/SCAI guideline.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Pressure, tightness, or discomfort in the chest, arm, jaw, or epigastrium; dyspnea, diaphoresis, nausea, or syncope may be the only symptoms, especially in women, older adults, and people with diabetes.</li><li><b>Must-not-miss mimics and companions:</b> aortic dissection, PE, pericarditis or myocarditis, tension pneumothorax, esophageal rupture, takotsubo.</li></ul>",
+     "c": [
+      {
+       "t": "STEMI ECG criteria (Fourth Universal Definition, as summarized in StatPearls)",
+       "b": "<ul><li>New ST elevation at the J point in 2 contiguous leads of at least 1 mm in all leads other than V2 and V3.</li><li>V2 and V3: at least 2 mm in men 40 or older, 2.5 mm in men under 40, 1.5 mm in women.</li></ul>"
+      },
+      {
+       "t": "STEMI equivalents and high-risk patterns",
+       "b": "<ul><li><b>Posterior MI:</b> horizontal ST depression in V1 to V3 or V4 with tall R waves; confirm with ST elevation in posterior leads V7 to V9.</li><li><b>LBBB or paced rhythm with Sgarbossa criteria:</b> concordant ST elevation of 1 mm or more, concordant ST depression of 1 mm or more in V1 to V3, or discordant ST elevation of 5 mm or more. The Smith modification replaces the fixed 5 mm rule with a proportional ST-to-S-wave ratio.</li><li><b>De Winter pattern:</b> upsloping ST depression with tall symmetric precordial T waves (proximal LAD occlusion).</li><li><b>ST elevation in aVR with diffuse ST depression:</b> left main or multivessel ischemia, or diffuse subendocardial ischemia from another cause.</li><li><b>Hyperacute T waves</b> can precede ST elevation; repeat ECGs every 15 to 30 minutes when symptoms persist.</li><li><b>Wellens pattern</b> (deep or biphasic V2 to V3 T waves, pain-free): critical proximal LAD stenosis. Avoid stress testing; refer for angiography.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>12-lead ECG acquired and read within 10 minutes of first medical contact (2025 ACS guideline).</li><li><b>High-sensitivity troponin:</b> repeat at 1 to 2 hours from time zero; conventional troponin at 3 to 6 hours. A single hs-cTn rule-out requires the sample to be drawn at least 3 hours after symptom onset.</li><li>Oxygen only when SpO2 is under 90%.</li><li>Chest X-ray and bedside echo for alternatives; CTA if dissection is plausible before antithrombotics.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>All doses below are from Tables 6, 7, 10, and 13 of the 2025 ACC/AHA/ACEP/NAEMSP/SCAI ACS guideline.</p>",
+     "c": [
+      {
+       "t": "Antiplatelets",
+       "b": "<ul><li><b>Aspirin</b> 162 to 325 mg chewed, then 75 to 100 mg daily (100 mg or less with ticagrelor).</li><li><b>Ticagrelor</b> 180 mg, then 90 mg twice daily.</li><li><b>Prasugrel</b> 60 mg (PCI patients), then 10 mg daily; 5 mg daily if under 60 kg or 75 or older. Harmful with prior stroke or TIA.</li><li><b>Clopidogrel</b> 300 or 600 mg, then 75 mg daily. With fibrinolysis: 300 mg if 75 or younger, 75 mg (no load) if older than 75.</li><li>Ticagrelor or prasugrel is preferred over clopidogrel for PCI. Routine P2Y12 pretreatment is not supported when angiography will occur within 24 hours; it may be considered when angiography is expected at 24 hours or later.</li></ul>"
+      },
+      {
+       "t": "Anticoagulants",
+       "b": "<ul><li><b>Unfractionated heparin:</b> 60 IU/kg IV bolus (maximum 4,000 IU), then 12 IU/kg/h (maximum 1,000 IU/h), aPTT 60 to 80 s. For PCI without prior anticoagulant: 70 to 100 U/kg to ACT 250 to 300 s.</li><li><b>Enoxaparin:</b> 1 mg/kg SC every 12 hours (every 24 hours if CrCl under 30). With fibrinolysis, under 75: 30 mg IV bolus then 1 mg/kg SC every 12 hours (maximum 100 mg for the first 2 doses); 75 or older: no bolus, 0.75 mg/kg SC every 12 hours (maximum 75 mg for the first 2 doses).</li><li><b>Bivalirudin</b> (PCI): 0.75 mg/kg bolus, then 1.75 mg/kg/h; reduce to 1 mg/kg/h if CrCl under 30.</li><li><b>Fondaparinux</b> 2.5 mg SC daily; do not use alone to support PCI (catheter thrombosis).</li></ul>"
+      },
+      {
+       "t": "Symptom relief",
+       "b": "<ul><li><b>Nitroglycerin</b> 0.3 or 0.4 mg SL every 5 minutes up to 3 doses if SBP is 90 or higher. Avoid within 12 hours of avanafil, 24 hours of sildenafil or vardenafil, 48 hours of tadalafil, and in RV infarction or hypotension.</li><li><b>Morphine</b> 2 to 4 mg IV, repeat every 5 to 15 minutes, for nitrate-refractory pain; opioids may delay oral P2Y12 absorption.</li></ul>"
+      },
+      {
+       "t": "Reperfusion targets",
+       "b": "<ul><li><b>Primary PCI:</b> first medical contact to device 90 minutes or less. Transfer for PCI when the anticipated first-contact-to-device time is 120 minutes or less (Class 1).</li><li><b>Fibrinolysis</b> when symptom onset is under 12 hours and anticipated delay to PCI exceeds 120 minutes (Class 1); StatPearls gives a 30-minute door-to-needle goal.</li><li><b>Tenecteplase</b> single bolus by weight: 30 mg under 60 kg, 35 mg 60 to 69 kg, 40 mg 70 to 79 kg, 45 mg 80 to 89 kg, 50 mg at 90 kg or more.</li><li><b>After fibrinolysis:</b> immediate transfer to a PCI center; rescue PCI for failed reperfusion (under 50% ST resolution in anterior leads or under 70% in inferior leads, ongoing pain, instability); routine angiography at 2 to 24 hours.</li><li><b>Onset 12 to 24 hours:</b> transfer for PCI is reasonable (2a).</li><li><b>Cardiogenic shock:</b> emergency revascularization of the culprit vessel regardless of time from onset; no routine non-culprit PCI during the index procedure; a microaxial flow pump is reasonable in selected STEMI shock.</li><li><b>NSTE-ACS:</b> immediate invasive strategy for refractory angina or hemodynamic or electrical instability; early invasive (within 24 hours) is reasonable for high-risk patients; an inpatient invasive strategy for intermediate or high risk.</li></ul>"
+      },
+      {
+       "t": "Absolute contraindications to fibrinolysis (Table 14)",
+       "b": "<ul><li>Any prior intracranial hemorrhage.</li><li>Known structural cerebral vascular lesion or malignant intracranial neoplasm.</li><li>Ischemic stroke within 3 months (except acute stroke within 4.5 hours).</li><li>Suspected aortic dissection.</li><li>Active bleeding or bleeding diathesis (excluding menses).</li><li>Significant closed-head or facial trauma within 3 months.</li><li>Intracranial or intraspinal surgery within 2 months.</li><li>Severe uncontrolled hypertension (SBP over 180 or DBP over 110) unresponsive to therapy.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Waiting for ST elevation to meet millimeter criteria while an occlusion MI evolves. Posterior MI, de Winter T waves, Sgarbossa-positive LBBB, and hyperacute T waves need cath lab discussion now.</div><ul><li>Inferior STEMI: get right-sided leads; RV infarction is preload dependent and drops pressure with nitrates.</li><li>Giving fibrinolytics or heparin to a dissection presenting as STEMI is lethal; check pulses, mediastinum, and neuro findings.</li><li>Each 30-minute delay in primary PCI is associated with about a 7.5% relative increase in 1-year mortality, per the 2025 guideline.</li><li>All ACS patients are admitted to a monitored bed; shock goes to a center with mechanical support.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the STEMI ST-elevation thresholds in V2 and V3?",
+     "a": "Men 40 or older: 2 mm; men under 40: 2.5 mm; women: 1.5 mm. Other leads: 1 mm in 2 contiguous leads."
+    },
+    {
+     "q": "What are the loading doses of ticagrelor, prasugrel, and clopidogrel in the 2025 ACS guideline?",
+     "a": "Ticagrelor 180 mg; prasugrel 60 mg; clopidogrel 300 or 600 mg (300 mg if 75 or younger with fibrinolysis, 75 mg if older)."
+    },
+    {
+     "q": "What UFH regimen does the 2025 ACS guideline give for initial therapy?",
+     "a": "60 IU/kg bolus (max 4,000 IU), then 12 IU/kg/h (max 1,000 IU/h), aPTT 60 to 80 s."
+    },
+    {
+     "q": "When does the 2025 ACS guideline recommend fibrinolysis over transfer for primary PCI?",
+     "a": "Symptom onset under 12 hours with an anticipated delay to PCI of more than 120 minutes from first medical contact."
+    },
+    {
+     "q": "Name the three original Sgarbossa criteria.",
+     "a": "Concordant ST elevation 1 mm or more; concordant ST depression 1 mm or more in V1 to V3; discordant ST elevation 5 mm or more."
+    }
+   ]
+  },
+  {
+   "n": "Acute aortic dissection",
+   "g": "cardio",
+   "s": "Suspect dissection in abrupt severe chest, back, or abdominal pain with pulse, pressure, or neurologic deficits, confirm with CTA, and control heart rate with an IV beta-blocker before lowering systolic pressure below 120.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Abrupt, severe, often tearing or ripping pain at maximal intensity from onset, in the chest, back, or abdomen; may migrate.</li><li><b>Exam:</b> pulse deficit, inter-arm systolic difference, focal neurologic deficit, new aortic regurgitation murmur, hypotension, syncope.</li><li><b>High-risk conditions:</b> Marfan or other connective tissue disease, family history of aortic disease, known aortic valve disease or thoracic aneurysm, recent aortic manipulation.</li><li><b>Disguises:</b> inferior STEMI (dissection into the right coronary), stroke, limb ischemia, mesenteric ischemia, painless syncope.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>ADD-RS</b> (Aortic Dissection Detection Risk Score) counts one point each for any high-risk condition, high-risk pain features, and high-risk exam features (0 to 3). It was derived retrospectively from the IRAD registry.</li><li><b>ACEP clinical policy (2015):</b> no validated decision rule identifies very low risk patients, and the ADD score still misses about 5% of dissections (Level C, workup at physician discretion); do not rely on D-dimer alone to exclude dissection (Level C); CTA has accuracy similar to TEE and MRA (Level B); do not rely on bedside echo to settle the diagnosis (Level B), and an abnormal bedside echo should prompt immediate surgical consultation or transfer (Level C).</li><li><b>CTA</b> of the chest, abdomen, and pelvis is the usual first test; TEE for the unstable patient who cannot travel.</li><li>Chest X-ray may show a widened mediastinum but is too insensitive to exclude.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Targets come from the 2022 ACC/AHA aortic disease guideline.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Analgesia</b> with IV opioids (pain drives catecholamines).</li><li><b>IV beta-blocker first</b> to a heart rate of 60 to 80. Esmolol dosing in the 2025 AHA ALS table is 500 mcg/kg over 1 minute, then 50 to 300 mcg/kg/min; labetalol is a common alternative, per its FDA label 20 mg IV over 2 minutes (or 0.25 mg/kg up to 20 mg), then 20 to 80 mg every 10 minutes to effect, or an infusion starting at 2 mg/min; safety above 300 mg total is not established. Labetalol is contraindicated in asthma or obstructive airway disease, severe sinus bradycardia, second-degree or higher heart block, and cardiogenic shock.</li><li><b>Then a vasodilator</b> if needed to SBP under 120 mm Hg: nicardipine 5 mg/h, increased by 2.5 mg/h every 5 to 15 minutes to a maximum of 15 mg/h (Cardene IV label), or clevidipine 1 to 2 mg/h, doubled every 90 seconds initially, usual 4 to 6 mg/h, most patients 16 mg/h or less (Cleviprex label). Target SBP under 120 mm Hg, or the lowest pressure that preserves end-organ perfusion.</li><li><b>Type A</b> (ascending aorta): emergent cardiac surgery.</li><li><b>Type B</b> uncomplicated: medical therapy. Complicated (rupture, malperfusion, extension, rapid enlargement, intractable pain, uncontrolled hypertension): intervention, with endovascular stent-grafting preferred for rupture when anatomy allows.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Starting a vasodilator before beta-blockade. Reflex tachycardia increases the force of ejection (dP/dt) on the intimal flap.</div><ul><li>Measure pressure in both arms; a falsely low reading in an arm with subclavian involvement leads to undertreatment.</li><li>Hypotension suggests tamponade, rupture, aortic regurgitation, or coronary involvement; the definitive treatment is the operating room.</li><li>Never give fibrinolytics or full anticoagulation until dissection is excluded in a patient with suggestive features.</li><li>All patients go to ICU at, or by transfer to, a center with cardiac and vascular surgery.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>An intimal tear lets blood split the media, creating a false lumen that can compress branch vessels (malperfusion), rupture outward, or extend back into the pericardium and aortic valve. Lowering both heart rate and pressure reduces the shear that propagates the tear.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What heart rate and systolic targets does the 2022 ACC/AHA aortic guideline give for acute aortic syndrome?",
+     "a": "Heart rate 60 to 80 and SBP under 120 mm Hg (or the lowest that maintains perfusion), using an IV beta-blocker first."
+    },
+    {
+     "q": "Why is the beta-blocker given before the vasodilator in dissection?",
+     "a": "A vasodilator alone causes reflex tachycardia and higher shear force on the aortic wall."
+    },
+    {
+     "q": "What does the ACEP policy say about using D-dimer to exclude aortic dissection?",
+     "a": "Do not rely on D-dimer alone to exclude dissection (Level C)."
+    },
+    {
+     "q": "What are the three ADD-RS categories?",
+     "a": "High-risk conditions, high-risk pain features, and high-risk exam features, one point each."
+    },
+    {
+     "q": "What is the management of an uncomplicated type B dissection?",
+     "a": "Initial medical therapy (rate and pressure control); intervene if it becomes complicated."
+    }
+   ]
+  },
+  {
+   "n": "Pulmonary embolism: decision rules, risk categories, and reperfusion",
+   "g": "cardio",
+   "s": "Use gestalt or Wells to set pretest probability, PERC and age-adjusted D-dimer to avoid unnecessary CT, then classify severity with the 2026 AHA/ACC A-to-E categories to choose anticoagulation alone or advanced therapy.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Dyspnea, pleuritic pain, tachycardia, hypoxemia, syncope, hemoptysis, unilateral leg swelling; may present as unexplained shock or PEA arrest.</li><li>Risk factors: recent surgery or immobilization, cancer, prior VTE, estrogen therapy, pregnancy and postpartum.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<p>The 2026 AHA/ACC acute PE guideline (the first comprehensive North American PE guideline since the 2011 AHA scientific statement, per Endovascular Today) frames diagnosis as: estimate pretest probability; if low or intermediate (under about 50%), check D-dimer, and a normal result makes PE unlikely; if D-dimer is elevated or probability is high, image. CTPA is standard; use V/Q when CTPA is not possible.</p>",
+     "c": [
+      {
+       "t": "Wells criteria for PE (points)",
+       "b": "<ul><li>Clinical signs of DVT: 3</li><li>PE the most likely diagnosis: 3</li><li>Heart rate over 100: 1.5</li><li>Immobilization 3 or more days or surgery within 4 weeks: 1.5</li><li>Prior DVT or PE: 1.5</li><li>Hemoptysis: 1</li><li>Active malignancy: 1</li></ul><p>4 or less is PE unlikely (D-dimer first); more than 4 is PE likely (image).</p>"
+      },
+      {
+       "t": "PERC rule (all 8 must be absent, only when pretest probability is already low)",
+       "b": "<ul><li>Age 50 or older</li><li>Heart rate 100 or more</li><li>SpO2 under 95% on room air</li><li>Unilateral leg swelling</li><li>Hemoptysis</li><li>Surgery or trauma within 4 weeks</li><li>Prior DVT or PE</li><li>Hormone use</li></ul><p>The 2018 ACEP VTE clinical policy (Level B) supports using PERC to exclude PE without testing in low-risk patients.</p>"
+      },
+      {
+       "t": "Age-adjusted D-dimer",
+       "b": "<p>ACEP (Level B): in patients over 50 at low or intermediate risk, a negative age-adjusted D-dimer may exclude PE. The cutoff is age times 10 ng/mL for FEU assays (normal cutoff 500), or age times 5 for DDU assays (normal 250, single study support).</p>"
+      },
+      {
+       "t": "2026 AHA/ACC severity categories",
+       "b": "<ul><li><b>A:</b> asymptomatic, incidentally found PE.</li><li><b>B:</b> symptomatic, low severity (PESI 85 or less, sPESI 0, Bova 4 or less); many treated as outpatients.</li><li><b>C:</b> symptomatic, elevated severity (PESI over 85, sPESI 1 or more, Bova over 4); C3 has more RV abnormality.</li><li><b>D:</b> incipient cardiopulmonary failure; D1 transient hypotension (for example syncope), D2 normotensive shock (rising lactate, AKI).</li><li><b>E:</b> persistent hypotension or cardiopulmonary failure; E1 cardiogenic shock, E2 refractory shock often progressing to arrest.</li><li>A respiratory modifier applies to C through E when oxygenation is significantly impaired.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Anticoagulate</b> once PE is confirmed, or empirically while waiting when suspicion is high and bleeding risk is acceptable. Hospitalized C to E1 needing parenteral therapy: LMWH over UFH (Class 1, 2026 AHA/ACC). Outpatients: a DOAC over warfarin in most patients, including obesity; warfarin for antiphospholipid syndrome and advanced liver disease. No DOACs in pregnancy (use LMWH or UFH).</li><li><b>Systemic thrombolysis</b> is Class 2a for category E, equal to catheter-based therapy, and Class 2b for D and C3. <b>Alteplase 100 mg IV over 2 hours</b> per the Activase label, restarting parenteral anticoagulation near the end of or after the infusion once the PTT or thrombin time is 2 times normal or less.</li><li><b>Catheter-directed therapy or mechanical thrombectomy:</b> Class 2a for E, 2b for D and C3. <b>Surgical embolectomy:</b> 2b for D.</li><li><b>PERT</b> (multidisciplinary PE response team) evaluation for categories C to E (Class 1).</li><li><b>Outpatient treatment</b> for category B (sPESI 0, PESI 85 or less); ACEP 2018 (Level C) supports discharge of selected low-risk patients by PESI, sPESI, or Hestia with close follow-up. Arrange a touchpoint within about 1 week (Class 1).</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Applying PERC to a patient you already think is moderate or high risk. PERC only works after gestalt places the patient in the low-risk group.</div><ul><li>A D-dimer has no role when pretest probability is high; go to imaging.</li><li>In RV failure, large fluid boluses dilate the RV and worsen septal shift; prefer norepinephrine and cautious volume.</li><li>Intubating a PE patient in shock can cause arrest from induction and positive pressure; have pressors running and minimize sedative dose.</li><li>Subsegmental PE without DVT: anticoagulation is an individualized, shared decision (ACEP Level C).</li><li>Categories C to E are generally admitted; D and E belong in ICU with PERT input.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "List the 8 PERC criteria.",
+     "a": "Age 50 or older, HR 100 or more, SpO2 under 95%, unilateral leg swelling, hemoptysis, surgery or trauma within 4 weeks, prior VTE, hormone use."
+    },
+    {
+     "q": "What is the age-adjusted D-dimer cutoff for an FEU assay?",
+     "a": "Age times 10 ng/mL in patients over 50."
+    },
+    {
+     "q": "What is the alteplase dose for massive PE per the Activase label?",
+     "a": "100 mg IV over 2 hours."
+    },
+    {
+     "q": "In the 2026 AHA/ACC PE categories, what defines category D?",
+     "a": "Incipient cardiopulmonary failure: D1 transient hypotension such as syncope, D2 normotensive shock such as rising lactate or AKI."
+    },
+    {
+     "q": "Which parenteral anticoagulant does the 2026 AHA/ACC guideline prefer for hospitalized PE (C to E1)?",
+     "a": "LMWH over UFH (Class 1)."
+    }
+   ]
+  },
+  {
+   "n": "Hypertensive emergency",
+   "g": "cardio",
+   "s": "Hypertensive emergency is severe hypertension with new or worsening target-organ injury, treated with titratable IV agents to an injury-specific target, while asymptomatic severe hypertension needs no IV therapy.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>An AHA scientific statement on elevated BP in acute care (summarized in AFP, 2026) uses BP above 180/110 with evidence of new or worsening target-organ damage. Those numbers raise suspicion; they are not a treatment threshold by themselves.</li><li><b>Target-organ injuries:</b> hypertensive encephalopathy, ischemic stroke, intracerebral or subarachnoid hemorrhage, ACS, acute pulmonary edema, aortic dissection, acute kidney injury, retinal hemorrhage or papilledema, preeclampsia or eclampsia.</li><li>Look for sympathomimetic toxicity (cocaine, amphetamines) and withdrawal (clonidine, alcohol).</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Repeat BP with the correct cuff size, then a symptom-directed search for injury: neuro exam and fundoscopy, ECG and troponin, creatinine and urinalysis, chest X-ray if dyspneic, pregnancy test.</li><li>CT head for neurologic findings; CTA chest for suspected dissection.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Injury-specific targets from the AHA acute care BP statement as summarized by AFP:</p><ul><li><b>Aortic dissection:</b> SBP under 120 mm Hg quickly (beta-blocker first).</li><li><b>Pulmonary edema or ACS:</b> SBP under 140.</li><li><b>Hypertensive encephalopathy:</b> lower MAP by 20 to 25%.</li><li><b>Heart failure:</b> lower MAP by 25%.</li><li><b>Hypertensive kidney injury:</b> lower MAP by 20 to 25% over several hours.</li><li><b>Preeclampsia spectrum:</b> SBP target 160 (treat severe-range pressures promptly).</li><li><b>Stroke and ICH</b> follow the stroke guidelines: under 185/110 before thrombolysis and under 180/105 for 24 hours after; ICH SBP about 140 (keep 130 to 150).</li></ul><p>The AFP summary also gives an immediate 15% MAP reduction for stroke, cerebral hemorrhage, and hypertensive retinal injury; the stroke and ICH guidelines above set the specific numbers.</p><p><b>Agents and label doses</b> (the AHA statement summary names no agents):</p><ul><li><b>Nicardipine</b> 5 mg/h IV, increase 2.5 mg/h every 5 to 15 minutes, maximum 15 mg/h, then reduce to about 3 mg/h once at goal (Cardene IV label). Contraindicated in advanced aortic stenosis.</li><li><b>Clevidipine</b> 1 to 2 mg/h IV, double every 90 seconds initially, usual 4 to 6 mg/h, most patients 16 mg/h or less, no more than 1,000 mL (average 21 mg/h) per 24 hours (Cleviprex label). Contraindicated with soy or egg allergy, defective lipid metabolism, and severe aortic stenosis.</li><li><b>Labetalol</b> 20 mg IV over 2 minutes (0.25 mg/kg up to 20 mg), then 20 to 80 mg every 10 minutes, or infusion from 2 mg/min; safety above 300 mg total not established (FDA label). Avoid in asthma, bradycardia, heart block, and decompensated heart failure.</li><li><b>Esmolol</b> 500 mcg/kg IV over 1 minute, then 50 to 300 mcg/kg/min (2025 AHA ALS table).</li><li><b>Nitroglycerin</b> for pulmonary edema or ACS, avoiding RV infarction, hypotension, and recent PDE-5 inhibitor use.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Rapidly lowering BP in an asymptomatic patient with a high reading. The AHA statement notes that many such readings reflect measurement error or reversible factors, and that medication changes are best made in outpatient care.</div><ul><li>Overshooting the target in a chronically hypertensive patient can cause cerebral, coronary, or renal ischemia because autoregulation has shifted rightward.</li><li>In cocaine or amphetamine toxicity, treat agitation with benzodiazepines first.</li><li>Hypertensive emergencies on IV infusions go to ICU or step-down with arterial or frequent cuff monitoring.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Chronic hypertension shifts the autoregulation curve of brain, heart, and kidney to higher pressures. Abrupt pressure surges overwhelm autoregulation (causing edema and microvascular injury), while an abrupt drop falls below the shifted lower limit, which explains why targets are partial, staged reductions.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What separates hypertensive emergency from asymptomatic severe hypertension?",
+     "a": "New or worsening target-organ injury; the BP number alone does not."
+    },
+    {
+     "q": "What are the nicardipine IV start, titration, and maximum rates per the Cardene IV label?",
+     "a": "Start 5 mg/h, increase by 2.5 mg/h every 5 to 15 minutes, maximum 15 mg/h; contraindicated in advanced aortic stenosis."
+    },
+    {
+     "q": "What BP target does the AHA acute care statement give for pulmonary edema or ACS?",
+     "a": "SBP under 140 mm Hg."
+    },
+    {
+     "q": "How much should MAP fall in hypertensive encephalopathy?",
+     "a": "About 20 to 25%."
+    },
+    {
+     "q": "What BP must an ischemic stroke patient be under before thrombolysis?",
+     "a": "Under 185/110 mm Hg, then under 180/105 for 24 hours after."
+    }
+   ]
+  },
+  {
+   "n": "Acute decompensated heart failure and flash pulmonary edema",
+   "g": "cardio",
+   "s": "Separate sympathetic crashing pulmonary edema (SCAPE), which needs noninvasive ventilation and high-dose nitrates, from volume overload, which needs adequately dosed IV loop diuretics, and from cardiogenic shock.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>SCAPE:</b> abrupt dyspnea, severe hypertension, diaphoresis, hypoxemia, diffuse crackles; often little peripheral edema because fluid is redistributed, not added.</li><li><b>Congestive (wet and warm):</b> days of weight gain, orthopnea, edema, raised JVP.</li><li><b>Cardiogenic shock (wet and cold):</b> hypotension, cool extremities, altered mentation, rising lactate.</li><li><b>Precipitants:</b> ACS, arrhythmia (especially AF), uncontrolled hypertension, nonadherence to salt or medication, infection, acute valve failure, NSAIDs, thyroid disease.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>ECG and troponin (exclude ACS), BNP or NT-proBNP, chemistry, CBC, chest X-ray.</li><li>Lung ultrasound (bilateral B-lines), bedside echo for LV and RV function, valves, and pericardial effusion.</li><li>Blood gas when hypercapnia or shock is suspected; lactate in hypotension.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ul><li><b>Noninvasive ventilation</b> (CPAP or BiPAP) early for respiratory distress or hypoxemia; it lowers preload and afterload and reduces intubation.</li><li><b>High-dose nitroglycerin for SCAPE:</b> regimens reviewed by the University of Illinois drug information group include 1 mg IV pushes every 2 minutes or boluses up to 2 mg every 3 to 5 minutes (case series and a retrospective review), infusions started at 400 mcg/min and titrated down as symptoms resolve, and a proposed but untested algorithm of 500 to 1,000 mcg over 2 minutes followed by an infusion titrated up to 400 mcg/min. Standard 10 to 20 mcg/min infusions are too low for afterload reduction. Evidence is observational; monitor BP closely.</li><li><b>Loop diuretic for congestion</b> (ESC 2021 framework, as summarized in a 2024 review): diuretic-naive patients about 20 to 40 mg IV furosemide; patients on oral loop diuretics an IV dose at least equal to, up to double, the home oral dose; door-to-diuretic within 60 minutes. Check response: spot urine sodium of at least 50 to 70 mmol/L at 2 hours or urine output of at least 100 to 150 mL/h at 6 hours; if not, double the dose (up to about 400 to 600 mg furosemide per day).</li><li><b>Adjuncts:</b> acetazolamide 500 mg IV daily added to loop diuretic improved decongestion in ADVOR; a thiazide may be added for diuretic resistance.</li><li><b>Cardiogenic shock:</b> norepinephrine for MAP, dobutamine or other inotrope for low output, urgent revascularization for ACS, early mechanical circulatory support consultation.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Giving large furosemide doses to a SCAPE patient who is not volume overloaded, then chasing hypotension and AKI after the nitrates and NIV work.</div><ul><li>Nitrates are dangerous in preload-dependent states: RV infarction, severe aortic stenosis (use cautiously), recent PDE-5 inhibitor use.</li><li>Missed triggers kill: ischemia, AF with rapid ventricular response, acute mitral regurgitation from papillary muscle rupture.</li><li>Patients on NIV or vasoactive infusions go to ICU; patients who respond quickly, have a clear trigger, and can be followed may be observed and discharged.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the core treatment of sympathetic crashing acute pulmonary edema?",
+     "a": "Noninvasive positive-pressure ventilation plus high-dose nitroglycerin for afterload reduction."
+    },
+    {
+     "q": "What initial IV loop diuretic dose is used for a patient already taking oral furosemide?",
+     "a": "At least equal to, and up to double, the home oral dose given IV."
+    },
+    {
+     "q": "What 2-hour and 6-hour diuretic response targets are used in acute heart failure?",
+     "a": "Spot urine sodium at least 50 to 70 mmol/L at 2 hours, or urine output at least 100 to 150 mL/h at 6 hours."
+    },
+    {
+     "q": "Give one high-dose nitroglycerin regimen reported in SCAPE.",
+     "a": "Infusion started at 400 mcg/min and titrated down as symptoms resolve, or 1 mg IV pushes every 2 minutes (case series reviewed by the University of Illinois drug information group)."
+    },
+    {
+     "q": "Name three conditions where nitrates can cause dangerous hypotension.",
+     "a": "RV infarction, severe aortic stenosis, and recent PDE-5 inhibitor use."
+    }
+   ]
+  },
+  {
+   "n": "Syncope: red flags and risk stratification",
+   "g": "cardio",
+   "s": "Every syncope patient needs a careful history, exam, and ECG, and the Canadian Syncope Risk Score after workup identifies who can safely go home.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Syncope is transient loss of consciousness from cerebral hypoperfusion with rapid onset, short duration, and full spontaneous recovery. Main groups: reflex (vasovagal, situational), orthostatic, and cardiac (arrhythmic or structural).</li><li><b>Red flags for cardiac or serious cause:</b> exertional or supine syncope, palpitations or no prodrome, chest pain or dyspnea, known structural heart disease or heart failure, family history of sudden death at a young age, abnormal ECG, abnormal cardiac exam, older age, and persistently abnormal vitals.</li><li><b>Must-not-miss non-cardiac causes:</b> hemorrhage (GI bleed, ruptured AAA, ruptured ectopic), PE, aortic dissection, subarachnoid hemorrhage.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>2017 ACC/AHA/HRS syncope guideline:</b> detailed history and physical plus a 12-lead ECG (Class I). Targeted labs are reasonable when history points to a cause (IIa). Routine comprehensive labs are not useful (III). Head CT or MRI is not recommended without focal neurologic findings or head injury (III).</li><li><b>ECG red flags:</b> Brugada pattern, pre-excitation, long or short QT, high-grade AV block, bifascicular block, QRS 130 ms or more, ischemia, ventricular hypertrophy patterns suggesting HCM, epsilon waves, arrhythmia on the monitor.</li></ul>",
+     "c": [
+      {
+       "t": "Canadian Syncope Risk Score (applied after ED workup)",
+       "b": "<ul><li>Predisposition to vasovagal symptoms: -1</li><li>History of heart disease: +1</li><li>Any SBP under 90 or over 180: +2</li><li>Troponin above the 99th percentile: +2</li><li>Abnormal QRS axis (under -30 or over 100 degrees): +1</li><li>QRS over 130 ms: +1</li><li>QTc over 480 ms: +2</li><li>ED diagnosis of vasovagal syncope: -2</li><li>ED diagnosis of cardiac syncope: +2</li></ul><p>Very low (-2 or less) 0.2% and low (-1 to 0) 0.7% 30-day serious outcome; medium (1 to 3) 8%; high (4 to 5) 19%; very high (6 or more) 51%. External validation AUC was 0.91.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Treat",
+     "b": "<ul><li>Treat the cause found: pacing for high-grade block, cardioversion or rate control for arrhythmia, transfusion and source control for hemorrhage, anticoagulation for PE.</li><li>Reflex syncope: education on triggers, hydration, counterpressure maneuvers.</li><li>Orthostatic syncope: volume, review of antihypertensives and diuretics.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Labeling an older patient's first episode as vasovagal without an ECG review, troponin when indicated, and an exam for aortic stenosis or hemorrhage.</div><ul><li>Convulsive syncope (brief myoclonic jerks) is common and is often mistaken for seizure; prolonged postictal confusion and tongue biting favor seizure.</li><li>Per the CSRS investigators' data summarized in AFP, very low and low risk patients can be discharged; medium and high risk patients merit monitoring and cardiac evaluation.</li><li>The San Francisco Syncope Rule is the most used ED rule in the 2017 guideline review, with conflicting external validation.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which two items does the 2017 ACC/AHA/HRS guideline require for every syncope patient (Class I)?",
+     "a": "A detailed history and physical exam, and a 12-lead ECG."
+    },
+    {
+     "q": "Is routine head CT recommended for syncope?",
+     "a": "No, not without focal neurologic findings or head injury (Class III)."
+    },
+    {
+     "q": "What CSRS score range is very low risk, and what is the 30-day serious outcome rate?",
+     "a": "-2 or less; about 0.2%."
+    },
+    {
+     "q": "Which ECG items score points on the Canadian Syncope Risk Score?",
+     "a": "Abnormal QRS axis (+1), QRS over 130 ms (+1), QTc over 480 ms (+2)."
+    },
+    {
+     "q": "Name three non-cardiac must-not-miss causes of syncope.",
+     "a": "Hemorrhage (GI bleed, ruptured AAA, ectopic), PE, aortic dissection, subarachnoid hemorrhage (any three)."
+    }
+   ]
+  },
+  {
+   "n": "Severe asthma exacerbation",
+   "g": "resp",
+   "s": "Treat severe asthma with repeated or continuous SABA plus ipratropium, early systemic steroids, IV magnesium, and controlled oxygen, and avoid intubation unless the patient is tiring.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Severe features: speaking in words, sitting hunched forward, agitation, accessory muscle use, respiratory rate over 30, heart rate over 120, peak flow 50% predicted or less, SpO2 under 90%.</li><li><b>Life-threatening:</b> drowsiness or confusion, silent chest, bradycardia, exhaustion, or a normal or rising PaCO2 in a distressed patient.</li><li>When features of both anaphylaxis and asthma are present, GINA 2026 says give epinephrine first, then bronchodilators.</li><li>Mimics: anaphylaxis, foreign body, vocal cord dysfunction, heart failure, pneumothorax.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>GINA 2026 recommends a lung function measurement (peak flow or spirometry) for all patients, with age-related exceptions, and another before discharge.</li><li>Blood gas for severe or worsening cases; chest X-ray only for suspected pneumothorax, pneumonia, or poor response.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses come from an ABEM key advance on acute adult asthma (which cites GINA 2023); oxygen targets reflect GINA 2026.</p><ul><li><b>Oxygen:</b> GINA 2026 does not recommend supplemental oxygen unless saturation is under 92%, with an upper target of 95% in adults; avoid hyperoxia.</li><li><b>Albuterol:</b> MDI 4 to 10 puffs every 20 minutes for up to 4 hours; or nebulized 5 mg every 20 minutes for 3 doses; or continuous nebulization 10 to 20 mg, then 2.5 to 10 mg every 1 to 4 hours. Continuous dosing is preferred for moderate to severe attacks.</li><li><b>Ipratropium</b> with the SABA: 0.5 mg nebulized every 20 minutes for 3 doses, or 8 MDI puffs every 20 minutes.</li><li><b>Systemic corticosteroid within 1 hour:</b> prednisone 40 to 50 mg PO or dexamethasone 12 to 16 mg; IV methylprednisolone 1 mg/kg or IV dexamethasone when oral is not possible.</li><li><b>Magnesium sulfate</b> 2 g IV over 20 minutes for severe attacks or poor response.</li><li><b>Epinephrine</b> for refractory severe asthma: 0.3 to 0.5 mg IM every 20 minutes for 3 doses; IV 5 to 20 mcg every 2 to 5 minutes for severe hypotension or no response.</li><li><b>NIV:</b> bilevel ventilation may be tried in severe distress with close monitoring.</li><li><b>Intubation:</b> ketamine preferred for induction. Initial settings: volume assist-control, rate 6 to 10, tidal volume 6 to 8 mL/kg ideal body weight, plateau under 30 cm H2O, I:E 1:4 to 1:6, PEEP 0 to 5.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reading a normal PaCO2 as reassuring in a patient who is still working hard to breathe. It usually means fatigue and impending arrest.</div><ul><li>Breath stacking after intubation causes hypotension and arrest; disconnect the ventilator, allow full exhalation, then lower the rate.</li><li>Discharge only when improved without distress and with reliable follow-up: 5 days of prednisone 40 to 50 mg or dexamethasone 12 to 16 mg on days 1 and 3, a SABA with spacer, and start or step up an ICS-containing controller.</li><li>Admit for persistent distress or poor peak flow response; ICU for life-threatening features, NIV, or intubation.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the IV magnesium dose for severe asthma?",
+     "a": "2 g IV over 20 minutes."
+    },
+    {
+     "q": "What oral steroid doses are used in the ED for acute asthma?",
+     "a": "Prednisone 40 to 50 mg or dexamethasone 12 to 16 mg, given within 1 hour."
+    },
+    {
+     "q": "What oxygen saturation targets does GINA 2026 use in adult asthma exacerbations?",
+     "a": "No supplemental oxygen unless SpO2 is under 92%; upper target 95%."
+    },
+    {
+     "q": "What respiratory rate and I:E ratio are used initially after intubating a severe asthmatic?",
+     "a": "Rate 6 to 10 per minute with I:E 1:4 to 1:6 to allow full exhalation."
+    },
+    {
+     "q": "What does a normal PaCO2 mean in a severe asthmatic in distress?",
+     "a": "Fatigue and impending respiratory failure."
+    }
+   ]
+  },
+  {
+   "n": "COPD exacerbation",
+   "g": "resp",
+   "s": "Treat COPD exacerbations with controlled oxygen to 88 to 92%, short-acting bronchodilators, a short course of systemic steroids, antibiotics when sputum is purulent, and early NIV for hypercapnic acidosis.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Acute worsening of dyspnea, cough, or sputum volume or purulence beyond day-to-day variation.</li><li><b>Mimics and co-triggers:</b> GOLD 2026 added a figure on conditions that mimic or worsen exacerbation-like symptoms, including pneumonia, heart failure, PE, pneumothorax, and arrhythmia.</li><li><b>Danger signs:</b> confusion, drowsiness, paradoxical breathing, inability to speak, hemodynamic instability.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Blood gas (pH and PaCO2 decide NIV), chest X-ray, ECG, CBC and chemistry; troponin, BNP, and CT pulmonary angiography when HF or PE is plausible.</li><li>GOLD 2026 completely revised its exacerbation chapter (chapter 4); the new figures cover mimics and aggravating conditions, place of care, and high-flow nasal oxygen indications, and the severity classification figure now cites validation studies of the Rome severity approach.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses below follow the UCSF Hospital Handbook, which cites GOLD; confirm against GOLD 2026, whose chapter 4 was revised.</p><ul><li><b>Controlled oxygen</b> to SpO2 88 to 92%; recheck a blood gas 30 to 60 minutes after starting oxygen. A Venturi mask helps titrate FiO2.</li><li><b>Bronchodilators:</b> albuterol 2.5 mg nebulized every 1 to 4 hours as needed by severity, ipratropium 0.5 mg nebulized every 4 hours initially.</li><li><b>Systemic steroid:</b> prednisone 40 mg PO daily for 5 days for most exacerbations. In ICU, impending respiratory failure, or when oral is not possible, IV methylprednisolone up to 1 to 2 mg/kg/day (for example 60 mg every 6 hours, with recent data favoring under 240 mg/day), then transition to prednisone 40 mg.</li><li><b>Antibiotics</b> when sputum volume and purulence are increased or the patient needs ventilatory support; for example doxycycline 100 mg PO twice daily for 5 days for mild to moderate illness; in severe cases or with Pseudomonas risk factors send sputum culture and consider a respiratory fluoroquinolone such as levofloxacin. Short courses are as good as long ones.</li><li><b>NIV</b> for acute hypercapnic respiratory failure: pH under 7.35 with PaCO2 over 45 mm Hg (6.0 kPa) despite optimal medical therapy and controlled oxygen. Reassess at 30 to 60 minutes; intubate if the gas or the patient worsens.</li><li><b>High-flow nasal oxygen</b> has its own new indications figure (Figure 4.7) in GOLD 2026.</li><li><b>Not useful:</b> methylxanthines, chest physiotherapy, mucolytics in the acute phase.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> High-flow oxygen to a saturation of 100% in a CO2 retainer. Worsening V/Q matching and loss of hypoxic drive raise PaCO2 and can cause narcosis.</div><ul><li>NIV contraindications: hemodynamic instability, respiratory arrest, inability to protect the airway or cooperate, copious secretions.</li><li>ICU indications per the UCSF handbook include altered mental status, PaO2 under 40 or pH under 7.25 despite oxygen, or need for NIV.</li><li>About one third of patients hospitalized with COPD are admitted for something other than an exacerbation, a point GOLD 2026 raised (per CHEST Physician); keep the differential open.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What SpO2 target is used in COPD exacerbation?",
+     "a": "88 to 92%."
+    },
+    {
+     "q": "What steroid regimen does GOLD recommend for most COPD exacerbations?",
+     "a": "Prednisone 40 mg daily for 5 days."
+    },
+    {
+     "q": "What blood gas values indicate NIV in COPD exacerbation?",
+     "a": "pH under 7.35 with PaCO2 over 45 mm Hg (6.0 kPa) despite medical therapy."
+    },
+    {
+     "q": "When are antibiotics indicated in COPD exacerbation?",
+     "a": "Increased sputum volume and purulence, or need for ventilatory support."
+    },
+    {
+     "q": "When should you recheck a blood gas after starting oxygen in a COPD exacerbation?",
+     "a": "30 to 60 minutes after starting or changing oxygen."
+    }
+   ]
+  },
+  {
+   "n": "Anaphylaxis",
+   "g": "resp",
+   "s": "Anaphylaxis is a rapid multisystem allergic reaction treated first and immediately with IM epinephrine 0.01 mg/kg (adult maximum 0.5 mg) into the mid-outer thigh, repeated every 5 to 15 minutes, with an epinephrine infusion when refractory.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Anaphylaxis is highly likely with acute skin or mucosal involvement (hives, flushing, angioedema) plus respiratory compromise or hypotension; with two or more organ systems (skin, respiratory, cardiovascular, GI) after a likely allergen; or hypotension after a known allergen.</li><li>The 2020 anaphylaxis practice parameter notes epinephrine may still be appropriate with a likely exposure and symptoms in a single organ system.</li><li>A minority of cases have no skin findings; hypotension or bronchospasm alone after a known exposure still counts.</li><li><b>Differential:</b> ACE inhibitor or hereditary angioedema (bradykinin, no urticaria, poor response to epinephrine), vasovagal reaction, asthma, scombroid.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Anaphylaxis is a clinical diagnosis; do not delay treatment for any test.</li><li>Identify biphasic risk factors from the practice parameter: severe initial reaction or more than one epinephrine dose (strongest), wide pulse pressure, unknown trigger, cutaneous signs (hives or angioedema), first epinephrine given after 60 minutes, drug trigger in children. No intervention reliably prevents biphasic reactions.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Epinephrine IM</b> 0.01 mg/kg of 1 mg/mL into the mid-outer thigh; maximum 0.5 mg in adults and 0.3 mg in children (2020 practice parameter). A CMAJ 2023 review gives 0.5 mg IM for adults, repeated every 5 to 15 minutes.</li><li><b>Position</b> supine with legs raised (or sitting if dyspneic), oxygen, large-bore IV, IV crystalloid boluses for hypotension.</li><li><b>Refractory anaphylaxis</b> (persisting after 2 IM doses): epinephrine infusion per CMAJ 2023, 1 mg in 1,000 mL crystalloid (1 mcg/mL) at 5 to 20 mcg/min, with critical care involvement.</li><li><b>Inhaled SABA</b> for residual bronchospasm.</li><li><b>Second-line only:</b> H1 and H2 antihistamines for skin symptoms and glucocorticoids; they do not treat airway obstruction or shock and do not prevent biphasic reactions.</li><li><b>Beta-blocked patients</b> with refractory hypotension: glucagon may help (confirm dose in a current reference).</li><li><b>Airway:</b> early intubation by the most experienced operator for progressive angioedema, with a surgical airway ready.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Delaying epinephrine or substituting antihistamines and steroids. Late epinephrine is a risk factor for death and for biphasic reactions.</div><ul><li>Concentration errors kill: IM uses 1 mg/mL; IV boluses and infusions use dilute preparations. Never push 1 mg/mL IV outside cardiac arrest.</li><li>Observation per the practice parameter: about 1 hour after symptom resolution may be reasonable without risk factors; strongly consider 6 hours or longer after a severe reaction or more than one epinephrine dose. Biphasic reactions can occur up to 72 hours later.</li><li>Discharge with an epinephrine autoinjector prescription, training, a written action plan, and allergy referral.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the IM epinephrine dose and site for anaphylaxis?",
+     "a": "0.01 mg/kg of 1 mg/mL into the mid-outer thigh; maximum 0.5 mg adult, 0.3 mg child."
+    },
+    {
+     "q": "How often can IM epinephrine be repeated in anaphylaxis?",
+     "a": "Every 5 to 15 minutes."
+    },
+    {
+     "q": "How is a refractory anaphylaxis epinephrine infusion prepared and run per CMAJ 2023?",
+     "a": "1 mg in 1,000 mL crystalloid (1 mcg/mL) at 5 to 20 mcg/min."
+    },
+    {
+     "q": "What are the strongest risk factors for biphasic anaphylaxis?",
+     "a": "A severe initial reaction or needing more than one dose of epinephrine."
+    },
+    {
+     "q": "Which angioedema responds poorly to epinephrine and lacks urticaria?",
+     "a": "Bradykinin-mediated angioedema (ACE inhibitor or hereditary)."
+    }
+   ]
+  },
+  {
+   "n": "Pneumothorax and tension pneumothorax",
+   "g": "resp",
+   "s": "Tension pneumothorax is a clinical diagnosis treated by immediate decompression, while stable spontaneous pneumothorax is managed by symptoms and risk features, from observation to a small-bore drain.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Primary spontaneous (PSP):</b> no known lung disease, often young, tall, smokers. <b>Secondary (SSP):</b> underlying lung disease such as COPD; less reserve, worse outcomes.</li><li><b>Tension:</b> respiratory distress, hypoxemia, tachycardia, hypotension, absent breath sounds, hyperresonance; distended neck veins and tracheal deviation are late. In ventilated patients: rising airway pressures, falling tidal volumes, sudden hypotension or PEA.</li><li>High-risk features in the 2023 BTS pleural guideline: hemodynamic compromise, significant hypoxia, bilateral pneumothorax, underlying lung disease, age over 50 with significant smoking history, hemopneumothorax.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Tension: do not wait for imaging.</li><li>Stable: chest X-ray or ultrasound (absent lung sliding, absent B-lines, a lung point confirms). CT clarifies bullae versus pneumothorax and complex cases.</li><li>In the 2023 BTS approach, size no longer decides whether to intervene; it informs whether bedside drain insertion is safe.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ul><li><b>Tension:</b> immediate needle decompression or, in trauma and intubated patients, finger thoracostomy, followed by a chest tube. A BestBets review found the lateral site (4th or 5th intercostal space, anterior to midaxillary line) a reasonable alternative to the traditional 2nd intercostal space midclavicular site; a cadaver study showed a thinner chest wall laterally and 100% pleural entry versus 57.5% anteriorly. Use a long enough catheter.</li><li><b>PSP, minimal symptoms:</b> conservative management is acceptable (BTS 2023) for patients who want to avoid procedures, with clear return advice.</li><li><b>PSP, symptomatic:</b> needle aspiration or an ambulatory device, or a small-bore drain.</li><li><b>SSP:</b> a chest drain is often needed; evidence for conservative care is weak. Admit.</li><li><b>Drain size:</b> small-bore 12 to 14 Fr is usually adequate and less painful; large-bore drains are for large air leaks, surgical emphysema, mechanical ventilation, and hemothorax.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating a large bulla as a pneumothorax and putting a drain into it. Use CT when the X-ray is ambiguous in emphysematous lungs.</div><ul><li>Needle decompression fails from short catheters, kinking, or dislodgement; plan a definitive tube.</li><li>Surgical referral: persistent air leak after 5 to 7 days, second ipsilateral episode, first contralateral episode, bilateral pneumothorax, spontaneous hemothorax, failure of re-expansion, and high-risk professions such as pilots and divers.</li><li>Positive-pressure ventilation can convert a simple pneumothorax to tension; drain before or immediately after intubation if a pneumothorax is known.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the treatment of suspected tension pneumothorax before imaging?",
+     "a": "Immediate needle or finger decompression, followed by a chest tube."
+    },
+    {
+     "q": "What alternative needle decompression site has a thinner chest wall in cadaver studies?",
+     "a": "The lateral 4th or 5th intercostal space, anterior to the midaxillary line."
+    },
+    {
+     "q": "In the 2023 BTS guideline, what does pneumothorax size determine?",
+     "a": "Whether bedside drain insertion is safe; symptoms and high-risk features decide whether to intervene."
+    },
+    {
+     "q": "Which pneumothorax type usually needs a chest drain and admission?",
+     "a": "Secondary spontaneous pneumothorax (underlying lung disease)."
+    },
+    {
+     "q": "After how many days of persistent air leak should surgery be considered?",
+     "a": "5 to 7 days."
+    }
+   ]
+  },
+  {
+   "n": "Acute ischemic stroke: thrombolysis and thrombectomy (2026 AHA/ASA)",
+   "g": "neuro",
+   "s": "For a disabling deficit within 4.5 hours, give tenecteplase or alteplase without waiting for vessel imaging, and screen every patient within 24 hours for a large vessel occlusion that thrombectomy can open.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Sudden focal deficit: weakness, numbness, aphasia, neglect, visual field loss, dysarthria, ataxia. Fix the <b>last known well</b> time.</li><li><b>Large vessel occlusion clues:</b> gaze deviation, aphasia or neglect (cortical signs), dense hemiplegia, high NIHSS.</li><li><b>Posterior circulation:</b> vertigo with ataxia, diplopia, crossed signs, dysphagia; basilar occlusion can present as fluctuating coma.</li><li><b>Mimics:</b> hypoglycemia, postictal paralysis, complicated migraine, intracranial hemorrhage, tumor, infection.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Point-of-care glucose before any thrombolytic decision.</li><li>Noncontrast CT to exclude hemorrhage. The 2026 AHA/ASA guideline says to start IVT promptly without delaying for CTA or perfusion imaging when IVT is indicated.</li><li>For suspected LVO within 24 hours, emergent CT/CTA or MRI/MRA as fast as possible (Class 1); do not delay contrast imaging to check creatinine.</li><li>ECG and troponin are recommended but must not delay IVT or EVT.</li><li>Perfusion imaging or MRI (DWI-FLAIR mismatch) selects patients for extended-window IVT.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Recommendations are from the 2026 AHA/ASA guideline for early management of acute ischemic stroke (which replaced the 2018 guideline and 2019 update), as summarized by emDocs and Guideline Central.</p>",
+     "c": [
+      {
+       "t": "IV thrombolysis",
+       "b": "<ul><li><b>Window:</b> within 4.5 hours of onset or last known well (Class 1), for disabling deficits regardless of NIHSS.</li><li><b>Tenecteplase</b> 0.25 mg/kg IV bolus, maximum 25 mg, or <b>alteplase</b> 0.9 mg/kg (maximum 90 mg per the Activase label), 10% as a bolus over 1 minute and the rest over 60 minutes (both Class 1).</li><li><b>Extended window (2a):</b> wake-up or unknown onset with DWI-FLAIR mismatch; or salvageable penumbra on automated perfusion imaging within 9 hours of the sleep midpoint or 4.5 to 9 hours from last known well.</li><li><b>Mild nondisabling deficits:</b> IVT showed no benefit; use dual antiplatelet therapy instead.</li><li><b>No adjuvant antithrombotics</b> with IVT (argatroban, eptifibatide: no benefit).</li></ul>"
+      },
+      {
+       "t": "Blood pressure",
+       "b": "<ul><li>Lower BP to under 185/110 before IVT and keep it under 180/105 for 24 hours after (per a 2026 review of AHA recommendations).</li><li>Not treated with reperfusion: treat only if above 220/120, lowering about 15% in the first 24 hours.</li><li>Intensive SBP lowering to under 140 after IVT gives no functional benefit (Class 3: No Benefit), and after successful EVT (mTICI 2b to 3) is harmful for the first 72 hours (Class 3: Harm).</li></ul>"
+      },
+      {
+       "t": "Endovascular thrombectomy",
+       "b": "<ul><li><b>ICA or M1, within 6 hours:</b> NIHSS 6 or more, prestroke mRS 0 to 1, ASPECTS 3 to 10 (Class 1).</li><li><b>Large core:</b> ASPECTS 0 to 2 within 6 hours in selected patients meeting the same clinical criteria without significant mass effect (2a); from 6 to 24 hours, age under 80, NIHSS 6 or more, prestroke mRS 0 to 1, and ASPECTS 3 to 5 without significant mass effect is Class 1.</li><li><b>Prestroke mRS 2</b> with ASPECTS 6 or more within 6 hours: reasonable (2a).</li><li><b>Basilar occlusion:</b> EVT within 24 hours for mRS 0 to 1, NIHSS 10 or more, PC-ASPECTS 6 or more (Class 1).</li><li><b>Medium and distal vessel occlusions:</b> the 2025 ESCAPE-MeVO and DISTAL trials found no functional benefit, and ESCAPE-MeVO showed higher 90-day mortality with thrombectomy (13.3% vs 8.4%; DISTAL 15.5% vs 14.0%), per Practical Neurology.</li><li>Tirofiban before EVT: no benefit (Class 3).</li></ul>"
+      },
+      {
+       "t": "Minor stroke and TIA antiplatelets",
+       "b": "<p>For minor noncardioembolic stroke (NIHSS 5 or less) or high-risk TIA (ABCD2 4 or more) not treated with IVT, with presumed atherosclerotic cause, clopidogrel plus aspirin for 21 days, then single antiplatelet therapy (2a), started early (emDocs summarizes a 24 to 72 hour window from onset). The emDocs summary gives no loading doses; the 2019 BMJ Rapid Recommendation summarized in AFP uses clopidogrel 300 mg then 75 mg daily with aspirin 75 to 81 mg daily, started once imaging excludes hemorrhage.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Delaying thrombolysis to obtain CTA, perfusion, or creatinine. Every minute of delay loses brain; vessel imaging runs in parallel or after the bolus.</div><ul><li>Tight glucose control (80 to 130 mg/dL with IV insulin) does not improve outcome and increases hypoglycemia (Class 3: No Benefit). Treat hypoglycemia and marked hyperglycemia.</li><li>Missing basilar occlusion in a patient with dizziness and fluctuating consciousness.</li><li>Aspiration: keep NPO until a swallow screen is passed.</li><li>Post-IVT patients go to a stroke unit or ICU with neuro checks and BP monitoring; transfer LVO patients directly to an EVT-capable center. The 2026 guideline allows direct transport to the nearest EVT-capable hospital when transfer systems work poorly.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the tenecteplase dose for acute ischemic stroke?",
+     "a": "0.25 mg/kg IV bolus, maximum 25 mg."
+    },
+    {
+     "q": "What is the alteplase dose for acute ischemic stroke?",
+     "a": "0.9 mg/kg (max 90 mg), 10% as a 1-minute bolus and the rest over 60 minutes."
+    },
+    {
+     "q": "What BP thresholds apply before and for 24 hours after stroke thrombolysis?",
+     "a": "Under 185/110 before; under 180/105 for 24 hours after."
+    },
+    {
+     "q": "What are the 2026 AHA/ASA basilar occlusion EVT criteria?",
+     "a": "Within 24 hours, prestroke mRS 0 to 1, NIHSS 10 or more, PC-ASPECTS 6 or more (Class 1)."
+    },
+    {
+     "q": "Is SBP lowering to under 140 recommended after successful thrombectomy?",
+     "a": "No; it is Class 3: Harm in the 2026 AHA/ASA guideline."
+    }
+   ]
+  },
+  {
+   "n": "Intracerebral hemorrhage and anticoagulant reversal",
+   "g": "neuro",
+   "s": "In spontaneous ICH, lower SBP to about 140 within the first hours, reverse any anticoagulant immediately with the agent-specific antidote or 4F-PCC, and look early for hydrocephalus and surgical lesions.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Sudden headache, vomiting, decreasing consciousness, and a focal deficit that may progress over minutes to hours; often very high BP. Clinically indistinguishable from ischemic stroke without imaging.</li><li>Ask about anticoagulants, antiplatelets, alcohol, sympathomimetics, and trauma.</li><li>Cerebellar hemorrhage: vertigo, vomiting, ataxia, then rapid decline from brainstem compression or hydrocephalus.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Noncontrast CT; CTA within the first hours may identify the spot sign and expansion risk (2b) and vascular causes.</li><li>CBC, PT/INR, aPTT, anti-Xa or drug-specific levels when available, type and screen, glucose.</li><li>Record a baseline severity score such as the ICH score (Class 1 to measure severity), but never use a score alone to limit care.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>From the 2022 AHA/ASA spontaneous ICH guideline unless noted.</p>",
+     "c": [
+      {
+       "t": "Blood pressure",
+       "b": "<ul><li>Start lowering within 2 hours of onset and reach target within 1 hour (2a), with smooth sustained control and minimal variability.</li><li>Mild to moderate ICH with SBP 150 to 220: target 140, maintained in the 130 to 150 range (2b).</li><li>Lowering SBP below 130 is potentially harmful (Class 3: Harm).</li></ul>"
+      },
+      {
+       "t": "Anticoagulant reversal",
+       "b": "<ul><li><b>Warfarin, INR 2.0 or more:</b> 4F-PCC over plasma (Class 1), dosed 25 to 50 IU/kg by INR and weight or as a fixed 1,500 U dose, plus <b>vitamin K 5 to 10 mg IV</b> immediately after (Class 1). INR 1.3 to 1.9: PCC 10 to 20 IU/kg may be reasonable (2b).</li><li><b>Factor Xa inhibitors</b> (apixaban, rivaroxaban, edoxaban): the 2022 guideline rated andexanet alfa reasonable (2a) and 4F-PCC or aPCC as may be considered (2b). Andexanet left the US market on December 22, 2025: AstraZeneca voluntarily withdrew it after the FDA concluded its thromboembolic risk outweighed benefit (ANNEXA-I 30-day thrombosis 14.6% vs 6.9%). In the US, 4F-PCC is now the practical option; the 2022 guideline notes 4F-PCC at 37.5 to 50 IU/kg reversed coagulation assays in healthy volunteers, and institutional protocols set the clinical dose.</li><li><b>Dabigatran:</b> idarucizumab 5 g IV (two 2.5 g boluses) (2a); if unavailable, PCC or aPCC, or dialysis.</li><li><b>Unfractionated heparin:</b> IV protamine (2a), no faster than 50 mg per 10 minutes. <b>LMWH:</b> protamine for partial reversal (2b).</li><li><b>Recent DOAC ingestion</b> within a few hours: activated charcoal may be reasonable.</li></ul>"
+      },
+      {
+       "t": "Other measures",
+       "b": "<ul><li><b>Antiplatelet use without planned surgery:</b> platelet transfusion is harmful; it might be considered before emergency neurosurgery.</li><li>TXA and recombinant factor VIIa: benefit not established.</li><li>Glucose: treat under 40 to 60 mg/dL and over 180 to 200 mg/dL.</li><li>Seizures: treat clinical or electrographic seizures; no prophylactic antiseizure drugs.</li><li>Hydrocephalus with reduced consciousness: external ventricular drain (Class 1). No corticosteroids for ICP.</li><li><b>Cerebellar ICH:</b> immediate surgical evacuation for neurologic deterioration, brainstem compression, hydrocephalus, or volume over 15 mL.</li><li>Supratentorial ICH over 20 to 30 mL with GCS 5 to 12: minimally invasive evacuation can be useful to reduce mortality (2a).</li><li>VTE: intermittent pneumatic compression from the day of diagnosis (Class 1); low-dose UFH or LMWH can be useful (2a), with a start at 24 to 48 hours from onset reasonable (2b).</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using fresh frozen plasma as first-line warfarin reversal, or giving PCC without vitamin K. Plasma is slow and volume-heavy, and the INR rebounds without vitamin K.</div><ul><li>Early do-not-resuscitate decisions in the first day create self-fulfilling poor outcomes; the guideline warns against using severity scores as the sole basis.</li><li>Large swings in SBP are associated with worse outcomes even when the mean is on target.</li><li>All ICH patients go to a neuro ICU or stroke unit with neurosurgical access; transfer early if none is available.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What SBP target does the 2022 AHA/ASA guideline give for mild to moderate ICH presenting with SBP 150 to 220?",
+     "a": "140 mm Hg, maintained in the 130 to 150 range; under 130 is potentially harmful."
+    },
+    {
+     "q": "How is warfarin-associated ICH with INR 2 or more reversed?",
+     "a": "4F-PCC (25 to 50 IU/kg by INR and weight, or fixed 1,500 U) plus vitamin K 5 to 10 mg IV."
+    },
+    {
+     "q": "What is the dabigatran reversal agent and dose?",
+     "a": "Idarucizumab 5 g IV, given as two 2.5 g boluses."
+    },
+    {
+     "q": "What happened to andexanet alfa in the US in December 2025?",
+     "a": "It was withdrawn from the US market (effective December 22, 2025) over thromboembolic risk; 4F-PCC is the practical factor Xa reversal option."
+    },
+    {
+     "q": "Should patients on aspirin with ICH and no planned surgery receive platelets?",
+     "a": "No; platelet transfusion is potentially harmful in that setting."
+    }
+   ]
+  },
+  {
+   "n": "Status epilepticus",
+   "g": "neuro",
+   "s": "Treat any seizure lasting 5 minutes as status epilepticus with a full-dose benzodiazepine, then a second-line load of levetiracetam, fosphenytoin, or valproate by 20 minutes, then anesthetic infusions for refractory seizures.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Convulsive status epilepticus: continuous seizure of 5 minutes or more, or repeated seizures without return to baseline.</li><li><b>Nonconvulsive status</b> should be suspected when consciousness does not recover after convulsions stop, or after paralysis for intubation.</li><li><b>Causes to hunt:</b> low antiseizure drug levels, alcohol withdrawal, hypoglycemia, hyponatremia, hypocalcemia, toxins (isoniazid, tricyclics, bupropion, sympathomimetics), CNS infection, stroke, hemorrhage, trauma, eclampsia.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Fingerstick glucose immediately; electrolytes including sodium, calcium, magnesium; antiseizure drug levels; toxicology; pregnancy test; CBC.</li><li>CT head once stabilized; LP when infection is possible; EEG when the patient does not return to baseline.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Timing and first-line doses follow the 2016 American Epilepsy Society guideline; second-line doses are the ESETT doses tabulated in the 2024 ACEP clinical policy on seizures.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>0 to 5 minutes, stabilize:</b> airway, oxygen, glucose check, cardiac monitoring, IV access; thiamine in adults.</li><li><b>5 to 20 minutes, benzodiazepine (Level A):</b> midazolam IM 10 mg if over 40 kg (5 mg for 13 to 40 kg); or lorazepam IV 0.1 mg/kg, maximum 4 mg per dose; or diazepam IV 0.15 to 0.2 mg/kg, maximum 10 mg per dose (University of Maryland EM pearl). One repeat dose is permissible. IV phenobarbital if none is available.</li><li><b>20 to 40 minutes, second-line load (ACEP 2024 Level A: similar efficacy, about half stop):</b> levetiracetam 60 mg/kg IV (maximum 4,500 mg); fosphenytoin 20 mg PE/kg IV (maximum 1,500 mg PE), avoid with AV block or sinus bradycardia; or valproate 40 mg/kg IV (maximum 3,000 mg), avoid in hepatic disease. ESETT infused each over 10 minutes.</li><li><b>40 to 60 minutes, refractory status:</b> intubate and start a continuous infusion titrated to cessation of electrographic seizures or burst suppression, with continuous EEG (2012 Neurocritical Care Society guideline). Doses from a University of Maryland EM review that cites that guideline: midazolam 0.2 mg/kg load, then 0.05 to 2 mg/kg/h; propofol 1 to 2 mg/kg load, then 20 to 200 mcg/kg/min (watch for propofol infusion syndrome); pentobarbital 5 mg/kg load, then 0.5 to 5 mg/kg/h; ketamine 0.5 to 3 mg/kg load, then 1.5 to 10 mg/kg/h. No agent is proven superior.</li><li><b>Eclampsia:</b> magnesium sulfate 4 to 6 g IV over 20 minutes, then 1 to 2 g/h; without IV access, 10 g IM (5 g in each buttock). For recurrent seizures, lorazepam 2 to 4 mg IV (repeatable once). Doses from the ACOG District II Safe Motherhood Initiative eclampsia algorithm (2019). Obtain obstetric consultation.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Underdosing the benzodiazepine, such as 1 to 2 mg of lorazepam in an adult. ESETT required adequate prior doses (diazepam 10 mg, lorazepam 4 mg, or midazolam 10 mg, or weight-based equivalents) before calling seizures benzodiazepine refractory.</div><ul><li>Waiting for IV access delays treatment; IM midazolam works as well as IV lorazepam.</li><li>After paralysis, a still patient may still be seizing; get EEG.</li><li>Isoniazid toxicity needs pyridoxine; hyponatremic seizures need hypertonic saline; these do not respond reliably to standard antiseizure drugs.</li><li>Refractory status and anyone intubated go to ICU with continuous EEG.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the IM midazolam dose for status epilepticus in a patient over 40 kg?",
+     "a": "10 mg IM (5 mg for 13 to 40 kg)."
+    },
+    {
+     "q": "What is the IV lorazepam dose for status epilepticus?",
+     "a": "0.1 mg/kg, maximum 4 mg per dose, repeatable once."
+    },
+    {
+     "q": "What are the ESETT second-line doses and maxima?",
+     "a": "Levetiracetam 60 mg/kg (max 4,500 mg); fosphenytoin 20 mg PE/kg (max 1,500 mg PE); valproate 40 mg/kg (max 3,000 mg)."
+    },
+    {
+     "q": "What magnesium regimen treats eclamptic seizures?",
+     "a": "Magnesium sulfate 4 to 6 g IV over 20 minutes, then 1 to 2 g/h; 10 g IM (5 g each buttock) if no IV access."
+    },
+    {
+     "q": "At what time point does the AES timeline move to second-line therapy?",
+     "a": "About 20 minutes after seizure onset if benzodiazepines fail."
+    }
+   ]
+  },
+  {
+   "n": "Subarachnoid hemorrhage and headache red flags",
+   "g": "neuro",
+   "s": "A sudden headache peaking within an hour needs the Ottawa SAH rule, and a normal noncontrast CT within 6 hours of onset in a neurologically intact patient rules out SAH.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Headache red flags:</b> thunderclap onset, onset during exertion, syncope or witnessed loss of consciousness, neck pain or stiffness, focal deficit, papilledema, new headache over age 50, fever, immunosuppression or cancer, pregnancy or postpartum, anticoagulation, positional or Valsalva-triggered pain.</li><li><b>Thunderclap differential:</b> aneurysmal SAH, reversible cerebral vasoconstriction syndrome, cerebral venous thrombosis, cervical artery dissection, pituitary apoplexy, ICH, hypertensive emergency.</li></ul>",
+     "c": [
+      {
+       "t": "Ottawa SAH rule",
+       "b": "<p>Applies to alert patients over 15 with a new, severe, nontraumatic headache reaching maximum intensity within 1 hour. Exclude new neurologic deficits, prior aneurysm, SAH or brain tumor, and recurrent similar headaches (3 or more over 6 months). Investigate if any are present:</p><ul><li>Age 40 or older</li><li>Neck pain or stiffness</li><li>Witnessed loss of consciousness</li><li>Onset during exertion</li><li>Thunderclap (instantly peaking) headache</li><li>Limited neck flexion on exam</li></ul><p>The six-item rule had 100% sensitivity in its derivation work with low specificity; ACEP 2019 endorses it (Level B).</p>"
+      }
+     ]
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Noncontrast CT within 6 hours of onset</b> (third-generation scanner or newer), normal in a patient with a normal neurologic exam, rules out nontraumatic SAH without LP (ACEP 2019 Level B; the 2023 AHA/ASA aSAH guideline cites 99% sensitivity).</li><li>After 6 hours with a negative CT: LP (the 2023 AHA/ASA guideline) or CTA as a reasonable alternative chosen with shared decision making (ACEP Level C). CTA finds incidental aneurysms; LP has traumatic taps.</li><li>Positive CT: CTA to find the aneurysm; DSA when hemorrhage is diffuse and CTA is negative.</li><li>Grade with Hunt and Hess or WFNS for communication and prognosis.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>From the 2023 AHA/ASA aneurysmal SAH guideline (as summarized in AFP) and drug dosing summarized in US Pharmacist.</p><ul><li><b>Blood pressure:</b> keep SBP at 160 mm Hg or less before the aneurysm is secured, avoiding hypotension and variability; use titratable IV agents.</li><li><b>Reverse anticoagulation</b> as for ICH.</li><li><b>Nimodipine 60 mg PO or via tube every 4 hours for 21 days</b>, started early; if it drops BP, give 30 mg every 2 hours.</li><li><b>Secure the aneurysm</b> (coiling or clipping) within 24 hours when feasible.</li><li><b>Hydrocephalus:</b> external ventricular drain.</li><li><b>Seizures:</b> consider prophylaxis only for high-risk features (high-grade SAH, hydrocephalus, cortical infarction, intracerebral hemorrhage, MCA aneurysm, per AFP); continuing after a presenting seizure for up to 7 days is reasonable; avoid phenytoin.</li><li>Maintain euvolemia. TXA does not improve outcome and is not recommended.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Diagnosing migraine in a first or worst headache with abrupt onset. A sentinel bleed can resolve and look benign hours before a catastrophic rupture.</div><ul><li>CT sensitivity falls with time after onset; the 6-hour rule depends on a modern scanner and an experienced reader.</li><li>Delayed cerebral ischemia affects about 30% of patients, typically days 4 to 14.</li><li>All SAH patients go to a neuro ICU at a center with neurosurgery and neurointerventional capability; transfer early.</li><li>For primary headache treatment, ACEP prefers nonopioid therapy (Level A).</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "List the six Ottawa SAH rule variables.",
+     "a": "Age 40 or older, neck pain or stiffness, witnessed loss of consciousness, onset during exertion, thunderclap onset, limited neck flexion."
+    },
+    {
+     "q": "When does a normal noncontrast CT rule out SAH without LP per ACEP 2019?",
+     "a": "When done within 6 hours of headache onset in a patient with a normal neurologic exam."
+    },
+    {
+     "q": "What is the nimodipine regimen in aneurysmal SAH?",
+     "a": "60 mg every 4 hours for 21 days (30 mg every 2 hours if hypotension occurs)."
+    },
+    {
+     "q": "What SBP limit does the 2023 AHA/ASA guideline use before the aneurysm is secured?",
+     "a": "160 mm Hg or less, avoiding hypotension and variability."
+    },
+    {
+     "q": "Name four causes of thunderclap headache besides aneurysmal SAH.",
+     "a": "RCVS, cerebral venous thrombosis, cervical artery dissection, pituitary apoplexy (also ICH, hypertensive emergency)."
+    }
+   ]
+  },
+  {
+   "n": "Trauma primary survey and hemorrhagic shock",
+   "g": "trauma",
+   "s": "Stop bleeding first, resuscitate with whole blood or balanced components instead of crystalloid, give TXA within 3 hours, and move the patient to definitive hemorrhage control.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>ATLS 11th edition primary survey: <b>x</b> exsanguinating hemorrhage, <b>A</b> airway with cervical spine protection, <b>B</b> breathing, <b>C</b> circulation, <b>D</b> disability, <b>E</b> exposure and temperature.</li><li><b>Where blood is lost:</b> external, chest, abdomen, pelvis and retroperitoneum, long bones.</li><li>Shock signs: tachycardia, narrowed pulse pressure, cool skin, delayed capillary refill, confusion. Hypotension is a late sign; older and beta-blocked patients may not become tachycardic.</li><li><b>ABC score</b> (ACS TQIP): 1 point each for HR over 120, SBP under 90, positive FAST, penetrating torso injury; 2 or more triggers massive transfusion.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>eFAST (pericardium, abdomen, chest), chest and pelvis X-ray in the bay.</li><li>Type and crossmatch, CBC, coagulation, fibrinogen, VBG with lactate and base deficit, ionized calcium; viscoelastic testing (TEG or ROTEM) to guide products where available.</li><li>CT only when the patient is stable enough to leave the resuscitation bay.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>External hemorrhage control:</b> direct pressure, wound packing, tourniquets, pelvic binder for suspected pelvic fracture (ATLS 11).</li><li><b>Minimize crystalloid;</b> use it only as a bridge until blood is available (ATLS 11).</li><li><b>Blood:</b> ATLS 11 prefers low-titer O whole blood when available, otherwise balanced 1:1:1 plasma, platelets, and red cells. The 2014 ACS TQIP guideline gives plasma to red cells of 1:1 to 1:2 and one platelet pool per 6 units of red cells, with coolers every 15 minutes.</li><li><b>Tranexamic acid</b> within 3 hours of injury: 1 g IV over 10 minutes, then 1 g over 8 hours (ACS TQIP; ATLS 11). ATLS 11 also supports a 2 g bolus in TBI.</li><li><b>Permissive hypotension</b> until hemorrhage is controlled (ATLS 11), except with TBI, where SBP should stay above 100 to 110 depending on age.</li><li><b>Calcium:</b> citrate in transfused blood lowers ionized calcium; the ACS TQIP guideline lists ionized calcium as a monitored value and hypocalcemia as a target for correction but gives no dose (confirm dose in a current reference).</li><li><b>Definitive control:</b> operating room, angioembolization, or preperitoneal packing; activate early.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> A negative FAST read as \"no bleeding.\" FAST misses retroperitoneal and pelvic hemorrhage and small volumes; an unstable patient with a negative FAST still needs a source found.</div><ul><li>Hypothermia, acidosis, and coagulopathy reinforce each other; warm all fluids and the room, and limit crystalloid.</li><li>Starting TXA after 3 hours is outside the evidence window.</li><li>TQIP termination guide values once bleeding is controlled include hemoglobin 10 g/dL or more, PT under 18 s, aPTT under 35 s, platelets over 150,000, and fibrinogen over 180 mg/dL.</li><li>Transfer early when the facility cannot provide surgery, interventional radiology, or blood products at scale.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the four elements of the ABC score for massive transfusion?",
+     "a": "HR over 120, SBP under 90, positive FAST, penetrating torso injury; 2 or more activates MTP."
+    },
+    {
+     "q": "What is the trauma TXA regimen and window?",
+     "a": "1 g IV over 10 minutes, then 1 g over 8 hours, within 3 hours of injury."
+    },
+    {
+     "q": "What does ATLS 11 prefer for hemorrhagic shock resuscitation when available?",
+     "a": "Low-titer O whole blood; otherwise balanced 1:1:1 components with minimal crystalloid."
+    },
+    {
+     "q": "What platelet ratio does the ACS TQIP massive transfusion guideline use?",
+     "a": "One apheresis or pooled platelet unit for every 6 units of red cells."
+    },
+    {
+     "q": "Why is permissive hypotension avoided in TBI?",
+     "a": "Hypotension worsens secondary brain injury; ATLS 11 targets SBP above 100 to 110 depending on age."
+    }
+   ]
+  },
+  {
+   "n": "Traumatic brain injury and head CT decision rules",
+   "g": "trauma",
+   "s": "Use the Canadian CT Head Rule for adults with minor head injury and PECARN for children, and in severe TBI prevent secondary injury by avoiding hypotension, hypoxia, and hyperventilation.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Mild TBI is GCS 13 to 15; moderate 9 to 12; severe 8 or less.</li><li><b>Herniation signs:</b> unilateral fixed dilated pupil, extensor posturing, declining GCS, Cushing response (hypertension, bradycardia, irregular breathing).</li><li>Anticoagulated and older patients bleed after trivial mechanisms.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<p>The 2023 ACEP mild TBI clinical policy recommends the Canadian CT Head Rule (Level A); the NEXUS Head CT instrument (NEXUS II) and the New Orleans Criteria are acceptable but less specific (Level B).</p>",
+     "c": [
+      {
+       "t": "Canadian CT Head Rule",
+       "b": "<p>For GCS 13 to 15 with loss of consciousness, amnesia, or witnessed disorientation. Not for age under 16, anticoagulant or antiplatelet use, or post-traumatic seizure.</p><ul><li><b>High risk (neurosurgical lesion):</b> GCS under 15 at 2 hours, suspected open or depressed skull fracture, signs of basilar skull fracture (hemotympanum, raccoon eyes, Battle sign, CSF leak), 2 or more episodes of vomiting, age 65 or older.</li><li><b>Medium risk (brain injury on CT):</b> retrograde amnesia over 30 minutes; dangerous mechanism (pedestrian struck, ejection, fall from more than 3 feet or 5 stairs).</li></ul>"
+      },
+      {
+       "t": "PECARN (children)",
+       "b": "<ul><li><b>Under 2 years, CT if:</b> GCS 14 or less, altered mental status, palpable skull fracture. <b>Consider CT or observation if:</b> non-frontal scalp hematoma, loss of consciousness 5 seconds or more, severe mechanism, not acting normally per parent.</li><li><b>2 years and older, CT if:</b> GCS 14 or less, altered mental status, signs of basilar skull fracture. <b>Consider CT or observation if:</b> vomiting, loss of consciousness, severe mechanism, severe headache.</li></ul>"
+      },
+      {
+       "t": "Anticoagulated and antiplatelet patients (ACEP 2023)",
+       "b": "<p>Immediate CT after mild TBI. Routine observation or repeat CT is not recommended when initial CT and neurologic exam are normal; observation may be considered for older patients on antiplatelets with loss of consciousness, amnesia, or GCS under 15.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Severe TBI targets from the Brain Trauma Foundation 4th edition and ACS TQIP, with ATLS 11 updates.</p><ul><li><b>Blood pressure:</b> SBP 100 or more for ages 50 to 69 and 110 or more for ages 15 to 49 and over 70 (BTF Level III); ATLS 11 similarly targets SBP above 100 to 110 by age.</li><li><b>Oxygenation and ventilation:</b> avoid hypoxia (TQIP SpO2 over 95%), PaCO2 35 to 45 mm Hg; no prolonged prophylactic hyperventilation to PaCO2 25 or less.</li><li><b>ICP and CPP:</b> treat ICP over 22 mm Hg; CPP 60 to 70 mm Hg.</li><li><b>Herniation:</b> head of bed up, brief hyperventilation only as a bridge, hyperosmolar therapy (mannitol 0.25 to 1 g/kg per older BTF guidance while avoiding hypotension, or hypertonic saline; confirm hypertonic saline dose in a current reference), emergency neurosurgery.</li><li><b>Reverse anticoagulation</b> immediately (see ICH concept); TQIP targets INR under 1.4 and platelets over 75,000.</li><li><b>Seizure prophylaxis</b> for 7 days reduces early post-traumatic seizures (BTF names phenytoin; levetiracetam is widely used with insufficient evidence to favor either).</li><li><b>No steroids</b> (Level I: high-dose methylprednisolone increased mortality).</li><li><b>TXA:</b> ATLS 11 supports a 2 g bolus in TBI within 3 hours.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Applying the Canadian CT Head Rule to patients it excluded, such as anticoagulated patients or those with a post-traumatic seizure. Those patients need CT.</div><ul><li>Intoxication confounds GCS; image if the exam cannot be trusted.</li><li>Discharge after a normal CT with strict return precautions and follow-up; ACEP does not recommend routine repeat CT for normal initial imaging and exam.</li><li>Any intracranial bleed, depressed GCS, or anticoagulant-associated injury needs neurosurgical consultation and admission.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "List the five high-risk Canadian CT Head Rule criteria.",
+     "a": "GCS under 15 at 2 hours, suspected open or depressed skull fracture, signs of basilar skull fracture, 2 or more vomiting episodes, age 65 or older."
+    },
+    {
+     "q": "Which patients are excluded from the Canadian CT Head Rule?",
+     "a": "Age under 16, anticoagulant or antiplatelet use, and post-traumatic seizure."
+    },
+    {
+     "q": "What SBP targets does the Brain Trauma Foundation give by age?",
+     "a": "100 or more for ages 50 to 69; 110 or more for ages 15 to 49 and over 70."
+    },
+    {
+     "q": "What are the PECARN high-risk criteria in a child under 2?",
+     "a": "GCS 14 or less, altered mental status, or palpable skull fracture."
+    },
+    {
+     "q": "At what ICP does the BTF recommend treatment?",
+     "a": "Over 22 mm Hg."
+    }
+   ]
+  },
+  {
+   "n": "Cervical spine clearance",
+   "g": "trauma",
+   "s": "Clear the cervical spine clinically with NEXUS or the more sensitive Canadian C-spine Rule in alert stable adults, image with CT when the rules fail, and restrict spinal motion selectively.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li>Neck pain or tenderness after a mechanism capable of spinal injury; paresthesias or weakness; priapism or neurogenic shock (hypotension with bradycardia) in cord injury.</li><li>Older adults fracture after ground-level falls, often at C1 and C2; hyperextension injuries cause central cord syndrome (arms weaker than legs).</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<p>Apply each rule only to the population it was derived in.</p>",
+     "c": [
+      {
+       "t": "NEXUS low-risk criteria (all 5 needed to skip imaging)",
+       "b": "<ul><li>No posterior midline cervical tenderness</li><li>No focal neurologic deficit</li><li>Normal alertness</li><li>No intoxication</li><li>No painful distracting injury</li></ul>"
+      },
+      {
+       "t": "Canadian C-spine Rule (alert GCS 15, stable adults)",
+       "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Any high-risk factor means image:</b> age 65 or older; dangerous mechanism (fall from 3 feet or 5 stairs, axial load, high-speed or rollover crash or ejection, motorized recreational vehicle, bicycle collision); paresthesias in the extremities.</li><li><b>Any low-risk factor that allows range-of-motion testing:</b> simple rear-end collision, sitting in the ED, ambulatory at any time, delayed onset of neck pain, no midline tenderness. No low-risk factor means image.</li><li><b>Can actively rotate 45 degrees left and right:</b> no imaging. Cannot: image.</li></ol><p>In Stiell's 2003 NEJM comparison of 8,282 patients, CCR sensitivity was 99.4% versus 90.7% for NEXUS, with higher specificity (40.4% vs 33.0%).</p>"
+      },
+      {
+       "t": "Imaging",
+       "b": "<p>CT is the adult imaging test of choice when a rule fails. MRI for neurologic deficits, suspected ligamentous or cord injury, or symptoms out of proportion to a normal CT.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Treat",
+     "b": "<ul><li>ATLS 11th edition makes spinal motion restriction selective and criteria based, with less reliance on rigid collars, especially in penetrating trauma.</li><li>Neurogenic shock: exclude hemorrhage first, then treat with vasopressors and atropine or pacing for bradycardia (confirm MAP goals and doses with spine surgery and current references).</li><li>Spine surgery consultation for fractures, ligamentous injury, or cord findings.</li></ul>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using the Canadian C-spine Rule outside its population: GCS under 15, unstable vitals, age under 16, acute paralysis, penetrating neck trauma, pregnancy, or known vertebral disease. Those patients need imaging or a different pathway.</div><ul><li>NEXUS depends on judgment about intoxication and distracting injury; uncertainty means the patient is not low risk.</li><li>Collars cause pressure injury, airway difficulty, and raised ICP; remove them once the spine is cleared.</li><li>Older patients with a fracture need admission for pain, swallowing, and fall evaluation even when the fracture is stable.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "List the five NEXUS low-risk criteria.",
+     "a": "No midline cervical tenderness, no focal deficit, normal alertness, no intoxication, no painful distracting injury."
+    },
+    {
+     "q": "What are the three Canadian C-spine Rule high-risk factors?",
+     "a": "Age 65 or older, dangerous mechanism, paresthesias in the extremities."
+    },
+    {
+     "q": "What is the final step of the Canadian C-spine Rule?",
+     "a": "Ask the patient to actively rotate the neck 45 degrees left and right; inability means image."
+    },
+    {
+     "q": "How did CCR compare with NEXUS in Stiell 2003?",
+     "a": "CCR sensitivity 99.4% versus 90.7% for NEXUS, with higher specificity."
+    },
+    {
+     "q": "How does ATLS 11 change spinal motion restriction?",
+     "a": "It is selective and criteria based, with less use of rigid collars, especially in penetrating trauma."
+    }
+   ]
+  },
+  {
+   "n": "Burns: assessment, fluids, and transfer",
+   "g": "trauma",
+   "s": "Estimate burned area from partial- and full-thickness burns only, protect the airway early when inhalation injury is likely, start lactated Ringer's at 2 mL/kg per %TBSA for adults over 20% TBSA titrated to urine output, and consult a burn center early.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Depth:</b> superficial (red, painful, no blisters; not counted in TBSA); partial thickness (blisters, moist, painful); full thickness (leathery, white or charred, insensate).</li><li><b>TBSA:</b> rule of nines in adults; the patient's palm with fingers is about 1%; Lund-Browder charts for children.</li><li><b>Inhalation injury</b> indicators (burn center pocket guide): enclosed-space fire, facial burns, singed eyebrows or nasal hair, soot in the mouth or pharynx, hoarseness, stridor, inability to clear secretions, altered mental status.</li><li>Look for associated trauma, carbon monoxide and cyanide toxicity, circumferential burns, and non-accidental injury in children.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Carboxyhemoglobin, lactate (high lactate suggests cyanide), blood gas, CBC, chemistry.</li><li>Electrical injury: ECG, CK, urinalysis for myoglobin.</li><li>Secondary survey for trauma from blasts, falls, or escape.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Stop the burning process</b> and remove clothing and jewelry.</li><li><b>Airway:</b> 100% oxygen; intubate early for stridor, hoarseness, or progressive edema. Secure the tube with ties, not tape, over facial burns.</li><li><b>Fluids</b> for partial- and full-thickness burns over 20% TBSA (burn center pocket guide following ABLS conventions): lactated Ringer's 2 mL x kg x %TBSA for adults, 3 mL for children under 13, 4 mL for electrical injury, over 24 hours from the time of injury. The initial hourly rate is that total divided by 16 (half in the first 8 hours).</li><li><b>Titrate to urine output,</b> adjusting the rate by about one third each hour: adults 30 to 50 mL/h, children under 30 kg 1 mL/kg/h, high-voltage electrical injury 75 to 100 mL/h. Place a urinary catheter for burns over 20% TBSA.</li><li><b>Cyanide</b> (smoke inhalation with shock or high lactate): hydroxocobalamin 5 g IV over 15 minutes; a second 5 g may be given over 15 minutes (in extremis) to 2 hours, total 10 g, per the Cyanokit FDA label.</li><li><b>Escharotomy</b> for circumferential chest burns impairing ventilation or limb burns threatening perfusion, in consultation with the burn center.</li><li>Analgesia, warming, tetanus prophylaxis, clean dry dressings.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Counting superficial (first-degree) burns in TBSA, which inflates the fluid calculation and drives over-resuscitation (fluid creep), compartment syndromes, and pulmonary edema.</div><ul><li>Calculate from the time of injury, not arrival; delayed starts need catch-up.</li><li>Normal SpO2 does not exclude carbon monoxide poisoning.</li><li><b>American Burn Association criteria for immediate consultation and consideration of transfer:</b> full-thickness burns; partial-thickness burns of 10% TBSA or more; deep burns of the face, hands, feet, genitalia, perineum, or major joints; burns in patients with significant comorbidity or concurrent trauma; poorly controlled pain; all suspected inhalation injury; high-voltage (1,000 V or more) electrical and lightning injury; all chemical injuries. The 2026 burn center pocket guide's list also includes radiation injury and frostbite. Children may benefit from referral for pain, dressing, rehabilitation, or safeguarding needs.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What fluid formula do current ABLS-style protocols use for adult burns over 20% TBSA?",
+     "a": "Lactated Ringer's 2 mL x kg x %TBSA over 24 hours, half in the first 8 hours from time of injury (3 mL for children, 4 mL for electrical)."
+    },
+    {
+     "q": "What urine output targets guide burn resuscitation?",
+     "a": "Adults 30 to 50 mL/h; children under 30 kg 1 mL/kg/h; high-voltage electrical 75 to 100 mL/h."
+    },
+    {
+     "q": "Which burns are excluded from TBSA calculation?",
+     "a": "Superficial (first-degree) burns."
+    },
+    {
+     "q": "What is the hydroxocobalamin dose for cyanide toxicity in smoke inhalation?",
+     "a": "5 g IV over 15 minutes, with a second 5 g dose over 15 minutes to 2 hours if needed (total 10 g), per the Cyanokit label."
+    },
+    {
+     "q": "Name four ABA criteria for immediate burn center consultation.",
+     "a": "Full-thickness burns, partial-thickness 10% TBSA or more, deep burns of face, hands, feet, genitalia, perineum, or joints, inhalation injury, high-voltage electrical, chemical injury (any four)."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "AHA 2025 Adult Cardiac Arrest Algorithm",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-Circular-250620.pdf?sc_lang=en"
+  },
+  {
+   "title": "AHA 2025 Guidelines Part 9: Adult Advanced Life Support",
+   "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
+  },
+  {
+   "title": "AHA 2025 Adult Post-Cardiac Arrest Care Algorithm (text version)",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Accessible/Algorithm-ACLS-PCAC-LngDscrp-250726-Ed.pdf?sc_lang=en"
+  },
+  {
+   "title": "AHA 2025 Adult Bradycardia Algorithm (text version)",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Accessible/Algorithm-ACLS-Bradycardia-LngDscrp-250725-Ed.pdf?sc_lang=en"
+  },
+  {
+   "title": "AHA 2025 Adult Tachyarrhythmia Algorithm (text version)",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Accessible/Algorithm-ACLS-Tachyarrhythmia-LngDscrp-250726-Ed.pdf?sc_lang=en"
+  },
+  {
+   "title": "AHA 2025 Electrical Cardioversion Algorithm",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-Electrical-Cardioversion-250514.pdf?sc_lang=en"
+  },
+  {
+   "title": "2025 ACC/AHA/ACEP/NAEMSP/SCAI Guideline for the Management of Patients With Acute Coronary Syndromes",
+   "url": "https://accga.org/wp-content/uploads/2025-acc-aha-acep-naemsp-scai-guideline-for-the-management-of-patients-with-acute-coronary-syndromes.pdf"
+  },
+  {
+   "title": "emDocs: 2026 Guideline Update, Early Management of Acute Ischemic Stroke",
+   "url": "https://www.emdocs.net/2026-guideline-update-early-management-of-acute-ischemic-stroke"
+  },
+  {
+   "title": "Hypertension Research 2026 review of BP recommendations in acute stroke (PMC)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12960239/"
+  },
+  {
+   "title": "2022 AHA/ASA Guideline for the Management of Patients With Spontaneous Intracerebral Hemorrhage",
+   "url": "https://www.gu.se/sites/default/files/2022-06/AHA%20ICH%20guideline_5%2017%2022.pdf"
+  },
+  {
+   "title": "TCTMD: Andexanet Alfa Pulled From US Market",
+   "url": "https://www.tctmd.com/news/andexanet-alfa-pulled-us-market"
+  },
+  {
+   "title": "ACEP Clinical Policy: Seizures (2024)",
+   "url": "https://acep.org/siteassets/new-pdfs/clinical-policies/seizures.pdf"
+  },
+  {
+   "title": "MDedge: AES publishes guideline on treating status epilepticus",
+   "url": "https://mdedge.com/neurologyreviews/article/106211/epilepsy-seizures/aes-publishes-guideline-treating-status"
+  },
+  {
+   "title": "WikEM: Rapid sequence intubation",
+   "url": "https://wikem.org/wiki/Rapid_sequence_intubation"
+  },
+  {
+   "title": "SCCM: Surviving Sepsis Campaign International Guidelines 2026",
+   "url": "https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026"
+  },
+  {
+   "title": "ACEP Critical Care Section: Refractory Shock (July 2025)",
+   "url": "https://www.acep.org/criticalcare/newsroom/newsroom-articles/july-2025/refractory-shock"
+  },
+  {
+   "title": "Endovascular Today: The 2026 AHA/ACC Guideline for the Management of Acute Pulmonary Embolism",
+   "url": "https://evtoday.com/articles/2026-july-supplement/the-2026-ahaacc-guideline-for-the-management-of-acute-pulmonary-embolism"
+  },
+  {
+   "title": "REBEL EM: ACEP Clinical Policy on Acute VTE 2018",
+   "url": "https://rebelem.com/acep-clinical-policy-on-acute-vte-2018/"
+  },
+  {
+   "title": "Activase (alteplase) Prescribing Information",
+   "url": "https://www.gene.com/download/pdf/activase_prescribing.pdf"
+  },
+  {
+   "title": "ABEM Key Advance: Acute Asthma in Adults",
+   "url": "https://www.abem.org/key-advance_-acute-asthma-in-adults_practice-advance"
+  },
+  {
+   "title": "Guideline Central: May 2026 GINA Asthma Guideline Spotlight",
+   "url": "https://www.guidelinecentral.com/insights/may-2026-gina-asthma-guideline-spotlight/"
+  },
+  {
+   "title": "CMAJ: Rates of anaphylaxis are increasing (2023)",
+   "url": "https://www.cmaj.ca/content/195/19/E683"
+  },
+  {
+   "title": "ACC: 2022 ACC/AHA Aortic Disease Guideline Key Perspectives, Part 2",
+   "url": "https://www.acc.org/Latest-in-Cardiology/ten-points-to-remember/2022/11/01/12/21/2022-guideline-on-aortic-disease-2-gl-ad"
+  },
+  {
+   "title": "AFP: Canadian Syncope Risk Score",
+   "url": "https://www.aafp.org/afp/2021/0315/p375"
+  },
+  {
+   "title": "JournalFeed: New ATLS Update, What You Need to Know (2026)",
+   "url": "https://journalfeed.org/article-a-day/2026/new-atls-update-what-you-need-to-know/"
+  },
+  {
+   "title": "ACS TQIP Massive Transfusion in Trauma Guidelines",
+   "url": "https://ww2.facs.org/media/zcjdtrd1/transfusion_guildelines.pdf"
+  },
+  {
+   "title": "Burn center pocket guide (2026)",
+   "url": "https://burncenters.com/wp-content/uploads/2026/02/PocketGuide_EBC_All.pdf"
+  },
+  {
+   "title": "2 Minute Medicine: Canadian C-spine Rule vs NEXUS (classics)",
+   "url": "https://www.2minutemedicine.com/canadian-c-spine-rules-superior-to-nexus-low-risk-criteria-for-detecting-cervical-spine-injuries-classics-series/"
+  },
+  {
+   "title": "EB Medicine: Canadian Head CT Rule",
+   "url": "https://foamed.ebmedicine.net/rapid-reference/canadian-head-ct-rule/"
+  },
+  {
+   "title": "AFP: Management of Aneurysmal Subarachnoid Hemorrhage, AHA/ASA guideline summary",
+   "url": "https://www.aafp.org/afp/2024/0800/practice-guidelines-aneurysmal-subarachnoid-hemorrhage"
+  },
+  {
+   "title": "AHA 2025 Part 11: Post-Cardiac Arrest Care",
+   "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/post-cardiac-arrest-care"
+  },
+  {
+   "title": "WikEM: Dextrose-based products",
+   "url": "https://wikem.org/wiki/Dextrose-based_products"
+  },
+  {
+   "title": "WikEM: Torsades de pointes",
+   "url": "https://wikem.org/wiki/Torsades_de_pointes"
+  },
+  {
+   "title": "FDA label: labetalol hydrochloride injection",
+   "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/213330s006lbl.pdf"
+  },
+  {
+   "title": "Cardene I.V. (nicardipine) prescribing information",
+   "url": "https://Drugs.com/pro/cardene-injection.html"
+  },
+  {
+   "title": "Cleviprex (clevidipine) prescribing information",
+   "url": "https://www.drugs.com/pro/cleviprex.html"
+  },
+  {
+   "title": "AFP 2026: Management of Elevated Blood Pressure in Acute Care (AHA statement)",
+   "url": "https://www.aafp.org/afp/2026/0100/practice-guidelines-elevated-blood-pressure-management"
+  },
+  {
+   "title": "UMEM Educational Pearls: Management of Status Epilepticus",
+   "url": "https://em.umaryland.edu/educational_pearls/4716/"
+  },
+  {
+   "title": "Safe Motherhood Initiative eclampsia algorithm (2019)",
+   "url": "https://kansaspqc.kdhe.ks.gov/wp-content/uploads/2022/05/HTN-Bundle.Eclampsia-protocol.ACOG-2019.pdf"
+  },
+  {
+   "title": "Cyanokit (hydroxocobalamin) prescribing information",
+   "url": "https://Drugs.com/pro/cyanokit.html"
+  }
+ ]
+}

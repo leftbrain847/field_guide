@@ -1,0 +1,1797 @@
+{
+ "id": "fundamentals",
+ "title": "Fundamentals",
+ "updated": "2026-10-23",
+ "note": "Core data engineering patterns: modeling, write correctness, streaming, storage, Spark, and production practice. These ideas change slowly; refresh yearly or when a platform default you rely on changes.",
+ "sources": [
+  {
+   "title": "When to partition tables on Azure Databricks (Microsoft Learn)",
+   "url": "https://learn.microsoft.com/azure/databricks/tables/partitions"
+  },
+  {
+   "title": "VACUUM (Databricks docs)",
+   "url": "https://docs.databricks.com/aws/sql/language-manual/delta-vacuum"
+  },
+  {
+   "title": "MIN_ACTIVE_ROWVERSION vs @@DBTS (MSSQLTips)",
+   "url": "https://www.mssqltips.com/sqlservertip/3423/sql-server-rowversion-functions-minactiverowversion-vs-dbts/"
+  },
+  {
+   "title": "Maximum broadcast size (Databricks Community)",
+   "url": "https://community.databricks.com/t5/data-engineering/what-is-the-maximum-limit-of-data-that-can-be-broadcasted-using/m-p/18600"
+  },
+  {
+   "title": "The Fabric throttling policy (Microsoft Learn)",
+   "url": "https://learn.microsoft.com/fabric/enterprise/throttling"
+  },
+  {
+   "title": "Dynamic data masking in Fabric data warehousing (Microsoft Learn)",
+   "url": "https://learn.microsoft.com/fabric/data-warehouse/dynamic-data-masking"
+  }
+ ],
+ "groups": [
+  {
+   "key": "model",
+   "label": "Modeling"
+  },
+  {
+   "key": "write",
+   "label": "Write correctness"
+  },
+  {
+   "key": "time",
+   "label": "Time, streaming and delivery"
+  },
+  {
+   "key": "change",
+   "label": "Change and contracts"
+  },
+  {
+   "key": "storage",
+   "label": "Storage and read efficiency"
+  },
+  {
+   "key": "files",
+   "label": "File layout"
+  },
+  {
+   "key": "compute",
+   "label": "Spark compute"
+  },
+  {
+   "key": "ops",
+   "label": "Reliability and observability"
+  },
+  {
+   "key": "build",
+   "label": "Building and shipping"
+  },
+  {
+   "key": "govern",
+   "label": "Governance and definitions"
+  },
+  {
+   "key": "run",
+   "label": "Running it in production"
+  },
+  {
+   "key": "diag",
+   "label": "Diagnosis"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Grain of a table",
+   "g": "model",
+   "s": "The grain is the exact statement of what one row represents, and every other design choice in the table depends on it.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>State the grain in business terms before choosing columns: \"one row per order line per day,\" \"one row per patient encounter.\" The grain columns together form the table's true key.</p><p>Kimball's three fact grains: <b>transaction</b> (one row per event), <b>periodic snapshot</b> (one row per entity per period, like daily balances), and <b>accumulating snapshot</b> (one row per process instance, updated as milestones occur, like referral → intake → first visit).</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Default to the lowest atomic grain in facts and derive aggregates from it. You can always roll up; you can never drill down past the grain you stored.</li><li>Put the grain in the name and the docs (<code>fct_encounters</code> vs <code>fct_encounters_daily</code>) so nobody joins two grains by accident.</li><li>Most \"the number is too big\" bugs are join fan-out: a join to a table at a finer grain silently multiplies rows.</li></ul>"
+    },
+    {
+     "t": "Failure modes and tests",
+     "b": "<div class=\"trap\"><b>Trap:</b> joining a one-row-per-patient table to a one-row-per-diagnosis table, then summing visit counts. Every patient with three diagnoses now counts three times.</div><p>Assert uniqueness on the grain, and compare row counts before and after each join:</p><pre><code>SELECT encounter_id, COUNT(*) AS n\nFROM fct_encounters\nGROUP BY encounter_id\nHAVING COUNT(*) &gt; 1;  -- must return zero rows</code></pre>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>What is one row, in one sentence?</li><li>Which columns enforce that, and is there a test?</li><li>Does any join in the model go to a finer grain? If so, where is it aggregated first?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are Kimball's three fact table grains?",
+     "a": "Transaction (one row per event), periodic snapshot (one row per entity per period), and accumulating snapshot (one row per process instance, updated as milestones occur)."
+    },
+    {
+     "q": "What grain should a fact table default to, and why?",
+     "a": "The lowest atomic grain, because you can always roll up but can never drill down past the grain you stored."
+    },
+    {
+     "q": "What causes most \"the number is too big\" bugs?",
+     "a": "Join fan-out: joining to a table at a finer grain silently multiplies rows."
+    },
+    {
+     "q": "What SQL test asserts a fact table respects its grain?",
+     "a": "GROUP BY the grain columns with HAVING COUNT(*) > 1; it must return zero rows."
+    },
+    {
+     "q": "How do you keep people from joining two grains of the same data by accident?",
+     "a": "Put the grain in the table name and docs, such as fct_encounters vs fct_encounters_daily."
+    }
+   ]
+  },
+  {
+   "n": "Fact vs dimension tables",
+   "g": "model",
+   "s": "Facts record measurable events at a declared grain; dimensions hold the descriptive context you filter and group those events by.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>A star schema puts a narrow, tall fact table (foreign keys plus numeric measures) at the center and wide, short dimension tables around it. Queries filter on dimensions and aggregate fact measures.</p>"
+    },
+    {
+     "t": "Measure additivity",
+     "b": "<ul><li><b>Additive:</b> sums across every dimension (revenue, minutes).</li><li><b>Semi-additive:</b> sums across some dimensions but not time (account balance, open caseload). Use last value or average over time.</li><li><b>Non-additive:</b> ratios and percentages. Store numerator and denominator separately and divide at query time, or the averages of averages will be wrong.</li></ul>"
+    },
+    {
+     "t": "Dimension patterns worth knowing",
+     "b": "<ul><li><b>Conformed dimension:</b> one shared <code>dim_date</code> or <code>dim_provider</code> used by every fact, so cross-process reports agree.</li><li><b>Role-playing:</b> one date dimension joined as appointment date, scheduled date, and signed date.</li><li><b>Degenerate dimension:</b> an ID like an order number that lives in the fact with no table of its own.</li><li><b>Junk dimension:</b> bundles low-cardinality flags into one small table instead of many columns.</li><li><b>Factless fact:</b> records that something happened or was eligible (attendance, coverage) with no measure.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>In columnar lakehouses, one-big-table (pre-joined wide tables) is cheap to scan and simple for analysts, but duplicates dimension attributes and makes attribute changes expensive. Star schemas stay the right shape for semantic layers: Power BI's VertiPaq engine and DAX are designed around star relationships, and snowflaked or bidirectional relationships cause both slow models and ambiguous filter paths.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is a semi-additive measure, and how do you aggregate it over time?",
+     "a": "A measure that sums across some dimensions but not time, such as account balance or open caseload; use last value or average over time."
+    },
+    {
+     "q": "How should you store a non-additive measure like a ratio?",
+     "a": "Store numerator and denominator separately and divide at query time, otherwise averages of averages will be wrong."
+    },
+    {
+     "q": "What is a degenerate dimension?",
+     "a": "An ID such as an order number that lives in the fact table with no dimension table of its own."
+    },
+    {
+     "q": "What is a role-playing dimension?",
+     "a": "One dimension, such as a date dimension, joined multiple times in different roles, like appointment date, scheduled date, and signed date."
+    },
+    {
+     "q": "Why do star schemas remain the right shape for Power BI semantic models?",
+     "a": "VertiPaq and DAX are designed around star relationships; snowflaked or bidirectional relationships cause slow models and ambiguous filter paths."
+    }
+   ]
+  },
+  {
+   "n": "Slowly changing dimensions (Type 1 vs Type 2)",
+   "g": "model",
+   "s": "SCDs define how a dimension records attribute changes: Type 1 overwrites the old value, Type 2 adds a new versioned row so history is preserved.",
+   "x": [
+    {
+     "t": "The types",
+     "b": "<ul><li><b>Type 0:</b> never changes (original signup date).</li><li><b>Type 1:</b> overwrite. History is lost; all past facts now report against the new value.</li><li><b>Type 2:</b> close the current row, insert a new one. Each version has its own surrogate key and validity range.</li><li><b>Type 3:</b> keep a \"previous value\" column. Limited history.</li><li><b>Type 6:</b> Type 2 rows plus a Type 1 \"current value\" column on every row, so you can report as-was or as-is from one table.</li></ul><p>Columns can mix: a single dimension can treat <code>name_spelling</code> as Type 1 and <code>assigned_clinic</code> as Type 2.</p>"
+    },
+    {
+     "t": "Type 2 mechanics",
+     "b": "<p>Columns: surrogate key, natural key, <code>valid_from</code>, <code>valid_to</code>, <code>is_current</code>, and a <code>row_hash</code> of the tracked attributes for cheap change detection. Use half-open intervals <code>[valid_from, valid_to)</code> so a timestamp belongs to exactly one version, and a far-future sentinel (<code>9999-12-31</code>) for the open row so BETWEEN-style joins don't need NULL handling.</p>",
+     "c": [
+      {
+       "t": "Example: expire then insert",
+       "b": "<pre><code>-- 1. Expire rows whose tracked attributes changed\nMERGE INTO dim_patient t\nUSING stg_patient s\n  ON t.patient_nk = s.patient_nk AND t.is_current\nWHEN MATCHED AND t.row_hash &lt;&gt; s.row_hash THEN\n  UPDATE SET valid_to = s.change_ts, is_current = false;\n\n-- 2. Insert new versions (new keys + changed keys)\nINSERT INTO dim_patient\nSELECT hash_key(s.patient_nk, s.change_ts) AS patient_sk,\n       s.*, s.change_ts AS valid_from,\n       TIMESTAMP '9999-12-31' AS valid_to, true AS is_current\nFROM stg_patient s\nLEFT JOIN dim_patient t\n  ON t.patient_nk = s.patient_nk AND t.is_current\nWHERE t.patient_nk IS NULL;</code></pre><p>A common single-statement alternative unions the staged rows with a NULL merge key so one MERGE both expires and inserts.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Joining facts to Type 2 dims",
+     "b": "<p>Either stamp the correct surrogate key on the fact at load time, or join point-in-time: <code>fact.event_ts &gt;= dim.valid_from AND fact.event_ts &lt; dim.valid_to</code>. Joining on natural key with <code>is_current = true</code> silently restates history to today's values.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<ul><li>Several changes to one key in the same batch: you must order them and build a version per change, not just keep the last.</li><li>Late-arriving changes require splitting an existing interval, not just appending.</li><li>Hashing columns that churn (last_login) creates a new version every load and bloats the table.</li><li>Source deletes: decide between closing the row, a soft-delete flag, or ignoring.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does SCD Type 6 provide?",
+     "a": "Type 2 versioned rows plus a Type 1 current-value column on every row, so you can report as-was or as-is from one table."
+    },
+    {
+     "q": "Why use half-open intervals and a 9999-12-31 sentinel in Type 2 rows?",
+     "a": "Half-open [valid_from, valid_to) puts each timestamp in exactly one version, and the far-future sentinel avoids NULL handling in range joins."
+    },
+    {
+     "q": "What goes wrong if facts join a Type 2 dimension on natural key with is_current = true?",
+     "a": "History is silently restated to today's attribute values."
+    },
+    {
+     "q": "How must a batch with several changes to one key be handled in Type 2?",
+     "a": "Order the changes and build a version per change, not just keep the last one."
+    },
+    {
+     "q": "What is the trap of including a churning column like last_login in the row hash?",
+     "a": "It creates a new version on every load and bloats the dimension."
+    }
+   ]
+  },
+  {
+   "n": "Surrogate keys",
+   "g": "model",
+   "s": "Surrogate keys are system-generated identifiers for dimension rows that stay stable regardless of what source systems do with their own IDs.",
+   "x": [
+    {
+     "t": "Why they exist",
+     "b": "<ul><li>Natural keys collide across sources (two EHRs both have patient 1001).</li><li>Natural keys change or get reused.</li><li>SCD Type 2 needs several rows per natural key.</li><li>Narrow integer or fixed-width keys make fact tables smaller and joins faster.</li></ul>"
+    },
+    {
+     "t": "Generation options",
+     "b": "<ul><li><b>Identity / sequence:</b> compact, but a full rebuild reassigns keys, breaking every fact that referenced them. Distributed engines struggle to generate them in parallel; Delta identity columns are unique but not guaranteed consecutive.</li><li><b>Deterministic hash</b> of source system + natural key (+ valid_from for Type 2): the same input always yields the same key, so rebuilds and backfills are safe and keys can be computed in parallel without a lookup.</li></ul>",
+     "c": [
+      {
+       "t": "Hash key details that bite",
+       "b": "<pre><code>sha2(concat_ws('||',\n  coalesce(source_system, '~'),\n  coalesce(cast(patient_id AS string), '~')), 256)</code></pre><ul><li>Always use a delimiter, or <code>'a'+'bc'</code> and <code>'ab'+'c'</code> hash the same.</li><li>Replace NULLs with a sentinel; many concat functions return NULL or skip NULL values silently.</li><li>Normalize types and casing first (trim, upper) or \"same\" values hash differently.</li><li>64-bit hashes are compact but collisions become plausible at billions of rows; 128+ bits is the safe default.</li></ul>"
+      }
+     ]
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Reserve special members: <code>-1</code> Unknown (FK missing), <code>-2</code> Not applicable. Facts then never have NULL foreign keys, inner joins stop dropping rows, and you can count how many rows hit Unknown as a quality metric.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why does an identity or sequence surrogate key break on a full rebuild?",
+     "a": "A rebuild reassigns the keys, breaking every fact that referenced them."
+    },
+    {
+     "q": "What makes a deterministic hash key safe for rebuilds and backfills?",
+     "a": "The same input (source system plus natural key, plus valid_from for Type 2) always yields the same key, and it can be computed in parallel without a lookup."
+    },
+    {
+     "q": "Why must a hash key concatenation use a delimiter?",
+     "a": "Without one, 'a'+'bc' and 'ab'+'c' produce the same string and the same hash."
+    },
+    {
+     "q": "What hash width is the safe default for surrogate keys?",
+     "a": "128 bits or more; 64-bit collisions become plausible at billions of rows."
+    },
+    {
+     "q": "What do the reserved members -1 and -2 represent, and what do they fix?",
+     "a": "-1 is Unknown (FK missing) and -2 is Not applicable; facts never have NULL foreign keys, so inner joins stop dropping rows."
+    }
+   ]
+  },
+  {
+   "n": "Idempotent writes",
+   "g": "write",
+   "s": "A write is idempotent when running the same job on the same inputs any number of times leaves the table in the same final state.",
+   "x": [
+    {
+     "t": "Why it matters",
+     "b": "<p>Orchestrators retry, people click rerun, and backfills replay history. If a rerun can change the result, every retry is a potential data incident. This is the root cause behind \"revenue doubled overnight\" in the post.</p>"
+    },
+    {
+     "t": "Patterns",
+     "b": "<ul><li><b>Partition overwrite:</b> each run fully replaces the partitions it owns.</li><li><b>MERGE on key:</b> reruns update the same rows instead of adding more.</li><li><b>Delete-then-insert</b> for the run's scope, inside one transaction.</li><li><b>Stage and swap:</b> build a new table or partition, then switch atomically.</li></ul><pre><code>(df.write.format(\"delta\")\n   .mode(\"overwrite\")\n   .option(\"replaceWhere\",\n           \"event_date &gt;= '2026-10-01' AND event_date &lt; '2026-10-08'\")\n   .saveAsTable(\"silver.encounters\"))</code></pre>"
+    },
+    {
+     "t": "What breaks idempotency",
+     "b": "<ul><li>Blind <code>append</code>.</li><li><code>current_timestamp()</code> or \"today\" inside business logic. Pass the run's logical date as a parameter instead.</li><li>Sequences and auto-increment IDs.</li><li><code>row_number()</code> with a non-unique ORDER BY, which picks different winners each run.</li><li>Reading a source that changed between runs. Pin a snapshot or table version when you need exact reproducibility.</li></ul><div class=\"trap\"><b>Trap:</b> Spark's default static partition overwrite with <code>mode(\"overwrite\")</code> on a partitioned table replaces the whole table, not just the partitions in your DataFrame. Set <code>spark.sql.sources.partitionOverwriteMode=dynamic</code> or use <code>replaceWhere</code>.</div>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Side effects outside the table (emails, API calls, downstream triggers) need their own idempotency keys. A pipeline is only idempotent if every effect it has is.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name four write patterns that make a job idempotent.",
+     "a": "Partition overwrite, MERGE on key, delete-then-insert for the run's scope in one transaction, and stage-and-swap."
+    },
+    {
+     "q": "Why should business logic not call current_timestamp() or \"today\"?",
+     "a": "It changes results across reruns; pass the run's logical date as a parameter instead."
+    },
+    {
+     "q": "What does Spark's default static partition overwrite do with mode(\"overwrite\") on a partitioned table?",
+     "a": "It replaces the whole table, not just the partitions in the DataFrame; set partitionOverwriteMode=dynamic or use replaceWhere."
+    },
+    {
+     "q": "How does row_number() break idempotency?",
+     "a": "With a non-unique ORDER BY it picks different winners on each run."
+    },
+    {
+     "q": "What else must be idempotent for the whole pipeline to be idempotent?",
+     "a": "Side effects outside the table, such as emails, API calls, and downstream triggers, which need their own idempotency keys."
+    }
+   ]
+  },
+  {
+   "n": "Upserts and MERGE",
+   "g": "write",
+   "s": "MERGE applies inserts, updates, and deletes to a target table in one atomic statement, matched on a key.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<pre><code>MERGE INTO tgt t\nUSING src s ON t.id = s.id\nWHEN MATCHED AND s.op = 'D' THEN DELETE\nWHEN MATCHED AND s.row_hash &lt;&gt; t.row_hash THEN UPDATE SET *\nWHEN NOT MATCHED AND s.op &lt;&gt; 'D' THEN INSERT *\n-- some engines: WHEN NOT MATCHED BY SOURCE THEN DELETE</code></pre>"
+    },
+    {
+     "t": "Correctness pitfalls",
+     "b": "<ul><li><b>Duplicate source keys:</b> if two source rows match one target row, Delta and SQL Server raise an error, and some engines apply them in arbitrary order. Deduplicate the source to one row per key first.</li><li><b>Out-of-order updates:</b> guard updates with a version check (<code>WHEN MATCHED AND s.seq &gt; t.seq</code>) so an older change never overwrites a newer one.</li><li><b>No-op updates:</b> without a hash or column comparison, every matched row is rewritten every run, which inflates cost and change feeds.</li></ul>"
+    },
+    {
+     "t": "Performance on Delta / lakehouse",
+     "b": "<ul><li>MERGE rewrites every file containing a matched row. Narrow the files touched by adding the partition or date range to the ON clause.</li><li>Cluster the target on the merge key (Z-order or liquid clustering) so matches concentrate in fewer files.</li><li>Deletion vectors mark rows deleted without rewriting files, which makes small merges much cheaper.</li></ul>"
+    },
+    {
+     "t": "SQL Server specifics",
+     "b": "<p>T-SQL MERGE has a long history of reported bugs and race conditions under concurrency. Many teams use separate UPDATE and INSERT statements in a transaction, or MERGE with <code>WITH (HOLDLOCK)</code> to prevent two sessions inserting the same key.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What must you do to the source before a MERGE, and why?",
+     "a": "Deduplicate it to one row per key; Delta and SQL Server error when two source rows match one target row, and some engines apply them in arbitrary order."
+    },
+    {
+     "q": "How do you stop an older change from overwriting a newer one in MERGE?",
+     "a": "Guard the update with a version check, such as WHEN MATCHED AND s.seq > t.seq."
+    },
+    {
+     "q": "What is the cost of a MERGE with no hash or column comparison on update?",
+     "a": "Every matched row is rewritten every run, inflating cost and change feeds."
+    },
+    {
+     "q": "How do you reduce the files a Delta MERGE rewrites?",
+     "a": "Add the partition or date range to the ON clause and cluster the target on the merge key; deletion vectors also make small merges cheaper."
+    },
+    {
+     "q": "What do teams use instead of plain T-SQL MERGE under concurrency?",
+     "a": "Separate UPDATE and INSERT in a transaction, or MERGE WITH (HOLDLOCK) to prevent two sessions inserting the same key."
+    }
+   ]
+  },
+  {
+   "n": "Incremental loads with high-watermarks",
+   "g": "write",
+   "s": "An incremental load pulls only rows changed since the last successful run, tracked by a stored maximum of a monotonically increasing column.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Read the last watermark from a control table.</li><li>Capture the new upper bound <i>before</i> extracting.</li><li>Extract <code>col &gt; old_wm AND col &lt;= new_wm</code>.</li><li>Write idempotently.</li><li>Advance the watermark only after the write commits.</li></ol><p>This is the standard ADF lookup → copy → stored-procedure watermark pattern.</p>"
+    },
+    {
+     "t": "Why updated_at lies",
+     "b": "<ul><li>Not every writer sets it (bulk fixes, triggers disabled, direct DBA updates).</li><li>Timestamps are assigned when a transaction <i>starts or writes</i>, not when it commits. A long transaction can commit a row with an older timestamp after you have already read past it. That row is skipped forever.</li><li>Clock skew and timezone mismatches between app servers.</li><li>Deletes never appear.</li></ul>"
+    },
+    {
+     "t": "Mitigations",
+     "b": "<ul><li>Overlap: re-read a lookback window (<code>col &gt; old_wm - 1 hour</code>) and rely on idempotent MERGE to absorb the repeats.</li><li>In SQL Server, prefer <code>rowversion</code> and use <code>MIN_ACTIVE_ROWVERSION()</code> as the upper bound, which excludes versions from still-open transactions.</li><li>Run periodic full key reconciliations to catch deletes and drift, or move to CDC.</li></ul>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>What happens if the job fails after writing but before saving the watermark? (Should be: rerun is harmless.)</li><li>How are deletes detected?</li><li>What is the evidence the watermark column is set by every writer?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "When should the high-watermark be advanced?",
+     "a": "Only after the write commits."
+    },
+    {
+     "q": "Why capture the new upper bound before extracting?",
+     "a": "So the extract reads a fixed range col > old_wm AND col <= new_wm."
+    },
+    {
+     "q": "How can a long transaction cause a row to be skipped forever?",
+     "a": "Timestamps are assigned at transaction start or write, not commit, so the row can commit with an older timestamp after you already read past it."
+    },
+    {
+     "q": "What is the SQL Server-specific mitigation for the long-transaction problem?",
+     "a": "Use rowversion with MIN_ACTIVE_ROWVERSION() as the upper bound, which excludes versions from still-open transactions."
+    },
+    {
+     "q": "What does a lookback overlap rely on to stay correct?",
+     "a": "An idempotent MERGE that absorbs the re-read rows."
+    }
+   ]
+  },
+  {
+   "n": "Backfills",
+   "g": "write",
+   "s": "A backfill reprocesses a historical range of data after a bug fix, a new column, or a new pipeline.",
+   "x": [
+    {
+     "t": "Prerequisites",
+     "b": "<p>Every job should be a function of a date range: <code>run(start, end)</code>. If that's true, a backfill is just a normal run with older parameters. If the job reads \"now\" or \"since last run,\" backfills require special code, and special code is where incidents come from.</p>"
+    },
+    {
+     "t": "Running one safely",
+     "b": "<ul><li>Chunk by partition and run with bounded parallelism so you don't starve production jobs or the source system.</li><li>Write to a shadow table first, reconcile counts and key totals against current output, then swap.</li><li>Plan the downstream cascade: every dependent table and aggregate needs the same range rebuilt, in order.</li><li>Tell consumers in advance which numbers will change and why.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<ul><li>Logic that joins to current dimension state, so the backfill rewrites history with today's attributes.</li><li>Source retention: the source no longer has the old data. Keep raw (bronze) data long enough to rebuild from it.</li><li>Non-deterministic surrogate keys that change on rebuild.</li><li>Cost surprises from full-history scans on usage-billed platforms.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Record which code version produced each partition (a <code>pipeline_version</code> column or run log). When someone asks \"is October built with the fix?\", you can answer from data instead of memory.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What job design makes a backfill just a normal run?",
+     "a": "Making every job a function of a date range, run(start, end)."
+    },
+    {
+     "q": "What is the safe procedure for writing a backfill's output?",
+     "a": "Write to a shadow table, reconcile counts and key totals against current output, then swap."
+    },
+    {
+     "q": "Why can a backfill rewrite history incorrectly?",
+     "a": "Its logic joins to current dimension state, applying today's attributes to old periods."
+    },
+    {
+     "q": "What should you keep to protect against source retention limits?",
+     "a": "Raw (bronze) data, retained long enough to rebuild from it."
+    },
+    {
+     "q": "How can you answer \"is October built with the fix?\" from data?",
+     "a": "Record which code version produced each partition, via a pipeline_version column or run log."
+    }
+   ]
+  },
+  {
+   "n": "Late-arriving data",
+   "g": "time",
+   "s": "Late-arriving data is a record that shows up after the period it belongs to has already been processed and reported.",
+   "x": [
+    {
+     "t": "Two different problems",
+     "b": "<ul><li><b>Late facts:</b> an event from Monday arrives Thursday (claims arriving weeks late, notes signed days after the visit).</li><li><b>Late dimensions (early facts):</b> a fact references a provider or patient not yet in the dimension.</li></ul>"
+    },
+    {
+     "t": "Handling late facts",
+     "b": "<ul><li>Reprocess a rolling lookback window on every run (last N days by event date) with idempotent writes.</li><li>Size N from the measured lateness distribution: compute <code>ingest_ts - event_ts</code> percentiles and choose a window that covers p99 or whatever your consumers accept.</li><li>Anything later than the window gets picked up by a scheduled deeper reconciliation.</li></ul>"
+    },
+    {
+     "t": "Handling late dimensions",
+     "b": "<ul><li><b>Inferred member:</b> insert a placeholder dimension row with the natural key and an <code>is_inferred</code> flag; when the real row arrives, update the placeholder in place (Type 1), so facts already point to the right key.</li><li>Or map to Unknown (-1) and re-key facts later, which requires a fact update job.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Publish a restatement policy: \"the last 7 days may change; months close on the 5th business day.\" That turns late data from a trust problem into a documented behavior. Show \"data as of\" and \"period closed\" status on dashboards.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the two kinds of late-arriving data?",
+     "a": "Late facts (events arriving after their period was processed) and late dimensions, where a fact references a dimension member not yet loaded."
+    },
+    {
+     "q": "How do you size the rolling lookback window for late facts?",
+     "a": "From the measured ingest_ts minus event_ts percentiles, covering p99 or whatever consumers accept."
+    },
+    {
+     "q": "What is an inferred member?",
+     "a": "A placeholder dimension row with the natural key and an is_inferred flag, updated in place (Type 1) when the real row arrives so facts already point to the right key."
+    },
+    {
+     "q": "What turns late data from a trust problem into documented behavior?",
+     "a": "A published restatement policy, such as \"the last 7 days may change; months close on the 5th business day.\""
+    }
+   ]
+  },
+  {
+   "n": "Event time vs processing time",
+   "g": "time",
+   "s": "Event time is when something actually happened; processing time is when your system got around to handling it.",
+   "x": [
+    {
+     "t": "Why it matters",
+     "b": "<p>Group by processing time and an outage makes Tuesday look empty and Wednesday look huge. Business questions are almost always about event time. Keep three timestamps: <code>event_ts</code> (source), <code>ingest_ts</code> (landed), and <code>processed_ts</code> (transformed).</p>"
+    },
+    {
+     "t": "Partitioning implications",
+     "b": "<ul><li>Raw / bronze: partition by ingestion date. Append-only, immutable, easy to replay.</li><li>Silver / gold: partition or cluster by event date, because that is how people query. Late data then rewrites old partitions, which your writes must handle idempotently.</li></ul>"
+    },
+    {
+     "t": "Time zones and clocks",
+     "b": "<ul><li>Store UTC plus the source offset or zone. Convert to the business zone only when defining reporting days.</li><li>DST days have 23 or 25 hours; daily aggregates in local time need to handle that.</li><li>Client device clocks are unreliable. Bound-check event times (not in the future, not before the account existed) and fall back to server receive time when out of range.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What three timestamps should a record carry?",
+     "a": "event_ts (source), ingest_ts (landed), and processed_ts (transformed)."
+    },
+    {
+     "q": "How should bronze vs silver/gold be partitioned?",
+     "a": "Bronze by ingestion date; silver and gold by event date, because that is how people query."
+    },
+    {
+     "q": "What happens if you group by processing time during an outage?",
+     "a": "Tuesday looks empty and Wednesday looks huge."
+    },
+    {
+     "q": "How should time zones be stored?",
+     "a": "Store UTC plus the source offset or zone, and convert to the business zone only when defining reporting days."
+    },
+    {
+     "q": "What should you do with out-of-range client device event times?",
+     "a": "Bound-check them (not in the future, not before the account existed) and fall back to server receive time."
+    }
+   ]
+  },
+  {
+   "n": "Watermarks (streaming)",
+   "g": "time",
+   "s": "A streaming watermark is the engine's moving estimate of how far event time has progressed, used to decide when a window is complete and old state can be discarded.",
+   "x": [
+    {
+     "t": "Not the same as a high-watermark",
+     "b": "<p>A high-watermark (concept 7) is a bookmark for batch extraction. A streaming watermark is a threshold of the form \"max event time seen minus allowed lateness\"; events older than it are considered too late.</p>"
+    },
+    {
+     "t": "How it works in Spark",
+     "b": "<pre><code>(events\n  .withWatermark(\"event_ts\", \"15 minutes\")\n  .groupBy(window(\"event_ts\", \"5 minutes\"), \"clinic_id\")\n  .count())</code></pre><ul><li>In append mode, a window's result is emitted only once the watermark passes the window end, and then never changes.</li><li>In update mode, results emit early and revise until the watermark passes.</li><li>State for windows behind the watermark is dropped, which keeps memory bounded.</li></ul>"
+    },
+    {
+     "t": "Trade-off",
+     "b": "<p>Longer allowed lateness means more complete results but higher latency and more state. Shorter means faster output and silently dropped late events. Neither Spark nor Flink errors on dropped events by default, so monitor them.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>With multiple inputs, Spark uses the minimum watermark across streams by default, so one slow source holds back everything.</li><li>In Flink, an idle partition stalls the watermark until you configure source idleness.</li><li>Flink can route late events to a side output; in Spark, catch them with a separate batch reconciliation against the raw layer.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does a streaming watermark differ from a batch high-watermark?",
+     "a": "A high-watermark is a bookmark for batch extraction; a streaming watermark is max event time seen minus allowed lateness, used to decide window completeness and drop old state."
+    },
+    {
+     "q": "In Spark append mode, when is a window's result emitted?",
+     "a": "Only once the watermark passes the window end, and then it never changes."
+    },
+    {
+     "q": "What is the trade-off of a shorter allowed lateness?",
+     "a": "Faster output and less state, but late events are silently dropped."
+    },
+    {
+     "q": "With multiple input streams, which watermark does Spark use by default?",
+     "a": "The minimum across streams, so one slow source holds back everything."
+    },
+    {
+     "q": "What stalls a Flink watermark, and what fixes it?",
+     "a": "An idle partition; configure source idleness."
+    }
+   ]
+  },
+  {
+   "n": "At-least-once vs exactly-once delivery",
+   "g": "time",
+   "s": "At-least-once guarantees nothing is lost but may duplicate; exactly-once means each record's effect lands once, which in practice is at-least-once delivery plus an idempotent or transactional sink.",
+   "x": [
+    {
+     "t": "The three guarantees",
+     "b": "<ul><li><b>At-most-once:</b> commit offsets before processing. A crash loses data.</li><li><b>At-least-once:</b> process, then commit. A crash replays, so duplicates appear.</li><li><b>Exactly-once:</b> replay happens, but the sink recognizes replays and applies each effect once.</li></ul>"
+    },
+    {
+     "t": "How engines achieve it",
+     "b": "<ul><li><b>Kafka:</b> idempotent producers plus transactions; consumers read with <code>isolation.level=read_committed</code>.</li><li><b>Spark Structured Streaming:</b> checkpointed offsets plus a sink that can detect a replayed batch. The Delta sink does this natively; in <code>foreachBatch</code>, pass <code>txnAppId</code> and <code>txnVersion</code> (the batch id) so Delta skips a batch it already committed.</li><li>For anything else, make writes MERGE-on-key so a replay is harmless.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Exactly-once is a property of the whole path, not of a component. A guarantee inside Spark doesn't cover the email you sent or the API you called from inside the batch. Deleting or resetting a checkpoint discards the engine's memory of what it processed, so the sink's idempotency is your last line of defense. Design sinks to tolerate duplicates even when the vendor says exactly-once.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What ordering produces at-most-once vs at-least-once?",
+     "a": "Committing offsets before processing gives at-most-once (crash loses data); processing then committing gives at-least-once (crash replays duplicates)."
+    },
+    {
+     "q": "What is exactly-once in practice?",
+     "a": "At-least-once delivery plus an idempotent or transactional sink that recognizes replays."
+    },
+    {
+     "q": "In foreachBatch to Delta, how do you avoid recommitting a replayed batch?",
+     "a": "Pass txnAppId and txnVersion (the batch id) so Delta skips a batch it already committed."
+    },
+    {
+     "q": "What consumer setting reads only committed Kafka transactional data?",
+     "a": "isolation.level=read_committed."
+    },
+    {
+     "q": "What happens if you delete or reset a streaming checkpoint?",
+     "a": "The engine forgets what it processed, so sink idempotency becomes the last line of defense."
+    }
+   ]
+  },
+  {
+   "n": "Deduplication keys",
+   "g": "time",
+   "s": "A deduplication key is the field or set of fields that identifies the same logical record so repeats can be dropped.",
+   "x": [
+    {
+     "t": "Choosing the key",
+     "b": "<ul><li><b>Producer-assigned event ID</b> (a UUID created when the event happens). Best option. It must be created at the source; an ID assigned at ingestion gives each retry a new ID.</li><li><b>Business key + version</b> (order_id + updated_seq) for entity change streams.</li><li><b>Content hash</b> of the business columns, when nothing else exists.</li></ul><div class=\"trap\"><b>Trap:</b> hashing the whole row, including <code>ingest_ts</code> or a file name. Every copy hashes differently and nothing is ever deduplicated.</div>"
+    },
+    {
+     "t": "Within a batch and across batches",
+     "b": "<pre><code>-- within a batch: keep the latest version per key\nSELECT *\nFROM staged\nQUALIFY row_number() OVER (\n  PARTITION BY event_id\n  ORDER BY source_seq DESC, ingest_ts DESC) = 1;</code></pre><p>Across batches, write with MERGE or insert-where-not-exists against the target. In Spark streaming, <code>dropDuplicatesWithinWatermark</code> (Spark 3.5+) bounds the state it keeps.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Decide whether duplicates are exact replays (keep first) or updated versions (keep latest). They need different ORDER BY logic.</li><li>The tiebreaker must be deterministic, or reruns pick different survivors.</li><li>Track the duplicate rate as a metric. A sudden jump usually means an upstream retry storm.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the best deduplication key, and where must it be created?",
+     "a": "A producer-assigned event ID created at the source; an ID assigned at ingestion gives each retry a new ID."
+    },
+    {
+     "q": "Why does hashing the whole row fail as a dedup key?",
+     "a": "It includes fields like ingest_ts or file name, so every copy hashes differently and nothing is deduplicated."
+    },
+    {
+     "q": "How do you dedupe across batches?",
+     "a": "Write with MERGE or insert-where-not-exists against the target."
+    },
+    {
+     "q": "Why must the dedup ORDER BY tiebreaker be deterministic?",
+     "a": "Otherwise reruns pick different survivors."
+    },
+    {
+     "q": "What does a sudden jump in duplicate rate usually indicate?",
+     "a": "An upstream retry storm."
+    }
+   ]
+  },
+  {
+   "n": "Change Data Capture",
+   "g": "change",
+   "s": "CDC captures every insert, update, and delete from a source database, usually from its transaction log, and delivers them downstream as ordered change events.",
+   "x": [
+    {
+     "t": "Approaches",
+     "b": "<ul><li><b>Log-based</b> (Debezium, SQL Server CDC, Oracle GoldenGate): reads the transaction log. Captures deletes and every intermediate change, with low load on the source.</li><li><b>Trigger-based:</b> writes changes to audit tables. Adds write latency to the source.</li><li><b>Query-based</b> (timestamp polling): not true CDC. Misses deletes and intermediate states.</li></ul><p>In SQL Server, Change Data Capture records full change history with before/after values, while Change Tracking records only which keys changed (you then look up current values). Change Tracking is lighter but has no history.</p>"
+    },
+    {
+     "t": "Applying change events",
+     "b": "<ul><li>Each event has an operation (c/u/d), a log position (LSN), and before/after images.</li><li>Within a batch, collapse multiple changes per key to the last by log position, then MERGE.</li><li>Order by log position, never by a timestamp column.</li><li>Decide how deletes land: hard delete, soft delete flag, or a closed SCD2 version.</li></ul>"
+    },
+    {
+     "t": "Operational realities",
+     "b": "<ul><li><b>Initial load handoff:</b> you need a consistent snapshot plus the log position it corresponds to, then stream from exactly that point. Gaps or overlaps here cause permanent drift.</li><li><b>Log retention:</b> if the consumer falls behind past retention, the only recovery is a re-snapshot.</li><li>Tables without primary keys can't be applied reliably.</li><li>Source schema changes flow through as events you must handle.</li></ul>"
+    },
+    {
+     "t": "Downstream CDC in the lakehouse",
+     "b": "<p>Delta's Change Data Feed exposes row-level changes from a Delta table, so silver → gold can be incremental without watermarks. Fabric mirroring replicates operational databases into OneLake as Delta tables, which is CDC managed for you, with less control over the edge cases above.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why is timestamp polling not true CDC?",
+     "a": "It misses deletes and intermediate states."
+    },
+    {
+     "q": "In SQL Server, how does Change Data Capture differ from Change Tracking?",
+     "a": "CDC records full change history with before/after values; Change Tracking records only which keys changed and has no history."
+    },
+    {
+     "q": "What should change events be ordered by?",
+     "a": "Log position (LSN), never a timestamp column."
+    },
+    {
+     "q": "What is the only recovery when a CDC consumer falls behind log retention?",
+     "a": "A re-snapshot."
+    },
+    {
+     "q": "What does the initial load handoff require?",
+     "a": "A consistent snapshot plus the log position it corresponds to, then streaming from exactly that point; gaps or overlaps cause permanent drift."
+    }
+   ]
+  },
+  {
+   "n": "Schema evolution",
+   "g": "change",
+   "s": "Schema evolution is how tables and pipelines absorb changes to columns over time without breaking readers or corrupting data.",
+   "x": [
+    {
+     "t": "Safe vs breaking changes",
+     "b": "<ul><li><b>Usually safe:</b> adding a nullable column, widening a type (int → bigint).</li><li><b>Breaking:</b> renames, drops, narrowing types, changing nullability, reordering in position-based formats.</li><li><b>Worst:</b> semantic changes with no schema change, such as <code>amount</code> switching from dollars to cents. No tool catches these; only contracts and tests do.</li></ul>"
+    },
+    {
+     "t": "How formats handle it",
+     "b": "<ul><li><b>Avro / Protobuf with a schema registry:</b> compatibility modes (backward, forward, full) are checked when a producer registers a new schema.</li><li><b>Delta:</b> <code>mergeSchema</code> adds new columns on write. Column mapping mode allows renames and drops without rewriting data.</li><li><b>Iceberg:</b> tracks columns by ID rather than name, so renames and reorders are metadata-only and safe.</li><li><b>Raw Parquet:</b> readers resolve by name, and mismatched types across files fail at read time or silently null out.</li></ul>"
+    },
+    {
+     "t": "Senior-level policy",
+     "b": "<p>Be permissive at the edge and strict in the core. Let bronze accept new columns (Databricks Auto Loader can put unexpected fields in a <code>_rescued_data</code> column). Make silver and gold schemas explicit, and let a change there go through review. Automatic evolution everywhere means a producer typo becomes a permanent column in your gold table.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which schema changes are usually safe?",
+     "a": "Adding a nullable column and widening a type, such as int to bigint."
+    },
+    {
+     "q": "What is the worst kind of schema change, and what catches it?",
+     "a": "A semantic change with no schema change, like dollars to cents; only contracts and tests catch it."
+    },
+    {
+     "q": "Why are renames safe in Iceberg?",
+     "a": "Iceberg tracks columns by ID rather than name, so renames and reorders are metadata-only."
+    },
+    {
+     "q": "What Delta feature allows renames and drops without rewriting data?",
+     "a": "Column mapping mode."
+    },
+    {
+     "q": "What is the policy of permissive at the edge, strict in the core?",
+     "a": "Let bronze accept new columns (Auto Loader can use _rescued_data) and require reviewed, explicit schemas in silver and gold."
+    }
+   ]
+  },
+  {
+   "n": "Data contracts",
+   "g": "change",
+   "s": "A data contract is an explicit, versioned agreement between a data producer and its consumers about schema, meaning, quality, and timeliness, enforced in code.",
+   "x": [
+    {
+     "t": "What goes in one",
+     "b": "<ul><li>Schema, types, nullability, primary key.</li><li>Semantics: units, definitions, allowed values.</li><li>Quality rules and freshness SLA.</li><li>Owner, support channel, and versioning and deprecation policy.</li></ul><p>Formats include dbt model contracts (enforced at build) and the Open Data Contract Standard (ODCS) YAML spec.</p>"
+    },
+    {
+     "t": "Enforcement points",
+     "b": "<ul><li>Producer CI: a schema-changing PR fails if it breaks the contract.</li><li>Ingestion boundary: validate incoming data and quarantine violations (see dead-letter queues).</li><li>Consumer side: tests that assert the assumptions you depend on.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Contracts are mostly organizational. The hard part is getting an application team to own the shape of data they emit. Start with the one or two sources that break most often, show the incident cost, and define the breaking-change process: new version published alongside the old for a set window, consumers migrate, old version retired.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does a data contract cover?",
+     "a": "Schema, types, nullability and primary key; semantics; quality rules and freshness SLA; owner, support channel, and versioning and deprecation policy."
+    },
+    {
+     "q": "Name two contract formats mentioned.",
+     "a": "dbt model contracts, enforced at build, and the Open Data Contract Standard (ODCS) YAML spec."
+    },
+    {
+     "q": "What are the three enforcement points for a contract?",
+     "a": "Producer CI, the ingestion boundary (validate and quarantine), and consumer-side tests."
+    },
+    {
+     "q": "What is the breaking-change process for a contract?",
+     "a": "Publish the new version alongside the old for a set window, consumers migrate, then retire the old version."
+    }
+   ]
+  },
+  {
+   "n": "Partition pruning",
+   "g": "storage",
+   "s": "Partition pruning lets the engine skip entire partitions whose values can't satisfy the query's filter, so it reads only the relevant slices of a table.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>A table partitioned by <code>event_date</code> stores each date's files separately. A query filtering <code>event_date = '2026-10-19'</code> lists and reads one directory instead of the whole table. Spark 3+ also does dynamic partition pruning, where a filter on a joined dimension is converted into a partition filter on the fact at runtime.</p>"
+    },
+    {
+     "t": "What defeats it",
+     "b": "<ul><li>Wrapping the partition column in a function: <code>WHERE year(event_date) = 2026</code> may scan everything. Write a range instead.</li><li>Implicit casts from comparing a date to a string or timestamp.</li><li>Filtering on a derived column rather than the actual partition column.</li></ul><p>Verify in the plan (<code>PartitionFilters</code> in Spark) or by the number of files read in the query profile.</p>"
+    },
+    {
+     "t": "Choosing a partition column",
+     "b": "<ul><li>Low cardinality, used in most filters, and yielding large partitions (roughly 1 GB or more each).</li><li>Never partition on a high-cardinality column like patient_id; that creates the small files problem.</li><li>Databricks guidance is to avoid partitioning tables under about 1 TB and use liquid clustering instead.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Delta and Iceberg also skip at the file level using per-file min/max statistics. Clustering (Z-order, liquid clustering, Iceberg sort orders) makes those stats tight, which often gives better pruning than physical partitions with none of the rigidity.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why can WHERE year(event_date) = 2026 defeat pruning?",
+     "a": "Wrapping the partition column in a function may scan everything; write a date range instead."
+    },
+    {
+     "q": "What is dynamic partition pruning?",
+     "a": "A Spark 3+ feature that converts a filter on a joined dimension into a partition filter on the fact at runtime."
+    },
+    {
+     "q": "What makes a good partition column?",
+     "a": "Low cardinality, used in most filters, and yielding large partitions of roughly 1 GB or more."
+    },
+    {
+     "q": "What is Databricks guidance for tables under about 1 TB?",
+     "a": "Avoid partitioning and use liquid clustering instead."
+    },
+    {
+     "q": "Where do you verify pruning happened in Spark?",
+     "a": "PartitionFilters in the plan, or the number of files read in the query profile."
+    }
+   ]
+  },
+  {
+   "n": "Predicate pushdown",
+   "g": "storage",
+   "s": "Predicate pushdown moves filters down to the storage or source layer so less data is read, decoded, or sent over the network.",
+   "x": [
+    {
+     "t": "Where filters get pushed",
+     "b": "<ul><li><b>Into a source database:</b> Spark JDBC or a BI connector sends <code>WHERE</code> to SQL Server instead of pulling the whole table.</li><li><b>Into the file format:</b> Parquet readers skip row groups whose min/max statistics exclude the filter, and can use dictionaries and bloom filters.</li><li><b>Into table format metadata:</b> Delta and Iceberg skip whole files from statistics before opening them.</li></ul><p>Projection pushdown (reading only needed columns) is the companion optimization, and with columnar formats it is often the bigger win.</p>"
+    },
+    {
+     "t": "What blocks it",
+     "b": "<ul><li>UDFs and complex expressions the engine can't translate.</li><li>Casts on the filtered column.</li><li>Row formats like CSV and JSON, which have no statistics to skip with.</li><li>Unsorted data: if values are spread evenly across files, every file's min/max overlaps the filter and nothing is skipped.</li></ul><p>Check <code>PushedFilters</code> in the Spark physical plan.</p>"
+    },
+    {
+     "t": "The BI connection: query folding",
+     "b": "<p>Power Query's query folding is the same concept. Steps that fold are translated to source SQL. A non-folding step (certain custom columns, merges across sources) forces everything after it to run in the mashup engine on fully downloaded data. Check with \"View Native Query\" and keep folding steps first.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How do Parquet readers apply pushed-down predicates?",
+     "a": "They skip row groups whose min/max statistics exclude the filter, and can use dictionaries and bloom filters."
+    },
+    {
+     "q": "What is the companion to predicate pushdown that is often the bigger win in columnar formats?",
+     "a": "Projection pushdown, reading only the needed columns."
+    },
+    {
+     "q": "Why does unsorted data defeat pushdown?",
+     "a": "Every file's min/max overlaps the filter, so nothing is skipped."
+    },
+    {
+     "q": "What happens after a non-folding step in Power Query?",
+     "a": "Everything after it runs in the mashup engine on fully downloaded data."
+    },
+    {
+     "q": "Where do you check pushdown in Spark and folding in Power Query?",
+     "a": "PushedFilters in the Spark physical plan; View Native Query in Power Query."
+    }
+   ]
+  },
+  {
+   "n": "Columnar formats (Parquet)",
+   "g": "storage",
+   "s": "Columnar formats store data column by column with encoding, compression, and statistics, so analytical queries read only the columns and blocks they need.",
+   "x": [
+    {
+     "t": "Parquet structure",
+     "b": "<p>File → row groups (commonly around 128 MB) → column chunks → pages. The footer holds the schema and per-column-chunk statistics (min, max, null count). Readers read the footer first, then fetch only the needed column chunks in row groups that survive the filter.</p>"
+    },
+    {
+     "t": "Encoding and compression",
+     "b": "<ul><li>Dictionary encoding for repeated values, run-length encoding and bit-packing for runs and small ints, delta encoding for sorted numbers.</li><li>Then a codec: Snappy (fast) or Zstd (smaller, now a common default).</li><li>Similar values next to each other compress far better, which is why sorting before writing pays off twice: smaller files and tighter statistics.</li></ul>"
+    },
+    {
+     "t": "Row vs columnar",
+     "b": "<p>Row formats (Avro, CSV, OLTP pages) suit writing and reading whole records, so Avro is common for streaming and messaging. Columnar formats (Parquet, ORC, and in-memory engines like VertiPaq and Arrow) suit scanning a few columns across many rows.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Parquet files are immutable. Updates and deletes need a table format (next concept) on top.</li><li>Very wide tables and deeply nested types increase footer and planning cost.</li><li>Watch legacy timestamp encodings (INT96) and time zone handling when moving files between engines.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the Parquet file hierarchy?",
+     "a": "File, row groups, column chunks, pages; the footer holds the schema and per-column-chunk statistics."
+    },
+    {
+     "q": "Why does sorting before writing Parquet pay off twice?",
+     "a": "Similar adjacent values compress better and produce tighter statistics for skipping."
+    },
+    {
+     "q": "What is the trade-off between Snappy and Zstd?",
+     "a": "Snappy is faster; Zstd produces smaller files and is now a common default."
+    },
+    {
+     "q": "Why is Avro common for streaming and messaging?",
+     "a": "It is a row format, suited to writing and reading whole records."
+    },
+    {
+     "q": "Why do updates and deletes on Parquet need a table format?",
+     "a": "Parquet files are immutable."
+    }
+   ]
+  },
+  {
+   "n": "Table snapshots (Iceberg / Delta)",
+   "g": "storage",
+   "s": "Table formats like Delta and Iceberg add a metadata layer over Parquet files so every commit produces a versioned snapshot, giving ACID transactions, time travel, and safe concurrent writes.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Delta:</b> a <code>_delta_log</code> folder of ordered JSON commit files listing files added and removed, with periodic Parquet checkpoints. The table's state is the replay of the log.</li><li><b>Iceberg:</b> a metadata file points to a manifest list, which points to manifests, which list data files with statistics. A commit atomically swaps the current metadata pointer in the catalog.</li></ul><p>Writers never modify files in place; they write new files and commit a new snapshot. Readers see a consistent snapshot throughout their query.</p>"
+    },
+    {
+     "t": "What it gives you",
+     "b": "<ul><li><b>Time travel:</b> <code>SELECT ... VERSION AS OF 412</code> or <code>TIMESTAMP AS OF</code> for audits and debugging.</li><li><b>Rollback:</b> <code>RESTORE TABLE ... TO VERSION AS OF</code> after a bad write.</li><li><b>Reproducible jobs:</b> pin the source version a backfill read.</li><li><b>Optimistic concurrency:</b> concurrent writers succeed unless they touched overlapping files, in which case one retries or fails.</li></ul>"
+    },
+    {
+     "t": "Retention and cleanup",
+     "b": "<p>Old snapshots keep old files alive. <code>VACUUM</code> (Delta, default retention 7 days) and <code>expire_snapshots</code> (Iceberg) delete unreferenced files and end time travel past that point. Run them, or storage grows without bound; don't set retention so short that a running long query loses its files.</p>"
+    },
+    {
+     "t": "Platform note",
+     "b": "<p>Fabric stores tables in OneLake as Delta, so these mechanics apply directly there. Delta UniForm can also publish Iceberg metadata for the same files so Iceberg readers can query a Delta table.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does Delta represent table state?",
+     "a": "A _delta_log of ordered JSON commit files with periodic Parquet checkpoints; the state is the replay of the log."
+    },
+    {
+     "q": "How does an Iceberg commit become visible?",
+     "a": "It atomically swaps the current metadata pointer in the catalog."
+    },
+    {
+     "q": "When does optimistic concurrency make a Delta or Iceberg writer retry or fail?",
+     "a": "When concurrent writers touched overlapping files."
+    },
+    {
+     "q": "What is Delta VACUUM's default retention, and what does running it end?",
+     "a": "7 days; it deletes unreferenced files and ends time travel past that point."
+    },
+    {
+     "q": "What does Delta UniForm do?",
+     "a": "Publishes Iceberg metadata for the same files so Iceberg readers can query a Delta table."
+    }
+   ]
+  },
+  {
+   "n": "Small files problem",
+   "g": "files",
+   "s": "The small files problem is when a table is split into huge numbers of tiny files, so per-file overhead dominates and reads, listing, and planning slow to a crawl.",
+   "x": [
+    {
+     "t": "Causes",
+     "b": "<ul><li>Streaming micro-batches writing every few seconds.</li><li>Over-partitioning (too many partition values, each with a few MB).</li><li>High write parallelism: 200 tasks × 300 partitions = 60,000 files from one job.</li><li>Frequent small appends and merges.</li></ul>"
+    },
+    {
+     "t": "Why it hurts",
+     "b": "<p>Each file has a fixed cost: listing, opening, reading a footer, scheduling a task. Thousands of 1 MB files can be slower than a few 512 MB files holding the same data. Table-format metadata also grows with file count.</p>"
+    },
+    {
+     "t": "Prevention",
+     "b": "<ul><li>Target roughly 128 MB to 1 GB per file.</li><li>Repartition by the partition column before writing, so each partition gets one or a few files.</li><li>Enable optimized writes and auto compaction where available (Delta and Fabric both offer them).</li><li>Use longer trigger intervals for streams where latency allows.</li><li>Prefer clustering over fine-grained partitions.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why are thousands of 1 MB files slower than a few 512 MB files?",
+     "a": "Each file has a fixed cost of listing, opening, reading a footer, and scheduling a task."
+    },
+    {
+     "q": "How many files can 200 tasks writing to 300 partitions produce?",
+     "a": "60,000 files from one job."
+    },
+    {
+     "q": "What file size range should you target?",
+     "a": "Roughly 128 MB to 1 GB per file."
+    },
+    {
+     "q": "What write-side step prevents small files in partitioned tables?",
+     "a": "Repartition by the partition column before writing so each partition gets one or a few files."
+    },
+    {
+     "q": "Name two platform features that prevent small files in Delta and Fabric.",
+     "a": "Optimized writes and auto compaction."
+    }
+   ]
+  },
+  {
+   "n": "Compaction",
+   "g": "files",
+   "s": "Compaction rewrites many small files into fewer, larger ones, often sorting or clustering the data at the same time.",
+   "x": [
+    {
+     "t": "Commands",
+     "b": "<ul><li><b>Delta:</b> <code>OPTIMIZE tbl [WHERE ...] [ZORDER BY (col)]</code>, or liquid clustering, which reclusters incrementally.</li><li><b>Iceberg:</b> <code>rewrite_data_files</code> (bin-pack, sort, or z-order), plus <code>rewrite_manifests</code> for metadata.</li></ul>"
+    },
+    {
+     "t": "Running it well",
+     "b": "<ul><li>Compact only recent or recently changed partitions; old ones are already compacted.</li><li>Schedule off-peak. Compaction is a rewrite and can conflict with concurrent merges or deletes on the same files.</li><li>Follow with VACUUM or snapshot expiry. Until then, old and new files both exist and storage temporarily grows.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Merge-on-read designs (Iceberg delete files, Delta deletion vectors) make writes cheap by deferring work to reads. Compaction is what eventually applies those deletes into clean data files, so on heavily updated tables it is a correctness-adjacent maintenance job, not just tuning.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the Delta compaction command, and the Iceberg equivalent?",
+     "a": "Delta OPTIMIZE (optionally ZORDER BY); Iceberg rewrite_data_files, plus rewrite_manifests for metadata."
+    },
+    {
+     "q": "Which partitions should compaction target?",
+     "a": "Only recent or recently changed partitions; old ones are already compacted."
+    },
+    {
+     "q": "Why does storage temporarily grow after compaction?",
+     "a": "Old and new files both exist until VACUUM or snapshot expiry runs."
+    },
+    {
+     "q": "Why is compaction correctness-adjacent on heavily updated merge-on-read tables?",
+     "a": "It applies deferred deletes from Iceberg delete files or Delta deletion vectors into clean data files."
+    }
+   ]
+  },
+  {
+   "n": "Shuffle",
+   "g": "compute",
+   "s": "A shuffle redistributes data across the cluster by key so that related rows land on the same executor, which joins, aggregations, and repartitions require.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Narrow transformations (filter, select, map) work within a partition. Wide transformations (groupBy, join, distinct, orderBy, repartition) need rows with the same key together, so each task writes its output to local disk bucketed by key, and the next stage fetches those buckets over the network. Each shuffle is a stage boundary in the Spark UI.</p>"
+    },
+    {
+     "t": "Key settings",
+     "b": "<ul><li><code>spark.sql.shuffle.partitions</code> defaults to 200, which is too many for small data and too few for large.</li><li>Adaptive Query Execution (on by default in Spark 3.2+) coalesces small post-shuffle partitions and can switch join strategies at runtime using actual sizes.</li><li>A common target is about 100 to 200 MB of shuffle data per partition.</li></ul>"
+    },
+    {
+     "t": "Reducing shuffle",
+     "b": "<ul><li>Filter and select columns before wide operations.</li><li>Broadcast small join sides.</li><li>Avoid unnecessary <code>distinct</code>, <code>orderBy</code>, and <code>repartition</code> calls.</li><li>Bucketing or clustering on join keys for repeated large joins.</li></ul>"
+    },
+    {
+     "t": "Reading the Spark UI",
+     "b": "<p>Look at shuffle write and shuffle read sizes per stage. A stage reading far more than its input suggests a join that exploded rows. Fetch failures usually mean a lost executor or overloaded disks.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which transformations require a shuffle?",
+     "a": "Wide transformations: groupBy, join, distinct, orderBy, and repartition."
+    },
+    {
+     "q": "What is the default of spark.sql.shuffle.partitions and why is it a problem?",
+     "a": "200, which is too many for small data and too few for large."
+    },
+    {
+     "q": "What does AQE do for shuffles?",
+     "a": "Coalesces small post-shuffle partitions and can switch join strategies at runtime using actual sizes."
+    },
+    {
+     "q": "What is a common target size of shuffle data per partition?",
+     "a": "About 100 to 200 MB."
+    },
+    {
+     "q": "What does a stage reading far more shuffle data than its input suggest?",
+     "a": "A join that exploded rows."
+    }
+   ]
+  },
+  {
+   "n": "Data skew",
+   "g": "compute",
+   "s": "Data skew is when a few keys hold a disproportionate share of the data, so a handful of tasks run far longer than the rest and the whole stage waits on them.",
+   "x": [
+    {
+     "t": "Detection",
+     "b": "<ul><li>Spark UI stage summary: max task duration or shuffle read far above the median.</li><li>A stage stuck at 199/200 tasks.</li><li>A frequency query: <code>SELECT key, COUNT(*) FROM t GROUP BY key ORDER BY 2 DESC LIMIT 20</code>. Check NULL and default values like 0 or 'UNKNOWN' first; they are the most common culprit.</li></ul>"
+    },
+    {
+     "t": "Fixes, roughly in order",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Filter out NULL or junk keys before the join if they can't match anyway.</li><li>Enable AQE skew join (<code>spark.sql.adaptive.skewJoin.enabled</code>), which splits oversized partitions automatically.</li><li>Broadcast the other side if it is small.</li><li>Split hot keys: process the few heavy keys in a separate path and union.</li><li>Salt: add a random suffix to the hot side's key and replicate the other side across suffixes.</li></ol>",
+     "c": [
+      {
+       "t": "Salting example",
+       "b": "<pre><code>N = 16\nbig  = big.withColumn(\"salt\", (F.rand() * N).cast(\"int\"))\nsmall = small.crossJoin(spark.range(N).withColumnRenamed(\"id\", \"salt\"))\njoined = big.join(small, [\"key\", \"salt\"])</code></pre><p>This multiplies the small side by N, so use it only when the other fixes don't apply.</p>"
+      }
+     ]
+    },
+    {
+     "t": "Other places skew shows up",
+     "b": "<p>Window functions partitioned by a skewed key, aggregations on a hot key, and writes where one partition value holds most of the data (one enormous file or task).</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the classic Spark UI sign of skew?",
+     "a": "Max task duration or shuffle read far above the median, or a stage stuck at 199/200 tasks."
+    },
+    {
+     "q": "What values should you check first when diagnosing skew?",
+     "a": "NULL and default values like 0 or 'UNKNOWN'."
+    },
+    {
+     "q": "Which Spark setting splits oversized skewed partitions automatically?",
+     "a": "spark.sql.adaptive.skewJoin.enabled (AQE skew join)."
+    },
+    {
+     "q": "How does salting work?",
+     "a": "Add a random suffix to the hot side's key and replicate the other side across all suffixes, then join on key plus salt."
+    },
+    {
+     "q": "Why is salting a last resort?",
+     "a": "It multiplies the small side by N."
+    }
+   ]
+  },
+  {
+   "n": "Broadcast joins",
+   "g": "compute",
+   "s": "A broadcast join copies a small table to every executor so the large table can be joined in place without being shuffled.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The driver collects the small side, then sends it to each executor, where it becomes an in-memory hash table. Each partition of the large table probes it locally. No shuffle of the large side.</p><pre><code>from pyspark.sql.functions import broadcast\nfact.join(broadcast(dim_clinic), \"clinic_id\")</code></pre>"
+    },
+    {
+     "t": "Thresholds and limits",
+     "b": "<ul><li><code>spark.sql.autoBroadcastJoinThreshold</code> defaults to 10 MB, based on estimated size.</li><li>The broadcast side must fit in driver and executor memory. Forcing a broadcast of a large table causes out-of-memory failures, and Spark enforces a hard cap of 8 GB.</li><li>Outer joins can only broadcast the non-preserved side: in a left outer join, only the right side.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Size estimates come from statistics and can be wrong after filters, or because compressed on-disk size is much smaller than in-memory size.</li><li>AQE can convert a sort-merge join to broadcast at runtime once it sees actual sizes.</li><li>Know the strategy list: broadcast hash, shuffle hash, sort-merge (default for large equi-joins), and broadcast nested loop (non-equi joins, which can be very slow).</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the default spark.sql.autoBroadcastJoinThreshold?",
+     "a": "10 MB, based on estimated size."
+    },
+    {
+     "q": "What is Spark's hard cap on broadcast size?",
+     "a": "8 GB."
+    },
+    {
+     "q": "In a left outer join, which side can be broadcast?",
+     "a": "Only the right side, the non-preserved side."
+    },
+    {
+     "q": "Why can a broadcast size estimate be wrong?",
+     "a": "Statistics can be off after filters, and compressed on-disk size is much smaller than in-memory size."
+    },
+    {
+     "q": "What join strategy does Spark use for non-equi joins, and what is its risk?",
+     "a": "Broadcast nested loop, which can be very slow."
+    }
+   ]
+  },
+  {
+   "n": "Spill to disk",
+   "g": "compute",
+   "s": "Spill happens when a sort, aggregation, or join can't fit in execution memory, so Spark writes intermediate data to local disk; the job succeeds but runs much slower.",
+   "x": [
+    {
+     "t": "Reading it",
+     "b": "<p>The Spark UI shows \"Spill (memory)\" (the in-memory size of what was spilled) and \"Spill (disk)\" (its serialized size on disk). Any meaningful spill in a hot stage is worth investigating; spill alongside long GC times means memory pressure.</p>"
+    },
+    {
+     "t": "Causes",
+     "b": "<ul><li>Too few shuffle partitions, so each one is huge.</li><li>Skew: one partition many times larger than the rest.</li><li>Row-expanding operations (<code>explode</code>, bad joins) and large collected aggregates (<code>collect_list</code>).</li><li>Executors with many cores sharing little memory.</li></ul>"
+    },
+    {
+     "t": "Fixes",
+     "b": "<ul><li>Increase shuffle partitions or let AQE size them.</li><li>Fix skew first if present.</li><li>Reduce data earlier: filter, project, pre-aggregate.</li><li>Give each core more memory (fewer cores per executor or memory-optimized nodes), and use nodes with fast local SSDs when some spill is unavoidable.</li></ul>"
+    },
+    {
+     "t": "Spill vs OOM",
+     "b": "<p>Spill is the graceful fallback for operators that can spill. Out-of-memory errors come from things that can't: oversized broadcasts, giant single rows, <code>collect()</code> to the driver, or Python UDF memory outside the JVM.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the difference between Spill (memory) and Spill (disk)?",
+     "a": "Spill (memory) is the in-memory size of the spilled data; Spill (disk) is its serialized size on disk."
+    },
+    {
+     "q": "Name three causes of spill.",
+     "a": "Too few shuffle partitions, skew, and row-expanding operations or large collected aggregates like explode or collect_list."
+    },
+    {
+     "q": "What should you fix first when spill and skew are both present?",
+     "a": "The skew."
+    },
+    {
+     "q": "How does spill differ from out-of-memory errors?",
+     "a": "Spill is the graceful fallback for operators that can spill; OOM comes from things that cannot, such as oversized broadcasts, giant rows, collect() to the driver, or Python UDF memory."
+    }
+   ]
+  },
+  {
+   "n": "Freshness SLAs",
+   "g": "ops",
+   "s": "A freshness SLA is a commitment about how stale data may be when consumers use it, measured continuously and alerted on when breached.",
+   "x": [
+    {
+     "t": "SLI, SLO, SLA",
+     "b": "<ul><li><b>SLI:</b> the measurement, such as minutes since the latest event in the table.</li><li><b>SLO:</b> the internal target, such as under 2 hours 99% of business hours.</li><li><b>SLA:</b> the promise to consumers, often looser than the SLO, with an agreed response when it's missed.</li></ul>"
+    },
+    {
+     "t": "Measuring the right thing",
+     "b": "<ul><li>Measure the data, not the job. A job can succeed while loading zero new rows because the source stalled.</li><li>Use <code>max(event_ts)</code> or <code>max(loaded_at)</code> per table against the clock, and the job completion time against a deadline.</li><li>Upstream lateness propagates. Lineage lets you alert on the root table instead of fifty downstream ones.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Derive the SLA from the consumer's decision, such as \"the exec dashboard must be current by 7:00 ET,\" not from whatever the schedule happens to be. Then put a visible \"data as of\" timestamp on the dashboard. That one label prevents more trust incidents than most monitoring.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the difference between SLI, SLO, and SLA?",
+     "a": "SLI is the measurement, SLO is the internal target, and SLA is the promise to consumers, often looser than the SLO."
+    },
+    {
+     "q": "Why measure freshness on the data rather than the job?",
+     "a": "A job can succeed while loading zero new rows because the source stalled."
+    },
+    {
+     "q": "What should a freshness SLA be derived from?",
+     "a": "The consumer's decision, such as \"the exec dashboard must be current by 7:00 ET,\" not the schedule."
+    },
+    {
+     "q": "What single dashboard label prevents the most trust incidents?",
+     "a": "A visible \"data as of\" timestamp."
+    }
+   ]
+  },
+  {
+   "n": "Lineage",
+   "g": "ops",
+   "s": "Lineage is the map of where each dataset comes from, how it was transformed, and what depends on it, at table and ideally column level.",
+   "x": [
+    {
+     "t": "What it's used for",
+     "b": "<ul><li><b>Impact analysis:</b> before changing a column, see every model, report, and extract that uses it.</li><li><b>Root cause:</b> trace a bad number back to the source table and job.</li><li><b>Compliance:</b> show where PHI flows and who can reach it, which in healthcare is an audit question, not a nice-to-have.</li></ul>"
+    },
+    {
+     "t": "How it's captured",
+     "b": "<ul><li><b>Static:</b> parsing SQL and model code (dbt's DAG, SQL parsers like sqlglot).</li><li><b>Runtime:</b> emitted by jobs as they run (OpenLineage events, Spark listeners).</li><li><b>Catalog-level:</b> Unity Catalog, Microsoft Purview, and Fabric's lineage view assemble it across tools, including Power BI semantic models and reports.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Hand-maintained lineage diagrams are wrong within a month. Use what your tools generate, and prefer column-level lineage for the tables where a change would reach executives. Table-level lineage tells you a report depends on a table; column-level tells you whether your change actually affects it.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name three uses of lineage.",
+     "a": "Impact analysis, root-cause tracing, and compliance, such as showing where PHI flows."
+    },
+    {
+     "q": "What are the three ways lineage is captured?",
+     "a": "Static parsing of SQL and model code, runtime events emitted by jobs (OpenLineage, Spark listeners), and catalog-level assembly (Unity Catalog, Purview, Fabric lineage view)."
+    },
+    {
+     "q": "What does column-level lineage tell you that table-level does not?",
+     "a": "Whether your change actually affects a report, not just that the report depends on the table."
+    },
+    {
+     "q": "Why avoid hand-maintained lineage diagrams?",
+     "a": "They are wrong within a month; use what your tools generate."
+    }
+   ]
+  },
+  {
+   "n": "Volume and uniqueness checks",
+   "g": "ops",
+   "s": "Volume and uniqueness checks are automated assertions that row counts fall within expected ranges and that keys meant to be unique actually are.",
+   "x": [
+    {
+     "t": "Volume checks",
+     "b": "<ul><li>Zero rows when rows are expected.</li><li>Count versus a baseline: same weekday last weeks, or rolling mean plus or minus k standard deviations, so weekends and holidays don't false-alarm.</li><li>Source-to-target reconciliation: counts and sums of key measures match between source and target for the same window.</li></ul>"
+    },
+    {
+     "t": "Uniqueness and friends",
+     "b": "<ul><li>Uniqueness on the declared grain (concept 1).</li><li>Not-null on keys and required fields.</li><li>Referential integrity: facts whose foreign key hits Unknown (-1). A rise means a dimension load is behind.</li><li>Accepted values and ranges.</li></ul><p>Tools: dbt tests, Great Expectations, Soda, or plain SQL assertions in the pipeline.</p>"
+    },
+    {
+     "t": "Where to run them: write-audit-publish",
+     "b": "<p>Write to a staging table or branch, run checks there, and publish (swap or merge into production) only if blocking checks pass. Consumers never see failed data. Iceberg branches support this directly; with Delta, use a staging table and an atomic swap or merge.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Separate blocking checks (duplicates on the grain, zero rows) from warnings (volume 15% off). Too many blocking checks stall the business; too many warnings get ignored. Review every check that fired and wasn't actionable, and tune or delete it.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How should a volume baseline avoid weekend and holiday false alarms?",
+     "a": "Compare to the same weekday in prior weeks or a rolling mean plus or minus k standard deviations."
+    },
+    {
+     "q": "What does a rise in facts hitting the Unknown (-1) key indicate?",
+     "a": "A dimension load is behind."
+    },
+    {
+     "q": "What is write-audit-publish?",
+     "a": "Write to a staging table or branch, run checks there, and publish only if blocking checks pass."
+    },
+    {
+     "q": "Which checks should block vs warn?",
+     "a": "Duplicates on the grain and zero rows should block; volume drifts like 15% off should warn."
+    }
+   ]
+  },
+  {
+   "n": "Dead-letter queues for bad records",
+   "g": "ops",
+   "s": "A dead-letter queue sends records that fail parsing or validation to a separate store with error context, instead of failing the whole pipeline or dropping them silently.",
+   "x": [
+    {
+     "t": "What to store",
+     "b": "<ul><li>The raw payload, unmodified.</li><li>The error reason and failing rule.</li><li>Source, offset or file name, and timestamps.</li><li>Pipeline version, so you know which code rejected it.</li></ul><p>In batch pipelines the equivalent is a quarantine table with the same columns.</p>"
+    },
+    {
+     "t": "Operating it",
+     "b": "<ul><li>Alert on DLQ volume and rate, not just existence. A DLQ nobody reads is a slow data-loss bug.</li><li>Build a replay path: after a fix, reprocess DLQ records through the normal pipeline idempotently.</li><li>Apply the same security and retention controls as the main data. A DLQ full of PHI is still PHI.</li></ul>"
+    },
+    {
+     "t": "Fail fast or quarantine?",
+     "b": "<p>Decide per error type. A schema break that affects every record should stop the pipeline, because quarantining 100% of data just hides an outage. A single malformed record should be quarantined so the other million rows flow. Retry transient errors with backoff before dead-lettering; only persistent failures belong in the DLQ.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What should a DLQ record contain?",
+     "a": "The unmodified raw payload, the error reason and failing rule, source and offset or file name, timestamps, and pipeline version."
+    },
+    {
+     "q": "When should a pipeline fail fast instead of quarantining?",
+     "a": "When a schema break affects every record, because quarantining 100% of data hides an outage."
+    },
+    {
+     "q": "What should happen to transient errors before dead-lettering?",
+     "a": "Retry with backoff; only persistent failures belong in the DLQ."
+    },
+    {
+     "q": "Why is a DLQ nobody reads dangerous?",
+     "a": "It is a slow data-loss bug; alert on DLQ volume and rate."
+    },
+    {
+     "q": "What controls apply to a DLQ in healthcare?",
+     "a": "The same security and retention controls as the main data, since a DLQ of PHI is still PHI."
+    }
+   ]
+  },
+  {
+   "n": "Orchestration and dependency design",
+   "g": "build",
+   "s": "Orchestration runs pipelines as a graph of explicit dependencies, with retries, timeouts, and triggers tied to data arriving rather than to the clock.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Each step is a node; edges say what must finish first. The orchestrator schedules nodes, retries failures, records run history, and passes parameters such as the run's logical date. Common tools: Airflow, Dagster, Prefect, ADF, Fabric Data Factory pipelines, and Databricks Workflows.</p>"
+    },
+    {
+     "t": "Time triggers vs data-aware triggers",
+     "b": "<ul><li><b>Time-based:</b> \"run at 6:00\" assumes the source landed by then. When it's late, the job runs on stale data and reports success.</li><li><b>Data-aware:</b> run when an upstream table or file is updated. Examples are Airflow datasets (renamed assets in Airflow 3), Dagster software-defined assets, and storage event triggers in ADF and Fabric.</li><li><b>Sensors:</b> poll for a condition with a timeout, and fail loudly when the timeout passes.</li></ul>"
+    },
+    {
+     "t": "Design rules",
+     "b": "<ul><li>Pass the logical date into every task. Never compute \"today\" inside a task, because backfills then break.</li><li>Keep tasks small and idempotent, so a retry repeats one step instead of the whole pipeline.</li><li>Set timeouts on every task. A hung task with no timeout blocks the DAG until someone notices.</li><li>Use exponential backoff on retries for transient errors, and don't retry errors that will fail every time, such as schema breaks.</li><li>Cap concurrency so a backfill can't starve the source system or production runs.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Cross-team dependencies are where orchestration fails in practice. Pipeline A waits on a table owned by team B, and nobody wrote down the contract. Model those dependencies explicitly as asset dependencies or freshness checks, with an owner on each side, instead of padding schedules with \"run at 7 to be safe.\"</p><div class=\"trap\"><b>Trap:</b> chaining pipelines by schedule offsets (job 2 at 6:30 because job 1 usually finishes by 6:15). This works until the day it doesn't, and then it fails silently.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the failure mode of a time-based trigger?",
+     "a": "If the source is late, the job runs on stale data and reports success."
+    },
+    {
+     "q": "What should a sensor do when its timeout passes?",
+     "a": "Fail loudly."
+    },
+    {
+     "q": "What did Airflow 3 rename datasets to?",
+     "a": "Assets."
+    },
+    {
+     "q": "Why must every task receive the logical date instead of computing today?",
+     "a": "Computing today inside a task breaks backfills."
+    },
+    {
+     "q": "What is the trap of chaining pipelines by schedule offsets?",
+     "a": "It works until job 1 runs late, and then it fails silently."
+    }
+   ]
+  },
+  {
+   "n": "CI/CD and environment promotion",
+   "g": "build",
+   "s": "CI/CD means every pipeline and model change lives in version control, is tested automatically, and reaches production only through a repeatable promotion path.",
+   "x": [
+    {
+     "t": "The minimum setup",
+     "b": "<ul><li>All code in Git: SQL, notebooks, pipeline definitions, semantic models.</li><li>Separate dev, test, and prod environments with separate credentials and storage.</li><li>Pull requests with review, and automated checks that must pass before merge.</li><li>Deployment by pipeline, not by hand. Nobody edits production directly.</li></ul>"
+    },
+    {
+     "t": "What CI should run",
+     "b": "<ul><li>Linting and formatting, such as sqlfluff for SQL and ruff for Python.</li><li>Unit tests on transformation logic.</li><li>Build changed models plus everything downstream of them against a dev or CI schema. dbt's <code>state:modified+</code> selector with <code>--defer</code> does this without rebuilding the whole project.</li><li>Data diff: compare row counts and key totals between the PR's output and production for the same input.</li></ul>"
+    },
+    {
+     "t": "Platform specifics",
+     "b": "<ul><li><b>Fabric:</b> workspace Git integration plus deployment pipelines promote items through dev, test, and prod stages, with deployment rules to swap connection parameters per stage.</li><li><b>Databricks:</b> Declarative Automation Bundles (formerly Databricks Asset Bundles) define jobs and pipelines as code and deploy them per target environment.</li><li><b>ADF:</b> Git-backed authoring with ARM template deployment to higher environments.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Keep environment-specific values (server names, paths, capacity IDs) in parameters, never in code, so the same artifact deploys everywhere. Test data is the hard part in healthcare: dev environments should use synthetic or de-identified data, not copies of production PHI.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What dbt selector and flag build only changed models and their downstream?",
+     "a": "state:modified+ with --defer."
+    },
+    {
+     "q": "How does Fabric promote items between dev, test, and prod?",
+     "a": "Workspace Git integration plus deployment pipelines, with deployment rules to swap connection parameters per stage."
+    },
+    {
+     "q": "What do Declarative Automation Bundles (formerly Databricks Asset Bundles) do?",
+     "a": "Define jobs and pipelines as code and deploy them per target environment."
+    },
+    {
+     "q": "Where should environment-specific values live?",
+     "a": "In parameters, never in code, so the same artifact deploys everywhere."
+    },
+    {
+     "q": "What data should healthcare dev environments use?",
+     "a": "Synthetic or de-identified data, not copies of production PHI."
+    }
+   ]
+  },
+  {
+   "n": "Testing pyramid for data",
+   "g": "build",
+   "s": "Data testing has layers: many fast unit tests on transformation logic, fewer integration tests on pipeline runs, and data quality checks on real production data.",
+   "x": [
+    {
+     "t": "The layers",
+     "b": "<ul><li><b>Unit tests:</b> feed a transformation a small hand-built input and assert the exact output. They run in seconds and catch logic bugs before any data exists.</li><li><b>Integration tests:</b> run a pipeline end to end in a test environment and check that the pieces connect.</li><li><b>Data quality checks:</b> assertions on production data (uniqueness, volume, freshness). These catch bad inputs, not bad code.</li></ul><p>Most teams invert the pyramid: they have only production data checks, so logic bugs are found after they reach a dashboard.</p>"
+    },
+    {
+     "t": "Tools",
+     "b": "<ul><li><b>dbt unit tests</b> (dbt 1.8+): define mock input rows and expected output for a model in YAML.</li><li><b>PySpark:</b> <code>pyspark.testing.assertDataFrameEqual</code> (Spark 3.5+) or the chispa library, run with pytest.</li><li><b>SQL Server:</b> tSQLt for stored procedure logic.</li></ul>",
+     "c": [
+      {
+       "t": "Example: dbt unit test",
+       "b": "<pre><code>unit_tests:\n  - name: dedup_keeps_latest_version\n    model: stg_encounters\n    given:\n      - input: ref('raw_encounters')\n        rows:\n          - {encounter_id: 1, seq: 1, status: 'scheduled'}\n          - {encounter_id: 1, seq: 2, status: 'completed'}\n    expect:\n      rows:\n        - {encounter_id: 1, status: 'completed'}</code></pre>"
+      }
+     ]
+    },
+    {
+     "t": "What to unit test first",
+     "b": "<ul><li>Dedup and \"latest record\" logic.</li><li>SCD Type 2 version building.</li><li>Business rules with edge cases: date boundaries, NULLs, time zones, cancellations.</li><li>Any metric calculation an executive sees.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What do data quality checks catch that unit tests do not, and vice versa?",
+     "a": "Quality checks catch bad inputs on production data; unit tests catch logic bugs before any data exists."
+    },
+    {
+     "q": "How do most teams invert the testing pyramid?",
+     "a": "They have only production data checks, so logic bugs are found after they reach a dashboard."
+    },
+    {
+     "q": "Which dbt version introduced unit tests, and how are they defined?",
+     "a": "dbt 1.8; mock input rows and expected output are defined in YAML."
+    },
+    {
+     "q": "What PySpark utility compares DataFrames in tests?",
+     "a": "pyspark.testing.assertDataFrameEqual (Spark 3.5+), or the chispa library."
+    },
+    {
+     "q": "What should you unit test first?",
+     "a": "Dedup and latest-record logic, SCD Type 2 version building, edge-case business rules, and any executive-facing metric."
+    }
+   ]
+  },
+  {
+   "n": "Medallion layering",
+   "g": "build",
+   "s": "Medallion architecture splits data into bronze, silver, and gold layers, each with an explicit guarantee about how raw or refined its data is.",
+   "x": [
+    {
+     "t": "What each layer guarantees",
+     "b": "<ul><li><b>Bronze:</b> raw data as it arrived, append-only, plus ingestion metadata. Its job is replayability: you can rebuild everything downstream from it.</li><li><b>Silver:</b> cleaned, typed, deduplicated, and conformed. Keys and grains are defined here.</li><li><b>Gold:</b> business-ready tables shaped for consumption: star schemas, aggregates, and the tables semantic models read.</li></ul>"
+    },
+    {
+     "t": "Where fixes belong",
+     "b": "<ul><li>Parsing and type problems: bronze to silver.</li><li>Dedup, key resolution, and source conformance: silver.</li><li>Business rules and metric logic: gold or the semantic layer.</li></ul><div class=\"trap\"><b>Trap:</b> fixing a source problem in a gold table or in a report. Every other consumer of silver still sees the bad data, and the fix is invisible to the next engineer.</div>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>The layer names matter less than the contracts. Some teams add a raw landing zone before bronze or split gold into marts per domain. What matters is that everyone can answer \"what does this layer promise?\" Bronze retention policy is also a real decision: long enough to replay after a bug, short enough for cost and HIPAA data-minimization obligations.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is bronze's main job?",
+     "a": "Replayability: raw, append-only data from which everything downstream can be rebuilt."
+    },
+    {
+     "q": "In which layer are keys and grains defined?",
+     "a": "Silver."
+    },
+    {
+     "q": "Where do business rules and metric logic belong?",
+     "a": "Gold or the semantic layer."
+    },
+    {
+     "q": "Why is fixing a source problem in a gold table or report a trap?",
+     "a": "Other silver consumers still see the bad data, and the fix is invisible to the next engineer."
+    },
+    {
+     "q": "What constrains bronze retention in healthcare?",
+     "a": "It must be long enough to replay after a bug but short enough for cost and HIPAA data-minimization."
+    }
+   ]
+  },
+  {
+   "n": "Cost and FinOps",
+   "g": "govern",
+   "s": "FinOps for data means attributing compute and storage spend to specific pipelines and teams, then treating cost per run as a metric you optimize like latency.",
+   "x": [
+    {
+     "t": "Attribution first",
+     "b": "<ul><li>Tag jobs, clusters, and workspaces by team, product, and environment, so the bill can be split.</li><li><b>Databricks:</b> system tables (<code>system.billing.usage</code>) give usage by job and tag.</li><li><b>Fabric:</b> the Capacity Metrics app shows capacity unit (CU) consumption by item and operation.</li></ul>"
+    },
+    {
+     "t": "Common waste",
+     "b": "<ul><li>Full refreshes where incremental loads would do.</li><li>Clusters left running with no auto-termination, or oversized for the job.</li><li>Dev and test environments sized like production.</li><li>Tables nobody queries that still refresh daily. Check query logs and retire them.</li><li>Uncompacted small files and no VACUUM, so both reads and storage cost grow.</li></ul>"
+    },
+    {
+     "t": "Fabric capacity specifics",
+     "b": "<p>Fabric bills a fixed capacity (an F SKU) that all workloads share. Background operations are smoothed over 24 hours, so one heavy job can push the capacity into throttling, which then slows interactive Power BI reports for everyone. A runaway notebook can degrade the CIO's dashboard, which makes capacity a reliability problem as well as a cost one.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Present cost alongside value: \"this pipeline costs $X per month and feeds these three decisions.\" That framing gets budget for important work and makes retiring unused pipelines an easy conversation.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where do you get usage by job and tag in Databricks?",
+     "a": "System tables, such as system.billing.usage."
+    },
+    {
+     "q": "What shows CU consumption by item and operation in Fabric?",
+     "a": "The Capacity Metrics app."
+    },
+    {
+     "q": "How are Fabric background operations billed, and what is the risk?",
+     "a": "Smoothed over 24 hours on a shared capacity, so one heavy job can trigger throttling that slows interactive Power BI reports."
+    },
+    {
+     "q": "Name three common sources of data platform waste.",
+     "a": "Full refreshes instead of incremental, clusters without auto-termination or oversized, and unqueried tables that still refresh daily."
+    },
+    {
+     "q": "How should pipeline cost be presented?",
+     "a": "Alongside value, such as cost per month and the decisions it feeds."
+    }
+   ]
+  },
+  {
+   "n": "PHI governance",
+   "g": "govern",
+   "s": "PHI governance enforces who can see protected health information at the column and row level, and records every access, in the platform itself rather than by convention.",
+   "x": [
+    {
+     "t": "HIPAA concepts to know",
+     "b": "<ul><li><b>Minimum necessary:</b> users and processes should access only the PHI their job requires.</li><li><b>Audit controls:</b> the Security Rule requires mechanisms that record and examine activity in systems containing ePHI.</li><li><b>De-identification:</b> Safe Harbor (remove 18 specified identifiers) or Expert Determination (a qualified expert certifies low re-identification risk). Properly de-identified data is no longer PHI.</li></ul><p>Psychotherapy notes have additional protections under HIPAA beyond ordinary PHI, which matters in telepsychiatry.</p>"
+    },
+    {
+     "t": "Platform controls",
+     "b": "<ul><li><b>Row-level security:</b> Power BI RLS roles, Fabric Warehouse RLS, Unity Catalog row filters. Example: clinicians see only their own patients.</li><li><b>Column-level security and masking:</b> Fabric Warehouse column-level security and dynamic data masking, Unity Catalog column masks.</li><li><b>Classification:</b> Microsoft Purview sensitivity labels mark PHI columns and carry through to Power BI.</li><li><b>Least privilege:</b> grant access to groups, not individuals, and review membership on a schedule.</li></ul><div class=\"trap\"><b>Trap:</b> dynamic data masking (SQL Server and Fabric Warehouse) is not a security boundary. Microsoft's Fabric docs state that users with query access can infer masked values with range filters. Use it to limit casual exposure, and use permissions to actually restrict access.</div>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Build marts with PHI removed or tokenized for broad analytics, and keep identified data in a restricted zone with fewer users.</li><li>Small-count suppression: a report showing \"1 patient\" in a small clinic and a rare diagnosis can identify someone even without names.</li><li>Logs, DLQs, exports, and dev copies all leak PHI. Governance has to cover them too.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the two HIPAA de-identification methods?",
+     "a": "Safe Harbor (remove 18 specified identifiers) and Expert Determination (a qualified expert certifies low re-identification risk)."
+    },
+    {
+     "q": "Is dynamic data masking a security boundary?",
+     "a": "No; users with query access can infer masked values with range filters, so use permissions to restrict access."
+    },
+    {
+     "q": "What is the minimum necessary principle?",
+     "a": "Users and processes access only the PHI their job requires."
+    },
+    {
+     "q": "Why is small-count suppression needed even without names?",
+     "a": "A count of 1 patient in a small clinic with a rare diagnosis can identify someone."
+    },
+    {
+     "q": "What carries PHI classification from Purview into Power BI?",
+     "a": "Sensitivity labels."
+    }
+   ]
+  },
+  {
+   "n": "Semantic layer and metric definitions",
+   "g": "govern",
+   "s": "A semantic layer defines each business metric once, in one governed place, so every report and tool computes it the same way.",
+   "x": [
+    {
+     "t": "Why it matters",
+     "b": "<p>Without one, \"active patient\" is defined separately in each report, and each version is slightly different. Executives then see two numbers for the same question, and trust in the whole data team drops.</p>"
+    },
+    {
+     "t": "Implementation options",
+     "b": "<ul><li><b>Power BI:</b> shared semantic models with DAX measures, reused by many reports, marked Promoted or Certified through endorsement.</li><li><b>dbt Semantic Layer (MetricFlow):</b> metrics defined in YAML and queried by multiple tools.</li><li><b>Gold tables</b> with documented metric columns, for simpler setups.</li></ul>"
+    },
+    {
+     "t": "What a metric definition needs",
+     "b": "<ul><li>Plain-language definition and owner.</li><li>Exact logic, including exclusions (test patients, cancelled visits, internal accounts).</li><li>Grain and time basis: event date or processing date, and which time zone defines a day.</li><li>Known caveats, such as \"last 7 days may restate.\"</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>The technical part is easy; agreeing on definitions is the hard part. Get the business owner of each top metric to sign off on its definition in writing, and route all changes through that owner. When two departments genuinely need different definitions, give them two named metrics instead of one ambiguous one.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does Power BI mark trusted shared semantic models?",
+     "a": "Endorsement as Promoted or Certified."
+    },
+    {
+     "q": "What does the dbt Semantic Layer use to define metrics?",
+     "a": "MetricFlow, with metrics defined in YAML and queried by multiple tools."
+    },
+    {
+     "q": "What must a metric definition specify about time?",
+     "a": "Its time basis (event or processing date) and which time zone defines a day."
+    },
+    {
+     "q": "What should you do when two departments need different definitions?",
+     "a": "Create two named metrics instead of one ambiguous one."
+    }
+   ]
+  },
+  {
+   "n": "Incident response and postmortems",
+   "g": "run",
+   "s": "Incident response is a rehearsed process for detecting, communicating, and correcting a bad number, followed by a blameless postmortem that adds a guardrail.",
+   "x": [
+    {
+     "t": "During the incident",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Detect:</b> ideally from your own checks, before a consumer reports it.</li><li><b>Assess severity:</b> who sees it, and is anyone making decisions on it right now?</li><li><b>Contain:</b> pause downstream refreshes, or add a banner to affected dashboards.</li><li><b>Communicate early:</b> tell affected consumers what is wrong and when you'll update them, even before the cause is known.</li><li><b>Fix and backfill,</b> then confirm the corrected numbers with a consumer.</li></ol>"
+    },
+    {
+     "t": "Postmortem",
+     "b": "<ul><li>Timeline, impact, root cause, and why existing checks didn't catch it.</li><li>Blameless: focus on what the system allowed, not who made the mistake.</li><li>Every postmortem ends with at least one concrete guardrail: a test, an alert, a contract, or a process change, with an owner and due date.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Communication decides how an incident is remembered. A data team that says \"we found this, here is the impact, corrected numbers by 2 p.m.\" gains credibility from an incident. A team whose executive found the problem first loses it. Write a short incident template in advance so nobody drafts one under pressure.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are two ways to contain a data incident?",
+     "a": "Pause downstream refreshes, or add a banner to affected dashboards."
+    },
+    {
+     "q": "When should you communicate with affected consumers?",
+     "a": "Early, even before the cause is known, saying what is wrong and when you will update them."
+    },
+    {
+     "q": "What must every postmortem end with?",
+     "a": "At least one concrete guardrail (test, alert, contract, or process change) with an owner and due date."
+    },
+    {
+     "q": "What does blameless mean in a postmortem?",
+     "a": "Focusing on what the system allowed, not who made the mistake."
+    }
+   ]
+  },
+  {
+   "n": "Ownership and on-call",
+   "g": "run",
+   "s": "Every dataset needs a named owner and an escalation path, because tables without owners are where stale and broken data accumulates.",
+   "x": [
+    {
+     "t": "What ownership means",
+     "b": "<ul><li>An owner (a team, with a named contact) is accountable for a dataset's correctness, freshness, and changes.</li><li>Ownership is recorded where people look: catalog entries, table properties, or the dbt <code>meta</code> block.</li><li>Consumers know where to report problems and what response time to expect.</li></ul>"
+    },
+    {
+     "t": "On-call basics",
+     "b": "<ul><li>Alerts route to the owning team, not to one shared channel nobody watches.</li><li>Every alert links to a runbook: what it means, how to check it, how to fix or escalate it.</li><li>Separate pages (urgent, act now) from tickets (fix this week). Too many pages trains people to ignore them.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<p>Ownership is usually unclear at boundaries: the source system team says \"the data left our database correctly,\" and the BI team says \"we just display it.\" Make ownership of each handoff explicit, often through a data contract. Periodically list datasets with no owner or no queries, then assign or retire them.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where should dataset ownership be recorded?",
+     "a": "Where people look: catalog entries, table properties, or the dbt meta block."
+    },
+    {
+     "q": "What should every alert link to?",
+     "a": "A runbook explaining what it means, how to check it, and how to fix or escalate it."
+    },
+    {
+     "q": "Why separate pages from tickets?",
+     "a": "Too many pages trains people to ignore them; pages are urgent, tickets are fix-this-week."
+    },
+    {
+     "q": "How do you make ownership explicit at system handoffs?",
+     "a": "Often through a data contract."
+    }
+   ]
+  },
+  {
+   "n": "Symptom → likely pattern",
+   "g": "diag",
+   "s": "Most bad numbers trace back to a small set of these patterns, so start a diagnosis by matching the symptom to its usual causes.",
+   "x": [
+    {
+     "t": "Revenue (or any total) doubled overnight",
+     "b": "<ul><li>A retry re-ran an append job (idempotent writes).</li><li>A join to a finer-grain table fanned out rows (grain).</li><li>Duplicate CDC or streaming events with no dedup key.</li><li>A dimension gained duplicate current rows (SCD Type 2 bug).</li></ul>"
+    },
+    {
+     "t": "Totals quietly dropped",
+     "b": "<ul><li>Incremental watermark skipped rows from long transactions.</li><li>Inner join to a dimension missing new members (late-arriving dimension, no Unknown member).</li><li>Streaming watermark dropping late events.</li><li>Records diverted to a DLQ nobody is watching.</li></ul>"
+    },
+    {
+     "t": "Last month's number changed",
+     "b": "<ul><li>Late-arriving facts were reprocessed in the lookback window.</li><li>A fact joins dimensions on <code>is_current</code> instead of point in time.</li><li>A backfill rebuilt history with new logic.</li></ul>"
+    },
+    {
+     "t": "Job suddenly much slower",
+     "b": "<ul><li>Small files accumulated (needs compaction).</li><li>A new hot key or NULL flood caused skew.</li><li>Data growth pushed a broadcast past its threshold or caused spill.</li><li>A filter change broke partition pruning or pushdown.</li></ul>"
+    },
+    {
+     "t": "Dashboard looks fine but is stale",
+     "b": "<ul><li>Job succeeded with zero new rows (freshness measured on job status, not data).</li><li>An upstream table is late; lineage shows which one.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name likely causes of a total doubling overnight.",
+     "a": "A retried append job, join fan-out to a finer grain, duplicate CDC or streaming events with no dedup key, or duplicate current rows in an SCD Type 2 dimension."
+    },
+    {
+     "q": "Name likely causes of totals quietly dropping.",
+     "a": "A watermark skipping long-transaction rows, an inner join missing new dimension members, a streaming watermark dropping late events, or records in an unwatched DLQ."
+    },
+    {
+     "q": "Why might last month's number change?",
+     "a": "Late facts reprocessed in the lookback window, a fact joining dimensions on is_current, or a backfill with new logic."
+    },
+    {
+     "q": "Name likely causes of a job suddenly running much slower.",
+     "a": "Accumulated small files, new skew from a hot key or NULL flood, a broadcast past its threshold or spill, or broken partition pruning or pushdown."
+    },
+    {
+     "q": "What explains a dashboard that looks fine but is stale?",
+     "a": "A job succeeded with zero new rows because freshness was measured on job status, or an upstream table is late."
+    }
+   ]
+  }
+ ],
+ "refreshDays": 365
+}

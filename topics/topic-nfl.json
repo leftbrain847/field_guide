@@ -1,0 +1,1087 @@
+{
+ "id": "nfl",
+ "title": "2026 NFL rules",
+ "updated": "2026-11-04",
+ "refreshDays": 365,
+ "note": "Covers the NFL playing rules that drive scoring, the clock and fourth-down strategy as they stand for the 2026 season, with every 2026 change marked. Rules change every offseason when the competition committee's proposals are voted on in the spring, so refresh each March to May and check for in-season clarifications and points of emphasis.",
+ "groups": [
+  {
+   "key": "structure",
+   "label": "Scoring and game structure"
+  },
+  {
+   "key": "clock",
+   "label": "Clock and timing"
+  },
+  {
+   "key": "kicking",
+   "label": "Kickoffs and the kicking game"
+  },
+  {
+   "key": "downs",
+   "label": "Downs and fourth down"
+  },
+  {
+   "key": "ball",
+   "label": "Passing, catches and loose balls"
+  },
+  {
+   "key": "penalties",
+   "label": "Penalties, enforcement and player safety"
+  },
+  {
+   "key": "replay",
+   "label": "Replay and the 2026 changes"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Scoring values, the field and the try",
+   "g": "structure",
+   "s": "A touchdown is worth 6, a field goal 3 and a safety 2, and after a touchdown the scoring team tries for 1 point with a kick snapped from the 15 or 2 points with a play snapped from the 2.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Touchdown 6, field goal 3, safety 2. The try after a touchdown is worth 1 (kick) or 2 (run or pass).</li><li>The field is 100 yards between goal lines plus two 10-yard end zones, and 53 1/3 yards wide. The goal line belongs to the end zone, so a runner scores when any part of the ball in his possession breaks the plane of the goal line while he is in bounds.</li><li>The pylons sit out of bounds at the corners of the end zone; a ball carrier who touches the pylon with the ball has reached the end zone line, which is why pylon dives are reviewed so often.</li><li>Kick tries are snapped from the defense's 15-yard line (a roughly 33-yard kick); two-point tries are snapped from the 2. Both spots have been stable since 2015.</li><li>During a try the defense can score 2 points by returning a blocked kick, interception or fumble to the opposite end zone.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A try is not attempted when a touchdown ends a game in overtime, because the game is over.</li><li>Penalties on the defense during a successful touchdown are enforced on the try under the dynamic kickoff rules, according to NFL Football Operations' kickoff explainer and Football Zebras' enforcement write-up; fouls on a field goal, safety or successful try carry to the kickoff.</li><li>A safety on a try (rare) scores 1 point for the team that did not commit it, under the try rules.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>The two-point try is one snap from the 2, while the kick is a 33-yard attempt; that trade-off is the core of any go-for-two chart.</li><li>Most fantasy platforms award 2 points to the passer, receiver or runner on a successful two-point try; whether a two-point catch counts as a reception for PPR varies by platform, so check your league settings.</li><li>Defensive two-point returns usually score for team defense on platforms that track them; many do not.</li></ul><div class=\"synth\"><b>Synthesis:</b> For a 4th-down tool, the extra-point and two-point values feed directly into the win-probability value of a touchdown versus a field goal, so the try decision should be modeled as part of the touchdown branch, not as a fixed 7.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "From what yard line is an NFL kick try snapped?",
+     "a": "The defense's 15-yard line, which makes it about a 33-yard kick."
+    },
+    {
+     "q": "From what yard line is an NFL two-point try snapped?",
+     "a": "The defense's 2-yard line."
+    },
+    {
+     "q": "How many points does the defense get for returning a blocked try kick for a score?",
+     "a": "Two points."
+    },
+    {
+     "q": "When does the runner score a touchdown at the goal line?",
+     "a": "When any part of the ball in his possession breaks the plane of the goal line while he is in bounds; the goal line is part of the end zone."
+    }
+   ]
+  },
+  {
+   "n": "Regular-season overtime",
+   "g": "structure",
+   "s": "Regular-season overtime is one 10-minute period in which both teams get a possession unless the defense scores on the first one, after which the next score wins and a game still tied at the end is a tie.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Owners adopted this format in 2025, aligning the regular season with the postseason possession guarantee but keeping a 10-minute period; NBC Sports' Pro Football Talk and the Rams' summary of the NFL release both describe the 15-minute proposal being amended to 10.</li><li>The coin-toss winner chooses to receive, kick or defend a goal.</li><li>Both teams get a possession. The first possession can end the game only if the defense scores (a pick-six, fumble return or safety).</li><li>After both teams have possessed, the next score of any kind wins.</li><li>Each team has two timeouts; the 2026 rulebook text confirms two timeouts in a regular-season overtime period. Coaches cannot challenge; all reviews come from the replay official.</li><li>If the score is tied when 10 minutes expire, the game ends in a tie.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>The clock can end the game before the second team ever touches the ball. Pro Football Talk notes that if the first team's opening possession drains all 10 minutes and ends in a score, that team wins without the opponent getting the ball.</li><li>A touchdown on the first possession does not end the game; the try is played and the opponent gets its possession.</li><li>There is a two-minute warning in overtime.</li></ul><div class=\"trap\"><b>Trap:</b> Treating a first-possession touchdown as a walk-off. Under the 2025 format it is not; the opponent always answers unless time runs out.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Because the second team knows exactly what it needs (a field goal to tie, a touchdown to win or to tie and continue), many analysts argue for kicking off first in the regular season. The 10-minute clock cuts against that, because the team with the second possession may run short on time to also get a third possession. A 4th-down model in overtime must account for the possession state (first, second, or sudden death) and the remaining clock, since a field goal on the second possession can be worth almost nothing if the first team scored a touchdown.</div><ul><li>Overtime production counts in standard fantasy scoring, and ties are possible, which matters for head-to-head tiebreakers in some leagues.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How long is a regular-season NFL overtime period in 2026?",
+     "a": "10 minutes."
+    },
+    {
+     "q": "In regular-season overtime, can a touchdown on the opening possession end the game?",
+     "a": "No; both teams get a possession unless the defense scores on the first one."
+    },
+    {
+     "q": "How many timeouts does each team get in regular-season overtime?",
+     "a": "Two."
+    },
+    {
+     "q": "Can a coach throw a challenge flag in overtime?",
+     "a": "No; all overtime reviews are initiated by the replay official."
+    },
+    {
+     "q": "What happens if a regular-season game is tied when overtime expires?",
+     "a": "It ends in a tie."
+    }
+   ]
+  },
+  {
+   "n": "Postseason overtime",
+   "g": "structure",
+   "s": "Playoff overtime uses 15-minute periods with a guaranteed possession for both teams, then sudden death, and play continues until someone wins.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Both teams are guaranteed a possession (this was adopted for the playoffs before 2025), with no 10-minute cap.</li><li>Periods are 15 minutes. A drive in progress continues across the break between periods.</li><li>Pro Football Talk's explainer says that if the game is still tied after the second overtime period there is a new kickoff, with the original coin-toss loser choosing to kick, receive or defend a goal, and the break before the third period is two minutes rather than a halftime.</li><li>Timeouts follow halves: three per team per half, as in regulation.</li><li>No ties are allowed; play continues.</li></ul>"
+    },
+    {
+     "t": "How it differs from the regular season",
+     "b": "<ul><li>No time cap on the possession guarantee, so the first team can grind a long touchdown drive without risking the game ending on the clock.</li><li>Three timeouts per half versus two in a regular-season overtime.</li><li>Coaches still cannot challenge in overtime; the booth initiates every review.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> With no clock cap, taking the ball second gives full information on the final regulated possession, which is why receiving versus kicking is a live strategic question in the playoffs. Go-for-two decisions on the second possession follow directly: if the first team scored a touchdown and the second team answers, going for two to win outright is a coin-flip-style bet versus extending into sudden death with the opponent getting the ball next.</div><ul><li>Fantasy playoffs usually end before the NFL postseason, so this mostly affects playoff-format contests and DFS.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How long are NFL postseason overtime periods?",
+     "a": "15 minutes each."
+    },
+    {
+     "q": "Can an NFL playoff game end in a tie?",
+     "a": "No; overtime periods continue until there is a winner."
+    },
+    {
+     "q": "How many timeouts does each team get in postseason overtime?",
+     "a": "Three per half, as in regulation."
+    },
+    {
+     "q": "In playoff overtime, does a drive stop when a 15-minute period ends?",
+     "a": "No; the team in possession keeps the ball into the next period."
+    }
+   ]
+  },
+  {
+   "n": "Touchbacks across play types",
+   "g": "structure",
+   "s": "Where the ball goes after a touchback depends on the play: a kickoff into the end zone comes out to the 35, a kickoff that lands in the landing zone and rolls in comes out to the 20, and punts and turnovers in the end zone come out to the 20.",
+   "x": [
+    {
+     "t": "The spots",
+     "b": "<ul><li>Kickoff that enters the end zone (in the air) and is downed, or goes out the back: receiving team's 35. Moved from the 30 to the 35 in 2025.</li><li>Kickoff that lands in the landing zone (goal line to the 20) and then rolls into the end zone and is downed: receiving team's 20.</li><li><b>[2026 change]</b> Kickoff from the 50 (after a penalty) that results in a touchback: receiving team's 20. The 2026 rulebook lists this as a change to the dead-ball spot after a touchback on a kickoff from the 50, and Sports Illustrated and NBC report the spot as the 20.</li><li>Punt or missed field goal that results in a touchback: the 20.</li><li>Interception or fumble recovered by the defense in its own end zone and downed there: touchback, ball at the 20.</li><li>Fumble by the offense forward through the opponent's end zone and out of bounds: touchback for the defense at the 20.</li></ul>"
+    },
+    {
+     "t": "Why it matters",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Kickoff touchbacks at the 35 set the baseline for field position after every score. NFL Football Operations reported an average post-kickoff starting spot around the 29.5 in the first two weeks of 2025, versus 25.1 in 2023. That shift of about 4 to 5 yards per drive raises the value of every score's next possession for the opponent, which a 4th-down model should include when it values a field goal or touchdown.</div>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming every touchback is at the 20 or 25. Since 2025 the default kickoff touchback is the 35, and a ball that lands short of the end zone before rolling in comes out only to the 20.</div><div class=\"trap\"><b>Trap:</b> Thinking an offensive fumble out the side of the opponent's end zone gives the ball back at the spot of the fumble. It is a touchback for the defense.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where is the ball placed after a kickoff touchback in 2026 when the ball enters the end zone in the air?",
+     "a": "The receiving team's 35-yard line."
+    },
+    {
+     "q": "A kickoff lands at the 10 and rolls into the end zone, where the returner downs it. Where is the ball?",
+     "a": "The receiving team's 20-yard line."
+    },
+    {
+     "q": "New for 2026: where is a touchback spotted when the kickoff was from the 50?",
+     "a": "The receiving team's 20-yard line."
+    },
+    {
+     "q": "An offensive player fumbles forward through the opponent's end zone and out of bounds. What is the result?",
+     "a": "A touchback for the defense, with the ball at its 20."
+    }
+   ]
+  },
+  {
+   "n": "When the game clock stops and starts",
+   "g": "clock",
+   "s": "The clock stops on incompletions, out-of-bounds plays, scores, timeouts, penalties and changes of possession, and late in each half an out-of-bounds play keeps the clock stopped until the snap instead of restarting it on the ready signal.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Incomplete pass: clock stops and restarts on the snap.</li><li>Runner out of bounds: clock stops. Outside the final two minutes of the first half and the final five minutes of the second half, it restarts when the referee signals ready for play. Inside those windows, it restarts on the snap.</li><li>A first down does not stop the NFL clock (unlike college).</li><li>Timeouts, scores, the two-minute warning, and most penalty administrations stop the clock; after a penalty the clock usually restarts on the ready signal or snap depending on the status before the foul.</li><li>Play clock: 40 seconds from the end of a play, or 25 seconds after an administrative stoppage such as a timeout.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A runner who is pushed backward out of bounds may be ruled down at his forward progress point, in which case the clock does not stop for out of bounds.</li><li>A spike is an incomplete pass by rule: it stops the clock and costs a down.</li><li>A kneel-down keeps the clock running and is charged as a rushing play.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> The five-minute window in the fourth quarter changes clock math for a 4th-down tool: a trailing team's sideline throws save the 40-second play clock only inside that window. A model that estimates remaining possessions should use different seconds-per-play for in-bounds runs, out-of-bounds plays and incompletions, and switch rules at 5:00 of the fourth quarter.</div><ul><li>Kneel-downs count as negative rushing yards for the quarterback in most fantasy scoring, which can cost a point in close matchups.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Does a first down stop the game clock in the NFL?",
+     "a": "No."
+    },
+    {
+     "q": "Outside the late-half windows, when does the clock restart after a runner goes out of bounds?",
+     "a": "On the referee's ready-for-play signal."
+    },
+    {
+     "q": "In which windows does the clock stay stopped after an out-of-bounds play until the snap?",
+     "a": "The final two minutes of the first half and the final five minutes of the second half."
+    },
+    {
+     "q": "How long is the play clock after a normal play, and after a timeout?",
+     "a": "40 seconds after a play; 25 seconds after an administrative stoppage like a timeout."
+    }
+   ]
+  },
+  {
+   "n": "Two-minute warning and the 10-second runoff",
+   "g": "clock",
+   "s": "The clock stops automatically at two minutes in each half and in overtime, and inside the two-minute window certain offensive fouls and replay reversals trigger a 10-second runoff that a timeout can cancel.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Two-minute warning: an automatic stoppage at 2:00 of the second and fourth quarters and of overtime. If a play is live at 2:00, the warning comes when the play ends.</li><li>Runoff for fouls: inside the two-minute window, an offensive foul that stops the clock (intentional grounding, illegal forward pass, a backward pass thrown out of bounds, throwing the ball away after the down, illegal substitution to save time) gives the defense the option of a 10-second runoff. Football Zebras notes the window expanded from the final minute to the final two minutes in 2017.</li><li>If the defense accepts the penalty yardage it may decline the runoff, but declining the penalty also declines the runoff.</li><li>Runoff for replay: when a review reverses a ruling and the correct ruling would have kept the clock running, 10 seconds come off. Neither team can decline it, but either team can use a timeout to avoid it.</li><li>If 10 seconds or fewer remain after the runoff, the half or game ends.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>Defensive fouls never cause a runoff against the offense.</li><li>The offense can call a timeout to wipe out a runoff, but only if it has one left.</li><li>If the clock was already going to be stopped for another reason, there is no runoff.</li></ul><div class=\"trap\"><b>Trap:</b> Thinking the runoff is limited to the last minute. Since 2017 it covers the whole two-minute window.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> The runoff is why a quarterback with no timeouts must clock the ball legally (a spike immediately after the snap) rather than throw it away under pressure for grounding. For a 4th-down model, the two-minute warning works like an extra timeout for whichever team needs the clock stopped, so remaining-possession estimates should treat it as one.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "When does the 10-second runoff apply in the NFL?",
+     "a": "Inside the final two minutes of each half (and overtime), for clock-stopping offensive fouls and for replay reversals that would have left the clock running."
+    },
+    {
+     "q": "Can the defense take the yardage but decline the runoff?",
+     "a": "Yes; but if it declines the penalty, the runoff is declined too."
+    },
+    {
+     "q": "How can a team avoid a replay-reversal runoff?",
+     "a": "By using a timeout; neither team can simply decline it."
+    },
+    {
+     "q": "A play is live as the clock passes 2:00. When is the two-minute warning?",
+     "a": "When that play ends."
+    }
+   ]
+  },
+  {
+   "n": "Timeouts, injuries and end-of-half extensions",
+   "g": "clock",
+   "s": "Each team gets three timeouts per half (two in a regular-season overtime), and a half cannot end on an accepted defensive foul, which earns the offense an untimed down.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Three timeouts per half; unused first-half timeouts do not carry over. Regular-season overtime: two per team. Postseason overtime: three per half.</li><li>A coach's challenge requires a timeout to be available, and losing the challenge costs that timeout.</li><li>Extension of a period: if time expires during a down in which the defense commits an accepted foul, the period is extended by one untimed down. The 2025 rulebook penalty tables also list extension for illegal touching or fair-catch interference by the offense and for double fouls on the final play.</li><li>If the offense fouls on the final play and time expires, the period is not extended, and the rulebook tables say a score by the offending team on that play is not allowed.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A defensive foul on the last play of the half can give the offense a free field-goal attempt or a play from the 1 after defensive pass interference in the end zone.</li><li>Injury stoppages inside the two-minute window carry extra rules, including possible runoffs when a team has no timeouts, so teams cannot fake injuries to save time.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Timeouts are a currency in a 4th-down model: each remaining timeout is worth roughly the clock a defense can save on one opponent run (about 40 seconds). A coach facing 4th-and-short late with three timeouts can go for it with less downside, because a failed attempt still leaves time to get the ball back.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many timeouts does each team get per half in regulation?",
+     "a": "Three, and unused first-half timeouts do not carry over."
+    },
+    {
+     "q": "Time expires during a play in which the defense commits an accepted foul. What happens?",
+     "a": "The period is extended by one untimed down."
+    },
+    {
+     "q": "Time expires on a play where the offense fouls and scores. Does the score count?",
+     "a": "No; the score is disallowed and the period is not extended."
+    }
+   ]
+  },
+  {
+   "n": "The dynamic kickoff: alignment and landing zone",
+   "g": "kicking",
+   "s": "On a dynamic kickoff the coverage team lines up at the receiving team's 40 and the blockers in a setup zone at the 30 to 35, and nobody except the returners may move until the ball hits the ground or a player in the landing zone.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Introduced in 2024 as a one-year trial and made permanent in 2025, per NFL Football Operations' Dynamic Kickoff explainer.</li><li>The kicker kicks from his own 35 (safety kicks from the 20, with a tee allowed). His 10 teammates line up with their front foot on the receiving team's 40.</li><li>The receiving team puts at least 9 players in the setup zone (its own 35 to 30). Up to two returners may stand in the landing zone (goal line to the 20).</li><li><b>[2026 change]</b> Only five receiving players (down from six) must have a foot on the 35 restraining line, and up to four (up from three) may stand in the setup zone off the line, with at most two in each of the three areas between sidelines and inbound lines. If none of those four are on the line, at least one must be on each side of the field. This is the alignment Sports Illustrated describes and the Buccaneers' site calls a 5-3-2 option.</li><li>No one except the kicker and returners may move until the ball touches the ground or a player inside the landing zone or end zone. The kicker cannot cross the 50 before then.</li><li>Fair catches are not allowed on dynamic kickoffs.</li></ul>"
+    },
+    {
+     "t": "How it's officiated",
+     "b": "<ul><li>Football Zebras reports that in 2026 four officials work deep with the receivers and the umpire moves to the goal line near the hash marks, to catch illegal blocks that film showed were missed in 2025.</li><li>If the ball falls off the tee twice, the kicking team must use a holder.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>NFL Football Operations reported a 79.3 percent kickoff return rate and a 16.7 percent touchback rate in Weeks 1 and 2 of 2025, versus 30.5 and 67.7 percent in the same weeks of 2024. Returns are now the normal outcome.</li><li>Return specialists gain value in leagues that score return yards or return touchdowns; in standard PPR, returns matter mainly through field position.</li></ul><div class=\"synth\"><b>Synthesis:</b> More returns plus a 35 touchback means shorter fields after scores. In a 4th-down model, the expected starting point for the opponent after any score should be closer to the 30 than the 25 used in pre-2024 models.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where do the 10 kicking-team players line up on a dynamic kickoff?",
+     "a": "With a front foot on the receiving team's 40-yard line."
+    },
+    {
+     "q": "What is the landing zone on a dynamic kickoff?",
+     "a": "The area from the receiving team's goal line to its 20-yard line."
+    },
+    {
+     "q": "New for 2026: how many receiving players must be on the restraining line?",
+     "a": "Five, down from six, with up to four allowed in the setup zone behind it."
+    },
+    {
+     "q": "Can a returner fair catch a dynamic kickoff?",
+     "a": "No; fair catches are not permitted on dynamic kickoffs."
+    },
+    {
+     "q": "When may the setup-zone and coverage players start moving?",
+     "a": "When the ball touches the ground or a player in the landing zone or end zone."
+    }
+   ]
+  },
+  {
+   "n": "Kickoff outcomes and spots",
+   "g": "kicking",
+   "s": "A kickoff that lands short of the landing zone or goes out of bounds gives the receiver the ball at its 40, a kick in the landing zone must be returned, and an end-zone touchback comes out to the 35.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Lands short of the landing zone: dead, ball at the receiving team's 40 (treated like out of bounds).</li><li>Out of bounds: receiving team's 40 (25 yards from a kick at the 35).</li><li>Lands and stays in the landing zone: must be returned.</li><li>Lands in the landing zone and rolls into the end zone: return it or down it; downed is a touchback to the 20.</li><li>Lands in the end zone in bounds: return it or down it; downed is a touchback to the 35. Out the back of the end zone: touchback to the 35.</li><li>Penalties carried to a kickoff move only the kick spot; the setup and landing zones stay put.</li></ul>"
+    },
+    {
+     "t": "2026 change: kicking from the 50",
+     "b": "<p><b>[2026 change]</b> A 15-yard penalty on the receiving team (or a carried-over foul) can move the kickoff to the 50. Before 2026, a kick out of bounds from the 50 put the opponent at its own 25 (25 yards from the kick spot), which was better for the kicking team than a 35 touchback. The 4for4 write-up says Dallas used this tactic in Week 13 of 2025. The fix moves the touchback spot on kicks from the 50 to the receiving team's 20, so a deep kick now beats kicking out of bounds.</p><div class=\"trap\"><b>Trap:</b> Some secondary coverage (the Buccaneers' site) describes the out-of-bounds spot changing instead. The rulebook's change table says the fix is to the dead-ball spot after a touchback, which matches SI and NBC reporting of a touchback at the 20.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Kick placement is now a trade-off between a 35 touchback, a short-of-zone penalty spot at the 40, and a return from the landing zone. Directional kicks into the landing zone that force returns are an attempt to beat the 35. For modeling, the expected starting spot after a kickoff is roughly the 29 to 30 per NFL Football Operations' early-2025 data.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "A dynamic kickoff lands at the receiving team's 25 (short of the landing zone). Where does the receiving team start?",
+     "a": "At its own 40, as if the kick went out of bounds."
+    },
+    {
+     "q": "A kickoff goes out of bounds. Where does the receiving team start?",
+     "a": "At its own 40."
+    },
+    {
+     "q": "A kickoff lands in the landing zone and stays there. Can the receiver down it for a touchback?",
+     "a": "No; a kick that stays in the landing zone must be returned."
+    },
+    {
+     "q": "Why did the NFL change touchbacks on kickoffs from the 50 for 2026?",
+     "a": "Kicking out of bounds from the 50 gave the receiver the 25, better for the kicker than a 35 touchback; moving that touchback to the 20 removes the incentive."
+    }
+   ]
+  },
+  {
+   "n": "Onside kicks in 2026",
+   "g": "kicking",
+   "s": "From 2026 any team may attempt an onside kick at any time and at any score, but it must declare the attempt to officials first, so surprise onside kicks remain illegal.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>2024: onside kicks allowed only in the fourth quarter and only for the trailing team, with advance declaration.</li><li>2025: allowed in any quarter, but only for the trailing team (NFL Football Operations' Dynamic Kickoff explainer).</li><li><b>[2026 change]</b> Rule 6-1-6 now permits the kicking team to declare an onside kick at any time during the game, which Sports Illustrated and the NFL's own coverage describe as regardless of score (leading, tied or trailing).</li><li>On a declared onside kick the teams use the traditional onside alignment, not the dynamic one. The kick must travel 10 yards or be touched by the receiving team before the kicking team can recover it; the kicking team may recover but not advance.</li></ul>"
+    },
+    {
+     "t": "Evidence",
+     "b": "<ul><li>Declared onside kicks rarely work. Wikipedia's summary of league data cites 4 of 52 recovered in 2018 after the 2018 alignment rules, and historically surprise kicks succeeded far more often than expected ones.</li><li>A surprise onside kick is impossible under the dynamic kickoff: an undeclared kick that fails to reach the landing zone is treated as short, with the ball at the receiver's 40.</li></ul><div class=\"trap\"><b>Trap:</b> Reading the 2026 change as reviving the surprise onside kick. Declaration is still required, so the receiving team can bring its hands team.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> The 2026 change makes the onside kick a legal option early in games and for leading teams, but the low recovery rate on declared kicks means it only pays when the alternative kickoff outcome is poor, such as a kick from deep after a penalty or a desperate late deficit. There is still no 4th-and-15 or 4th-and-20 alternative to the onside kick in NFL rules; that idea was proposed repeatedly (Denver in 2019, Philadelphia in several years) and never adopted.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "New for 2026: who can attempt an onside kick and when?",
+     "a": "Any kicking team, at any time and any score, as long as it declares the onside kick to officials first."
+    },
+    {
+     "q": "In 2025, which teams could attempt an onside kick?",
+     "a": "Only the trailing team, though in any quarter."
+    },
+    {
+     "q": "Can a team run a surprise (undeclared) onside kick in 2026?",
+     "a": "No; declaration is required, and an undeclared short kick is treated as landing short of the landing zone."
+    },
+    {
+     "q": "Does the NFL allow a 4th-and-15 or 4th-and-20 play in place of an onside kick in 2026?",
+     "a": "No; that alternative has been proposed several times and never adopted."
+    }
+   ]
+  },
+  {
+   "n": "Punts, fair catches and field goals",
+   "g": "kicking",
+   "s": "Punts and field goals are scrimmage kicks, so a punt into the end zone or a missed field goal from the 20 or closer comes out to the 20, and a longer miss gives the opponent the ball at the spot of the kick.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Punt touchback: the 20.</li><li>Fair catch on a punt: the receiver signals and the ball is dead where caught; the kicking team must give him an unimpeded chance to catch it.</li><li>First touching: if a kicking-team player touches a punt first beyond the line, the receiving team may take the ball at that spot. A muffed punt can be recovered by the kicking team but not advanced. The rulebook tables list illegal touching of a scrimmage kick inside the 5 as a touchback.</li><li>Missed field goal: the opponent gets the ball at the spot of the kick (where it was held, typically 7 to 8 yards behind the line of scrimmage) or at the 20 if that spot is inside the 20.</li><li>A blocked field goal that stays behind the line is a live ball either team can advance.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>After a fair catch, NFL rules allow a free-kick field goal attempt from the spot (the fair-catch kick), with no rush. It is rare but legal and can be a last-second option at the end of a half.</li><li>A punt that hits a receiving-team player and is recovered by the kicking team is a change of possession, often reviewed for touching.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> For a 4th-down tool, the missed-field-goal rule is the key asymmetry: a miss from the opponent's 35 gives them the ball near their own 42 or 43, while a punt from the same spot might pin them inside the 20. Field-goal value should net out make probability times 3 points against the field position cost of a miss, which grows as the kick spot moves away from the end zone.</div><ul><li>Kickers score per made field goal (often scaled by distance) and lose points on misses in many leagues; teams in plus territory that go for it on 4th down reduce kicker volume.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "A punt is downed in the end zone. Where does the receiving team start?",
+     "a": "At its own 20."
+    },
+    {
+     "q": "A 52-yard field goal attempt misses. Where does the defense take over?",
+     "a": "At the spot of the kick (where it was held), about 7 to 8 yards behind the line of scrimmage."
+    },
+    {
+     "q": "A field goal from the opponent's 12 misses. Where does the defense get the ball?",
+     "a": "At its 20, because the spot of the kick was inside the 20."
+    },
+    {
+     "q": "Can the kicking team advance a muffed punt it recovers?",
+     "a": "No; it can recover the ball but not advance it."
+    }
+   ]
+  },
+  {
+   "n": "Downs, the line to gain and turnover on downs",
+   "g": "downs",
+   "s": "The offense has four downs to reach the line to gain, and if it fails on fourth down the defense takes over at the dead-ball spot.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>A series is four downs to gain 10 yards from the spot of the first-down snap.</li><li>Forward progress decides the spot: the ball is placed where the runner's forward progress stopped, not where he was pushed back to.</li><li>On a measurement, the ball must reach or touch the forward point of the line to gain.</li><li>Some defensive penalties carry an automatic first down regardless of distance (pass interference, defensive holding, illegal contact, roughing the passer, the hip-drop tackle); others, such as offside, give yardage only.</li><li>Turnover on downs: the defense takes over at the spot where the fourth-down play ended.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A fourth-down penalty that gives the offense enough yardage for a first down converts the series, which is why defenses must be disciplined on 4th-and-short.</li><li>A fourth-down fumble has special recovery rules; see the fumbles concept.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> The turnover-on-downs spot is the main cost input for a go decision: failing on 4th-and-1 at your own 45 hands the opponent the ball about 45 yards from scoring, while punting moves it back roughly 40 or more yards net. Modern analyses generally find coaches still under-go on short yardage, but the right threshold depends on field position, score, clock and the offense's short-yardage success rate.</div><ul><li>Going for it more often in plus territory increases offensive snaps and touchdown chances, which favors skill-position players and costs kickers.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where does the defense take over after a failed fourth-down conversion?",
+     "a": "At the spot where the fourth-down play ended."
+    },
+    {
+     "q": "Name three defensive fouls that carry an automatic first down.",
+     "a": "Any three of defensive pass interference, defensive holding, illegal contact, roughing the passer, and the hip-drop tackle."
+    },
+    {
+     "q": "Does defensive offside give an automatic first down?",
+     "a": "No; it is a 5-yard penalty that converts only if the yardage reaches the line to gain."
+    }
+   ]
+  },
+  {
+   "n": "The tush push and assisting the runner",
+   "g": "downs",
+   "s": "The tush push remains legal in 2026 because no club proposed a ban after the 2025 vote fell two votes short.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Teammates may push or pull the ball carrier; the NFL removed the prohibition on assisting the runner in 2005, which is what makes the tush push legal.</li><li>Offensive players must still be set before the snap and lined up legally; false starts and illegal formation are common flags on this play.</li><li>Status: per Fox Sports, owners voted 22 to 10 to ban it in May 2025, but a playing rule change needs 24 votes, so the ban failed. In February 2026, the NFL said no club had proposed a ban for 2026, and it was not on the agenda at the March meeting.</li></ul>"
+    },
+    {
+     "t": "Evidence",
+     "b": "<ul><li>Competition committee chair Rich McKay said there was less talk about it in the football community, as Fox Sports reported.</li><li>The Eagles and Bills are the teams most associated with the play.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> For a 4th-down model, the tush push matters because conversion rates on quarterback sneaks at 4th-and-1 or less are the single biggest input to the go threshold. Teams with an elite sneak should get a team-specific short-yardage success rate rather than the league average.</div><ul><li>Quarterbacks who run the tush push near the goal line pick up rushing touchdowns that would otherwise go to running backs, which raises their fantasy ceiling and lowers the goal-line value of their backs.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Is the tush push legal in the 2026 NFL season?",
+     "a": "Yes; no ban was proposed for 2026."
+    },
+    {
+     "q": "What was the result of the 2025 vote to ban the tush push?",
+     "a": "22 to 10 in favor of a ban, two short of the 24 votes needed."
+    },
+    {
+     "q": "Which rule change made pushing the ball carrier legal?",
+     "a": "The 2005 removal of the prohibition on assisting the runner."
+    }
+   ]
+  },
+  {
+   "n": "Fourth-down rule set for decision models",
+   "g": "downs",
+   "s": "The rules that matter most on fourth down are the turnover-on-downs spot, the missed-field-goal spot, the fourth-down fumble restriction, and penalties that convert or move the ball.",
+   "x": [
+    {
+     "t": "The rules in play",
+     "b": "<ul><li>Failed attempt: defense takes over at the dead-ball spot.</li><li>Missed field goal: defense gets the spot of the kick, or the 20 if inside the 20.</li><li>Punt: touchback at the 20; fair catch dead at the spot.</li><li>Fourth-down fumble: if the offense fumbles on fourth down, only the player who fumbled may recover and advance it. A teammate's recovery is spotted at the spot of the fumble, so the offense cannot gain the line to gain by fumbling forward.</li><li>Fake punts and fake field goals are ordinary scrimmage plays; once the ball is snapped on a kick formation, any legal play may follow.</li><li>Defensive offside on a hard count converts if the 5 yards reach the line to gain; offensive false start backs the offense up 5.</li></ul>"
+    },
+    {
+     "t": "Model inputs",
+     "b": "<ul><li>Field position (yard line), distance, score differential, time remaining, timeouts for both teams.</li><li>Kickoff baseline: after any score the opponent starts near its own 30 under the 35 touchback.</li><li>Overtime state: first possession, second possession, or sudden death changes the value of a field goal.</li><li>Two-point decision as part of the touchdown branch.</li></ul><div class=\"synth\"><b>Synthesis:</b> A defensible 4th-down tool computes win probability for three actions (go, kick, punt) using these spots, not points alone. Rule-driven spots are exact; success probabilities are estimates and should carry error bars.</div>"
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using a 25-yard-line baseline for the opponent after a score. Since 2025 kickoff touchbacks come out to the 35 and returns are common; NFL Football Operations reported an average start near the 29.5 in early 2025.</div><div class=\"trap\"><b>Trap:</b> Treating a missed field goal as a punt to the 20. The defense gets the spot of the kick, which is 7 to 8 yards behind the line of scrimmage.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "On fourth down, a running back fumbles forward and a teammate recovers past the line to gain. Is it a first down?",
+     "a": "No; on fourth down only the fumbling player can advance it, so the ball goes back to the spot of the fumble."
+    },
+    {
+     "q": "What field-position baseline should a 2026 model use for the opponent after a score?",
+     "a": "Around the opponent's own 30, reflecting 35-yard-line touchbacks and frequent returns."
+    },
+    {
+     "q": "Is a fake punt subject to any special rules once the ball is snapped?",
+     "a": "No; it is a normal scrimmage play under the ordinary passing and running rules."
+    }
+   ]
+  },
+  {
+   "n": "The catch process",
+   "g": "ball",
+   "s": "A catch requires control of the ball before it hits the ground, both feet or another body part down in bounds, and a football move or enough time to perform one.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<p>NFL Football Operations' video rulebook (Rule 8-1-3) lists three elements:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li>Secure control of the ball in the hands or arms before it touches the ground.</li><li>Touch the ground in bounds with both feet or any body part other than the hands.</li><li>After the first two, perform an act common to the game (extend the ball, take an additional step, tuck it and turn upfield) or keep control long enough to do so.</li></ol>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>Since the 2018 rewrite, a receiver who has completed all three elements and then goes to the ground does not need to survive the ground; the ball touching the ground after a completed catch is fine if control is maintained.</li><li>If control is lost before the elements are complete and the ball hits the ground before control is regained, the pass is incomplete.</li><li>In the end zone the same elements apply; a touchdown is scored the moment the catch is complete in bounds in the end zone.</li><li>A receiver who catches the ball at the goal line and completes the process is a touchdown even if he then drifts out of the end zone.</li></ul><div class=\"trap\"><b>Trap:</b> Assuming a receiver must take three steps. The requirement is two feet down plus a football move or time to perform one.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Catch rulings are reviewable, so coaches challenge them often outside the final two minutes, and the booth reviews every scoring play.</li><li>In PPR, every completed catch is a point, so overturned catches on review swing fantasy outcomes directly.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the three elements of an NFL catch?",
+     "a": "Control before the ball hits the ground, both feet or another body part (not hands) down in bounds, and a football move or time to perform one."
+    },
+    {
+     "q": "After completing a catch, a receiver loses the ball when hitting the ground. Is it still a catch?",
+     "a": "Yes; once all three elements are complete, the ball hitting the ground afterward does not make the pass incomplete."
+    },
+    {
+     "q": "Does one foot plus a knee in bounds satisfy the second element?",
+     "a": "Yes; both feet or any body part other than the hands."
+    }
+   ]
+  },
+  {
+   "n": "Forward passes, backward passes and intentional grounding",
+   "g": "ball",
+   "s": "Only one forward pass is allowed per play and only from behind the line, backward passes can be thrown any time, and a pass thrown to avoid a sack with no receiver nearby is intentional grounding.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Forward pass: one per play, thrown from behind the line of scrimmage. A forward pass thrown after the passer crosses the line, or a second forward pass, is an illegal forward pass: 5 yards from the spot of the foul and loss of down.</li><li>Backward pass (lateral): any number, anywhere. A dropped backward pass is a live ball either team can recover and advance.</li><li>Intentional grounding: a pass thrown without a realistic chance of completion to avoid a loss of yardage. Penalty is loss of down and 10 yards from the previous spot, or at the spot of the foul if that is more than 10 yards behind the line.</li><li>Exception: a passer outside the tackle box may throw it away if the pass reaches the line of scrimmage (including out of bounds beyond it).</li><li>Spiking the ball immediately after a direct snap to stop the clock is legal and is an incompletion.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>Grounding in the passer's own end zone is a safety.</li><li>The 2025 rulebook tables list intentional grounding among the clock-stopping fouls that trigger the 10-second runoff.</li><li>Since 2024, whether a passer was down or out of bounds before throwing is reviewable, per the NFL's 2024 rules changes page.</li></ul><div class=\"trap\"><b>Trap:</b> Thinking a passer outside the pocket can throw the ball anywhere. It must reach the line of scrimmage.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Statistically, a completed backward pass is recorded as a rush, not a reception, so screens thrown slightly backward credit rushing yards and do not count as receptions in PPR.</li><li>Sacks reduce passing yards only as team stats; most platforms do not charge the quarterback for sack yardage, but sack-heavy offenses lose drives.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the penalty for intentional grounding?",
+     "a": "Loss of down and 10 yards from the previous spot, or at the spot of the foul if it is more than 10 yards behind the line; a safety if in the passer's end zone."
+    },
+    {
+     "q": "When can a passer legally throw the ball away?",
+     "a": "When he is outside the tackle box and the pass reaches the line of scrimmage."
+    },
+    {
+     "q": "What is the penalty for throwing a forward pass after crossing the line of scrimmage?",
+     "a": "5 yards from the spot of the foul and loss of down."
+    },
+    {
+     "q": "How is a caught backward pass recorded in the stats?",
+     "a": "As a rushing attempt, so it is not a reception for PPR."
+    }
+   ]
+  },
+  {
+   "n": "Pass interference and illegal contact",
+   "g": "ball",
+   "s": "Defensive pass interference is a spot foul with an automatic first down, illegal contact is 5 yards and a first down, and offensive pass interference is 10 yards from the previous spot.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Pass interference applies only on a legal forward pass that crosses the line of scrimmage, from the time the ball is thrown until it is touched.</li><li>Defensive pass interference: first down at the spot of the foul. If the foul is in the end zone, the 2025 rulebook tables place the ball at the 1-yard line (when the previous spot was outside the 2).</li><li>Offensive pass interference: 10 yards from the previous spot.</li><li>Illegal contact: before the pass is thrown, a defender may not contact a receiver more than 5 yards beyond the line. Penalty is 5 yards and an automatic first down.</li><li>Defensive holding: 5 yards and an automatic first down.</li></ul>"
+    },
+    {
+     "t": "How it's officiated",
+     "b": "<ul><li>Pass interference is not reviewable by challenge in 2026; the one-year 2019 experiment with reviewable pass interference was not renewed.</li><li>In 2025, a proposal to remove the automatic first down for defensive holding and illegal contact failed, per the Rams' summary of the NFL release.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Penalty yardage does not count as receiving yards, so a 40-yard pass interference call helps the offense but gives the targeted receiver zero fantasy points.</li><li>Deep shots on third and fourth down have extra value because a long defensive pass interference is a common outcome.</li></ul><div class=\"synth\"><b>Synthesis:</b> For a 4th-down tool, the chance of a defensive penalty on a deep pass attempt is part of the go branch's success rate; a raw completion rate understates conversion probability on longer distances.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where is defensive pass interference enforced?",
+     "a": "At the spot of the foul, with an automatic first down."
+    },
+    {
+     "q": "Defensive pass interference occurs in the end zone. Where is the ball placed?",
+     "a": "At the 1-yard line, first down."
+    },
+    {
+     "q": "What is the penalty for offensive pass interference?",
+     "a": "10 yards from the previous spot."
+    },
+    {
+     "q": "What is the penalty for illegal contact?",
+     "a": "5 yards and an automatic first down."
+    },
+    {
+     "q": "Does a pass interference penalty count as receiving yards for fantasy?",
+     "a": "No; penalty yardage is not credited as receiving yards."
+    }
+   ]
+  },
+  {
+   "n": "Fumbles, recoveries and the late-game fumble rule",
+   "g": "ball",
+   "s": "Either team may recover and advance a fumble, except that on fourth down or after the two-minute warning only the fumbling player may advance his own team's fumble.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>A fumble is live; either team can recover and advance it.</li><li>Forward fumble out of bounds: the ball returns to the fumbling team at the spot of the fumble, so the offense cannot gain yards by fumbling forward out of bounds.</li><li>Backward fumble out of bounds: ball at the spot where it went out.</li><li>Fourth down or any down after the two-minute warning (of either half): if a teammate other than the fumbler recovers, the ball goes back to the spot of the fumble (or the spot of recovery if behind it). The fumbler himself may still recover and advance.</li><li>Offensive fumble forward through the opponent's end zone and out of bounds: touchback for the defense at the 20.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A fumble out of bounds stops the clock.</li><li>Recoveries are reviewable; the booth reviews every turnover.</li><li>A runner is down when touched by an opponent while any body part other than hands or feet is on the ground, so many apparent fumbles are overturned on review as down by contact.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Most fantasy formats subtract points for a fumble lost, not for every fumble; team defenses score for recoveries.</li><li>Goal-line fumbles forward out of the end zone are catastrophic under the touchback rule, which is one reason backs are coached to secure the ball before reaching for the pylon.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "After the two-minute warning, a runner fumbles forward and a teammate recovers 5 yards ahead. Where is the ball?",
+     "a": "At the spot of the fumble; only the fumbler could have advanced it."
+    },
+    {
+     "q": "A runner fumbles forward out of bounds at midfield. Where is the next snap?",
+     "a": "At the spot of the fumble, not where the ball went out."
+    },
+    {
+     "q": "A ball carrier fumbles at the 2 and the ball goes out the side of the end zone. What is the result?",
+     "a": "A touchback for the defense, ball at its 20."
+    }
+   ]
+  },
+  {
+   "n": "Safeties",
+   "g": "ball",
+   "s": "A safety scores 2 points for the defense when the ball becomes dead behind the offense's own goal line through the offense's own impetus, and the scored-on team then kicks off from its own 20.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Common causes: a runner or passer tackled in his own end zone, a fumble that goes out of bounds behind the offense's goal line, and certain offensive fouls in the end zone.</li><li>Holding by the offense in its own end zone is a safety; so is intentional grounding from the end zone.</li><li>After a safety, the team that gave it up free-kicks from its own 20, with a tee allowed, using the same dynamic setup and landing zones, per NFL Football Operations' explainer.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>If the defense creates the impetus (such as a defender's muff knocking the ball into the end zone, where the offense recovers), the result can be a touchback rather than a safety.</li><li>Momentum exception: a defender who intercepts near his goal line and whose momentum carries him into the end zone, where he is downed, gets the ball at the spot of the catch rather than conceding a safety.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Team defenses score for safeties on most platforms.</li><li>An intentional safety can be the right choice late with a lead of more than 2 points, because it burns clock and trades 2 points for a free kick from the 20 rather than punting from deep in your own end.</li></ul><div class=\"synth\"><b>Synthesis:</b> Since the safety kick uses the dynamic kickoff from the 20, the receiving team usually starts in good field position, so the cost of an intentional safety is the 2 points plus a short field; model it like a punt plus 2 points.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many points is a safety worth, and what happens next?",
+     "a": "2 points to the defense, and the team that gave it up kicks off from its own 20."
+    },
+    {
+     "q": "An offensive lineman holds in his own end zone. What is the result?",
+     "a": "A safety."
+    },
+    {
+     "q": "A defender intercepts at his 2 and his momentum carries him into the end zone, where he is tackled. Safety?",
+     "a": "No; under the momentum exception the ball goes to the spot of the interception."
+    }
+   ]
+  },
+  {
+   "n": "Enforcement spots: basic spot and the three-and-one principle",
+   "g": "penalties",
+   "s": "Most fouls are enforced from a basic spot set by the type of play, except fouls by the offense behind that spot, which are enforced from the spot of the foul.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Loose-ball plays (passes, kicks, fumbles): the basic spot is the previous spot (where the ball was snapped).</li><li>Running plays that end beyond the line of scrimmage: the basic spot is the end of the run. Running plays that end behind the line: the previous spot.</li><li>Three-and-one principle: all fouls are enforced from the basic spot except fouls by the offense behind the basic spot, which are enforced from the spot of the foul.</li><li>Spot fouls carry their own spot (defensive pass interference at the spot of the foul).</li><li>Once a pass is caught, the rest of the play is a run; a defensive face mask on the receiver after the catch is enforced from the end of the run.</li></ul>"
+    },
+    {
+     "t": "Worked examples",
+     "b": "<ul><li>1st-and-10 at the offense's 20, run to the 45, offensive holding at the 35: the foul is behind the end of the run, so it is enforced from the spot of the foul. The ball goes to the 25 and the down is repeated as 1st-and-5.</li><li>Defensive holding on a pass that falls incomplete: 5 yards from the previous spot and an automatic first down.</li><li>Offensive holding in the offense's own end zone: safety.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Holding by the offense well beyond the line wipes out a long gain from the spot of the foul, so fantasy yards from the run disappear but the offense may still keep some field position.</li><li>Defensive personal fouls after a completed catch add 15 yards from the end of the run, which helps the drive but credits no stats.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the basic spot on a pass play?",
+     "a": "The previous spot, because a forward pass makes it a loose-ball play."
+    },
+    {
+     "q": "What is the basic spot on a run that ends beyond the line of scrimmage?",
+     "a": "The end of the run."
+    },
+    {
+     "q": "State the three-and-one principle.",
+     "a": "All fouls are enforced from the basic spot except fouls by the offense behind the basic spot, which are enforced from the spot of the foul."
+    },
+    {
+     "q": "A defender commits a face mask on a receiver after he catches the ball. From where is it enforced?",
+     "a": "From the end of the run."
+    }
+   ]
+  },
+  {
+   "n": "Accept or decline, half the distance and double fouls",
+   "g": "penalties",
+   "s": "The offended team chooses whether to accept a penalty or the play result, no penalty can move the ball more than half the distance to the offender's goal line, and fouls by both teams usually offset.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>The captain or head coach of the offended team chooses to accept the penalty or take the result of the play.</li><li>Half-the-distance: a penalty cannot move the ball more than half the distance from the enforcement spot to the offending team's goal line.</li><li>Multiple fouls by one team on the same play: the offended team picks one to enforce; they do not offset each other.</li><li>Double foul without a change of possession: penalties offset and the down is replayed. Football Nation's rulebook summary notes an exception: a 5-yard foul that carries no automatic first down, loss of down or spot can be disregarded against a 15-yard foul, which is then enforced from the previous spot.</li><li>Double foul with a change of possession: the team that gains possession keeps the ball if it had clean hands (did not foul before gaining possession).</li></ul>"
+    },
+    {
+     "t": "2024 refinement",
+     "b": "<p>Football Zebras explains a 2024 change: when the offense commits a major (15-yard) foul before a change of possession and the clean-hands team then fouls after gaining it, the offense's major foul now carries over and offsets at the spot of the second foul. The team that gained possession keeps the ball but loses the yardage benefit, unless it chooses to replay the down.</p>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Declining a defensive penalty to keep a long gain is routine; accepting it erases any fantasy stats from the play.</li><li>Inside the 10, half-the-distance limits make some defensive fouls worth committing to prevent a touchdown, though the referee can award a score for a palpably unfair act.</li></ul><div class=\"synth\"><b>Synthesis:</b> A 4th-down model should treat 4th-and-goal from inside the 2 as nearly penalty-proof for the defense, because half-the-distance limits how far back the offense can be moved and a defensive foul gives another snap.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "A 15-yard foul is enforced from the offense's 10. Where does the ball go?",
+     "a": "The 5, because a penalty cannot exceed half the distance to the offending team's goal line."
+    },
+    {
+     "q": "Both teams foul on a play without a change of possession. What normally happens?",
+     "a": "The penalties offset and the down is replayed."
+    },
+    {
+     "q": "What is the clean-hands rule?",
+     "a": "On a play with a change of possession and fouls by both teams, the team that gained possession keeps the ball if it did not foul before gaining it."
+    },
+    {
+     "q": "If one team commits two fouls on the same play, do they offset?",
+     "a": "No; the offended team chooses which one to enforce."
+    }
+   ]
+  },
+  {
+   "n": "Fouls on scoring plays and the next kickoff",
+   "g": "penalties",
+   "s": "Under the dynamic kickoff rules, a foul by the opponent during a touchdown is enforced on the try, and fouls during a field goal, safety or successful try carry to the kickoff by moving the kick spot.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>NFL Football Operations' kickoff explainer says penalties on scoring plays do not carry over to the kickoff and are enforced on the try; penalties on the try may carry over and change only the kick spot.</li><li>Football Zebras adds that if the score is a field goal, safety or successful try, the opponent's foul is enforced on the kickoff.</li><li>Penalties carried to a kickoff move only the kick spot; the setup zone and landing zone stay in place.</li><li>A 15-yard foul on the receiving team can move the kickoff to the 50, which is where the 2026 touchback-at-the-20 rule applies.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>A foul by the scoring team during its own touchdown run (such as holding before the runner crossed) can wipe out the score if enforced from the spot of the foul.</li><li>A personal foul by the defense on a try is enforced on the kickoff, which can give the kicking team a kick from the 50.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> A defensive foul during a touchdown that moves the try half the distance (to the 1 for a two-point try, for example) can flip the go-for-two decision, since conversion odds from the 1 are higher than from the 2. A model of the try decision should check for enforced penalties before choosing.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "The defense commits a personal foul during a touchdown run. Where is it enforced?",
+     "a": "On the try."
+    },
+    {
+     "q": "The defense commits a personal foul during a made field goal. Where is it enforced?",
+     "a": "On the ensuing kickoff, by moving the kick spot."
+    },
+    {
+     "q": "When a penalty is carried to a dynamic kickoff, what changes?",
+     "a": "Only the kick spot; the setup and landing zones do not move."
+    }
+   ]
+  },
+  {
+   "n": "Player safety fouls: hip-drop, helmet, roughing and conduct",
+   "g": "penalties",
+   "s": "Major player safety fouls are 15 yards with an automatic first down when committed by the defense, and since 2026 the league office can trigger an ejection for a flagrant act that officials missed.",
+   "x": [
+    {
+     "t": "The rules",
+     "b": "<ul><li>Hip-drop tackle (banned 2024): a tackler who grabs the runner with both hands or arms, swivels and drops his hips onto the runner's legs at or below the knee. NFL Football Operations lists the penalty as 15 yards and an automatic first down.</li><li>Use of the helmet: lowering the head to initiate contact with the helmet is a 15-yard foul and can lead to ejection.</li><li>Roughing the passer: 15 yards and an automatic first down.</li><li>Horse-collar tackle, face mask and unnecessary roughness: 15 yards.</li><li>Taunting and illegal celebrations: 15-yard unsportsmanlike conduct fouls.</li></ul>"
+    },
+    {
+     "t": "2026 points of emphasis",
+     "b": "<ul><li><b>[2026 change]</b> Under Rule 19-2, league officiating personnel can consult with on-field officials about disqualification for flagrant football or non-football acts, even when no flag was thrown, if they decide before the next legal snap, per Sports Illustrated and the rulebook change table.</li><li>Front Office Sports reported in August 2026 that the competition committee asked officials to watch taunting, illegal celebrations and fighting closely; it listed 28 taunting penalties league-wide in 2025.</li></ul>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>A 15-yard defensive foul with an automatic first down on third down extends drives, raising offensive play volume.</li><li>Ejections of key defenders change matchups mid-game; with the new league-office review, an ejection can come after an incident officials did not flag.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the penalty for a hip-drop tackle?",
+     "a": "15 yards and an automatic first down."
+    },
+    {
+     "q": "When was the hip-drop tackle banned?",
+     "a": "Before the 2024 season, by unanimous vote."
+    },
+    {
+     "q": "New for 2026: can a player be ejected for a flagrant act that on-field officials did not flag?",
+     "a": "Yes; league officiating personnel can consult and direct a disqualification before the next legal snap."
+    },
+    {
+     "q": "What is the penalty for roughing the passer?",
+     "a": "15 yards and an automatic first down."
+    }
+   ]
+  },
+  {
+   "n": "Coach challenges and booth reviews",
+   "g": "replay",
+   "s": "Each coach gets two challenges and a third if at least one succeeds, while the booth reviews all scoring plays and turnovers and takes over every review in the final two minutes of each half and in overtime.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Two challenges per game. Since 2024 (a Detroit proposal), winning one of the first two earns a third; before 2024 both had to succeed.</li><li>A challenge requires an available timeout; losing it costs the timeout.</li><li>No coach challenges in the final two minutes of either half or in overtime; the replay official initiates all reviews then.</li><li>Automatic booth reviews: all scoring plays and turnovers.</li><li>Reviewable: sideline, goal line, end line and line-to-gain rulings; possession and catch or incompletion; fumbles and recoveries; whether a passer was down or out of bounds before throwing (added 2024); and clock expiration before the snap when there is clear and obvious evidence (added 2024).</li><li>Not reviewable by challenge: judgment fouls such as holding, pass interference, offside and false start.</li></ul>"
+    },
+    {
+     "t": "Edge cases",
+     "b": "<ul><li>Pro Football Network's summary notes illegal participation as the one foul that can be challenged.</li><li>Challenging a play that is not reviewable, or one the booth must review, can cost a timeout.</li></ul><div class=\"trap\"><b>Trap:</b> Throwing a red flag on a touchdown. Scoring plays are booth-reviewed automatically, so the challenge is not allowed.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Overturned touchdowns and catches swing fantasy scoring after the fact; stat corrections can follow days later.</li></ul><div class=\"synth\"><b>Synthesis:</b> For a 4th-down model, a close spot on a conversion attempt can be reviewed, so close-to-the-line outcomes carry some reversal probability; this is too small to model in most cases.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does a coach earn a third challenge in 2026?",
+     "a": "By winning at least one of the first two challenges."
+    },
+    {
+     "q": "Can a coach challenge inside the final two minutes of a half?",
+     "a": "No; the replay official initiates all reviews then."
+    },
+    {
+     "q": "Which plays get automatic booth review?",
+     "a": "All scoring plays and turnovers."
+    },
+    {
+     "q": "Is pass interference reviewable by coach challenge in 2026?",
+     "a": "No."
+    }
+   ]
+  },
+  {
+   "n": "Replay assist and league-office intervention",
+   "g": "replay",
+   "s": "Replay assist lets the booth and the league office fix objective errors and, since 2025, reverse certain flags, and since 2026 they can also drive ejections for uncalled flagrant acts.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li>Replay assist lets the replay official and the Art McNally GameDay Central officials in New York advise on-field officials on objective, clearly visible aspects of a play (possession, completeness, boundary lines, the line of scrimmage, the clock and game administration).</li><li>2025 expansion: per the Rams' summary of the NFL release, replay assist can now confirm or pick up flags for hits on a defenseless player, face mask, horse collar, tripping and roughing or running into the kicker when clear and obvious video evidence exists. It cannot add a foul that was not called.</li><li><b>[2026 change]</b> Under Rule 19-2, league personnel can consult with on-field officials on disqualifications for flagrant football and non-football acts, even when no flag was thrown, before the next legal snap. Football Zebras describes this as replay being able to put a flag on the field for those acts.</li></ul>"
+    },
+    {
+     "t": "What did not change",
+     "b": "<ul><li>Replay still cannot call other uncalled fouls such as holding, pass interference, false start or offside, as Football Zebras notes.</li><li>The one-year rule letting the league office correct clear and obvious misses by replacement officials depended on a referee work stoppage. The NFL and the referees' union ratified a seven-year agreement in May 2026, per Bleacher Report, so replacement officials were not needed and the 2026 rulebook's change table does not list that rule.</li></ul><div class=\"trap\"><b>Trap:</b> Believing replay assist can add a roughing-the-passer or holding flag. Outside the 2026 disqualification process, it can only reverse or confirm called fouls in the listed categories.</div>"
+    },
+    {
+     "t": "Strategy and fantasy impact",
+     "b": "<ul><li>Competition committee co-chair Rich McKay said the league would probably expand replay assist further over time, according to the Ravens' coverage, so expect this to change again in 2027.</li></ul><div class=\"synth\"><b>Synthesis:</b> Fewer phantom face mask and defenseless-player flags means fewer free 15-yard chunks, which slightly lowers drive-extension rates relative to 2024.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which called fouls can replay assist reverse after the 2025 expansion?",
+     "a": "Hits on a defenseless player, face mask, horse collar, tripping, and roughing or running into the kicker."
+    },
+    {
+     "q": "Can replay assist add a holding or pass interference flag that was not called?",
+     "a": "No."
+    },
+    {
+     "q": "New for 2026: what can the league office do about an uncalled flagrant act?",
+     "a": "Consult with officials and direct a disqualification before the next legal snap."
+    },
+    {
+     "q": "Did the one-year replacement-official correction rule take effect in 2026?",
+     "a": "No; it depended on a referee work stoppage, which was avoided when a seven-year agreement was ratified in May 2026."
+    }
+   ]
+  },
+  {
+   "n": "Every 2026 rule change",
+   "g": "replay",
+   "s": "Owners approved five playing rule changes for 2026 at the March meeting in Phoenix, four of which are in the 2026 rulebook while the fifth, a contingency for replacement officials, never took effect.",
+   "x": [
+    {
+     "t": "Playing rules adopted",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>[2026 change]</b> <b>Onside kicks any time (6-1-6):</b> the kicking team may declare an onside kick at any time during the game, at any score. Previously only the trailing team could.</li><li><b>[2026 change]</b> <b>Kickoffs from the 50 (6-1-5):</b> the dead-ball spot after a touchback on a kickoff from the 50 is the receiving team's 20, removing the incentive to kick out of bounds.</li><li><b>[2026 change]</b> <b>Receiving alignment (6-1-3):</b> five players must be on the restraining line instead of six; up to four may be in the setup zone off the line, with limits on overloading one area.</li><li><b>[2026 change]</b> <b>Disqualification review (19-2):</b> league personnel can consult on-field officials about ejections for flagrant football and non-football acts, including when no flag was thrown.</li><li><b>[2026 change]</b> <b>Replacement-official contingency (one year):</b> if the NFL Referees Association had a work stoppage, the officiating department could correct clear and obvious misses. A seven-year referee CBA ratified in May 2026 made it moot.</li></ol>"
+    },
+    {
+     "t": "Off-field changes adopted",
+     "b": "<ul><li>Bylaws: the league office may adjust roster cutdown deadlines for a Week 1 international game; Labor Day weekend Saturday and Sunday count as business days for waivers; players on reserve/PUP can open a 21-day practice window after the club's second game.</li><li>Resolution (Pittsburgh): permanent rule allowing one call or video chat with up to five prospective unrestricted free agents during the two-day negotiation window.</li><li>Withdrawn: Cleveland's proposal to trade draft picks up to five years out.</li></ul>"
+    },
+    {
+     "t": "Not changed for 2026",
+     "b": "<ul><li>Tush push: no ban proposed; still legal.</li><li>Overtime: 2025 format unchanged (10-minute regular-season period with a possession for each team).</li><li>Kickoff touchback at the 35 for a normal kickoff, and a 4th-and-long onside alternative still does not exist.</li><li>Pass interference and holding still not reviewable.</li></ul><div class=\"synth\"><b>Synthesis:</b> The 2026 package is small and kicking-heavy. For fantasy, only the alignment and kick-from-the-50 changes touch scoring, through returns and field position. For 4th-down modeling, the any-score onside rule adds an option but the low success rate of declared kicks means it rarely changes the best choice.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many playing rule changes did owners approve for 2026?",
+     "a": "Five, all proposed by the Competition Committee."
+    },
+    {
+     "q": "Which 2026 change affects kickoff touchbacks?",
+     "a": "A touchback on a kickoff from the 50 is spotted at the receiving team's 20 instead of the 35."
+    },
+    {
+     "q": "Which 2026 rule change never took effect, and why?",
+     "a": "The one-year replacement-official correction rule, because the referees ratified a new seven-year CBA in May 2026."
+    },
+    {
+     "q": "Was overtime changed for 2026?",
+     "a": "No; the 2025 format carries over."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "2026 NFL Rulebook (NFL Football Operations)",
+   "url": "https://operations.nfl.com/rules-officiating/2026-nfl-rulebook"
+  },
+  {
+   "title": "2026 playing rules, bylaw and resolution proposals (NFL Football Operations)",
+   "url": "https://edge-operations.nfl.com/updates/the-rules/2026-playing-rules-bylaw-and-resolution-proposals"
+  },
+  {
+   "title": "NFL announces new playing rules, bylaws, resolutions for 2026 (NFL.com)",
+   "url": "https://www.nfl.com/_amp/nfl-announces-new-playing-rules-bylaws-resolutions-for-2026"
+  },
+  {
+   "title": "Dynamic Kickoff Rule Explainer (NFL Football Operations)",
+   "url": "https://operations.nfl.com/updates/football-ops/new-nfl-kickoff-rule/"
+  },
+  {
+   "title": "Dynamic kickoff back and better in second season (NFL Football Operations)",
+   "url": "https://edge-operations.nfl.com/updates/the-game/dynamic-kickoff-back-and-better-in-second-season"
+  },
+  {
+   "title": "2024 Rules Changes (NFL Football Operations)",
+   "url": "https://edge-operations.nfl.com/the-rules/rules-changes/2024-rules-changes"
+  },
+  {
+   "title": "NFL Video Rulebook: Completing a Catch",
+   "url": "https://edge-operations.nfl.com/the-rules/nfl-video-rulebook/completing-a-catch"
+  },
+  {
+   "title": "2025 rulebook part 2 (NFL.com)",
+   "url": "https://www.nfl.com/news/2025-rulebook-part-2"
+  },
+  {
+   "title": "Explaining five new NFL rules for 2026 season (Sports Illustrated)",
+   "url": "https://www.si.com/nfl/explaining-five-new-nfl-rules-for-2026-season"
+  },
+  {
+   "title": "NFL owners approve rule changes for the 2026 season (Football Zebras)",
+   "url": "https://www.footballzebras.com/2026/04/nfl-owners-approve-rule-changes-for-the-2026-season/"
+  },
+  {
+   "title": "4 things I'm watching during the 2026 NFL season (Football Zebras)",
+   "url": "https://www.footballzebras.com/2026/09/4-things-im-watching-during-the-2026-nfl-season/"
+  },
+  {
+   "title": "2026 NFL rule changes: tush push stays (Fox Sports)",
+   "url": "https://www.foxsports.com/stories/nfl/2026-nfl-rule-changes-tush-push-stay-5-proposals-voted"
+  },
+  {
+   "title": "NFL owners approve 5 rule changes for 2026 (NBC Philadelphia)",
+   "url": "https://www.nbcphiladelphia.com/news/sports/nfl/nfl-rule-changes-approved-2026-season-kickoffs-referees/4377639/"
+  },
+  {
+   "title": "NFL Rule Changes and How They Impact 2026 (4for4)",
+   "url": "https://www.4for4.com/2026/preseason/nfl-rule-changes-and-how-they-impact-2026"
+  },
+  {
+   "title": "NFL, Referees Association agree to new CBA (Bleacher Report)",
+   "url": "https://bleacherreport.com/articles/25426189-nfl-referees-association-agree-new-cba-avoid-replacement-refs-2026-season"
+  },
+  {
+   "title": "2025 NFL rule changes: regular-season OT, kickoffs, replay assist (Fox Sports)",
+   "url": "https://www.foxsports.com/stories/nfl/2025-nfl-rule-changes-tweaks-made-regular-season-ot-kickoffs-replay-assist"
+  },
+  {
+   "title": "2025 rule, bylaw and resolution changes (Los Angeles Rams)",
+   "url": "https://www.therams.com/news/2025-nfl-rule-bylaw-resolution-changes-owners-approve-expanded-replay-alignment-of-regular-season-and-overtime-rules-permanent-dynamic-kickoff-with-touchbacks-to-the-35-yard-line"
+  },
+  {
+   "title": "2025 NFL overtime rules explained (Pro Football Talk)",
+   "url": "https://www.nbcsports.com/nfl/profootballtalk/news/2025-nfl-overtime-rules-how-does-it-work-rule-changes-for-2025-season-explained"
+  },
+  {
+   "title": "What are the NFL's challenge rules? (Pro Football Network)",
+   "url": "https://www.profootballnetwork.com/what-are-the-nfls-challenge-rules-breaking-down-what-can-and-cannot-be-reviewed/"
+  },
+  {
+   "title": "Everything you need to know about 10-second runoffs (Football Zebras)",
+   "url": "https://footballzebras.com/2017/10/everything-need-know-10-second-runoffs"
+  },
+  {
+   "title": "Competition committee refines penalty enforcement when there is a possession change (Football Zebras)",
+   "url": "https://www.footballzebras.com/2024/08/competition-committee-refines-penalty-enforcement-when-there-is-a-possession-change/"
+  },
+  {
+   "title": "NFL offsetting penalties, double fouls and clean hands (Football Nation USA)",
+   "url": "https://www.footballnationusa.com/post/nfl-offsetting-penalties-double-fouls-clean-hands"
+  },
+  {
+   "title": "NFL taunting crackdown (Front Office Sports)",
+   "url": "https://frontofficesports.com/nfl-taunting-crackdown-fines-penalties/"
+  },
+  {
+   "title": "Onside kick (Wikipedia)",
+   "url": "https://en.wikipedia.org/wiki/Onside_kick"
+  },
+  {
+   "title": "Kickoffs tweaked again in NFL's short list of 2026 rules changes (Tampa Bay Buccaneers)",
+   "url": "https://www.buccaneers.com/news/kickoffs-tweaked-again-in-nfl-short-list-2026-rules-changes"
+  },
+  {
+   "title": "Explaining five new NFL rules for 2026 season (Sports Illustrated)",
+   "url": "https://www.si.com/nfl/explaining-five-new-nfl-rules-for-2026-season"
+  }
+ ]
+}

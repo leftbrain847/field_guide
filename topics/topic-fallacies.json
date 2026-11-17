@@ -1,0 +1,1399 @@
+{
+ "id": "fallacies",
+ "title": "Logical fallacies",
+ "updated": "2026-11-04",
+ "refreshDays": 730,
+ "note": "Formal, informal, statistical and language fallacies, each with a business or data example, a counter-move, and when the pattern is legitimate reasoning. The logic changes slowly, so refresh every two years to update examples and check the statistical references.",
+ "groups": [
+  {
+   "key": "formal",
+   "label": "Formal fallacies"
+  },
+  {
+   "key": "relevance",
+   "label": "Fallacies of relevance"
+  },
+  {
+   "key": "presumption",
+   "label": "Fallacies of presumption"
+  },
+  {
+   "key": "causal",
+   "label": "Causal and statistical fallacies"
+  },
+  {
+   "key": "language",
+   "label": "Fallacies of language"
+  },
+  {
+   "key": "practice",
+   "label": "Using this well"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Affirming the consequent",
+   "g": "formal",
+   "s": "Affirming the consequent infers that P is true because Q is true when the premise only says that P leads to Q.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Form: <code>If P then Q. Q. Therefore P.</code> The form is invalid because something other than P can produce Q. The Fallacy Files classifies it as a formal fallacy: any argument with this shape can have true premises and a false conclusion, whatever the content.</p><p>Example: \"If it rained, the street is wet. The street is wet. So it rained.\" A street cleaner or a burst pipe also wets the street.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"If the new onboarding flow works, retention goes up. Retention went up. So the onboarding flow works.\" Retention can rise from seasonality, a price change, or a shift in the acquisition mix.</p><p>This is the logical skeleton of most premature victory laps on a KPI, and of confirming a hypothesis because its prediction came true.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask: \"What else would make Q true?\" List the rival causes.</li><li>Look for a prediction that only P makes. If the flow drives retention, the lift should concentrate in users who saw the flow.</li><li>Use the valid forms instead: modus ponens (P, so Q) or modus tollens (not Q, so not P).</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>As deduction, it is always invalid. As inference to the best explanation (abduction) it can be reasonable: if P is the only plausible cause of Q and rivals have been ruled out, observing Q is real evidence for P. Bayesian reasoning also says Q raises the probability of P whenever Q is more likely under P than under not-P. The error is treating that evidence as proof.</p><div class=\"synth\"><b>Synthesis:</b> Most good science confirms hypotheses by passing tests, so the useful question is how risky the test was. A prediction that would have come true anyway is weak evidence.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"If the campaign worked, sales rise. Sales rose. So the campaign worked.\"",
+     "a": "Affirming the consequent: Q being true does not establish P, because other causes could raise sales."
+    },
+    {
+     "q": "Give a data example of affirming the consequent.",
+     "a": "\"If the pipeline fix worked, the error count drops. It dropped, so the fix worked,\" when upstream volume also fell that week."
+    },
+    {
+     "q": "What is the counter-move to affirming the consequent?",
+     "a": "Ask what else would produce Q, and look for an observation that only P would predict."
+    }
+   ]
+  },
+  {
+   "n": "Denying the antecedent",
+   "g": "formal",
+   "s": "Denying the antecedent infers that Q is false because P is false when the premise only says that P leads to Q.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Form: <code>If P then Q. Not P. Therefore not Q.</code> It is invalid for the same reason as affirming the consequent: Q can have other sufficient causes.</p><p>Example: \"If you are a surgeon, you have a medical degree. You are not a surgeon. So you do not have a medical degree.\"</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"If we had migrated to the new platform, costs would have fallen. We didn't migrate, so costs won't fall.\" Contract renegotiation or decommissioning idle compute could still cut costs.</p><p>It also shows up as \"We didn't run an A/B test, so we can't know anything about the effect,\" which ignores quasi-experimental evidence.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask whether P is the only route to Q. If not, the conclusion does not follow.</li><li>Test the claim by finding a case of Q without P. One counterexample breaks it.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>If the premise is really a biconditional (\"Q if and only if P\"), the inference is valid. Ordinary speech often uses \"if\" to mean \"only if\": \"If you finish the report, you can leave early\" usually implies you cannot leave otherwise. Read the intended meaning before calling the fallacy; a charitable reader treats this as a biconditional when context makes that clear.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"If he were a manager he'd have budget authority. He's not a manager, so he has none.\"",
+     "a": "Denying the antecedent: non-managers can still hold budget authority by delegation."
+    },
+    {
+     "q": "When is \"If P then Q; not P; so not Q\" acceptable?",
+     "a": "When the conditional is really a biconditional, meaning P is the only way to get Q."
+    },
+    {
+     "q": "What single item refutes a denying-the-antecedent argument?",
+     "a": "A case where Q holds without P."
+    }
+   ]
+  },
+  {
+   "n": "Undistributed middle",
+   "g": "formal",
+   "s": "The undistributed middle concludes that two groups overlap because both share a third property, even though neither premise covers all of that third group.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Form: <code>All A are C. All B are C. Therefore all A are B.</code> The middle term C is never distributed (never referred to in full), so A and B could be separate subsets of C.</p><p>Example: \"All cats are mammals. All dogs are mammals. So all cats are dogs.\" The absurd version makes the gap obvious; real versions hide it with plausible content.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Our churned customers had low NPS. This account has low NPS. So this account will churn.\" Low NPS is shared by churners and non-churners alike.</p><p>The same shape drives guilt by association: \"Failed projects used vendor X. Your project uses vendor X.\"</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Draw the Venn diagram: two circles inside a third do not have to touch each other.</li><li>Ask what share of the middle group (low NPS accounts) actually belongs to the conclusion group (churners). That is a base-rate question.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>As a deductive syllogism it is always invalid. As a probabilistic signal it can be fine: shared features raise the probability of shared membership when the feature is rare outside the target group. \"Low NPS raises churn risk\" is a legitimate claim; \"low NPS means it will churn\" is the fallacy.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Fraudsters use prepaid cards. This user uses a prepaid card. So this user is a fraudster.\"",
+     "a": "Undistributed middle: many non-fraudsters also use prepaid cards."
+    },
+    {
+     "q": "Why is the middle term called undistributed?",
+     "a": "Neither premise says something about all members of the middle group, so the two other groups may sit in separate parts of it."
+    },
+    {
+     "q": "Counter-move for an undistributed middle in a risk model discussion?",
+     "a": "Ask what fraction of the shared-feature group actually belongs to the target group, which turns it into a base-rate question."
+    }
+   ]
+  },
+  {
+   "n": "Ad hominem and tu quoque",
+   "g": "relevance",
+   "s": "Ad hominem rejects a claim by attacking the person who made it, and tu quoque rejects it by pointing out that the person does not follow it themselves.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Variants that logic texts distinguish:</p><ul><li><b>Abusive:</b> \"He's an idiot, so ignore his proposal.\"</li><li><b>Circumstantial:</b> \"She only says that because her team benefits.\"</li><li><b>Poisoning the well:</b> discrediting someone before they speak.</li><li><b>Tu quoque (\"you too\"):</b> \"You tell me to document my code, but your repos have no README.\"</li></ul><p>All of them aim at the speaker while the argument is left untouched.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Finance wants to cut the BI tool budget, but of course they do, they never use dashboards.\" Finance's motive does not change whether the license spend is justified by usage data.</p><p>Tu quoque at work: \"You flagged my query for missing filters, but your report double-counted last quarter.\" Both can be true; the second does not fix the first.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Separate the claim from the claimant: \"Suppose a neutral party said this. Is it right?\"</li><li>For tu quoque, concede the hypocrisy and return to the merits: \"Fair, I should fix mine too. Is this one correct?\"</li><li>If someone attacks you, do not reciprocate; restate your argument and the evidence.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>The Stanford Encyclopedia of Philosophy entry on fallacies (Hans Hansen) notes that ad hominem can be fair or fallacious depending on its form. Character and interest are relevant when the claim rests on the person's <i>testimony</i> or <i>judgment</i>: a witness with a history of fabrication, a vendor's self-reported benchmark, an analyst grading their own model. There the attack goes to credibility, which is the actual premise. Tu quoque is also relevant when the question is the speaker's sincerity or standing to give advice, as opposed to whether the advice is sound.</p><div class=\"trap\"><b>Trap:</b> Dismissing a vendor's ROI study entirely because they are the vendor. The right move is to discount their testimony and check the parts you can verify.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Why should we trust her pricing analysis? She's never even worked in sales.\"",
+     "a": "Ad hominem (abusive or credential-based): it targets her background without engaging the analysis."
+    },
+    {
+     "q": "Give a tu quoque example from a code review.",
+     "a": "\"You can't tell me to add tests; your last PR had none.\" The reviewer's habits don't affect whether this PR needs tests."
+    },
+    {
+     "q": "When is attacking the source legitimate?",
+     "a": "When the conclusion depends on the source's testimony or judgment, so their reliability or interest is itself a premise."
+    },
+    {
+     "q": "Counter-move to tu quoque aimed at you?",
+     "a": "Concede the inconsistency, then bring the discussion back to whether the claim itself is correct."
+    }
+   ]
+  },
+  {
+   "n": "Straw man",
+   "g": "relevance",
+   "s": "A straw man replaces an opponent's actual position with a weaker or more extreme version and then refutes the substitute.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Techniques include exaggerating a qualified claim into an absolute one, quoting out of context, picking the weakest supporter as the representative, or inventing a position nobody holds. The Excelsior OWL's fallacy guide defines it as oversimplifying an opponent's view to make it easier to attack.</p><p>Example: \"You want to reduce meeting time? So you think collaboration doesn't matter.\"</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>Proposal: \"Let's pilot Fabric for one domain before committing.\" Straw man reply: \"So you want to throw away five years of Azure work on a hunch?\"</p><p>In data reviews: \"You're saying the model is useless?\" when the reviewer said the model is miscalibrated in one segment.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Restate your actual claim with its qualifiers: \"My claim is narrower: pilot one domain, measure, then decide.\"</li><li>Ask them to say back your position before rebutting it.</li><li>Check yourself: could the other side read your summary of their view and agree with it?</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Drawing out an unwelcome but genuine implication is legitimate: if a position really entails the extreme conclusion, saying so is a reductio, which is valid. The test is whether the opponent is actually committed to the stronger claim. Simplifying a view for a time-constrained audience is fine if the simplification preserves what makes it defensible.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"She wants to deprecate unused reports, so she wants to leave executives flying blind.\"",
+     "a": "Straw man: it replaces a narrow cleanup proposal with an extreme one."
+    },
+    {
+     "q": "What is the difference between a straw man and a reductio ad absurdum?",
+     "a": "A reductio derives an absurdity the position really entails; a straw man attacks a position the opponent does not hold."
+    },
+    {
+     "q": "Counter-move to a straw man of your proposal?",
+     "a": "Restate your claim precisely with its qualifiers, and ask the other person to engage that version."
+    }
+   ]
+  },
+  {
+   "n": "Red herring",
+   "g": "relevance",
+   "s": "A red herring shifts the discussion to a different issue so that the original question is never answered.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The new topic is often related enough to feel responsive. It differs from a straw man in that it does not misrepresent the opposing claim; it just changes the subject.</p><p>Example: asked why the project is over budget, a manager talks about how hard the team has worked.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Why did the revenue number on the CFO deck not match the warehouse?\" Answer: \"The real issue is that we don't have a semantic layer.\" Maybe true, but the specific discrepancy is still unexplained.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Acknowledge, park, and return: \"Good point about the semantic layer, let's put it on the list. On this number, what caused the gap?\"</li><li>Write the open question on the whiteboard or in the doc so it stays visible.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Reframing is legitimate when the original question rests on a false premise or is the wrong question: \"Which vendor is cheaper?\" can properly be redirected to \"Do we need a vendor at all?\" if that is the decision that matters. The test is whether the shift helps answer the decision at hand or helps someone avoid it.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: asked about a missed SLA, the lead says, \"Let's talk about how much the data volume has grown.\"",
+     "a": "Red herring, unless the growth is offered as the actual cause with evidence."
+    },
+    {
+     "q": "How does a red herring differ from a straw man?",
+     "a": "A straw man distorts the opponent's claim; a red herring abandons the question for another one."
+    },
+    {
+     "q": "Meeting counter-move for a red herring?",
+     "a": "Acknowledge the new point, park it visibly, and restate the open question."
+    }
+   ]
+  },
+  {
+   "n": "Appeal to authority vs legitimate expertise",
+   "g": "relevance",
+   "s": "The appeal to authority goes wrong when it treats someone's say-so as decisive outside their expertise, against expert consensus, or in place of available evidence.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The Latin name is <i>argumentum ad verecundiam</i>. Hansen's Stanford Encyclopedia entry notes that appeals to authority are sound only when the authority is genuine and experts are not divided. Failure modes:</p><ul><li>Wrong field: a famous CEO on epidemiology.</li><li>Unnamed or vague authority: \"studies show,\" \"Gartner says\" with no source.</li><li>Lone dissenter presented as the field.</li><li>Authority used to end inquiry when the data are on the table.</li></ul>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"The CIO thinks the dip is seasonal, so we don't need to dig in.\" The CIO's view is a hypothesis; the seasonal pattern in prior years is checkable in minutes.</p><p>\"A big consultancy recommended a lakehouse, so it's right for us.\" Their recommendation was for a different scale and set of constraints.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask the classic critical questions (from Douglas Walton's argumentation schemes, summarized in the Stanford entry): Is the source an expert in this domain? What exactly did they say? Do other experts agree? Is it backed by evidence we can see?</li><li>When the evidence is cheap to check, check it and let authority drop out.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Deferring to genuine expert consensus is rational when you cannot evaluate the evidence yourself; most of what anyone knows rests on trusted testimony. Citing the clinical guideline, the statistician on the team, or the documented platform limit is good reasoning. Authority is evidence; it becomes a fallacy when it is treated as proof or when it is the wrong authority.</p><div class=\"trap\"><b>Trap:</b> Overcorrecting into \"I don't trust experts, I do my own research\" on questions where you lack the training. Disagreeing with consensus requires better evidence, not just a different opinion.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Our VP of Sales says the churn model is wrong, so let's scrap it.\"",
+     "a": "Appeal to authority (wrong domain), unless the VP points to specific evidence the model misses."
+    },
+    {
+     "q": "What two conditions does the SEP entry give for a sound appeal to authority?",
+     "a": "The authority must be genuine in the relevant field, and the experts must not be divided on the question."
+    },
+    {
+     "q": "Counter-move when authority is invoked on something checkable?",
+     "a": "Propose checking the data directly so the claim stands or falls on evidence."
+    }
+   ]
+  },
+  {
+   "n": "Appeal to emotion",
+   "g": "relevance",
+   "s": "An appeal to emotion uses fear, pity, pride or outrage to win agreement in place of reasons that bear on whether the claim is true.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Named variants include appeal to fear (<i>ad baculum</i> covers threats), appeal to pity (<i>ad misericordiam</i>), and appeal to flattery. The emotion is real; the problem is when it substitutes for the argument.</p><p>Example: \"If you cared about patients, you'd approve this tool.\"</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"If we don't buy this observability platform, we'll be the team that caused the next outage.\" Fear of blame stands in for an analysis of outage causes and coverage.</p><p>\"The team worked nights on this model; we can't not ship it.\" Effort is sunk cost and says nothing about performance.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Name the feeling and validate it, then ask for the mechanism: \"The outage risk is real. Which failure would this tool have caught?\"</li><li>Translate the emotional stake into a measurable one: probability and cost.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Emotion is relevant when the decision is about values or consequences people care about. Pointing out that a policy causes real suffering is a legitimate premise in a practical argument. The SEP entry notes that threats and appeals to consequences can be legitimate in practical reasoning (deciding what to do) while fallacious in reasoning about what is true. \"Shipping this bug will harm patients\" is a valid reason to delay; \"you should believe the data is fine or you'll be in trouble\" is not.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Think of how disappointed the board will be if this forecast is wrong. So it's right.\"",
+     "a": "Appeal to emotion (fear): the board's feelings say nothing about forecast accuracy."
+    },
+    {
+     "q": "When is an appeal to consequences legitimate?",
+     "a": "When the question is what to do, since consequences are reasons for action, though not for what is true."
+    },
+    {
+     "q": "Counter-move to a fear-based pitch for a tool?",
+     "a": "Acknowledge the risk, then ask which specific failure the tool would have prevented and at what cost."
+    }
+   ]
+  },
+  {
+   "n": "Bandwagon (appeal to popularity)",
+   "g": "relevance",
+   "s": "The bandwagon fallacy treats the popularity of a belief or practice as proof that it is true or good.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Latin: <i>argumentum ad populum</i>. Example: \"Everyone is moving to microservices, so we should too.\"</p><p>Related: appeal to tradition (\"we've always done it this way\") and appeal to novelty (\"it's the latest\").</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Every company is putting an LLM on top of their data; we need one by Q2.\" Adoption rates are not evidence that it fits your data maturity or questions.</p><p>\"Most analysts use median for this; let's go with it.\" Maybe right, but the reason should be the distribution, not the head count.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask: \"Why did they adopt it, and do those reasons hold for us?\"</li><li>Ask what the adopters' outcomes were, including the ones who quietly reverted.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Popularity is evidence in several cases: when the crowd has independent information (prices, ratings, wisdom-of-crowds estimates), when the question is about convention (file formats, SQL style, which tool your hires already know), or when network effects make the popular choice better because it is popular. Choosing the widely used library because it has the most answered questions and maintainers is reasoning, not bandwagoning.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Half our competitors already use this vendor. That proves it's the best.\"",
+     "a": "Bandwagon: adoption by others is not proof of fit or quality."
+    },
+    {
+     "q": "When is popularity real evidence?",
+     "a": "When adopters judged independently, when the question is a convention, or when network effects make the popular choice better."
+    },
+    {
+     "q": "Counter-move to a bandwagon tool pitch?",
+     "a": "Ask why adopters chose it, whether those reasons apply here, and what their outcomes were."
+    }
+   ]
+  },
+  {
+   "n": "Genetic fallacy",
+   "g": "relevance",
+   "s": "The genetic fallacy judges a claim by where it came from in place of the evidence for it.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The origin may be a person (overlapping with ad hominem), a group, a historical source, or a motive. Example: \"That idea came from a consultant's slide, so it's fluff.\"</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"The metric definition came from Marketing, so it's biased.\" The definition is either well-specified and fit for purpose or not, which you can check.</p><p>The reverse also happens: \"It's from the data team, so it's right.\"</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask: \"If this claim had come from a source we like, would we accept it?\"</li><li>Evaluate the claim's evidence directly, then use the source as a prior, not a verdict.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Origin is relevant when the claim's credibility rests on its provenance: data lineage, chain of custody, a source's track record. In data work, \"this number came from a manually edited spreadsheet\" is a proper reason to lower confidence. The fallacy is treating origin as conclusive when the claim can be checked on its merits.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"That KPI was invented by a vendor to sell software, so it's meaningless.\"",
+     "a": "Genetic fallacy: the KPI's validity depends on what it measures, not who coined it."
+    },
+    {
+     "q": "Why is lineage not a genetic fallacy in BI?",
+     "a": "When a number cannot be independently verified, its provenance is evidence about its reliability."
+    },
+    {
+     "q": "Counter-move to the genetic fallacy?",
+     "a": "Ask whether the same claim would be accepted from a trusted source, then evaluate its evidence directly."
+    }
+   ]
+  },
+  {
+   "n": "Begging the question and loaded questions",
+   "g": "presumption",
+   "s": "Begging the question assumes the conclusion in a premise, and a loaded question builds a disputed assumption into what is asked.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p><b>Begging the question</b> (<i>petitio principii</i>): the premises only support the conclusion if you already accept it. The argument can be valid and still useless. Example: \"Our forecast is reliable because it was produced by our reliable forecasting process.\"</p><p><b>Loaded (complex) question:</b> \"Have you stopped double-counting refunds?\" Either answer concedes you were double-counting.</p><p>In everyday English \"begs the question\" often means \"raises the question\"; logic texts use the older sense.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"We know this segment is high-value because it's our premium segment, and premium segments are high-value.\" The label was assigned by the same judgment under dispute.</p><p>Loaded question in a review: \"Why is your pipeline so unreliable?\" presumes unreliability before anyone has looked at the incident data.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for independent support: \"What evidence would convince someone who doesn't already agree?\"</li><li>For a loaded question, split it: \"There are two questions there. First, is it unreliable? The incident log shows...\"</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>The Stanford entry discusses the view (Biro and Siegel) that begging the question is an epistemic fault even though such arguments are valid, which is why it depends on what the audience already accepts. Restating a definition or an agreed premise is fine. A question with a presupposition is fine when that presupposition is already established: \"Why did the job fail last night?\" is reasonable if the job did fail.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"This dashboard is trustworthy because the numbers on it are accurate.\"",
+     "a": "Begging the question: \"accurate numbers\" is the same claim as \"trustworthy,\" offered as support."
+    },
+    {
+     "q": "Give an example of a loaded question in a data review.",
+     "a": "\"Why did you cherry-pick the date range?\" It presumes the range was cherry-picked."
+    },
+    {
+     "q": "Counter-move to a loaded question?",
+     "a": "Separate the hidden assumption and answer it first, with evidence, before the surface question."
+    }
+   ]
+  },
+  {
+   "n": "False dilemma",
+   "g": "presumption",
+   "s": "A false dilemma presents two options as the only ones when others exist.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Also called false dichotomy or either-or. Example: \"Either we rebuild the warehouse or we accept bad data forever.\"</p><p>It often pairs one attractive option with one disastrous one so the choice feels forced.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Either we hire three data engineers or we stop taking requests.\" Options omitted: prioritization, automation, self-service, a contractor.</p><p>\"Is the drop due to price or product?\" omits channel mix, measurement change, and seasonality.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask: \"What are options three and four?\" Even generating one more option breaks the frame.</li><li>Check whether the options can be combined or sequenced, such as a pilot followed by a decision.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Some choices are genuinely binary: ship today or not, a contract clause accepted or rejected, a boolean flag. A dilemma is also fine when other options have been considered and ruled out; in that case, say so explicitly so the framing does not look forced.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Either we migrate everything to Databricks this year or we fall hopelessly behind.\"",
+     "a": "False dilemma: phased migration, partial adoption, and staying put with improvements are omitted."
+    },
+    {
+     "q": "What makes a two-option framing legitimate?",
+     "a": "The choice is truly binary, or other options were considered and ruled out on evidence."
+    },
+    {
+     "q": "Fastest counter-move to a false dilemma?",
+     "a": "Name a credible third option."
+    }
+   ]
+  },
+  {
+   "n": "Slippery slope",
+   "g": "presumption",
+   "s": "The slippery slope fallacy claims that a first step will lead through a chain of steps to an extreme outcome without showing that each link is likely.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Example: \"If we let one team build their own dashboards, soon every team will, our metrics will diverge, and no one will trust any number.\"</p><p>The Stanford entry notes slippery slope arguments fail when their causal or vague-term steps are weak; Douglas Walton's work classifies causal, precedent, and verbal (sorites) versions.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"If we grant one exception to the data retention policy, we'll have no policy.\" Whether that happens depends on how exceptions are governed.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for the probability of each link. A chain of five 70% steps ends near 17%.</li><li>Ask what mechanism or stopping point exists between steps.</li><li>Propose a guardrail that stops the slide, which tests whether the slope is real.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Slippery slope arguments are valid when the links are supported. Precedent effects are real: one exception creates a reference point others will cite. Incremental scope creep and technical debt are documented slopes. A well-built version names the mechanism, gives evidence for each step, and explains why a stopping point is unlikely. Treating every slope argument as a fallacy is itself an error.</p><div class=\"trap\"><b>Trap:</b> Calling \"slippery slope!\" on a well-evidenced precedent argument. If the speaker has named the mechanism, engage the mechanism.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"If we allow one ad-hoc SQL query in prod, soon everyone will bypass the semantic layer and governance will collapse.\"",
+     "a": "Slippery slope, unless each step's likelihood is supported."
+    },
+    {
+     "q": "Why does a chain of plausible steps often lead to an unlikely conclusion?",
+     "a": "Probabilities multiply; five steps at 70% each give about 17%."
+    },
+    {
+     "q": "When is a slippery slope argument reasonable?",
+     "a": "When it names a mechanism for each step, such as precedent or incentives, with evidence, and no natural stopping point exists."
+    }
+   ]
+  },
+  {
+   "n": "No true Scotsman and special pleading",
+   "g": "presumption",
+   "s": "No true Scotsman redefines a group to exclude a counterexample, and special pleading exempts a favored case from a rule without a principled reason.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p><b>No true Scotsman</b>: \"No Scotsman puts sugar on porridge.\" \"My uncle is Scottish and does.\" \"Well, no <i>true</i> Scotsman does.\" The claim becomes unfalsifiable.</p><p><b>Special pleading</b>: applying standards to others while exempting yourself or your case, with no relevant difference given. Both are ad hoc rescues: they save a claim by changing the rules after the evidence comes in.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Agile teams always deliver on time.\" \"Team B is agile and missed by two months.\" \"Then they weren't doing real agile.\"</p><p>Special pleading: \"Other teams' dashboards need data quality tests, but ours are exploratory, so they don't,\" while the dashboard is in the executive deck.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for the definition up front, before checking cases: \"What would count as a team doing agile?\"</li><li>For special pleading, ask: \"What is the relevant difference that justifies the exception?\" If one is given, it should be stated as a rule others could use.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Refining a definition is legitimate when the definition was vague and the refinement is principled and announced in advance of new cases. Exceptions are legitimate when there is a relevant difference: exploratory notebooks that never reach executives really do need fewer controls. The fallacy is the timing and motive: changing the rule only after it threatens your conclusion.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Data-driven companies don't have failed launches.\" \"Ours did.\" \"Then we weren't really data-driven.\"",
+     "a": "No true Scotsman: the definition shifts to exclude the counterexample."
+    },
+    {
+     "q": "Name the fallacy: \"Everyone's SQL gets reviewed, except mine, since I know what I'm doing.\"",
+     "a": "Special pleading: an exemption with no principled difference."
+    },
+    {
+     "q": "Counter-move to no true Scotsman?",
+     "a": "Ask for the membership criteria before examining cases, so the definition cannot shift after the evidence arrives."
+    }
+   ]
+  },
+  {
+   "n": "Moving the goalposts",
+   "g": "presumption",
+   "s": "Moving the goalposts raises the standard of evidence after the original standard has been met.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Example: \"Show me one study.\" (Study provided.) \"Show me a randomized trial.\" (Trial provided.) \"It wasn't in my industry.\"</p><p>It keeps a conclusion safe by making it impossible to satisfy the evidential bar.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>A stakeholder asks for a backtest showing the forecast beats last year's naive method. You deliver it. Now they want it to beat it in every month, and then for every region.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Agree on success criteria in writing before the analysis. This is the single most effective defense.</li><li>When the bar shifts, name it neutrally: \"We agreed on X and met it. If Y matters now, what changed?\"</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Raising the bar is legitimate when new information reveals the original standard was inadequate: a backtest that reveals a severe failure in one region justifies regional criteria. It is also fine when stakes rise (a pilot standard versus a production standard). The difference is whether the new standard has a reason that would apply regardless of the result.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Prove the pipeline is faster.\" (Benchmarks shown.) \"Fine, but prove it's faster under peak load and with next year's data.\"",
+     "a": "Moving the goalposts, unless something new justifies the stricter standard."
+    },
+    {
+     "q": "Best structural defense against moving goalposts?",
+     "a": "Write down success criteria before running the analysis."
+    },
+    {
+     "q": "When is raising the evidence bar legitimate?",
+     "a": "When new information shows the original standard was inadequate or the stakes increased."
+    }
+   ]
+  },
+  {
+   "n": "Shifting the burden of proof",
+   "g": "presumption",
+   "s": "Shifting the burden of proof demands that others disprove a claim when the person making the claim should support it.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>A related form is the appeal to ignorance (<i>ad ignorantiam</i>): \"No one has shown it doesn't work, so it works.\"</p><p>Default rule in ordinary argument: whoever asserts the positive or departs from the status quo carries the burden.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Prove the new attribution model is wrong, or we're using it.\" The proposer should show it is better than the current model.</p><p>\"We've found no evidence of data leakage, so the model is clean,\" when nobody actually looked.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask who is making the claim and what evidence would support it.</li><li>For absence-of-evidence claims, ask: \"How hard did we look, and would we have found it if it were there?\"</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Context sets the burden. In criminal law the prosecution carries it; in safety-critical settings the burden falls on showing safety. In ordinary practice, absence of evidence <i>is</i> evidence of absence when the search was thorough and would likely have detected the thing: a full audit log with no unauthorized access is real evidence. The fallacy is concluding from an absent or weak search.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Nobody has proven that the price change caused churn, so it didn't.\"",
+     "a": "Appeal to ignorance or burden shift: lack of proof is not proof of absence, unless someone looked carefully."
+    },
+    {
+     "q": "When is absence of evidence evidence of absence?",
+     "a": "When the search was thorough enough that it would probably have found the thing if it existed."
+    },
+    {
+     "q": "Counter-move when asked to disprove someone's claim?",
+     "a": "Return the burden: ask for the evidence that supports the claim, compared against the current baseline."
+    }
+   ]
+  },
+  {
+   "n": "Post hoc ergo propter hoc",
+   "g": "causal",
+   "s": "Post hoc reasoning concludes that because B followed A, A caused B.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Latin for \"after this, therefore because of this.\" Timing is necessary for causation but not sufficient. Example: \"I wore my lucky shirt and we won.\"</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"We launched the new dashboard in March and the error rate fell in April.\" Other changes in March, regression from an unusually bad February, or a change in error logging could all explain it.</p><p>Executive version: a new leader arrives, results improve, the leader gets the credit.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask what else changed in the same window.</li><li>Look for a comparison group that did not get A (difference-in-differences, holdout, staggered rollout).</li><li>Check whether B was already trending before A.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Temporal sequence plus a known mechanism plus no plausible rivals is reasonable causal evidence, especially with a dose-response pattern or a reversal when A is removed. An interrupted time series with a sharp break exactly at the intervention, and no other change, is a respectable design.</p><div class=\"synth\"><b>Synthesis:</b> For the executive audience, post hoc is the default story because it is a narrative. A pre-trend chart with the intervention date marked is often the fastest way to show whether the change preceded the improvement.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"After we added the CEO's favorite metric to the deck, revenue went up.\"",
+     "a": "Post hoc ergo propter hoc: sequence alone does not show causation."
+    },
+    {
+     "q": "Give a data example of post hoc reasoning.",
+     "a": "Crediting a new ETL tool for fewer failures when a flaky upstream source was also fixed the same week."
+    },
+    {
+     "q": "First chart to make when someone claims post hoc causation?",
+     "a": "The outcome's trend before and after the change, with the change date marked, ideally beside a comparison group."
+    }
+   ]
+  },
+  {
+   "n": "Correlation is not causation: confounding and reverse causation",
+   "g": "causal",
+   "s": "Cum hoc reasoning concludes that because two things move together one causes the other, ignoring confounders, reverse causation and chance.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Latin <i>cum hoc ergo propter hoc</i>: \"with this, therefore because of this.\" The standard alternative explanations:</p><ul><li><b>Confounding:</b> a third variable drives both. Ice cream sales and drownings both rise with summer heat.</li><li><b>Reverse causation:</b> B causes A. Firms with more analysts have more data problems because data problems lead to hiring analysts.</li><li><b>Selection:</b> the sample was filtered on something related to both.</li><li><b>Chance:</b> with many variables, some correlate by accident.</li></ul>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Customers who use the mobile app have 30% higher retention, so we should push everyone to the app.\" Engaged customers both adopt the app and stay; pushing disengaged users onto it may do little.</p><p>Reverse causation: \"Clinics that use the scheduling dashboard most have the longest wait times, so the dashboard slows them down.\" Long waits drive dashboard use.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Name a plausible confounder and ask whether it was controlled.</li><li>Ask which way the arrow runs and whether the timing supports it.</li><li>Prefer designs that break confounding: randomization, natural experiments, instrumental variables, regression discontinuity, fixed effects.</li><li>Draw the causal diagram (DAG) before choosing controls; controlling for a mediator or collider can create bias.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Correlation is evidence of causation, often the first evidence. It becomes strong when the Bradford Hill style considerations line up: temporality, dose-response, consistency across settings, plausible mechanism, and robustness to adjustment for known confounders. Predictive models do not need causation at all: if you only want to forecast, a stable correlation is enough. The fallacy is using a predictive correlation to justify an intervention.</p><div class=\"trap\"><b>Trap:</b> \"Correlation is not causation\" used as a conversation-ender. Ask what the correlation plus design does support, and what test would settle it.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Teams that use more Slack channels ship faster, so let's create more channels.\"",
+     "a": "Cum hoc (correlation as causation): team size or project type could drive both."
+    },
+    {
+     "q": "What is reverse causation? Give a quick example.",
+     "a": "The outcome causes the supposed cause, as when sicker patients receive more treatment, making treatment look harmful."
+    },
+    {
+     "q": "When is a correlation enough without causal evidence?",
+     "a": "When the goal is prediction only, not choosing an intervention."
+    },
+    {
+     "q": "Counter-move to a confounded comparison?",
+     "a": "Name a specific plausible confounder and ask how the analysis rules it out."
+    }
+   ]
+  },
+  {
+   "n": "Base rate fallacy",
+   "g": "causal",
+   "s": "The base rate fallacy ignores how common something is in the population when interpreting specific evidence about a case.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Tversky and Kahneman's cab problem: 85% of cabs are Green and 15% are Blue. A witness who is right 80% of the time says the cab was Blue. Most people say about 80%; Bayes' rule gives about 41%, because false \"Blue\" reports from the many Green cabs outnumber true ones.</p><p>Arithmetic: true Blue reports 0.15 x 0.8 = 0.12; false Blue reports 0.85 x 0.2 = 0.17; 0.12 / 0.29 is about 0.41.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>A fraud model with 99% sensitivity and 99% specificity runs on transactions where 1% are fraud. Of 10,000 transactions, about 99 frauds are flagged and about 99 legitimate ones are flagged too. Half the alerts are false, despite \"99% accuracy.\"</p><p>In healthcare screening, the same test has very different positive predictive value in a general population versus a referred, high-risk one.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask \"Out of how many?\" and convert to natural frequencies on a population of 1,000 or 10,000.</li><li>Report precision (PPV) at the deployment prevalence, not just accuracy or AUC.</li><li>When prevalence changes between training and deployment, recompute.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Ignoring the population base rate is correct when the case is not a random draw from that population. If a transaction already passed through a prior filter, the relevant base rate is the filtered group's rate. Choosing the right reference class is the hard part, and reasonable analysts can disagree.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"The test is 95% accurate and the patient tested positive, so there's a 95% chance they have it.\"",
+     "a": "Base rate fallacy: the answer depends on prevalence."
+    },
+    {
+     "q": "A 99%/99% classifier on 1% prevalence. Roughly what share of alerts are true?",
+     "a": "About half."
+    },
+    {
+     "q": "Counter-move for the base rate fallacy in a meeting?",
+     "a": "Restate the numbers as natural frequencies out of 10,000 cases."
+    }
+   ]
+  },
+  {
+   "n": "Gambler's fallacy",
+   "g": "causal",
+   "s": "The gambler's fallacy expects a random independent process to correct itself, so that a streak makes the opposite outcome more likely.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Example: after five reds at roulette, betting black because it is \"due.\" Each spin is independent; the wheel has no memory.</p><p>Tversky and Kahneman's 1971 paper \"Belief in the law of small numbers\" describes the underlying intuition: people expect small samples to look like the population, so they expect short runs to balance out.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"We've had three bad weeks of sign-ups, so a good week is coming.\" If weeks are independent draws around a stable mean, the next week is just another draw.</p><p>The mirror error is the hot-hand belief that a streak will continue in a process without momentum.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask whether the process has memory: is there a mechanism linking one outcome to the next?</li><li>Check autocorrelation in the historical series before assuming either reversion or momentum.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>It is not a fallacy when outcomes are dependent. Drawing without replacement (cards, a fixed pool of leads) does change odds as items are removed. Mean-reverting processes (inventory with restocking, some financial spreads) do pull back. A streak can also be evidence that the process is not what you assumed, such as a biased die. Research on the basketball hot hand has also been revisited, with later work finding that the original analyses understated real streakiness.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Our last four deployments failed. This one is bound to succeed.\"",
+     "a": "Gambler's fallacy, if failures are independent; it ignores whatever caused the failures."
+    },
+    {
+     "q": "When is \"it's due\" reasoning valid?",
+     "a": "When outcomes are dependent, such as sampling without replacement or a mean-reverting process."
+    },
+    {
+     "q": "Diagnostic check before assuming a streak will reverse?",
+     "a": "Test for autocorrelation and identify a mechanism that links consecutive outcomes."
+    }
+   ]
+  },
+  {
+   "n": "Texas sharpshooter fallacy",
+   "g": "causal",
+   "s": "The Texas sharpshooter draws the target around wherever the bullets landed, finding a pattern in data and then treating it as a confirmed hypothesis.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The image: a man fires at a barn, then paints a bullseye around the tightest cluster. The Fallacy Files describes it as ignoring the role of randomness in clustering. Random data always contain clusters.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>An analyst slices engagement by 40 segments, finds that left-handed Android users in Ohio are up 25%, and presents it as an insight. With 40 comparisons at 5% significance, about two false positives are expected.</p><p>Epidemiology version: a \"cancer cluster\" in one neighborhood, found after looking at every neighborhood.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask how many cuts were examined before this one was found.</li><li>Apply multiple-comparison corrections or a holdout: find the pattern on one half of the data, confirm it on the other.</li><li>Pre-register the hypothesis and metric for experiments.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Exploratory analysis is legitimate and necessary. The pattern found by searching is a hypothesis, not a finding. It becomes evidence once it holds in new data or survives a correction for the number of looks. A cluster can also be real when there is a mechanism identified independently of the data that revealed it.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"After testing 20 email variants by segment, we found one that wins in the Northeast on Tuesdays.\"",
+     "a": "Texas sharpshooter: a pattern found by searching many cuts is presented as confirmed."
+    },
+    {
+     "q": "Name two defenses against the Texas sharpshooter in analysis.",
+     "a": "A holdout split for confirmation, and pre-registered hypotheses or multiple-comparison corrections."
+    },
+    {
+     "q": "What should an exploratory pattern be called until confirmed?",
+     "a": "A hypothesis."
+    }
+   ]
+  },
+  {
+   "n": "Survivorship bias",
+   "g": "causal",
+   "s": "Survivorship bias draws conclusions from cases that passed a selection filter while ignoring the ones that did not.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The famous story is Abraham Wald and returning bombers: damage on planes that came back shows where a plane can be hit and survive, so the armor belongs where returning planes have no holes. A 2016 American Mathematical Society feature column traces the legend: Wald really did build methods to estimate vulnerability from the returning planes in his work for the Statistical Research Group at Columbia, but the dramatic dialogue and the claim that the military acted on his advice are not documented.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Our top accounts all have dedicated CSMs, so CSMs create top accounts.\" Accounts that churned may have had CSMs too.</p><p>Pipeline example: analyzing only completed patient intakes to find what drives completion, when abandoned intakes were dropped upstream.</p><p>Fund performance and startup advice share this problem: the dead funds and failed startups are not in the dataset.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask: \"What happened to the ones that are not in this data?\"</li><li>Check how the dataset was created: inner joins, status filters, and \"active only\" views silently remove failures.</li><li>Rebuild the cohort from the starting population, not the ending one.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Analyzing survivors is fine when the question is about survivors (\"what do our current customers need?\"). It is also fine when the filter is unrelated to the outcome. The error is generalizing from survivors to the full population or using them to infer causes of survival.</p><div class=\"trap\"><b>Trap:</b> SQL inner joins. An inner join to a table of active records is a survivorship filter built into the query.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Every successful founder we interviewed dropped out of college, so dropping out helps.\"",
+     "a": "Survivorship bias: dropouts who failed were not interviewed."
+    },
+    {
+     "q": "What did the AMS feature column conclude about the Wald bomber story?",
+     "a": "The survivorship reasoning reflects Wald's real work, but the vivid anecdote and its outcome are embellished beyond the sources."
+    },
+    {
+     "q": "Common SQL source of survivorship bias?",
+     "a": "Inner joins or filters to active or completed records that drop failed cases."
+    },
+    {
+     "q": "Counter-move to a survivorship argument?",
+     "a": "Rebuild the cohort from everyone who started and compare survivors with non-survivors."
+    }
+   ]
+  },
+  {
+   "n": "Regression to the mean",
+   "g": "causal",
+   "s": "Regression to the mean is the tendency of extreme measurements to be followed by less extreme ones, and the fallacy is crediting an intervention for that drift.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Healy and Goldstein's short paper in the Annals of Human Biology (1978) explains it from Galton's height data: tall fathers tend to have tall sons who are less extreme than their fathers. It happens whenever two measurements are imperfectly correlated, through measurement error, short-term fluctuation, or both.</p><p>Kahneman's flight instructor story is the classic fallacy: praise after a great landing seemed to make the next one worse, and criticism after a bad one seemed to help. Both were regression.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>You pick the ten worst-performing clinics last quarter for a coaching program. Next quarter they improve. Some of that would have happened anyway, because they were selected on a noisy extreme.</p><p>Sales reps who win \"top performer\" often decline next year; the award did not curse them.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask whether units were selected because they were extreme.</li><li>Use a control group selected the same way that did not get the intervention.</li><li>Use multiple baseline measurements, or select on one measurement and evaluate on a separate one.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Regression is not a fallacy itself; it is a statistical fact. Healy and Goldstein also caution that it is not always a mere artifact, since real changes can be part of it. Improvement after an intervention can be real; the point is that pre/post on extreme-selected units cannot show it. A controlled comparison can.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the error: \"We sent a warning letter to the 50 highest-error data entry staff and their error rate dropped.\"",
+     "a": "Regression to the mean, if no comparison group: extreme-selected units tend to drift back anyway."
+    },
+    {
+     "q": "When does regression to the mean occur?",
+     "a": "Whenever two measurements are imperfectly correlated, so selecting on one extreme predicts a less extreme second value."
+    },
+    {
+     "q": "Best defense when evaluating a program targeted at the worst performers?",
+     "a": "A control group selected by the same rule that did not receive the program."
+    }
+   ]
+  },
+  {
+   "n": "Ecological fallacy",
+   "g": "causal",
+   "s": "The ecological fallacy infers something about individuals from relationships observed only in group-level aggregates.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>W. S. Robinson's 1950 paper showed with US census data that the state-level correlation between percent foreign-born and literacy was positive, while the individual-level relationship ran the other way: immigrants settled in states with high literacy. A 2009 International Journal of Epidemiology reanalysis by Subramanian, Jones, Kaddour and Krieger accepts that ecological correlations cannot stand in for individual ones, while warning about the opposite \"individualistic fallacy\" of ignoring context.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Regions with higher telehealth adoption have lower no-show rates, so telehealth patients no-show less.\" The regional pattern could come from different patients entirely.</p><p>Dashboards that show averages by state, clinic, or segment invite individual-level conclusions they cannot support.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask what level the data are at and what level the claim is at. They should match.</li><li>Get the individual-level data, or use multilevel models that separate within-group and between-group effects.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Group-level inference is valid for group-level questions: whether states with policy X have lower rates is an ecological question with an ecological answer. Context effects are also real, which is the point of the 2009 reanalysis: some outcomes depend on the group itself, so analyzing only individuals misses them.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Counties with more gyms have lower obesity, so gym members are thinner.\"",
+     "a": "Ecological fallacy: a county-level correlation is used to claim something about individuals."
+    },
+    {
+     "q": "What did Robinson (1950) show?",
+     "a": "That a correlation between foreign birth and literacy across states had the opposite sign from the individual-level relationship."
+    },
+    {
+     "q": "What is the individualistic fallacy?",
+     "a": "The reverse error: ignoring group context effects by analyzing only individual-level data."
+    }
+   ]
+  },
+  {
+   "n": "Simpson's paradox",
+   "g": "causal",
+   "s": "Simpson's paradox occurs when a trend in every subgroup reverses or disappears once the subgroups are combined.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>The Stanford Encyclopedia of Philosophy entry treats it as a fact about probabilities that becomes a problem when combined rates are used for causal conclusions. The 1973 Berkeley graduate admissions data are the textbook case: men were admitted at about 44% and women at about 35% overall, yet Bickel and colleagues (1975) found little evidence of bias by department, because women applied more to departments with low admission rates.</p><p>A 2016 blog post revisiting the Berkeley case points out that the often-repeated lawsuit never happened; the university was worried about being sued.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>Kidney stone study (Charig et al., 1986): open surgery had higher success for both small and large stones, yet percutaneous treatment looked better overall because it was used more on small, easier stones.</p><p>BI version: overall conversion rose while every channel's conversion fell, because the traffic mix shifted toward the high-converting channel.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Always look at the mix: report subgroup rates and subgroup sizes beside the overall rate.</li><li>Ask which variable is a confounder (should be stratified) versus a mediator (should not be).</li><li>Use a mix-and-rate decomposition to show how much of a change comes from mix shift.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>The aggregate is sometimes the right answer. Whether to stratify depends on the causal structure: stratify on a confounder that affects both treatment and outcome; do not stratify on something the treatment causes. That is why the Stanford entry treats the paradox as a matter of causal interpretation, not just arithmetic.</p><div class=\"trap\"><b>Trap:</b> Assuming the disaggregated view is always more correct. Stratifying on a mediator or collider can manufacture a paradox.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the pattern: every region's margin fell, but the company's overall margin rose.",
+     "a": "Simpson's paradox, driven by a mix shift toward higher-margin regions."
+    },
+    {
+     "q": "Why did Berkeley look biased overall but not by department?",
+     "a": "Women applied disproportionately to departments with low admission rates."
+    },
+    {
+     "q": "How do you decide whether to trust the aggregate or the subgroups?",
+     "a": "Use the causal structure: stratify on confounders, not on mediators or colliders."
+    },
+    {
+     "q": "Counter-move when a single overall rate is presented?",
+     "a": "Ask for the subgroup rates and sizes, and a mix-versus-rate decomposition."
+    }
+   ]
+  },
+  {
+   "n": "Cherry-picking",
+   "g": "causal",
+   "s": "Cherry-picking presents the evidence that supports a conclusion while leaving out the evidence that cuts against it.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Also called suppressed evidence or the fallacy of incomplete evidence. Each cited fact may be true; the selection misleads. Common tools: choosing a convenient date range, a favorable baseline, one subgroup, or the best of several metrics.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>A quarterly review shows growth \"since the March low\" without showing the year-over-year decline. A vendor case study features its three happiest customers.</p><p>Metric shopping: trying conversion, revenue per user, and session length, then reporting the one that moved.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for the full range: \"What does it look like over two years? Against last year?\"</li><li>Ask which metrics were checked and not shown.</li><li>Agree on primary metrics and windows before the analysis.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Every summary selects. Showing the most relevant evidence is the job; it becomes cherry-picking when the omitted evidence would change the conclusion and the audience would want to know it. Highlighting a representative example is fine when you say it is an example and the full distribution backs it up.</p><div class=\"synth\"><b>Synthesis:</b> For yourself, cherry-picking usually happens through stopping rules: you stop looking once the data agree with you. Deciding the analysis plan in advance protects against your own selection as much as anyone else's.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: a deck shows usage growth from the January trough and omits that usage is down 20% year over year.",
+     "a": "Cherry-picking: a favorable window is selected while the contrary trend is left out."
+    },
+    {
+     "q": "What is metric shopping?",
+     "a": "Testing several metrics and reporting only the one that showed the desired result."
+    },
+    {
+     "q": "Counter-move to a suspiciously convenient date range?",
+     "a": "Ask to see the longer series and the year-over-year comparison."
+    }
+   ]
+  },
+  {
+   "n": "McNamara fallacy",
+   "g": "causal",
+   "s": "The McNamara fallacy treats what is easily measured as what matters and dismisses what cannot be measured.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Named after Robert McNamara's reliance on quantitative indicators such as body counts in the Vietnam War. Sketchplanations summarizes the progression described by social scientist Daniel Yankelovich, who set out the critique in the early 1970s: measure what can be measured; disregard what can't; assume what can't be measured isn't important; conclude it doesn't exist.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>A support team optimizes average handle time and customer satisfaction drops, because the quality of each resolution is harder to count. A telepsychiatry operation tracks visits per provider while clinician burnout and care quality go unmeasured.</p><p>Related: Goodhart's law, often paraphrased as \"when a measure becomes a target, it ceases to be a good measure.\"</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask what the metric is a proxy for and how it could improve while the real goal gets worse.</li><li>Pair each target with a counter-metric (speed with quality, volume with retention).</li><li>Include qualitative evidence explicitly: interviews, audits, clinician feedback.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Relying on numbers is good practice; the fallacy is relying only on them and treating the unmeasured as zero. When a proxy has been validated against the real outcome and is hard to game, managing by it is sound.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Morale isn't on any dashboard, so it isn't a real issue.\"",
+     "a": "McNamara fallacy: unmeasured is treated as unimportant."
+    },
+    {
+     "q": "Give the four-step McNamara progression.",
+     "a": "Measure what's easy; disregard the rest; assume the rest is unimportant; conclude it doesn't exist."
+    },
+    {
+     "q": "Practical guard against the McNamara fallacy in KPI design?",
+     "a": "Pair every target metric with a counter-metric and a qualitative check on the real goal."
+    }
+   ]
+  },
+  {
+   "n": "Equivocation",
+   "g": "language",
+   "s": "Equivocation uses one word in two different senses within an argument so that the conclusion appears to follow.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Example: \"A feather is light. What is light cannot be dark. So a feather cannot be dark.\" The Stanford entry lists equivocation among the fallacies Aristotle already identified as depending on language.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>BI is full of overloaded words. \"Active user,\" \"customer,\" \"revenue\" (booked, billed, recognized), and \"patient\" can each mean different things across teams. \"Revenue is up 10%\" in one deck and \"revenue is flat\" in another may both be true.</p><p>\"The model is significant\" can mean statistically significant or practically important.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for the definition each time a key term carries the argument.</li><li>Keep a shared metric glossary or semantic layer with one name per definition.</li><li>Replace the ambiguous word with its definition in the sentence and see if the argument still works.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Words with multiple meanings are fine when context fixes the meaning and it stays fixed. Puns and rhetoric that use ambiguity knowingly are not arguments. The fallacy requires the conclusion to depend on the switch.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Our churn rate is low, since we define a customer as anyone who logged in this month.\"",
+     "a": "Equivocation, if \"customer\" shifts from paying account to recent login."
+    },
+    {
+     "q": "Give three BI terms that commonly cause equivocation.",
+     "a": "Active user, revenue (booked, billed, recognized), and customer."
+    },
+    {
+     "q": "Counter-move to equivocation?",
+     "a": "Substitute the explicit definition for the word in each premise and check whether the argument still holds."
+    }
+   ]
+  },
+  {
+   "n": "Motte-and-bailey",
+   "g": "language",
+   "s": "The motte-and-bailey defends a bold, contested claim by retreating to a modest, easily defended one when challenged, then returning to the bold claim afterward.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Philosopher Nicholas Shackel named it in his 2005 paper \"The Vacuity of Postmodernist Methodology.\" The bailey is the attractive land that is hard to defend; the motte is the fortified tower. Shackel describes the bailey as a position desirable to its proponent but only lightly defensible.</p><p>Example: bailey, \"Our AI tool will replace the analytics team.\" Challenged: \"I'm just saying it can automate some routine reports.\" Then back to budgeting as if the team is replaceable.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>\"Data mesh will fix our data quality.\" When pressed: \"Data mesh just means domain teams own their data, which everyone agrees with.\" The investment case still rests on the bold version.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Name both claims and ask which one is being defended: \"If it's the narrow claim, I agree. Is the budget request based on that one?\"</li><li>Get the bold claim written down before the discussion, so the retreat is visible.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Clarifying a claim after a fair objection is good-faith reasoning: people often overstate and then correct. It becomes a motte-and-bailey when the speaker goes back to the bold claim once the challenge passes, or uses the modest claim to justify actions only the bold claim supports.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"Self-service BI will eliminate report requests.\" Challenged: \"I just mean it will reduce some of them.\" Later: \"Since requests will disappear, we can cut two analysts.\"",
+     "a": "Motte-and-bailey: retreat to a modest claim under challenge, then act on the bold one."
+    },
+    {
+     "q": "Who named the motte-and-bailey, and in what work?",
+     "a": "Nicholas Shackel, in \"The Vacuity of Postmodernist Methodology\" (2005)."
+    },
+    {
+     "q": "Counter-move to a motte-and-bailey?",
+     "a": "Separate the two claims explicitly and ask which one the decision depends on."
+    }
+   ]
+  },
+  {
+   "n": "Weasel words",
+   "g": "language",
+   "s": "Weasel words are vague qualifiers and unattributed sources that make a claim sound stronger than the evidence allows while keeping it hard to falsify.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Examples: \"up to 50% faster,\" \"studies suggest,\" \"many experts believe,\" \"helps reduce,\" \"could be linked to.\" Each phrase adds authority or magnitude while committing to almost nothing.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>Vendor slides: \"Customers see up to 10x performance gains.\" Internal: \"The model is generally accurate\" or \"significant improvement\" with no number.</p><p>Executive summaries drift into weasel words when the analyst is unsure and does not want to say so.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Ask for the number, the denominator, and the source: \"Up to 10x for how many customers out of how many? What was the median?\"</li><li>In your own writing, replace hedges with quantified uncertainty: an interval, a sample size, a confidence level.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Hedging is honest when it reflects real uncertainty. \"The evidence suggests\" is appropriate when evidence is suggestive and the speaker says what it is. Unattributed claims are fine for common knowledge. The problem is vagueness used to imply more than the speaker can support.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What's wrong with \"Customers see up to 40% cost savings\"?",
+     "a": "\"Up to\" names the best case and hides the typical one; ask for the median and the denominator."
+    },
+    {
+     "q": "Give two examples of weasel phrasing in analytics write-ups.",
+     "a": "\"Significant improvement\" with no number, and \"studies show\" with no study named."
+    },
+    {
+     "q": "How should you hedge in your own reporting?",
+     "a": "Quantify the uncertainty with an interval, sample size, or stated confidence."
+    }
+   ]
+  },
+  {
+   "n": "The fallacy fallacy",
+   "g": "practice",
+   "s": "The fallacy fallacy concludes that a claim is false because an argument offered for it was fallacious.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Also called argument from fallacy or <i>argumentum ad logicam</i>. A bad argument for a conclusion does not show the conclusion is false. \"You used an ad hominem, so the proposal is fine\" does not follow.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>A stakeholder argues for a vendor using bandwagon reasoning. You point it out, then treat the vendor as a bad choice. The vendor may still be the best option for other reasons you have not checked.</p><p>It also shows up when an analyst wins a meeting by labeling the other side's reasoning and stops there.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>After finding a flaw, ask: \"Is there a better argument for this conclusion?\" Build it yourself.</li><li>Distinguish two verdicts: the argument fails, and the claim is false. They need different evidence.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>If the fallacious argument was the <i>only</i> support offered and no better one exists, you are entitled to withhold belief. That is different from asserting the opposite. In practice, a pattern of fallacious arguments from one source is weak evidence that there is no better argument available.</p><div class=\"synth\"><b>Synthesis:</b> Most of the fallacies on this tab are context-dependent, as the Stanford entry stresses. Knowing the name of a pattern is a prompt to ask the critical question, not a verdict.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name the fallacy: \"His case for the migration was a slippery slope, so we shouldn't migrate.\"",
+     "a": "Fallacy fallacy: a bad argument for a conclusion does not make the conclusion false."
+    },
+    {
+     "q": "What is the correct response to a fallacious argument with no other support?",
+     "a": "Withhold judgment on the conclusion; do not assert the opposite."
+    },
+    {
+     "q": "Counter-move to your own urge to win with a fallacy label?",
+     "a": "Construct the strongest argument for their conclusion and evaluate that."
+    }
+   ]
+  },
+  {
+   "n": "Charitable interpretation and steelmanning",
+   "g": "practice",
+   "s": "The principle of charity reads an argument in its most reasonable form before criticizing it, and steelmanning goes further by building the strongest version of the opposing view.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Charity in interpretation has a long history in philosophy of language (Davidson and Quine use it for understanding speakers at all). In argument evaluation, it means filling gaps with plausible premises the speaker likely holds and choosing the most sensible reading of ambiguous words. A steelman is the opposite of a straw man.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>Ops leader: \"We don't need more dashboards.\" Uncharitable: they don't value data. Charitable: they are drowning in dashboards that don't answer their questions. The charitable reading points to a solvable problem.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Before rebutting, restate their view and ask, \"Is that right?\" Rapoport's rules, popularized by Daniel Dennett, put this first: restate the position so well that the other person wishes they had put it that way.</li><li>Then list points of agreement and anything you learned, and only then criticize.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Charity has limits. If someone has made their position explicit, reading in a better position they did not hold is its own distortion, and it can let a bad proposal through. In adversarial settings such as negotiation, you should still understand the strongest version but you need not argue it for them.</p><div class=\"trap\"><b>Trap:</b> Steelmanning a proposal into something better than what is actually being proposed, then approving the original. Approve or reject what is on the table.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the principle of charity in argument?",
+     "a": "Interpret an argument in its most reasonable form, with plausible missing premises, before evaluating it."
+    },
+    {
+     "q": "What is the first of Rapoport's rules as popularized by Dennett?",
+     "a": "Restate the other person's position so clearly that they wish they had put it that way."
+    },
+    {
+     "q": "When does charity go too far?",
+     "a": "When you evaluate a better proposal than the one actually being made, and approve the original as a result."
+    }
+   ]
+  },
+  {
+   "n": "Calling out a fallacy in a meeting",
+   "g": "practice",
+   "s": "To call out a fallacy without sounding pedantic, skip the Latin name and ask the specific question that the fallacy fails to answer.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Fallacy names signal \"I am scoring a point\" and invite defensiveness. Every fallacy maps to a neutral question. The dialectical approach in the Stanford entry (Walton's critical questions; van Eemeren and Grootendorst's rules for critical discussion) treats fallacies as moves that derail a joint inquiry, which suggests the fix is to put the inquiry back on track.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<ul><li><b>Post hoc / cum hoc:</b> \"What else changed that week?\" \"Do we have a group that didn't get it?\"</li><li><b>Cherry-picking:</b> \"Can we see the full year next to it?\"</li><li><b>Base rate:</b> \"Out of how many?\"</li><li><b>False dilemma:</b> \"Are there other options we ruled out?\"</li><li><b>Straw man:</b> \"I think the proposal is narrower; let me restate it.\"</li><li><b>Authority:</b> \"Do we have the data on this? It should be quick to check.\"</li><li><b>Moving goalposts:</b> \"We agreed on X; what's changed?\"</li></ul>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Use \"we\" and curiosity: \"Help me understand...\"</li><li>Offer the next step, not just the objection: \"Can I pull a holdout comparison by Friday?\"</li><li>With executives, frame it as risk: \"If this is regression to the mean, we'd be scaling a program that doesn't work.\"</li><li>Pick your battles: raise the ones that change the decision.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Not every fallacy needs a callout. If the flawed argument does not affect the decision, or the conclusion is right for other reasons, raising it costs goodwill for nothing. Raise it in private if it would embarrass someone and the stakes are low.</p><div class=\"synth\"><b>Synthesis:</b> A rule of thumb across these sources: name the question, not the fallacy; propose the check; tie it to the decision.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What should you say instead of \"That's post hoc\"?",
+     "a": "\"What else changed at the same time, and do we have a comparison group?\""
+    },
+    {
+     "q": "Meeting phrasing to counter a base rate error?",
+     "a": "\"Out of how many?\""
+    },
+    {
+     "q": "When should you not call out a fallacy?",
+     "a": "When it does not affect the decision, or when the conclusion stands on other grounds."
+    },
+    {
+     "q": "How do you frame a statistical objection for an executive?",
+     "a": "As decision risk, with a proposed check and its cost."
+    }
+   ]
+  },
+  {
+   "n": "Checking yourself for motivated reasoning",
+   "g": "practice",
+   "s": "Motivated reasoning is the tendency to evaluate evidence by whether it supports the conclusion you want, while feeling objective.",
+   "x": [
+    {
+     "t": "What it is",
+     "b": "<p>Ziva Kunda's 1990 review in Psychological Bulletin, \"The case for motivated reasoning,\" distinguishes accuracy goals from directional goals. Directional goals bias which memories, beliefs, and rules people retrieve, but are constrained: people only reach the desired conclusion if they can construct a justification that would persuade a dispassionate observer. That creates an illusion of objectivity.</p>"
+    },
+    {
+     "t": "At work",
+     "b": "<p>You built the model, so you scrutinize criticisms of it harder than its successes. You expected the migration to save money, so you check the cost data closely only when it disagrees. Asymmetric scrutiny is the signature: you ask \"must I believe this?\" of unwelcome results and \"can I believe this?\" of welcome ones.</p>"
+    },
+    {
+     "t": "Counter-move",
+     "b": "<ul><li>Decide the test before seeing the result: write the hypothesis, metric, and decision rule first.</li><li>Run the symmetry check: \"If this result had come out the other way, would I accept this method?\"</li><li>Consider the opposite: list reasons your conclusion could be wrong before finalizing.</li><li>Run a premortem: assume the decision failed in a year and write why.</li><li>Ask someone with a different stake to review.</li></ul>"
+    },
+    {
+     "t": "When it is not a fallacy",
+     "b": "<p>Having a preferred outcome is not the problem; caring about results is why you do the work. Extra scrutiny of a surprising result is also reasonable when the prior is strong. The fault is applying it only when the surprise is unwelcome. Kunda's framing suggests accuracy motives can reduce bias, so making accuracy matter (accountability, scoring your forecasts) helps.</p><div class=\"trap\"><b>Trap:</b> Using this tab's fallacy list only on other people. Every pattern here is something you are capable of, especially the statistical ones in your own analyses.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are Kunda's two kinds of reasoning goals?",
+     "a": "Accuracy goals and directional goals, where directional goals bias reasoning toward a preferred conclusion."
+    },
+    {
+     "q": "What is the symmetry check?",
+     "a": "Ask whether you would accept the same method if the result had come out the other way."
+    },
+    {
+     "q": "Signature of motivated reasoning in data review?",
+     "a": "Asymmetric scrutiny: harder checks on unwelcome results than welcome ones."
+    },
+    {
+     "q": "Name two structural defenses against your own motivated reasoning.",
+     "a": "Pre-committing the test and decision rule before seeing results, and a premortem or outside reviewer."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "Fallacies, Stanford Encyclopedia of Philosophy (Hans Hansen), Summer 2017 edition",
+   "url": "https://plato.stanford.edu/archives/sum2017/entries/fallacies/"
+  },
+  {
+   "title": "Informal Logic, Stanford Encyclopedia of Philosophy (archived edition)",
+   "url": "https://plato.stanford.edu/archives/sum2006/entries/logic-informal/"
+  },
+  {
+   "title": "Simpson's Paradox, Stanford Encyclopedia of Philosophy (archived edition)",
+   "url": "https://plato.stanford.edu/archives/sum2006/entries/paradox-simpson/"
+  },
+  {
+   "title": "Linked bibliography for the SEP article Simpson's Paradox (Sprenger and Weinberger)",
+   "url": "https://philpapers.org/sep/paradox-simpson/"
+  },
+  {
+   "title": "What is a logical fallacy? (The Fallacy Files)",
+   "url": "https://fallacyfiles.org/introtof.html"
+  },
+  {
+   "title": "Affirming the Consequent (The Fallacy Files)",
+   "url": "https://fallacyfiles.org/afthecon.html"
+  },
+  {
+   "title": "The Texas Sharpshooter Fallacy (The Fallacy Files)",
+   "url": "https://fallacyfiles.org/texsharp.html"
+  },
+  {
+   "title": "Logical Fallacies (Excelsior Online Writing Lab)",
+   "url": "https://owl.excelsior.edu/argument-and-critical-thinking/logical-fallacies/"
+  },
+  {
+   "title": "Argument: Fallacies (Royal Roads University Library guide)",
+   "url": "https://libguides.royalroads.ca/argument/fallacies"
+  },
+  {
+   "title": "Common Logical Fallacies (Lumen Learning writing skills lab)",
+   "url": "https://courses.lumenlearning.com/wm-writingskillslab-2/chapter/common-logical-fallacies/"
+  },
+  {
+   "title": "Charity, principle of (Routledge Encyclopedia of Philosophy)",
+   "url": "https://www.rep.routledge.com/articles/thematic/charity-principle-of"
+  },
+  {
+   "title": "The Vacuity of Postmodernist Methodology (Nicholas Shackel)",
+   "url": "https://orca.cardiff.ac.uk/50091/1/shackel%20The%20Vacuity%20of%20Postmodernist%20Methodology%20final%20archivable.pdf"
+  },
+  {
+   "title": "The case for motivated reasoning (Kunda, 1990), PubMed record",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/2270237/"
+  },
+  {
+   "title": "The case for motivated reasoning (Kunda, 1990), PDF",
+   "url": "https://fbaum.unc.edu/teaching/articles/Psych-Bulletin-1990-Kunda.pdf"
+  },
+  {
+   "title": "The Legend of Abraham Wald (American Mathematical Society feature column)",
+   "url": "https://www.ams.org/samplings/feature-column/fc-2016-06"
+  },
+  {
+   "title": "Regression to the mean (Healy and Goldstein, Annals of Human Biology)",
+   "url": "https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/regression-to-the-mean.pdf"
+  },
+  {
+   "title": "Revisiting Robinson: The perils of individualistic and ecologic fallacy (International Journal of Epidemiology, 2009)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2663721/"
+  },
+  {
+   "title": "Simpson's Paradox and Statistical Urban Legends: Gender Bias at Berkeley (refsmmat.com)",
+   "url": "https://www.refsmmat.com/posts/2016-05-08-simpsons-paradox-berkeley.html"
+  },
+  {
+   "title": "The McNamara Fallacy (Sketchplanations)",
+   "url": "https://sketchplanations.com/the-mcnamara-fallacy"
+  },
+  {
+   "title": "Base Rate Fallacy (Simply Psychology)",
+   "url": "https://www.simplypsychology.org/base-rate-fallacy.html"
+  }
+ ]
+}

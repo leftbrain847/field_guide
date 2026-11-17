@@ -7,6 +7,8 @@
 - Every sprint day commits its snapshot with `node scripts/snapshot.mjs <page.html>` (see README), so the index logs the day without a manual entry. Private unless J says the day is public.
 - `main` is the source of truth, changed only through merged PRs. Push the session branch and open a PR before ending a session, so no work is lost.
 - Update README Run/Test/Deployed when they change.
+- Mastery in as few words as possible: keep only essential ideas, rules and how to apply them; no stories or filler (medicine is the exception: completeness wins there).
+- Every topic or template change ships with a rebuilt `web/mastery_field_guide.html` (`python3 build/build.py`); the tests fail on a stale page.
 - Keep `project.yml` (theme, tags, what, next, active) current; the index reads it nightly.
 
 ## Working rules for agents (shared across J's repos)

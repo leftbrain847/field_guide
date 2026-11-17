@@ -1,0 +1,1148 @@
+{
+ "groups": [
+  {
+   "key": "env",
+   "label": "Environmental emergencies"
+  },
+  {
+   "key": "metabolic",
+   "label": "Metabolic, renal and endocrine"
+  },
+  {
+   "key": "abdo",
+   "label": "Abdominal and GI emergencies"
+  },
+  {
+   "key": "infect",
+   "label": "Infectious emergencies"
+  },
+  {
+   "key": "obpeds",
+   "label": "OB and pediatric emergencies"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "accidental_hypothermia",
+   "type": "condition",
+   "n": "Accidental hypothermia and hypothermic cardiac arrest",
+   "g": "env",
+   "s": "Stage by core temperature and consciousness, handle gently, rewarm by stage, and send unstable or arrested patients to a center that can run ECLS because full neurologic recovery after hours of CPR is possible.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<p>The Wilderness Medical Society (WMS) 2019 hypothermia guideline uses core temperature bands: mild 35 to 32 C, moderate 32 to 28 C, severe below 28 C, with some experts adding profound below 24 C. When no thermometer is available, the Swiss staging maps clinical signs to risk: HT I conscious and shivering, HT II impaired consciousness without shivering, HT III unconscious, HT IV apparent death.</p><ul><li><b>Clinical clues:</b> shivering stops as temperature falls, confusion, bradycardia, slow respirations, cold diuresis, and eventually no detectable pulse.</li><li>A shivering patient with impaired consciousness should be treated as moderate (WMS).</li><li><b>VF risk rises sharply below 28 C</b>, and rough handling can trigger it.</li><li><b>Must-not-miss contributors:</b> hypoglycemia, sepsis, hypothyroidism (myxedema), adrenal insufficiency, head or spinal injury, intoxication, and in older adults an occult fall with a long lie.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Core temperature:</b> WMS recommends an esophageal probe in the lower third of the esophagus in intubated patients; rectal and bladder readings can lag core by up to an hour.</li><li><b>ECG:</b> bradycardia, prolonged intervals, Osborn (J) waves, atrial fibrillation; shivering artifact is common.</li><li><b>Labs:</b> glucose, potassium, blood gas, lactate, CK, coagulation (clotting assays run at 37 C underestimate the in-vivo coagulopathy), lipase, TSH and cortisol when the cause is unclear.</li><li><b>Potassium as a triage tool in arrest:</b> WMS states CPR should be terminated in an adult with serum potassium above 12 mmol/L; with no ECLS available, take the arrested patient to the nearest hospital that can measure potassium and attempt conventional resuscitation if it is below 12.</li><li><b>Prognostic scores:</b> the European Resuscitation Council (ERC) hypothermia algorithm suggests considering ECLS when the HOPE survival probability is 10 percent or higher.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Handle gently and keep horizontal.</b> WMS links limb movement and upright posture to afterdrop (further core cooling of up to 5 to 6 C after rescue) and to circumrescue collapse.</li><li><b>Rewarm by stage.</b> Mild: insulation, warm environment, calories, shivering (about 3 to 4 C per hour per WMS). Moderate to severe: active external rewarming to the trunk (forced air, heat packs to axillae, chest, back), warm IV fluids, and in the hospital minimally invasive or invasive core rewarming. WMS cites a safe rewarming rate of 1 to 2 C per hour for noninvasive methods.</li><li><b>Fluids:</b> WMS recommends normal saline warmed to 40 to 42 C, given IV or IO as 500 mL boluses titrated to response, and advises against lactated Ringer's because the cold liver clears lactate poorly.</li><li><b>Cardiac arrest:</b> standard compressions; check for a pulse for up to 1 minute before starting CPR. If VF or pulseless VT and core is below 30 C, WMS recommends a single shock at maximum energy and delaying further shocks until the patient is warmer than 30 C. The 2025 European Resuscitation Council (ERC) guideline, as published by Resuscitation Council UK, instead delays further shocks only if VF persists after 3 shocks, until the core is above 30 C.</li><li><b>Epinephrine:</b> WMS recommends withholding vasoactive drugs until the core reaches 30 C, then giving usual doses with dosing intervals doubled between 30 and 35 C. The 2025 ERC guideline also withholds epinephrine below 30 C, then gives 1 mg IV once the core reaches 30 C (unless ECPR is about to start) and stretches the interval to 6 to 10 minutes between 30 and 35 C. Follow normothermic ACLS above 35 C.</li><li><b>ECLS:</b> WMS recommends transfer of arrested or hemodynamically unstable patients, and those below 28 C, to a center with ECLS; ECMO is preferred over cardiopulmonary bypass. ERC advises ECLS rewarming for HT IV and not terminating CPR during transport to ECLS.</li><li><b>Drugs at low temperature:</b> WMS advises reducing doses of anesthetic and neuromuscular blocking agents below 30 C.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Declaring death in a cold patient. WMS reports survival after 6.5 hours of CPR and after resuscitation from a core temperature of 13.7 C; there is no temperature cutoff below which resuscitation is futile.</div><ul><li>Hypothermic arrest with a clear asphyxial cause (for example, burial without an air pocket, or submersion before cooling) has a worse outlook; potassium and HOPE help separate these cases.</li><li>Rewarming can unmask hypovolemia and cause hypotension; give warmed fluid and monitor.</li><li>Older patients found indoors are often hypothermic from an underlying illness; treat the cause.</li><li>Admit moderate or worse hypothermia; ICU for severe hypothermia, arrhythmia, or invasive rewarming.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Oxygen consumption falls about 6 percent per 1 C drop (to about 50 percent at 28 C per WMS), which protects the brain during prolonged arrest. The cold myocardium becomes irritable and poorly responsive to drugs and shocks, and enzymes slow, so drugs accumulate and coagulation fails.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Per WMS 2019, when should epinephrine be withheld in hypothermic arrest, and how is dosing changed between 30 and 35 C?",
+     "a": "Withhold vasoactive drugs until core temperature reaches 30 C; between 30 and 35 C give usual doses at twice the usual interval (ERC 2025: 1 mg every 6 to 10 minutes)."
+    },
+    {
+     "q": "Per WMS 2019, what defibrillation strategy is used for VF below 30 C?",
+     "a": "One shock at maximum energy, then delay further shocks until the core is above 30 C (ERC 2025 allows up to 3 shocks before delaying)."
+    },
+    {
+     "q": "What serum potassium level does WMS 2019 give for terminating CPR in an adult hypothermic arrest?",
+     "a": "Above 12 mmol/L."
+    },
+    {
+     "q": "Which IV fluid and temperature does WMS recommend for hypothermia?",
+     "a": "Normal saline warmed to 40 to 42 C in 500 mL boluses titrated to blood pressure; avoid lactated Ringer's."
+    },
+    {
+     "q": "Define the core temperature bands for mild, moderate and severe hypothermia used by WMS.",
+     "a": "Mild 35 to 32 C, moderate 32 to 28 C, severe below 28 C."
+    }
+   ]
+  },
+  {
+   "id": "heat_stroke",
+   "type": "condition",
+   "n": "Heat stroke",
+   "g": "env",
+   "s": "Hyperthermia with central nervous system dysfunction is heat stroke until proven otherwise, and the treatment is immediate whole-body cold-water or ice-water immersion to below 39 C within 30 minutes.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Definition in practice:</b> elevated core temperature (commonly above 40 C) with CNS dysfunction: confusion, ataxia, seizures, coma. Sweating may persist, especially in exertional heat stroke.</li><li><b>Exertional:</b> young athletes, soldiers, laborers; rapid onset during exertion in heat.</li><li><b>Classic (nonexertional):</b> older adults, chronic illness, anticholinergic or diuretic use, poor housing during heat waves; slower onset with more dehydration.</li><li><b>Differential:</b> sepsis and meningitis, thyroid storm, neuroleptic malignant syndrome, serotonin syndrome, malignant hyperthermia, anticholinergic toxicity, stroke involving the hypothalamus.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Core temperature</b> by rectal or esophageal probe, continuously during cooling. Oral, tympanic, and temporal readings are unreliable here.</li><li><b>Labs:</b> glucose, electrolytes, creatinine, CK (rhabdomyolysis), LFTs (rise over 24 to 72 hours), coagulation and fibrinogen (DIC), lactate, blood gas, urinalysis.</li><li>Do not delay cooling for labs or imaging. Image the head or do an LP only if mental status fails to improve after cooling or the history suggests another cause.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Start cooling at the point of recognition.</b> The 30-minute target below runs from recognition, so cool on site before transport whenever immersion is available. The 2025 Society of Critical Care Medicine (SCCM) heat stroke guideline strongly recommends active over passive cooling and prioritizing the fastest available method: ice-water immersion (1 to 5 C) or cold-water immersion (9 to 12 C).</li><li><b>Targets per SCCM 2025 (good practice statements):</b> reach a core temperature below 39 C, within 30 minutes of recognition, using a method that cools at least 0.155 C per minute.</li><li><b>When immersion is impossible:</b> use the fastest alternative available (for example, ice packs over the body with cold wet sheets, or evaporative cooling with fanning), accepting slower rates.</li><li><b>Stop at target</b> to avoid overshoot hypothermia, then monitor for rebound.</li><li><b>Supportive care:</b> airway protection, benzodiazepines for seizures or shivering, isotonic fluids guided by perfusion and volume status (classic heat stroke patients are often older with cardiac disease), treat hypoglycemia, manage rhabdomyolysis and hyperkalemia.</li><li><b>Do not use:</b> SCCM 2025 strongly recommends against dantrolene and advises against routine acetaminophen, NSAIDs or salicylates for temperature reduction.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating the fever with antipyretics or slow external cooling while the patient sits at 41 C. Morbidity tracks the duration of hyperthermia, so immersion speed is the intervention.</div><ul><li>A normal or near-normal temperature on arrival after prehospital cooling does not exclude heat stroke; the history and CNS findings define it.</li><li>Expect delayed liver injury, AKI, and DIC; admit all true heat stroke, with ICU for persistent CNS dysfunction, organ failure, or coagulopathy.</li><li>SCCM 2025 limits prophylactic antibiotics and antiseizure drugs to research settings.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Heat production or absorption overwhelms dissipation. Above a critical temperature, cells denature, the gut barrier leaks endotoxin, and a sepsis-like inflammatory and coagulation cascade follows, which is why damage continues after cooling and why time above 40 C matters most.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What cooling method does the 2025 SCCM heat stroke guideline prioritize?",
+     "a": "The fastest available active method: ice-water (1 to 5 C) or cold-water (9 to 12 C) immersion."
+    },
+    {
+     "q": "What temperature target and time window does SCCM 2025 give for heat stroke cooling?",
+     "a": "Core temperature below 39 C within 30 minutes of recognition."
+    },
+    {
+     "q": "What minimum cooling rate does SCCM 2025 suggest prioritizing?",
+     "a": "At least 0.155 C per minute."
+    },
+    {
+     "q": "Does SCCM 2025 support dantrolene or antipyretics in heat stroke?",
+     "a": "No; it strongly recommends against dantrolene and advises against routine antipyretics."
+    },
+    {
+     "q": "Which thermometer site should guide heat stroke cooling?",
+     "a": "Continuous rectal or esophageal core temperature."
+    }
+   ]
+  },
+  {
+   "id": "dka_hhs",
+   "type": "condition",
+   "n": "DKA and HHS (2024 ADA/EASD/JBDS consensus)",
+   "g": "metabolic",
+   "s": "Diagnose with glucose or known diabetes, ketones, and acidosis (DKA) or extreme glucose and osmolality without major ketosis (HHS), then give fluids, check potassium before insulin, run fixed-rate insulin, and add dextrose before ketones clear.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>DKA:</b> polyuria, polydipsia, vomiting, abdominal pain, Kussmaul breathing, ketotic breath, dehydration; develops over hours to a day.</li><li><b>HHS:</b> older type 2 patients, days of osmotic diuresis, profound dehydration, altered mental status or focal deficits; mixed DKA/HHS is common.</li><li><b>Euglycemic DKA:</b> the 2024 consensus defines it as glucose below 200 mg/dL (11.1 mmol/L) with ketosis and acidosis, about 10 percent of presentations; SGLT2 inhibitors, pregnancy, low intake, and alcohol are triggers.</li><li><b>Find the precipitant:</b> insulin omission, infection, MI, stroke, pancreatitis, new diabetes, SGLT2 inhibitors, steroids.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<p><b>Diagnostic criteria per the 2024 ADA/EASD/JBDS/AACE/DTS consensus:</b></p><ul><li><b>DKA (all three):</b> glucose 200 mg/dL or higher or known diabetes; beta-hydroxybutyrate 3.0 mmol/L or higher (preferred) or urine ketones 2+ or more; pH below 7.3 and/or bicarbonate below 18 mmol/L. Anion gap is no longer a primary criterion.</li><li><b>DKA severity:</b> mild pH 7.25 to 7.30 or bicarbonate 15 to 18; moderate pH 7.0 to 7.25 or bicarbonate 10 to under 15; severe pH below 7.0 or bicarbonate below 10, or stupor or coma.</li><li><b>HHS (all four):</b> glucose 600 mg/dL or higher; effective osmolality above 300 mOsm/kg or total osmolality above 320; beta-hydroxybutyrate below 3.0 mmol/L or urine ketones below 2+; pH 7.3 or higher and bicarbonate 15 mmol/L or higher. Altered mental status is no longer required.</li><li><b>Also:</b> potassium, sodium (correct for glucose), phosphate, creatinine, venous gas, CBC, lipase, ECG, cultures and imaging as indicated, pregnancy test.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Fluids:</b> 0.9% saline or a balanced crystalloid at 500 to 1000 mL/h for the first 2 to 4 hours if no cardiac or renal compromise, replacing the deficit over 24 to 48 hours. The consensus notes balanced crystalloids may resolve DKA faster with less hyperchloremia. Use smaller boluses (for example 250 mL) in older adults, heart failure, or kidney failure.</li><li><b>Potassium before insulin:</b> if K is below 3.5 mmol/L, hold insulin and replace at 10 mmol/h until K exceeds 3.5. If K is 3.5 to under 5.0, add 20 to 30 mmol per liter of fluid targeting 4 to 5. If K is 5.0 or higher, no initial replacement; recheck 2 hours after insulin starts, then every 4 hours.</li><li><b>Insulin (DKA):</b> IV fixed-rate 0.1 units/kg/h; an optional 0.1 units/kg IV or IM bolus if access is delayed. Subcutaneous rapid-acting insulin every 1 to 2 hours is an alternative in mild to moderate uncomplicated DKA (not recommended for severe DKA or HHS).</li><li><b>Dextrose:</b> when glucose falls below 250 mg/dL (13.9 mmol/L), add 5 to 10% dextrose and reduce insulin to 0.05 units/kg/h, keeping glucose about 200 mg/dL until ketoacidosis resolves. In euglycemic DKA, start dextrose with the insulin.</li><li><b>Insulin (HHS):</b> 0.05 units/kg/h if ketosis is absent or mild; 0.1 units/kg/h if significant ketonemia (mixed picture). Fluids alone usually lower glucose first.</li><li><b>HHS correction limits:</b> glucose fall no faster than 90 to 120 mg/dL per hour; sodium fall no more than 10 mmol/L in 24 hours; osmolality fall 3 to 8 mOsm/kg per hour.</li><li><b>Bicarbonate:</b> not routine; consider only if pH is below 7.0: 100 mmol in 400 mL sterile water every 2 hours until pH exceeds 7.0.</li><li><b>Phosphate:</b> only with weakness, respiratory or cardiac compromise and phosphate below 1.0 mmol/L; 20 to 30 mmol potassium phosphate added to fluids.</li><li><b>Resolution and transition:</b> DKA resolves at ketones below 0.6 mmol/L and venous pH 7.3 or higher or bicarbonate 18 or higher; HHS at osmolality below 300, glucose below 250 mg/dL, urine output above 0.5 mL/kg/h, and improved cognition. Overlap subcutaneous insulin with the drip by 1 to 2 hours before stopping it; the consensus also allows low-dose basal insulin (0.15 to 0.3 units/kg SC) to start while the infusion is still running. Starting doses are about 0.5 to 0.6 units/kg/day in insulin-naive patients, or 0.3 if hypoglycemia risk is high.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Starting insulin before the potassium is back. Insulin drives potassium into cells, and a patient with K below 3.5 can arrest from hypokalemia.</div><ul><li>Stopping the insulin drip when glucose normalizes; the endpoint is ketone and acid clearance, so add dextrose and continue insulin.</li><li>Using the anion gap or urine ketones to judge resolution; the consensus advises against both.</li><li>Missing euglycemic DKA in a patient on an SGLT2 inhibitor; stop the drug on admission.</li><li>Cerebral edema is rare in adults (under 0.1 percent) with about 30 percent mortality; correct HHS osmolality slowly and image for any mental status decline.</li><li>Disposition per the consensus: mild DKA ward or observation, moderate step-down, severe DKA and HHS in the ICU.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Insulin deficiency plus counter-regulatory hormones drive lipolysis and hepatic ketogenesis (DKA) and gluconeogenesis with osmotic diuresis. In HHS, residual insulin suppresses ketogenesis, so the picture is dominated by water loss and hyperosmolality.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the three DKA criteria in the 2024 consensus?",
+     "a": "Glucose 200 mg/dL or higher or known diabetes; beta-hydroxybutyrate 3.0 mmol/L or higher (or urine ketones 2+); pH below 7.3 and/or bicarbonate below 18."
+    },
+    {
+     "q": "What potassium level requires holding insulin in DKA?",
+     "a": "Below 3.5 mmol/L; replace at 10 mmol/h until K is above 3.5."
+    },
+    {
+     "q": "What is the fixed-rate IV insulin dose for DKA, and what happens when glucose drops below 250 mg/dL?",
+     "a": "0.1 units/kg/h; add 5 to 10% dextrose and reduce insulin to 0.05 units/kg/h."
+    },
+    {
+     "q": "What are the 2024 DKA resolution criteria?",
+     "a": "Ketones below 0.6 mmol/L and venous pH 7.3 or higher or bicarbonate 18 mmol/L or higher."
+    },
+    {
+     "q": "What sodium correction limit does the consensus give for HHS?",
+     "a": "No more than 10 mmol/L fall in 24 hours."
+    }
+   ]
+  },
+  {
+   "id": "hypoglycemia",
+   "type": "condition",
+   "n": "Hypoglycemia",
+   "g": "metabolic",
+   "s": "Check glucose in every altered patient, treat immediately with oral carbohydrate if able to swallow or IV dextrose or glucagon if not, then find the cause and decide how long it will recur.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>ADA levels:</b> level 1 glucose below 70 mg/dL and at or above 54; level 2 below 54 mg/dL; level 3 is a severe event with altered mental or physical status needing assistance, regardless of the number.</li><li><b>Symptoms:</b> adrenergic (tremor, sweating, palpitations, hunger) and neuroglycopenic (confusion, behavior change, seizure, focal deficits that mimic stroke, coma). Beta-blockers and hypoglycemia unawareness blunt the warning signs.</li><li><b>Causes:</b> insulin or sulfonylurea therapy, reduced intake, renal failure (reduced insulin clearance), sepsis, liver failure, adrenal insufficiency, alcohol, insulinoma.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Point-of-care glucose; confirm with a lab sample if it does not fit the picture, but treat first.</li><li>Before treatment in a patient without diabetes, if it will not delay care, draw blood for insulin, C-peptide, beta-hydroxybutyrate and sulfonylurea screen to support later evaluation.</li><li>Look for the precipitant: renal function, infection, intake history, new medications, long-acting insulin or sulfonylurea exposure.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Able to swallow:</b> the ADA 15-15 rule: 15 g of fast-acting carbohydrate, recheck in 15 minutes, repeat until resolved, then a meal or snack.</li><li><b>Unable to swallow, no IV:</b> glucagon. The FDA label for glucagon 1 mg/mL emergency kits gives 1 mg SC, IM, or IV for adults and children 6 years or older or above 25 kg, and 0.5 mg for children under 6 or under 25 kg, repeating once after 15 minutes if no response. ADA prefers ready-to-use products (intranasal or premixed) for out-of-hospital use.</li><li><b>Unable to swallow, IV access:</b> IV dextrose. The Hospira dextrose 50% label (revised January 2026) gives 10 to 25 g (20 to 50 mL of D50) slowly IV for adults and children 12 years and older, repeated as clinically needed. D10 delivers the same 10 to 25 g in 100 to 250 mL. The label advises against peripheral D50 in children 2 to 11 years (use central access or a lower concentration) and does not cover children under 2. In children, the OHSU dehydration pathway uses D10W 4 to 5 mL/kg (2 to 5 mL/kg in another section of the same pathway) with a recheck in 30 minutes.</li><li><b>After correction:</b> feed the patient, then start a dextrose infusion if hypoglycemia recurs or the cause is long-acting.</li><li><b>Malnourished or alcohol-using patients:</b> give thiamine with or before glucose.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Discharging a patient whose hypoglycemia came from a long-acting insulin, a sulfonylurea, or renal failure after one good glucose. These recur hours later, so observe with serial checks.</div><ul><li>Glucagon works poorly when glycogen is depleted (starvation, alcohol, liver failure).</li><li>Hypoglycemia can mimic stroke; check glucose before activating a stroke pathway.</li><li>Patients with a clear, short-acting cause who eat and stay normal for several hours can often go home with a plan and glucagon; admit for recurrence, unclear cause, or poor intake.</li><li>Sulfonylurea or other drug-induced hypoglycemia after an overdose is a toxicology problem and outside this tab.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are ADA hypoglycemia levels 1, 2 and 3?",
+     "a": "Level 1 below 70 mg/dL (and 54 or above); level 2 below 54 mg/dL; level 3 is any event with altered status needing assistance."
+    },
+    {
+     "q": "What is the ADA 15-15 rule?",
+     "a": "Give 15 g of fast-acting carbohydrate, recheck glucose in 15 minutes, and repeat until resolved."
+    },
+    {
+     "q": "What adult IV dextrose dose does the D50 label give for insulin-induced hypoglycemia?",
+     "a": "10 to 25 g (20 to 50 mL of 50% dextrose) slowly IV, repeated as needed; D10 gives the same grams in 100 to 250 mL."
+    },
+    {
+     "q": "What glucagon doses does the FDA kit label give for severe hypoglycemia?",
+     "a": "1 mg SC, IM, or IV for adults and children 6 years or older or over 25 kg; 0.5 mg if under 6 years or under 25 kg; repeat once after 15 minutes if no response."
+    },
+    {
+     "q": "Which hypoglycemia causes require prolonged observation after correction?",
+     "a": "Long-acting insulin, sulfonylureas, renal failure, and poor intake, because recurrence is likely."
+    }
+   ]
+  },
+  {
+   "id": "hyperkalemia",
+   "type": "condition",
+   "n": "Hyperkalemia",
+   "g": "metabolic",
+   "s": "Protect the heart with IV calcium when the ECG shows toxicity, shift potassium into cells with insulin-glucose and salbutamol, remove it with binders or dialysis, and watch for rebound and hypoglycemia.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>UK Kidney Association (UKKA) severity:</b> mild 5.5 to 5.9, moderate 6.0 to 6.4, severe 6.5 mmol/L or higher.</li><li><b>Risk groups:</b> CKD and dialysis, AKI, diabetes, heart failure on RAAS inhibitors, spironolactone, trimethoprim, rhabdomyolysis, tumor lysis, adrenal insufficiency.</li><li><b>Symptoms are late:</b> weakness, paresthesias, palpitations, ascending paralysis; arrest can be the first sign.</li><li><b>Pseudohyperkalemia:</b> hemolysis, prolonged tourniquet, thrombocytosis or leukocytosis. Repeat, but treat if the ECG is abnormal.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>12-lead ECG:</b> UKKA recommends an urgent ECG for hospitalized patients with K 6.0 or higher. Look for peaked T waves, PR prolongation, P-wave loss, QRS widening, bradycardia, sine wave, VF or asystole. A normal ECG does not exclude danger.</li><li><b>Cardiac monitoring</b> (UKKA): K 6.5 or higher, any ECG changes, or K 6.0 to 6.4 if unwell or rising.</li><li>Blood gas for a fast potassium, creatinine, glucose, CK, calcium; review drugs.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses below are from the UKKA clinical practice guideline on management of hyperkalaemia in adults (2023, updated July 2026).</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Stabilize the myocardium (ECG changes):</b> 6.8 mmol of calcium, as 30 mL of 10% calcium gluconate IV over 10 minutes or 10 mL of 10% calcium chloride over 5 minutes. Calcium chloride is preferred in arrest or peri-arrest. The July 2026 update downgraded IV calcium to a suggestion (2C) after a 2025 ILCOR review. UKKA advises a repeat dose if ECG changes persist, noting that calcium acts within 3 minutes but lasts only 30 to 60 minutes; it sets no fixed interval. The ACEP adult hyperkalemia algorithm gives calcium gluconate 1 g IV, rechecks the ECG at 5 minutes, and allows up to two further doses if changes persist.</li><li><b>Shift:</b> 10 units soluble insulin with 25 g glucose IV for severe hyperkalemia (suggested for moderate). If pre-treatment glucose is below 7.0 mmol/L (126 mg/dL) (126 mg/dL), follow with 10% glucose at 50 mL/h for 5 hours. Check glucose at 0, 30, 60, 90, 120, 180, 240, 300 and 360 minutes. The ACEP algorithm uses 5 units of regular insulin in insulin-naive or CKD patients to lower hypoglycemia risk.</li><li><b>Salbutamol (albuterol):</b> 10 to 20 mg nebulized as an adjunct for severe hyperkalemia; never as monotherapy.</li><li><b>Remove:</b> sodium zirconium cyclosilicate 10 g three times daily for up to 72 hours for K 6.5 or higher (consider for 6.0 to 6.4); patiromer 8.4 g is an option at K 6.0 or higher. UKKA no longer recommends calcium resonium acutely.</li><li><b>Sodium bicarbonate:</b> UKKA does not recommend routine IV bicarbonate for acute treatment; it suggests it in cardiac arrest with suspected hyperkalemia.</li><li><b>Dialysis:</b> urgent for hemodialysis patients with K 6.5 or higher; still give IV calcium for ECG toxicity while dialysis is arranged.</li><li><b>Fix the cause:</b> stop potassium-raising drugs, treat AKI and obstruction, give fluids for hypovolemia.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Believing calcium or insulin lowers the body's potassium. Calcium only stabilizes membranes and insulin only shifts potassium; both wear off and the level rebounds without removal.</div><ul><li>Insulin-glucose hypoglycemia is common and can be late; UKKA extended glucose monitoring to 6 hours.</li><li>Calcium gluconate underdosing: the UK MHRA 2023 alert led UKKA to specify 30 mL of 10% gluconate to match 10 mL of chloride.</li><li>UKKA suggests rechecking K at least at 1, 2, 4, 6 and 24 hours after treating moderate or severe hyperkalemia.</li><li>Monitor in a high-dependency setting for severe or ECG-positive hyperkalemia; involve nephrology for refractory cases.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Raised extracellular potassium partially depolarizes cardiac cells, inactivating sodium channels and slowing conduction. Calcium raises the threshold potential and restores excitability; insulin and beta-agonists activate the sodium-potassium pump to move potassium inside.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What IV calcium doses does UKKA give for hyperkalemia with ECG changes?",
+     "a": "30 mL of 10% calcium gluconate over 10 minutes or 10 mL of 10% calcium chloride over 5 minutes (6.8 mmol); repeat if ECG changes persist (ACEP: recheck ECG at 5 minutes, up to two more doses)."
+    },
+    {
+     "q": "What insulin-glucose dose does UKKA recommend for severe hyperkalemia?",
+     "a": "10 units soluble insulin with 25 g glucose IV."
+    },
+    {
+     "q": "When does UKKA add a 10% glucose infusion after insulin-glucose?",
+     "a": "When pre-treatment glucose is below 7.0 mmol/L (126 mg/dL): 50 mL/h for 5 hours."
+    },
+    {
+     "q": "What nebulized salbutamol dose does UKKA give as an adjunct?",
+     "a": "10 to 20 mg."
+    },
+    {
+     "q": "What UKKA potassium range defines severe hyperkalemia?",
+     "a": "6.5 mmol/L or higher."
+    }
+   ]
+  },
+  {
+   "id": "dysnatremia",
+   "type": "condition",
+   "n": "Hyponatremia and hypernatremia",
+   "g": "metabolic",
+   "s": "Treat severe symptomatic hyponatremia with 150 mL boluses of 3% saline to raise sodium about 5 mmol/L, then cap correction to protect against osmotic demyelination, and lower chronic hypernatremia gradually with free water.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Hyponatremia symptoms:</b> nausea, headache, confusion, gait instability and falls; severe features are vomiting, seizures, reduced consciousness, and respiratory arrest. Acute drops (under 48 hours: marathon runners, psychogenic polydipsia, postoperative hypotonic fluids, MDMA) carry the highest risk of brain herniation.</li><li><b>High-risk for osmotic demyelination when corrected:</b> sodium 105 or below, hypokalemia, alcohol use disorder, malnutrition, advanced liver disease.</li><li><b>Hypernatremia:</b> usually loss of free water without access to water: infants, older or disabled patients, diabetes insipidus, osmotic diuresis. Symptoms are lethargy, irritability, weakness, seizures; intracranial hemorrhage can result from brain shrinkage.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Hyponatremia:</b> serum osmolality (exclude isotonic pseudohyponatremia from lipids or protein and hypertonic hyponatremia from glucose or mannitol), urine osmolality, urine sodium, volume assessment, glucose, TSH, cortisol, medication review (thiazides, SSRIs, carbamazepine).</li><li><b>Glucose correction:</b> WikEM cites a fall of about 1.6 mEq/L (Katz) or 2.4 mEq/L (Hillier) in measured sodium per 100 mg/dL glucose above 100.</li><li><b>Hypernatremia:</b> urine osmolality and volume (dilute urine points to diabetes insipidus), glucose, calcium, potassium.</li><li><b>Free water deficit</b> (WikEM): total body water times (Na/140 minus 1), with TBW about 0.6 of weight in men and 0.5 in women, less in older adults.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p><b>Hyponatremia</b> (European 2014 guideline as summarized by WikEM, and the UK Society for Endocrinology 2022 emergency guidance):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Severe symptoms:</b> 150 mL of 3% saline IV over 20 minutes, recheck sodium, and repeat (the Society for Endocrinology 2022 guidance repeats twice, so up to 3 boluses) until symptoms improve or sodium has risen about 5 mmol/L. A UMEM summary of the University of Maryland protocol uses faster 150 mL boluses over 10 minutes for severe symptoms. Children: 2 mL/kg of 3% (WikEM).</li><li><b>Moderately severe symptoms:</b> one 150 mL bolus of 3% over 20 minutes, with sodium checks at 1, 6 and 12 hours.</li><li><b>Correction limits:</b> no more than 10 mmol/L in the first 24 hours and 8 mmol/L in each later 24 hours (European 2014); use a lower ceiling of about 8 mmol/L per day in high-risk patients. Society for Endocrinology 2022 stops hypertonic saline once the rise exceeds 10 mmol/L or sodium reaches 130 mmol/L, and advises against formula-based (Adrogue-Madias) dosing of hypertonic saline. Do not aim to normalize sodium on day one.</li><li><b>Prevent or reverse overcorrection:</b> desmopressin (WikEM cites 1 to 2 mcg IV every 6 to 8 hours) with or without free water, under specialist guidance.</li><li><b>Mild or chronic, cause-directed:</b> fluid restriction for SIADH, isotonic saline for hypovolemia (watch for brisk aquaresis once volume is restored), stop offending drugs, treat hypothyroidism or adrenal insufficiency.</li></ol><p><b>Hypernatremia:</b></p><ol style=\"padding-left:18px;margin:0 0 8px\"><li>Restore perfusion with isotonic fluid first if the patient is in shock.</li><li>Then replace free water (enteral water, D5W, or hypotonic saline). WikEM gives a ceiling of about 10 to 12 mmol/L per 24 hours for chronic hypernatremia, while also quoting 10 to 15; acute hypernatremia (hours) can be corrected faster.</li><li>Treat central diabetes insipidus with desmopressin; monitor sodium every few hours.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Overcorrection after the cause resolves. Once vasopressin falls (hypovolemia corrected, thiazide stopped, nausea treated), the kidneys can excrete liters of dilute urine and sodium can jump more than 10 mmol/L in hours. Track urine output and sodium every 2 to 4 hours.</div><ul><li>Osmotic demyelination appears 2 to 6 days after overcorrection: dysarthria, dysphagia, quadriparesis, locked-in state.</li><li>Withholding 3% saline from a seizing patient out of fear of demyelination; acute cerebral edema kills faster.</li><li>Admit sodium below 120, any symptoms, and all hypertonic saline use to a monitored setting.</li></ul>"
+    },
+    {
+     "t": "Why it happens",
+     "b": "<p>Water moves toward higher osmolality. Hyponatremia swells brain cells; over 48 hours the brain exports osmolytes to adapt, so chronic cases are less symptomatic but more vulnerable to rapid re-shrinking (demyelination) when sodium rises too fast.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the initial 3% saline dose for severe symptomatic hyponatremia in the European 2014 approach?",
+     "a": "150 mL IV over 20 minutes, repeated until symptoms improve or sodium rises about 5 mmol/L."
+    },
+    {
+     "q": "What are the European 2014 correction limits for hyponatremia?",
+     "a": "No more than 10 mmol/L in the first 24 hours and 8 mmol/L in each subsequent 24 hours."
+    },
+    {
+     "q": "Name four risk factors for osmotic demyelination.",
+     "a": "Sodium 105 or below, hypokalemia, alcohol use disorder, malnutrition, and advanced liver disease."
+    },
+    {
+     "q": "What is the free water deficit formula?",
+     "a": "Total body water (about 0.6 x weight in men, 0.5 in women) x (serum Na / 140 minus 1)."
+    },
+    {
+     "q": "What is a common correction ceiling for chronic hypernatremia?",
+     "a": "About 10 to 12 mmol/L per 24 hours (sources vary up to 15)."
+    }
+   ]
+  },
+  {
+   "id": "adrenal_crisis",
+   "type": "condition",
+   "n": "Adrenal crisis",
+   "g": "metabolic",
+   "s": "Give hydrocortisone 100 mg IV or IM immediately to any patient with known or suspected adrenal insufficiency who is in shock or vomiting, without waiting for a cortisol result.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Who:</b> primary adrenal insufficiency (Addison disease, congenital adrenal hyperplasia), pituitary disease, and most commonly glucocorticoid-induced suppression after long-term steroids; also adrenal hemorrhage (anticoagulation, meningococcemia), and checkpoint inhibitor hypophysitis.</li><li><b>Triggers:</b> infection, gastroenteritis (cannot keep oral steroid down), surgery, trauma, missed doses.</li><li><b>Presentation:</b> hypotension or shock refractory to fluids and pressors, vomiting, abdominal pain that mimics an acute abdomen, fever, confusion, hyponatremia, hyperkalemia (primary only), hypoglycemia (especially children), and hyperpigmentation in chronic primary disease.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Draw a random cortisol and ACTH (and renin if possible) before the first dose only if it causes no delay.</li><li>Electrolytes, glucose, creatinine, CBC, cultures, lactate, ECG for hyperkalemia.</li><li>Search for the precipitant: infection workup, imaging as indicated.</li><li>Formal stimulation testing waits until the patient is stable.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses below come from the UK Society for Endocrinology adrenal crisis emergency guidance.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Hydrocortisone 100 mg IV or IM</b> as soon as the diagnosis is suspected.</li><li><b>Then hydrocortisone 200 mg per 24 hours</b>, as a continuous IV infusion in 5% glucose or 50 mg IV or IM every 6 hours.</li><li><b>Fluids:</b> 500 mL of 0.9% saline over 15 minutes, then about 1 L per hour initially, with 3 to 4 L over 24 hours guided by response.</li><li><b>Glucose:</b> treat hypoglycemia.</li><li><b>Children:</b> the 2025 American Red Cross PALS septic shock card gives hydrocortisone 2 mg/kg IV or IO (maximum 100 mg) for children at risk of adrenal insufficiency who do not respond to fluids and vasopressors. The Endocrine Society 2016 primary adrenal insufficiency guideline gives 50 mg/m2 hydrocortisone as the first parenteral dose and 50 to 100 mg/m2 per 24 hours afterward.</li><li><b>Mineralocorticoid:</b> not needed acutely, because high-dose hydrocortisone provides mineralocorticoid activity.</li><li>Treat the trigger, then step down to oral steroids with endocrinology advice (Society for Endocrinology).</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Waiting for a cortisol level or a stimulation test before giving steroids to a hypotensive patient. Hydrocortisone is safe and the crisis is lethal.</div><ul><li>Dexamethasone does not cross-react with cortisol assays, but it provides no mineralocorticoid effect; hydrocortisone is the agent of choice.</li><li>Patients on chronic steroids may present with shock and no electrolyte clue because secondary insufficiency spares aldosterone.</li><li>Admit all adrenal crises; ICU for shock. Before discharge, teach sick-day rules, provide injectable hydrocortisone, and an emergency card.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the first dose of hydrocortisone in adult adrenal crisis?",
+     "a": "100 mg IV or IM immediately."
+    },
+    {
+     "q": "What maintenance hydrocortisone dose follows the bolus in adults?",
+     "a": "200 mg per 24 hours, as continuous infusion or 50 mg every 6 hours."
+    },
+    {
+     "q": "What pediatric hydrocortisone stress dose does the 2025 Red Cross PALS card give in shock at risk of adrenal insufficiency?",
+     "a": "2 mg/kg IV or IO, maximum 100 mg (the Endocrine Society 2016 guideline uses 50 mg/m2)."
+    },
+    {
+     "q": "Which electrolyte abnormality distinguishes primary from secondary adrenal insufficiency?",
+     "a": "Hyperkalemia, because aldosterone is lost only in primary disease."
+    },
+    {
+     "q": "What is the most common cause of adrenal insufficiency in ED patients?",
+     "a": "Suppression from long-term glucocorticoid therapy."
+    }
+   ]
+  },
+  {
+   "id": "thyroid_storm_myxedema",
+   "type": "condition",
+   "n": "Thyroid storm and myxedema coma",
+   "g": "metabolic",
+   "s": "Thyroid storm is treated with beta-blockade, a thionamide, iodine given at least an hour after the thionamide, and steroids; myxedema coma is treated with IV levothyroxine, stress-dose hydrocortisone, and support of temperature, ventilation, and sodium.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Thyroid storm:</b> thyrotoxicosis with decompensation: fever, tachycardia or atrial fibrillation out of proportion, heart failure, agitation, delirium or coma, vomiting, diarrhea, jaundice. Triggers include infection, surgery, iodinated contrast, stopping antithyroid drugs, amiodarone, and pregnancy or delivery.</li><li><b>Myxedema coma:</b> severe hypothyroidism with altered mentation, hypothermia, bradycardia, hypoventilation with hypercapnia, hyponatremia, hypoglycemia, and a precipitant (infection, cold exposure, sedatives, stopping levothyroxine); often an older woman in winter.</li><li><b>Mimics:</b> sepsis, sympathomimetic toxicity, heat stroke, adrenal crisis.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>TSH, free T4 (and T3 in storm), but treat on clinical grounds.</li><li><b>Burch-Wartofsky Point Scale</b> for storm: per the Vanderbilt Vim Book, a score of 45 or more is highly suggestive, 25 to 44 suggests impending storm, under 25 unlikely.</li><li><b>Myxedema coma screening tool</b> (Emergency Care BC summary): scores GCS, TSH, free T4, temperature below 35 C, heart rate below 60, and a precipitant; 8 to 10 is most likely, 5 to 7 likely. It is based on low-quality evidence.</li><li>Cortisol, glucose, sodium, blood gas, ECG, cultures, troponin, echo for heart failure in storm.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p><b>Thyroid storm</b> (doses as listed by LITFL and the Vanderbilt Vim Book; a 2026 JCEM review by Kopp and colleagues covers the approach):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Beta-blockade:</b> propranolol 60 to 80 mg PO every 4 hours, or esmolol 250 to 500 mcg/kg IV load then 50 to 200 mcg/kg/min when titratability matters. Avoid or use cautiously in decompensated heart failure or shock.</li><li><b>Thionamide:</b> propylthiouracil 500 to 1000 mg load, then 250 mg every 4 hours (PO, NG, or rectal), or methimazole 20 mg every 4 to 6 hours (60 to 80 mg per day in an Emory summary of ATA/AACE guidance). PTU also blocks peripheral T4 to T3 conversion.</li><li><b>Iodine at least 1 hour after the thionamide:</b> Lugol's solution 0.5 mL (10 drops) every 6 to 8 hours per LITFL, or 8 drops (0.4 mL) every 6 hours per the Vim Book; SSKI 5 drops every 6 hours is the alternative in the Emory ATA/AACE summary.</li><li><b>Hydrocortisone</b> 300 mg IV load, then 100 mg IV every 8 hours.</li><li><b>Adjuncts:</b> cholestyramine 4 g PO every 8 hours (LITFL), active cooling, acetaminophen rather than aspirin, treat the trigger; plasmapheresis for refractory cases.</li></ol><p><b>Myxedema coma</b> (Emergency Care BC):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Hydrocortisone</b> 100 to 200 mg IV every 8 hours until adrenal insufficiency is excluded, given with or before thyroid hormone.</li><li><b>Levothyroxine IV load</b> 4 mcg/kg (about 200 to 400 mcg); 100 mcg if elderly, small, or with coronary disease or arrhythmia. Then 100 mcg IV at 24 hours and 50 mcg IV daily until oral intake.</li><li><b>Liothyronine (T3)</b> as an adjunct for persistent instability: 5 to 20 mcg IV load (5 to 10 mcg if elderly, small, or with coronary disease or arrhythmia), then 2.5 to 10 mcg every 8 hours.</li><li><b>Support:</b> intubate for hypoventilation, passive rewarming (active rewarming can provoke vasodilatory hypotension), gentle fluids, vasopressors if needed, treat hyponatremia and hypoglycemia, find the precipitant.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Giving iodine before the thionamide in thyroid storm. Iodine given first can supply substrate for more hormone synthesis.</div><ul><li>Beta-blocking a storm patient in high-output heart failure or cardiogenic shock can precipitate collapse; esmolol allows quick reversal.</li><li>Missing coexisting adrenal insufficiency; give hydrocortisone in both conditions.</li><li>In myxedema coma, sedatives and opioids can stop respiration; drug metabolism is slowed.</li><li>Both conditions need ICU admission and early endocrinology involvement.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In thyroid storm, how long after the thionamide should iodine be given?",
+     "a": "At least 1 hour."
+    },
+    {
+     "q": "What PTU loading and maintenance doses are used in thyroid storm?",
+     "a": "500 to 1000 mg load, then 250 mg every 4 hours."
+    },
+    {
+     "q": "What Burch-Wartofsky score is highly suggestive of thyroid storm?",
+     "a": "45 or more."
+    },
+    {
+     "q": "What IV levothyroxine loading dose is used in myxedema coma?",
+     "a": "About 4 mcg/kg (200 to 400 mcg), or 100 mcg in elderly or cardiac patients."
+    },
+    {
+     "q": "Why give hydrocortisone in myxedema coma before thyroid hormone?",
+     "a": "Coexisting adrenal insufficiency is possible, and thyroid hormone raises cortisol clearance and can precipitate adrenal crisis."
+    }
+   ]
+  },
+  {
+   "id": "upper_gi_bleed",
+   "type": "condition",
+   "n": "Upper GI bleeding, including variceal hemorrhage",
+   "g": "abdo",
+   "s": "Resuscitate with a restrictive transfusion threshold, risk stratify with Glasgow-Blatchford, scope within 24 hours, and treat suspected varices with a vasoactive drug, ceftriaxone, and endoscopy within 12 hours.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Presentation:</b> hematemesis, coffee-ground emesis, melena; brisk upper bleeding can cause hematochezia with hemodynamic instability.</li><li><b>Causes:</b> peptic ulcer (NSAIDs, aspirin, H. pylori, anticoagulants), varices and portal hypertensive gastropathy, Mallory-Weiss tear, esophagitis, malignancy, Dieulafoy lesion, aortoenteric fistula after aortic graft.</li><li><b>Suspect varices</b> with known cirrhosis, stigmata of liver disease, alcohol use, or thrombocytopenia.</li><li><b>Red flags:</b> syncope, tachycardia, hypotension, ongoing hematemesis, rising BUN to creatinine ratio, age, cardiac disease.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>CBC (initial hemoglobin may be falsely reassuring), type and crossmatch, BUN, creatinine, LFTs, INR, lactate.</li><li><b>Glasgow-Blatchford score (GBS)</b> uses BUN, hemoglobin (sex-specific), systolic BP, pulse, melena, syncope, hepatic disease and cardiac failure. The 2021 American College of Gastroenterology (ACG) guideline suggests discharge with outpatient follow-up for very-low-risk patients, such as GBS 0 to 1. ACG chose this cutoff for about 99 percent sensitivity (false-negative rate 1 percent or less); specificity of GBS 0 to 1 is only about 27 to 40 percent.</li><li>NG lavage is not needed for diagnosis. CT angiography helps when bleeding is massive and endoscopy is delayed or nondiagnostic.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p><b>Nonvariceal bleeding</b> (ACG 2021 upper GI and ulcer bleeding guideline):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Airway</b> protection for massive hematemesis or altered mentation.</li><li><b>Restrictive transfusion</b> at hemoglobin below 7 g/dL; ACG considers 8 g/dL reasonable with cardiovascular disease, and hypotensive patients may need blood at higher levels.</li><li><b>Erythromycin</b> 250 mg IV given 20 to 90 minutes before endoscopy (conditional) improves visualization.</li><li><b>PPI before endoscopy:</b> ACG 2021 makes no recommendation for or against; many centers still give it.</li><li><b>Endoscopy within 24 hours</b> for admitted patients.</li><li><b>After endoscopic hemostasis:</b> high-dose PPI for 3 days: 80 mg IV bolus then 8 mg/h infusion for 72 hours, or intermittent dosing of an 80 mg bolus then 40 mg 2 to 4 times daily; then twice-daily PPI through 2 weeks for high-risk ulcers.</li><li><b>Anticoagulation:</b> reverse based on agent and severity with the GI team and cardiology.</li></ol><p><b>Suspected variceal bleeding</b> (Baveno VII as summarized in Spanish hepatology teaching slides, and a 2024 Cleveland Clinic Journal of Medicine review):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Vasoactive drug</b> started before endoscopy: octreotide 50 mcg IV bolus (the slides list 50 to 100 mcg), then 50 mcg/h, continued for 2 to 5 days. Terlipressin is an alternative where available.</li><li><b>Antibiotic prophylaxis:</b> ceftriaxone 1 g IV every 24 hours; the 2024 CCJM review gives 5 days, and the teaching slides cite 7 days from the original trial.</li><li><b>Restrictive transfusion</b> at hemoglobin 7 g/dL with a target of 7 to 8 g/dL (CCJM 2024, consistent with Baveno VII); avoid plasma and platelets to correct INR or counts, which add volume; over-transfusion raises portal pressure and rebleeding.</li><li><b>Endoscopy within 12 hours</b> of presentation once resuscitated, sooner if unstable; band ligation is preferred.</li><li><b>Preemptive TIPS within 72 hours</b> (ideally 24) for high-risk patients: Child-Pugh C 10 to 13 points, or Child-Pugh B with active bleeding at endoscopy (Baveno VII uses B above 7 points; the CCJM review uses B 7 to 9).</li><li><b>Rescue:</b> balloon tamponade or an esophageal stent as a bridge (tamponade 24 to 48 hours maximum, requires intubation), then TIPS.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Liberal transfusion in variceal bleeding. Driving hemoglobin high raises portal pressure and increases rebleeding and mortality.</div><ul><li>A normal first hemoglobin in a hypotensive patient: equilibration has not happened yet.</li><li>Forgetting antibiotics in cirrhotic bleeds; infection is common and prophylaxis lowers mortality.</li><li>Missing aortoenteric fistula in a patient with an aortic graft and a herald bleed; get CT angiography and vascular surgery.</li><li>Disposition: GBS 0 to 1 can be discharged with follow-up; varices, instability, ongoing bleeding, or transfusion need admission, often ICU.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Per ACG 2021, which Glasgow-Blatchford scores allow ED discharge for upper GI bleeding?",
+     "a": "Very-low-risk patients such as GBS 0 to 1."
+    },
+    {
+     "q": "What transfusion threshold does ACG 2021 recommend in upper GI bleeding?",
+     "a": "Hemoglobin below 7 g/dL, with 8 g/dL reasonable in cardiovascular disease; in variceal bleeding the target is 7 to 8 g/dL."
+    },
+    {
+     "q": "What is the high-dose PPI regimen after endoscopic hemostasis per ACG 2021?",
+     "a": "80 mg IV bolus then 8 mg/h for 72 hours, or an 80 mg bolus then 40 mg 2 to 4 times daily for 3 days."
+    },
+    {
+     "q": "What is the octreotide regimen for variceal bleeding?",
+     "a": "50 mcg IV bolus, then 50 mcg/h for 2 to 5 days."
+    },
+    {
+     "q": "What antibiotic and endoscopy timing apply to suspected variceal bleeding?",
+     "a": "Ceftriaxone 1 g IV daily (5 to 7 days) and endoscopy within 12 hours."
+    }
+   ]
+  },
+  {
+   "id": "lower_gi_bleed",
+   "type": "condition",
+   "n": "Lower GI bleeding",
+   "g": "abdo",
+   "s": "Most lower GI bleeding stops on its own, so resuscitate, exclude an upper source when the patient is unstable, get CT angiography for hemodynamically significant bleeding, and schedule colonoscopy rather than rushing it.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Presentation:</b> hematochezia or maroon stool; melena suggests a proximal source.</li><li><b>Causes:</b> diverticular bleeding (painless, large volume, often older patients), angiodysplasia, ischemic colitis (pain then bloody diarrhea), post-polypectomy bleeding, hemorrhoids, inflammatory bowel disease, malignancy, infectious colitis.</li><li><b>Hematochezia with shock</b> can be a brisk upper GI bleed; a high BUN to creatinine ratio and hemodynamic instability point upward.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>CBC, type and screen, coagulation, BUN, creatinine; rectal exam.</li><li><b>Risk stratification:</b> the 2023 ACG lower GI bleeding guideline (as summarized in AFP) states the Oakland score can help identify patients who may not need admission, with clinical judgment taking priority. An AFP 2025 evidence summary gives an Oakland score of 8 or less as the threshold for safe discharge.</li><li><b>CT angiography</b> for hemodynamically significant bleeding, with about 90 percent sensitivity; about 80 percent of patients with a negative CTA do not rebleed.</li><li><b>Upper endoscopy</b> first when hematochezia comes with instability or upper GI features.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Recommendations below are from the 2023 ACG guideline as summarized by AFP (2024).</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Resuscitation</b> with crystalloid and blood.</li><li><b>Transfusion:</b> restrictive threshold of hemoglobin below 7 g/dL in stable patients; consider 8 g/dL with cardiovascular disease or ACS.</li><li><b>Positive CTA:</b> transcatheter angiography with embolization, ideally within 90 minutes.</li><li><b>Colonoscopy:</b> the standard test in stable patients, usually inpatient or within 14 days of spontaneous hemostasis; urgent colonoscopy within 24 hours did not improve outcomes.</li><li><b>Antithrombotics:</b> avoid reversal unless instability persists despite resuscitation; endoscopy is generally safe with INR up to 2.5; platelet targets above 30,000 in severe bleeding and above 50,000 for endoscopic procedures.</li><li><b>Avoid tranexamic acid:</b> it increases thrombosis without benefit in lower GI bleeding.</li><li><b>Surgery</b> is reserved for refractory bleeding after embolization or endoscopy fails.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Calling hematochezia with shock a lower bleed and skipping the upper endoscopy. A brisk upper GI source can present this way.</div><ul><li>Restart aspirin for secondary cardiovascular prevention after bleeding stops; stop aspirin taken for primary prevention and NSAIDs after a diverticular bleed (ACG 2023).</li><li>Older patients on anticoagulants with recurrent bleeding need admission even when vital signs are normal.</li><li>Ischemic colitis with peritonitis or a right-sided pattern can signal mesenteric ischemia.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which imaging test does ACG 2023 favor for hemodynamically significant lower GI bleeding?",
+     "a": "CT angiography (about 90 percent sensitive)."
+    },
+    {
+     "q": "Within what time should angiographic embolization follow a positive CTA?",
+     "a": "Within about 90 minutes."
+    },
+    {
+     "q": "What Oakland score identifies lower GI bleeding patients suitable for discharge?",
+     "a": "8 or less (AFP 2025 summary), with clinical judgment taking priority per ACG 2023."
+    },
+    {
+     "q": "Should tranexamic acid be used in lower GI bleeding per ACG 2023?",
+     "a": "No; it raises thromboembolism and seizure risk without benefit."
+    },
+    {
+     "q": "What must be excluded in hematochezia with hemodynamic instability?",
+     "a": "A brisk upper GI bleeding source, by upper endoscopy."
+    }
+   ]
+  },
+  {
+   "id": "acute_abdomen",
+   "type": "condition",
+   "n": "Acute abdomen: appendicitis, bowel obstruction, mesenteric ischemia, AAA",
+   "g": "abdo",
+   "s": "Pain out of proportion, peritonitis, shock, or age over 50 with abdominal pain demands early imaging and surgery, because mesenteric ischemia, ruptured AAA, perforation, and strangulated obstruction kill quickly.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Red flags:</b> sudden severe pain, pain out of proportion to exam, peritonitis (rigidity, rebound), syncope or hypotension, older age, immunosuppression, anticoagulation, atrial fibrillation.</li><li><b>Appendicitis:</b> periumbilical pain migrating to the right lower quadrant, anorexia, nausea, fever, leukocytosis; atypical in pregnancy, older adults and young children.</li><li><b>Small bowel obstruction:</b> colicky pain, distension, vomiting, obstipation; prior surgery (adhesions) or hernia. Fever, constant pain, tachycardia, peritonism and lactate suggest strangulation.</li><li><b>Acute mesenteric ischemia:</b> severe pain with a soft abdomen early, often with atrial fibrillation (embolic), atherosclerosis (thrombotic), low-flow states (nonocclusive), or hypercoagulability (venous).</li><li><b>Abdominal aortic aneurysm rupture:</b> abdominal, back or flank pain with syncope or hypotension; often misdiagnosed as renal colic in older men.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Appendicitis (WSES Jerusalem guidelines 2020 update):</b> clinical scores exclude appendicitis and identify intermediate-risk patients for imaging; the Appendicitis Inflammatory Response (AIR) and Adult Appendicitis Score (AAS) perform best in adults, and Alvarado is not specific enough to confirm the diagnosis. Point-of-care ultrasound is the preferred first imaging test in adults and children; low-dose CT is preferred over standard-dose in adolescents and young adults with negative ultrasound; in pregnancy use ultrasound then MRI; in children avoid routine first-line CT.</li><li><b>Bowel obstruction:</b> CT with IV contrast identifies the transition point, closed loop, and ischemia signs (reduced wall enhancement, pneumatosis, mesenteric fluid, whirl sign).</li><li><b>Mesenteric ischemia:</b> biphasic CT angiography without oral contrast immediately, even with AKI (McMaster Textbook of Internal Medicine, citing WSES 2022). Lactate and D-dimer rise late and lack specificity; a normal lactate does not exclude it.</li><li><b>AAA:</b> bedside ultrasound of the aorta (an aorta 3 cm or larger is aneurysmal); CT angiography if stable. ESVS 2024 sets elective repair thresholds of 5.5 cm in men and 5.0 cm in women.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>All:</b> resuscitate, analgesia (opioids do not mask diagnosis), NPO, early surgical consultation.</li><li><b>Appendicitis:</b> laparoscopic appendectomy is standard; WSES 2020 supports antibiotic-first nonoperative management as an option for selected uncomplicated cases after shared decision-making. Give preoperative antibiotics.</li><li><b>Adhesive small bowel obstruction:</b> nasogastric decompression, fluids, electrolyte correction, and a trial of nonoperative management if no strangulation; water-soluble contrast challenge has diagnostic and therapeutic value (WSES Bologna 2013 update: 50 to 150 mL Gastrografin orally or by NG tube; contrast in the colon on an abdominal film within 24 hours predicts resolution; operate after 72 hours of nonoperative management without resolution). Immediate surgery for peritonitis, strangulation, closed loop, or failure to progress.</li><li><b>Mesenteric ischemia:</b> unfractionated heparin by continuous infusion unless contraindicated (WSES 2022, grade 1B; neither WSES 2022 nor the ESVS 2017 mesenteric guideline gives a bolus or infusion rate, so use the institutional weight-based therapeutic heparin nomogram), broad-spectrum antibiotics, and emergent revascularization (endovascular or open) plus resection of nonviable bowel with a planned second look. Venous thrombosis without necrosis may respond to anticoagulation alone.</li><li><b>Ruptured AAA:</b> immediate vascular surgery, massive transfusion activation, permissive hypotension (ESVS 2024 class I: target systolic pressure 70 to 90 mmHg as long as the patient stays conscious, with ability to speak as the marker of cerebral perfusion), local anesthesia for EVAR whenever tolerated,, and EVAR as the first-line repair when anatomy allows (ESVS 2024 class I, level A).</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Diagnosing renal colic in an older patient with flank pain and hematuria without looking at the aorta. Bedside ultrasound takes a minute.</div><ul><li>A soft abdomen with severe pain in a patient with atrial fibrillation is mesenteric ischemia until CTA says otherwise.</li><li>Older adults and immunosuppressed patients may have perforation or ischemia without fever, leukocytosis, or peritonism.</li><li>Reassess abdominal pain sent home: give strict return precautions and a planned recheck when the diagnosis is uncertain.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which appendicitis scores does WSES 2020 recommend as best predictors in adults?",
+     "a": "The AIR (Appendicitis Inflammatory Response) and AAS (Adult Appendicitis Score)."
+    },
+    {
+     "q": "What permissive hypotension target does ESVS 2024 give for ruptured AAA?",
+     "a": "Systolic pressure 70 to 90 mmHg while the patient remains conscious and able to speak."
+    },
+    {
+     "q": "What imaging is needed immediately for suspected mesenteric ischemia?",
+     "a": "Biphasic CT angiography without oral contrast, even with AKI."
+    },
+    {
+     "q": "What anticoagulant is recommended first in occlusive mesenteric ischemia?",
+     "a": "Continuous unfractionated heparin unless contraindicated."
+    },
+    {
+     "q": "What is the first-line repair for ruptured AAA in ESVS 2024 when anatomy allows?",
+     "a": "EVAR (class I, level A)."
+    }
+   ]
+  },
+  {
+   "id": "acute_pancreatitis",
+   "type": "condition",
+   "n": "Acute pancreatitis",
+   "g": "abdo",
+   "s": "Diagnose with two of three criteria, give moderate lactated Ringer's resuscitation rather than aggressive fluids, feed early, skip prophylactic antibiotics, and reserve urgent ERCP for cholangitis.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Presentation:</b> severe epigastric pain radiating to the back, nausea, vomiting; Cullen and Grey Turner signs are late markers of hemorrhage.</li><li><b>Causes:</b> gallstones and alcohol most often; hypertriglyceridemia, hypercalcemia, post-ERCP, drugs, trauma, tumors.</li><li><b>Severity (revised Atlanta classification):</b> mild (no organ failure or local complications), moderately severe (transient organ failure under 48 hours or local complications), severe (persistent organ failure over 48 hours).</li><li><b>Differential:</b> perforated ulcer, mesenteric ischemia, AAA, biliary disease, inferior MI.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Diagnosis</b> (revised Atlanta): two of three: typical pain, lipase or amylase at least 3 times the upper limit of normal, and characteristic imaging. Lipase level does not track severity.</li><li><b>Ultrasound</b> to look for gallstones; ACG 2024 suggests repeating it if the first is inconclusive.</li><li><b>CT</b> only if the diagnosis is uncertain or the patient worsens; early CT underestimates necrosis.</li><li>Labs: CBC, BUN, creatinine, LFTs, calcium, triglycerides, lactate. Trend BUN, hematocrit, and urine output to judge resuscitation.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>From the 2024 ACG acute pancreatitis guideline (Tenner and colleagues):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Fluids:</b> moderately aggressive resuscitation, adding boluses only if hypovolemic; lactated Ringer's over normal saline. The WATERFALL trial (NEJM 2022) that informed this used a 10 mL/kg bolus only if hypovolemic, then 1.5 mL/kg/h; the aggressive arm (20 mL/kg then 3 mL/kg/h) caused more fluid overload without benefit and was stopped early.</li><li><b>Analgesia:</b> adequate pain control, including opioids.</li><li><b>Nutrition:</b> in mild disease, oral feeding within 24 to 48 hours as tolerated, starting with a low-fat solid diet.</li><li><b>Antibiotics:</b> ACG suggests against prophylactic antibiotics even in severe disease; treat documented infection or cholangitis.</li><li><b>ERCP:</b> in biliary pancreatitis without cholangitis, ACG suggests medical therapy over early ERCP (within 72 hours); cholangitis needs urgent ERCP.</li><li><b>Cholecystectomy</b> during the same admission for mild gallstone pancreatitis (general surgical practice).</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Pouring in fluid by habit. Aggressive fluids raised fluid overload in WATERFALL without improving outcomes.</div><ul><li>Missing hypertriglyceridemia or hypercalcemia as the cause; both change treatment.</li><li>A patient who looks well at 6 hours can still progress; reassess urine output, BUN, and hematocrit.</li><li>Admit most patients; ICU for organ failure, SIRS that persists, or rising BUN.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the revised Atlanta criteria for acute pancreatitis?",
+     "a": "Two of three: typical pain, lipase or amylase at least 3 times normal, and characteristic imaging."
+    },
+    {
+     "q": "Which fluid and strategy does ACG 2024 suggest in acute pancreatitis?",
+     "a": "Lactated Ringer's with moderately aggressive resuscitation, boluses only if hypovolemic."
+    },
+    {
+     "q": "What were the WATERFALL moderate-arm fluid rates?",
+     "a": "10 mL/kg bolus only if hypovolemic, then 1.5 mL/kg/h."
+    },
+    {
+     "q": "Does ACG 2024 recommend prophylactic antibiotics in severe pancreatitis?",
+     "a": "No."
+    },
+    {
+     "q": "When is urgent ERCP indicated in gallstone pancreatitis?",
+     "a": "When cholangitis is present; otherwise ACG suggests medical therapy over early ERCP."
+    }
+   ]
+  },
+  {
+   "id": "sepsis_septic_shock",
+   "type": "condition",
+   "n": "Sepsis and septic shock (Surviving Sepsis Campaign 2026)",
+   "g": "infect",
+   "s": "Screen with an early warning score, give antibiotics within an hour for probable sepsis or shock, resuscitate with at least 30 mL/kg balanced crystalloid for hypoperfusion guided by dynamic measures, and start norepinephrine to a MAP of 65.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Sepsis:</b> life-threatening organ dysfunction from a dysregulated response to infection. <b>Septic shock:</b> vasopressors needed for MAP 65 or higher plus lactate above 2 mmol/L despite adequate fluids (Sepsis-3).</li><li><b>Screening:</b> the 2026 Surviving Sepsis Campaign (SSC) guideline strongly recommends NEWS, NEWS2, MEWS, or SIRS over qSOFA as a single screening tool.</li><li><b>Clues:</b> fever or hypothermia, tachypnea, altered mentation, mottling, prolonged capillary refill, oliguria. Older and immunosuppressed patients may lack fever.</li><li><b>Mimics:</b> adrenal crisis, PE, pancreatitis, thyroid storm, anaphylaxis, cardiogenic shock.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Lactate, blood cultures (two sets before antibiotics if no delay), CBC, chemistry, LFTs, coagulation, blood gas, urinalysis and culture, source imaging.</li><li>Source control: look for abscess, obstructed urinary or biliary tract, necrotizing infection, infected devices.</li><li>Point-of-care ultrasound for cardiac function and fluid tolerance.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>From the 2026 SSC adult guideline (Prescott and colleagues, Critical Care Medicine, March 2026), checked against the full text and the UMEM summary:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Antibiotics:</b> within 1 hour of recognition for probable or definite sepsis and for possible or definite shock. For possible sepsis without shock, use a time-limited investigation and give antibiotics within 3 hours if infection stays likely. Omit anaerobic coverage unless risk factors (intra-abdominal, gynecologic or obstetric, necrotizing soft tissue, head and neck, CNS abscess). Prehospital antibiotics are suggested if shock is likely and transport exceeds 60 minutes.</li><li><b>Beta-lactams:</b> prolonged infusion after a loading dose (strong recommendation).</li><li><b>Fluids:</b> at least 30 mL/kg IV crystalloid within 3 hours for hypoperfusion or shock (adjusted or ideal body weight if BMI above 30); balanced crystalloids over 0.9% saline; crystalloids alone over adding albumin; dynamic measures (passive leg raise, stroke volume or pulse pressure variation) to guide further fluid.</li><li><b>MAP target:</b> 65 mmHg initially (strong); 60 to 65 is suggested for adults 65 and older.</li><li><b>Vasopressors:</b> norepinephrine first (strong over dopamine and epinephrine; conditional over vasopressin or angiotensin II). Add vasopressin for escalating norepinephrine doses (conditional; no threshold is set, and an ICU Management and Practice review reports panelists start it at a median norepinephrine dose of 0.3 mcg/kg/min), then epinephrine if MAP remains inadequate. For cardiac dysfunction with persistent hypoperfusion, add dobutamine or switch to epinephrine. Start peripherally if needed rather than delaying.</li><li><b>Corticosteroids:</b> IV corticosteroids are suggested in septic shock (low certainty). The 2026 full text sets no fixed agent, dose, or vasopressor trigger and drops the 2021 qualifier of an ongoing vasopressor requirement. It notes no added benefit above 260 mg per day of hydrocortisone equivalent, the largest trial (ADRENAL) used hydrocortisone 200 mg per day IV for 7 days, and 90 percent of panelists prescribe 200 mg hydrocortisone equivalent per 24 hours (for example 50 mg IV every 6 hours). Watch for hyperglycemia and hypernatremia.</li><li><b>Source control</b> as early as practical; de-escalate antibiotics when susceptibilities return (strong).</li><li>After the acute phase, active fluid removal is suggested for fluid overload.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using qSOFA to rule sepsis out. SSC 2026 recommends against it as a single screening tool because it is insensitive.</div><ul><li>Fluid dogma in both directions: under-resuscitation of hypoperfused patients and continued boluses after the patient stops responding.</li><li>Delaying antibiotics for imaging or LP in probable sepsis.</li><li>Missing a drainable source; antibiotics alone fail in obstructed or necrotic infections.</li><li>Septic shock and rising lactate go to ICU; invasive arterial monitoring is still recommended with intermediate to high vasopressor doses.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which screening tools does SSC 2026 prefer over qSOFA?",
+     "a": "NEWS, NEWS2, MEWS, or SIRS."
+    },
+    {
+     "q": "What antibiotic timing does SSC 2026 recommend?",
+     "a": "Within 1 hour for probable or definite sepsis and possible or definite shock; for possible sepsis without shock, a time-limited workup, then antibiotics within 3 hours if infection remains likely."
+    },
+    {
+     "q": "What corticosteroid regimen fits SSC 2026 for septic shock?",
+     "a": "IV corticosteroids are suggested; the guideline sets no dose, but hydrocortisone 200 mg/day (50 mg IV every 6 hours) is the ADRENAL regimen and the panel norm, with no added benefit above 260 mg/day."
+    },
+    {
+     "q": "What initial fluid volume and type does SSC 2026 suggest for sepsis-induced hypoperfusion?",
+     "a": "At least 30 mL/kg crystalloid within 3 hours, preferably balanced crystalloid."
+    },
+    {
+     "q": "What is the first-line vasopressor and initial MAP target in septic shock?",
+     "a": "Norepinephrine, MAP 65 mmHg."
+    }
+   ]
+  },
+  {
+   "id": "bacterial_meningitis",
+   "type": "condition",
+   "n": "Bacterial meningitis",
+   "g": "infect",
+   "s": "Give dexamethasone and empiric antibiotics immediately, never delaying them for CT or LP, choosing vancomycin plus ceftriaxone in adults and adding ampicillin for Listeria risk.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Classic findings:</b> fever, headache, neck stiffness, altered mental status; most adults have at least two. Absence of the full triad does not exclude it.</li><li><b>Petechial or purpuric rash</b> suggests meningococcemia.</li><li><b>Infants:</b> fever or hypothermia, poor feeding, irritability, lethargy, bulging fontanelle; meningeal signs are unreliable.</li><li><b>Listeria risk:</b> age over 50, pregnancy, alcohol use disorder, immunosuppression, neonates.</li><li><b>Differential:</b> HSV encephalitis, subarachnoid hemorrhage, brain abscess, viral meningitis.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Blood cultures, then antibiotics, then imaging if needed, then LP.</li><li><b>CT before LP</b> (IDSA 2004, as summarized by AFP): immunocompromise, history of CNS disease, new seizure within a week, papilledema, focal deficit, or abnormal level of consciousness.</li><li><b>CSF (WikEM):</b> bacterial meningitis typically shows elevated opening pressure, WBC 1000 to 5000 or more with neutrophils, glucose below 40 mg/dL or CSF to serum ratio below 0.4, protein often above 250 mg/dL; Gram stain positive in 60 to 90 percent.</li><li>Prior antibiotics lower culture yield; send PCR panels.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p><b>Adults</b> (IDSA 2004 regimens; doses from the UCLA antimicrobial stewardship guidebook and WikEM, normal renal function):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Dexamethasone</b> 0.15 mg/kg IV every 6 hours for 2 to 4 days, first dose 10 to 20 minutes before or with the first antibiotic dose. Do not start it after antibiotics have already been given. Continue only for pneumococcal meningitis.</li><li><b>Age under 50, immunocompetent:</b> vancomycin plus ceftriaxone 2 g IV every 12 hours.</li><li><b>Age over 50, immunocompromised, or alcohol use disorder:</b> add ampicillin 2 g IV every 4 hours. The UCLA guidebook uses cefepime 2 g every 8 hours in place of ceftriaxone for immunocompromised adults.</li><li><b>Post-neurosurgery, penetrating trauma, or shunt:</b> vancomycin plus cefepime 2 g IV every 8 hours or meropenem 2 g IV every 8 hours.</li><li><b>Vancomycin:</b> UCLA lists a 25 to 35 mg/kg load, then 15 to 20 mg/kg every 8 to 12 hours, adjusted by levels and renal function.</li><li><b>Suspected HSV encephalitis:</b> add acyclovir 10 mg/kg IV every 8 hours.</li></ol><p><b>Infants</b> (Children's Hospital of Philadelphia febrile infant antimicrobial pathway):</p><ul><li>0 to 28 days with meningitis concern: vancomycin (interval set by age and weight) plus cefepime (50 mg/kg every 12 hours in neonates, every 8 hours in infants) with acyclovir 20 mg/kg every 8 hours; well-appearing 0 to 21 days use ampicillin plus ceftazidime. Ceftriaxone is avoided at 28 days and younger.</li><li>Over 28 days with pleocytosis or ill appearance: ceftriaxone 50 mg/kg every 12 hours plus vancomycin 15 mg/kg every 6 hours.</li><li>Over 2 months (UC Davis pediatric stewardship guideline, citing the AAP Red Book): ceftriaxone 50 mg/kg IV every 12 hours (maximum 2 g per dose) plus vancomycin 15 to 20 mg/kg IV every 8 hours; CHOP doses vancomycin 15 mg/kg every 6 hours after 28 days.</li><li>Dexamethasone 0.15 mg/kg every 6 hours for 2 to 4 days is recommended by IDSA for Haemophilus influenzae type b meningitis in children; its use for pneumococcal meningitis in children is controversial, and it is not recommended in neonates.</li></ul><p><b>Meningococcal contacts</b> (WikEM and an August 2024 New York State health advisory reflecting CDC guidance): rifampin 600 mg PO every 12 hours for 2 days (10 mg/kg, maximum 600 mg, at 1 month or older; not for pregnant patients), ceftriaxone 250 mg IM once (125 mg under 15 years; preferred in pregnancy), or ciprofloxacin 500 mg PO once only where local ciprofloxacin-resistant strains remain below the CDC threshold (at least 2 cases and 20 percent of cases in a catchment area). Notify public health.</p>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Waiting for CT before antibiotics. Every hour of delay worsens outcome; blood cultures plus immediate treatment protect the patient while imaging happens.</div><ul><li>Forgetting ampicillin in older adults, pregnancy, or immunosuppression.</li><li>Giving dexamethasone hours after antibiotics, when its benefit is lost.</li><li>Treating HSV encephalitis as viral meningitis and omitting acyclovir.</li><li>Admit all; ICU for shock, coma, seizures, or raised intracranial pressure; use droplet precautions until meningococcus is excluded.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the dexamethasone dose and timing in adult bacterial meningitis?",
+     "a": "0.15 mg/kg IV every 6 hours for 2 to 4 days, starting 10 to 20 minutes before or with the first antibiotic."
+    },
+    {
+     "q": "What is empiric therapy for an immunocompetent adult under 50?",
+     "a": "Vancomycin plus ceftriaxone 2 g IV every 12 hours."
+    },
+    {
+     "q": "When do you add ampicillin, and at what dose?",
+     "a": "Age over 50, immunosuppression, alcohol use disorder, or pregnancy: 2 g IV every 4 hours."
+    },
+    {
+     "q": "List the IDSA indications for CT before LP.",
+     "a": "Immunocompromise, CNS disease history, seizure within a week, papilledema, focal deficit, or abnormal consciousness."
+    },
+    {
+     "q": "What empiric regimen is used after neurosurgery or with a shunt?",
+     "a": "Vancomycin plus cefepime or meropenem."
+    }
+   ]
+  },
+  {
+   "id": "necrotizing_soft_tissue_infection",
+   "type": "condition",
+   "n": "Necrotizing soft tissue infection",
+   "g": "infect",
+   "s": "Pain out of proportion, rapid spread, systemic toxicity, or crepitus means necrotizing infection until surgery proves otherwise, and the treatment is immediate debridement with broad antibiotics including clindamycin.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Early:</b> pain out of proportion to skin findings, swelling and tenderness beyond the erythema, fever, tachycardia.</li><li><b>Late:</b> bullae (often hemorrhagic), skin anesthesia, gray or dusky skin, crepitus, necrosis, shock.</li><li><b>Types:</b> polymicrobial (type I: diabetes, perineum as Fournier gangrene, postoperative), monomicrobial group A strep or Staphylococcus aureus (type II: healthy patients after minor trauma), Clostridium (gas gangrene), Vibrio and Aeromonas after water exposure.</li><li><b>Risk:</b> diabetes, injection drug use, obesity, immunosuppression, recent surgery, peripheral vascular disease.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>LRINEC score</b> (WikEM): CRP 150 mg/L or higher (4 points); WBC 15 to 25 (1) or above 25 (2); hemoglobin 11 to 13.5 (1) or below 11 (2); sodium below 135 (2); creatinine above 141 umol/L (2); glucose above 180 mg/dL (1). A score of 6 or more raises suspicion. It was not prospectively validated, and about 10 percent of patients with a score below 6 still had necrotizing fasciitis, so a low score does not exclude it.</li><li><b>Imaging:</b> CT may show fascial gas, fluid, or nonenhancing fascia; absence of gas does not exclude disease. Imaging must not delay surgical exploration.</li><li>Blood cultures, lactate, CK, and operative tissue cultures.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Emergent surgical consultation and debridement</b>; planned re-look operations continue until no further necrosis is found.</li><li><b>Empiric antibiotics:</b> an MRSA-active agent (vancomycin, linezolid, or daptomycin) plus a broad gram-negative and anaerobic agent (piperacillin-tazobactam or a carbapenem) plus clindamycin for toxin suppression, as summarized from the 2014 IDSA skin and soft tissue guideline. IDSA 2014 Table 4 adult doses: vancomycin 30 mg/kg/day IV in 2 divided doses and piperacillin-tazobactam 3.375 g IV every 6 to 8 hours; children beyond the neonatal period: vancomycin 10 to 13 mg/kg every 8 hours and piperacillin 60 to 75 mg/kg every 6 hours. Many hospitals now dose vancomycin by pharmacy AUC-guided protocols, so adjust for weight, renal function, and levels.</li><li><b>Clindamycin</b> 600 to 900 mg IV every 8 hours in adults; 10 to 13 mg/kg per dose every 8 hours in children (IDSA 2014 Table 4).</li><li><b>Group A strep confirmed:</b> penicillin plus clindamycin. IDSA 2014 lists penicillin 2 to 4 million units IV every 4 to 6 hours with clindamycin 600 to 900 mg IV every 8 hours (children: penicillin 60,000 to 100,000 units/kg every 6 hours).</li><li><b>Water exposure</b> (IDSA 2014): Vibrio vulnificus, doxycycline 100 mg IV every 12 hours plus ceftriaxone or cefotaxime; Aeromonas, doxycycline 100 mg every 12 hours plus ciprofloxacin 500 mg every 12 hours or ceftriaxone 1 to 2 g daily.</li><li><b>Sepsis care</b> per SSC 2026, including anaerobic coverage because necrotizing soft tissue infection is a named anaerobic risk factor.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Calling it cellulitis and waiting for antibiotics to work. Failure to improve within hours, pain beyond the erythema, or rising lactate should trigger surgical exploration.</div><ul><li>A normal CT or a low LRINEC score in a patient who looks sick does not exclude the diagnosis.</li><li>Fournier gangrene can look small on the skin while extensive underneath.</li><li>All patients go to the OR and then ICU; transfer early if surgical capacity is lacking.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the earliest and most important clinical clue to necrotizing fasciitis?",
+     "a": "Pain out of proportion to the visible skin findings."
+    },
+    {
+     "q": "Name the six LRINEC variables.",
+     "a": "CRP, WBC, hemoglobin, sodium, creatinine, and glucose."
+    },
+    {
+     "q": "Why add clindamycin in necrotizing infection?",
+     "a": "To suppress toxin production by streptococci and staphylococci; adult dose 600 to 900 mg IV every 8 hours."
+    },
+    {
+     "q": "What is the definitive diagnostic and therapeutic step?",
+     "a": "Emergent surgical exploration and debridement."
+    },
+    {
+     "q": "Does a LRINEC score below 6 rule out necrotizing fasciitis?",
+     "a": "No; about 10 percent of patients below 6 still had it."
+    }
+   ]
+  },
+  {
+   "id": "ectopic_pregnancy",
+   "type": "condition",
+   "n": "Ectopic pregnancy",
+   "g": "obpeds",
+   "s": "Every person of reproductive potential with abdominal pain, bleeding, or syncope gets a pregnancy test, and a positive test without a confirmed intrauterine pregnancy is a possible ectopic until proven otherwise.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Presentation:</b> first-trimester pain and vaginal bleeding, often 6 to 8 weeks after the last period; rupture causes peritonitis, shoulder-tip pain, syncope, and shock.</li><li><b>Risk factors:</b> prior ectopic, tubal surgery or sterilization, pelvic inflammatory disease, IVF, IUD in place at conception, smoking. Many patients have none.</li><li><b>Heterotopic pregnancy</b> (intrauterine plus ectopic) is more likely with assisted reproduction.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Urine or serum hCG</b> in all; quantitative hCG and blood type.</li><li><b>Bedside ultrasound:</b> a definite intrauterine pregnancy (yolk sac or fetal pole in the uterus) makes ectopic very unlikely unless the patient used fertility treatment. Free fluid in Morison's pouch with a positive test in an unstable patient means ruptured ectopic until proven otherwise.</li><li><b>Pregnancy of unknown location:</b> no intrauterine or extrauterine pregnancy seen; follow serial hCG and repeat ultrasound with gynecology. No single hCG level excludes ectopic.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Unstable or signs of rupture:</b> two large-bore IVs, blood, massive transfusion protocol, and emergency gynecology for surgery (ACOG Practice Bulletin 193 directs emergent surgical transfer for signs of rupture).</li><li><b>Stable, unruptured, reliable follow-up:</b> methotrexate single-dose protocol (Reproductive Health Access Project protocol citing ACOG PB 193): 50 mg/m2 IM on day 1, hCG on days 4 and 7; if hCG falls less than 15 percent from day 4 to day 7, repeat 50 mg/m2; if it falls more than 15 percent, check weekly until undetectable. Consider the two-dose regimen when hCG exceeds 5,000.</li><li><b>Methotrexate exclusions</b> in that protocol: rupture or instability, embryonic cardiac activity, hCG above 10,000, liver disease or alcohol use disorder, significant anemia, leukopenia or thrombocytopenia, immunodeficiency, breastfeeding, active peptic ulcer, pulmonary disease, renal insufficiency, inability to follow up. Obtain CBC, renal and liver function first. Other protocols (FPnotebook, citing ACOG 2018) also list hCG above 5,000, an ectopic mass above 3.5 cm, and fetal cardiac activity as contraindications, so a cutoff of 10,000 is the most permissive.</li><li><b>Rh immunoglobulin:</b> a 2024 ACOG clinical practice update suggests forgoing routine Rh testing and RhIg for abortion or pregnancy loss before 12 weeks. The Society of Family Planning consensus (updated February 2024) still lists RhIg for ectopic pregnancy before 12 weeks at 50 mcg (250 IU), the same dose as for sharp curettage; the 300 mcg dose is more widely stocked (ACEP Now). The summaries reviewed do not state whether ACOG's update covers ectopic pregnancy, so follow local policy.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reassurance from a low hCG. Ectopic pregnancies can rupture at low hCG levels, and the patient remains at risk until hCG is undetectable.</div><ul><li>Missing pregnancy in a patient who denies the possibility; test everyone at risk.</li><li>Tachycardia may be absent in hemoperitoneum (relative bradycardia occurs).</li><li>Discharge only stable patients with a pregnancy of unknown location or medical treatment who have gynecology follow-up within 48 hours and clear return precautions.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the single-dose methotrexate regimen for ectopic pregnancy?",
+     "a": "50 mg/m2 IM on day 1, with hCG on days 4 and 7."
+    },
+    {
+     "q": "What hCG change between days 4 and 7 triggers a second methotrexate dose?",
+     "a": "A decline of less than 15 percent."
+    },
+    {
+     "q": "What initial hCG level excludes outpatient methotrexate in the Reproductive Health Access protocol?",
+     "a": "Above 10,000."
+    },
+    {
+     "q": "What bedside ultrasound finding in an unstable patient with a positive pregnancy test means ruptured ectopic until proven otherwise?",
+     "a": "Free intraperitoneal fluid, such as in Morison's pouch."
+    },
+    {
+     "q": "What RhIg dose does the Society of Family Planning list for an Rh-negative patient with ectopic pregnancy before 12 weeks?",
+     "a": "50 mcg (250 IU); 300 mcg is the more widely available dose."
+    }
+   ]
+  },
+  {
+   "id": "preeclampsia_eclampsia",
+   "type": "condition",
+   "n": "Preeclampsia, eclampsia and severe hypertension in pregnancy",
+   "g": "obpeds",
+   "s": "Treat severe-range blood pressure of 160/110 or higher within an hour with IV labetalol, IV hydralazine, or oral immediate-release nifedipine, and give magnesium sulfate to prevent and treat eclamptic seizures, including up to 6 weeks postpartum.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Preeclampsia:</b> new hypertension after 20 weeks with proteinuria or severe features; it also presents postpartum, usually within the first week but up to 6 weeks.</li><li><b>Severe features:</b> BP 160/110 or higher, headache, visual disturbance, right upper quadrant or epigastric pain, pulmonary edema, thrombocytopenia, rising creatinine, elevated transaminases.</li><li><b>HELLP:</b> hemolysis, elevated liver enzymes, low platelets.</li><li><b>Eclampsia:</b> new seizures in this setting. Differential: intracranial hemorrhage, PRES, cerebral venous thrombosis, epilepsy, hypoglycemia.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Severe hypertension</b> per the ACOG-based state quality collaborative bundles: two severe readings 15 to 60 minutes apart, though treatment may start within 15 minutes when clinically indicated.</li><li>CBC with platelets, creatinine, LFTs, LDH, urine protein to creatinine ratio, magnesium if on therapy, coagulation if HELLP or bleeding.</li><li>Fetal assessment if pregnant and viable; obstetric consult immediately.</li><li>Head imaging for focal deficits, persistent altered mentation, or atypical seizures.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Algorithms below are the Kansas Perinatal Quality Collaborative / CMQCC adaptations of ACOG Practice Bulletins 203 and 222 and the ACOG severe hypertension guidance.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Labetalol IV:</b> 20 mg over 2 minutes; if still severe at the recheck, 40 mg, then 80 mg; if still severe, switch to hydralazine 10 mg IV and get emergent consultation. Cumulative labetalol limits differ: an Indiana perinatal quality collaborative card lists 300 mg IV in 24 hours, while some ACOG-based bundles list 220 mg. Avoid with asthma, heart failure, or bradycardia.</li><li><b>Hydralazine IV:</b> 5 to 10 mg over 2 minutes; if still severe, 10 mg; then labetalol 40 mg with emergent consultation. Cumulative limit 25 mg in 24 hours (ACEP Now, citing ACOG).</li><li><b>Nifedipine immediate-release PO:</b> 10 mg; if still severe, 20 mg, then 20 mg again; then hydralazine 10 mg IV or the labetalol pathway. Do not give sublingually or puncture the capsule.</li><li><b>Recheck intervals:</b> recheck BP 10 minutes after each labetalol dose and 20 minutes after each hydralazine or nifedipine dose; target about 130 to 150 / 80 to 100.</li><li><b>Magnesium sulfate:</b> 4 to 6 g IV over 20 to 30 minutes (6 g if BMI above 35), then 1 to 2 g/h. Without IV access, 10 g IM (5 g in each buttock), then 5 g IM every 4 hours. Adjust maintenance if creatinine is 1 mg/dL or higher. Recurrent seizure on magnesium: a second 2 to 4 g IV bolus over 5 minutes; if seizures persist 20 minutes later, consider midazolam, diazepam, or phenytoin per the algorithm. The 2023 ACOG eclampsia algorithm (via Kansas PQC) lists lorazepam 4 mg IV over 3 to 5 minutes, diazepam 5 to 10 mg IV, or midazolam 10 mg IM without IV access, then fosphenytoin 20 mg PE/kg or levetiracetam 60 mg/kg (maximum 4,500 mg).</li><li><b>Magnesium toxicity</b> (loss of reflexes, respiratory depression): stop the infusion and give calcium gluconate 10%, 10 mL (1 g) IV over 3 minutes (2023 ACOG eclampsia algorithm via Kansas PQC). Reduce maintenance in renal failure.</li><li><b>Delivery</b> is definitive; the obstetric team decides timing.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Missing postpartum preeclampsia in a patient who presents to the ED with headache days after delivery. Check the blood pressure and ask about recent pregnancy in every reproductive-age headache.</div><ul><li>Delay in treating severe BP; stroke is a leading cause of death in preeclampsia, and the bundles target treatment within 1 hour.</li><li>Over-lowering BP and compromising placental perfusion.</li><li>Labetalol is preferred when maternal heart rate is above 110; hydralazine or nifedipine is preferred with asthma or bradycardia.</li><li>All severe features, eclampsia, and HELLP require admission to labor and delivery or ICU.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What BP threshold defines severe-range hypertension in pregnancy?",
+     "a": "Systolic 160 or higher or diastolic 110 or higher."
+    },
+    {
+     "q": "What is the IV labetalol escalation sequence for severe hypertension in pregnancy?",
+     "a": "20 mg, then 40 mg, then 80 mg, rechecking between doses, then switch to hydralazine."
+    },
+    {
+     "q": "What is the oral immediate-release nifedipine sequence?",
+     "a": "10 mg, then 20 mg, then 20 mg, then switch agents."
+    },
+    {
+     "q": "What are the IV loading and maintenance doses of magnesium sulfate?",
+     "a": "4 to 6 g IV over 20 to 30 minutes, then 1 to 2 g/h; without IV access, 10 g IM (5 g each buttock)."
+    },
+    {
+     "q": "What is the antidote dose for magnesium toxicity in preeclampsia?",
+     "a": "Stop magnesium and give 10% calcium gluconate 10 mL (1 g) IV over 3 minutes."
+    }
+   ]
+  },
+  {
+   "id": "postpartum_hemorrhage",
+   "type": "condition",
+   "n": "Postpartum hemorrhage",
+   "g": "obpeds",
+   "s": "Postpartum hemorrhage is cumulative blood loss of 1000 mL or hypovolemia within 24 hours of birth, and it is treated with uterine massage, oxytocin, tranexamic acid within 3 hours, second-line uterotonics, and blood.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Definition:</b> ACOG (Practice Bulletin 183): cumulative blood loss of 1000 mL or more, or blood loss with signs of hypovolemia, within 24 hours of birth. WHO uses more than 500 mL.</li><li><b>The 4 Ts:</b> tone (atony, most common), tissue (retained placenta), trauma (lacerations, uterine rupture, inversion), thrombin (coagulopathy, DIC, amniotic fluid embolism).</li><li>Young healthy patients compensate; hypotension is a late sign. Secondary PPH occurs from 24 hours to 12 weeks (retained products, endometritis).</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li>Quantify blood loss; vital signs and shock index.</li><li>CBC, fibrinogen (low fibrinogen predicts severe PPH), coagulation, type and crossmatch, viscoelastic testing if available.</li><li>Inspect the placenta and the genital tract; bedside ultrasound for retained tissue or intraperitoneal blood.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Doses from the EB Medicine PPH rapid reference (citing ACOG PB 183 and WHO).</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Call for help,</b> obstetrics, anesthesia, massive transfusion protocol; bimanual uterine massage; empty the bladder.</li><li><b>Oxytocin</b> (first line): 10 to 40 units in 500 to 1000 mL IV infusion, or 10 units IM. Avoid rapid IV push (hypotension).</li><li><b>Tranexamic acid:</b> 1 g IV over 10 minutes, with a second 1 g dose if bleeding continues after 30 minutes; most benefit within 3 hours of birth.</li><li><b>Methylergonovine:</b> 0.2 mg IM every 2 to 4 hours; contraindicated in hypertension and preeclampsia; never IV.</li><li><b>Carboprost:</b> 250 mcg IM every 15 minutes, up to 8 doses; contraindicated in asthma.</li><li><b>Misoprostol:</b> 800 to 1000 mcg rectally, 600 mcg PO, or 800 mcg sublingually.</li><li><b>Blood products</b> in balanced ratios; replace fibrinogen.</li><li><b>Mechanical and surgical:</b> intrauterine balloon tamponade, repair lacerations, manual removal of retained placenta, uterine artery embolization, compression sutures, hysterectomy.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Waiting for hypotension to recognize hemorrhage. By the time blood pressure falls, the patient may have lost a large share of blood volume; use quantified blood loss and the shock index.</div><ul><li>Giving methylergonovine to a hypertensive or preeclamptic patient, or carboprost to an asthmatic.</li><li>Missing uterine inversion (shock out of proportion, mass at the introitus) or a concealed hematoma.</li><li>ED deliveries with PPH need obstetric and anesthesia involvement and usually ICU or labor and delivery admission.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does ACOG define postpartum hemorrhage?",
+     "a": "Cumulative blood loss of 1000 mL or more, or blood loss with hypovolemia, within 24 hours of birth."
+    },
+    {
+     "q": "What is the tranexamic acid dose and timing in PPH?",
+     "a": "1 g IV over 10 minutes within 3 hours of birth, repeating 1 g after 30 minutes if bleeding continues."
+    },
+    {
+     "q": "What is the carboprost dose and its key contraindication?",
+     "a": "250 mcg IM every 15 minutes up to 8 doses; contraindicated in asthma."
+    },
+    {
+     "q": "What is the methylergonovine dose and key contraindication?",
+     "a": "0.2 mg IM every 2 to 4 hours; contraindicated in hypertension and preeclampsia."
+    },
+    {
+     "q": "What are the 4 Ts of PPH?",
+     "a": "Tone, tissue, trauma, and thrombin."
+    }
+   ]
+  },
+  {
+   "id": "febrile_infant",
+   "type": "condition",
+   "n": "Febrile infant 8 to 60 days (AAP 2021)",
+   "g": "obpeds",
+   "s": "Stratify well-appearing febrile infants by age band and inflammatory markers: full workup and admission for 8 to 21 days, markers-driven LP decisions for 22 to 28 days, and selective LP for 29 to 60 days.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Scope of the 2021 AAP guideline</b> (Pantell and colleagues, Pediatrics): well-appearing infants 8 to 60 days old, born at 37 to 42 weeks, with a temperature of 38.0 C or higher.</li><li><b>Exclusions:</b> preterm, ill appearance, focal bacterial infection, clinical bronchiolitis, high HSV suspicion, immunocompromise, complicated neonatal course, technology dependence, recent vaccination within 48 hours.</li><li><b>HSV red flags:</b> maternal genital lesions or fever around delivery, vesicles, seizures, hypothermia, mucosal ulcers, CSF pleocytosis without organisms, leukopenia, thrombocytopenia, elevated ALT.</li><li>Ill-appearing infants of any age get full workup, broad antibiotics, and admission.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Inflammatory markers (IMs) considered abnormal</b> (First10EM summary of AAP 2021): procalcitonin above 0.5 ng/mL, CRP 20 mg/L or higher (AAP REVISE II matrix), ANC above 4000 to 5200 per mm3, and temperature above 38.5 C. Procalcitonin plus ANC or CRP is preferred; do not use WBC.</li><li><b>Urinalysis</b> in all; catheter culture if the UA is positive.</li><li><b>Blood culture</b> in all.</li><li><b>LP:</b> required at 8 to 21 days; should be done at 22 to 28 days if any IM is abnormal and may be done if normal; may be done at 29 to 60 days if IMs are abnormal.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p>Age bands per AAP 2021 (UMEM and First10EM summaries); drug choices and doses from the Children's Hospital of Philadelphia febrile infant pathway.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>8 to 21 days:</b> UA, blood culture, CSF; start empiric antibiotics regardless of results; admit. CHOP lists ampicillin plus ceftazidime (ceftazidime 50 mg/kg every 8 hours after day 7; ampicillin 75 mg/kg every 6 hours for 8 to 28 days at meningitic dosing), plus acyclovir 20 mg/kg every 8 hours when HSV is possible.</li><li><b>22 to 28 days:</b> UA, blood culture, IMs. Abnormal IMs: LP and antibiotics, admit. Normal UA, normal IMs, and normal CSF: may go home after a parenteral antibiotic dose with reassessment within 24 hours, using shared decision-making. No CSF obtained: admit, with the option to observe off antibiotics (AAP REVISE II matrix). CHOP avoids ceftriaxone at 28 days and younger, while the AAP REVISE II matrix shows a single ceftriaxone dose for discharge at 22 to 28 days; follow local pathway.</li><li><b>29 to 60 days:</b> UA, blood culture, IMs. Normal IMs and negative UA: home without antibiotics, follow-up within 24 hours (AAP REVISE II matrix). Normal IMs and positive UA: oral antibiotics (CHOP: cephalexin 50 mg/kg/day divided every 8 hours) and follow-up. Abnormal IMs: consider LP; if CSF is unobtainable or uninterpretable, parenteral antibiotics with observation in hospital or at home per AAP (CHOP: ceftriaxone 50 mg/kg every 24 hours if well with no pleocytosis, every 12 hours if pleocytosis or ill appearance, plus vancomycin for meningitis).</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Applying the guideline to an ill-appearing, preterm, or bronchiolitic infant. It covers only well-appearing term infants, and everyone else needs full evaluation.</div><ul><li>Giving antibiotics without CSF in an infant 22 to 28 days or one with abnormal markers creates a partially treated meningitis that cannot be excluded.</li><li>Missing HSV in the first 3 weeks; it can present without vesicles.</li><li>A positive respiratory viral test does not remove the risk of UTI.</li><li>Every discharge requires reliable follow-up within about 24 hours and clear return precautions.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which infants does the 2021 AAP febrile infant guideline cover?",
+     "a": "Well-appearing term infants 8 to 60 days old with temperature 38.0 C or higher."
+    },
+    {
+     "q": "What procalcitonin and CRP values count as abnormal inflammatory markers?",
+     "a": "Procalcitonin above 0.5 ng/mL and CRP 20 mg/L or higher."
+    },
+    {
+     "q": "What is the AAP 2021 approach for a well-appearing febrile infant 8 to 21 days old?",
+     "a": "UA, blood culture, and CSF; empiric antibiotics; admit."
+    },
+    {
+     "q": "Which infants 29 to 60 days may go home without antibiotics?",
+     "a": "Those with normal inflammatory markers and a negative UA, with follow-up within 24 hours."
+    },
+    {
+     "q": "Why is ceftriaxone avoided in infants 28 days and younger?",
+     "a": "It is not recommended in that age group (it displaces bilirubin and interacts with calcium), so pathways use ampicillin with ceftazidime or cefepime."
+    }
+   ]
+  },
+  {
+   "id": "pediatric_resuscitation_dehydration",
+   "type": "condition",
+   "n": "Pediatric resuscitation essentials (PALS 2025) and dehydration",
+   "g": "obpeds",
+   "s": "Pediatric arrest is usually respiratory, so prioritize oxygenation and ventilation, give weight-based epinephrine and shocks per PALS 2025, give 10 to 20 mL/kg fluid boluses with reassessment in shock, and rehydrate most gastroenteritis orally with ondansetron.",
+   "x": [
+    {
+     "t": "Recognize",
+     "b": "<ul><li><b>Pediatric assessment triangle:</b> appearance, work of breathing, circulation to skin.</li><li><b>Compensated shock:</b> tachycardia, prolonged capillary refill, cool extremities with a normal BP; hypotension is a late, pre-arrest sign.</li><li><b>Bradycardia</b> in a child is usually hypoxic; PALS 2025 starts CPR for heart rate below 60 with poor perfusion despite oxygenation and ventilation.</li><li><b>Dehydration</b> (OHSU pathway, clinical dehydration scale scoring appearance, eyes, mucous membranes, tears 0 to 2 each): 0 none, 1 to 4 mild, 5 to 8 moderate to severe.</li></ul>"
+    },
+    {
+     "t": "Workup",
+     "b": "<ul><li><b>Weight:</b> measured, or a length-based tape; every dose depends on it.</li><li>Point-of-care glucose in every sick child and in moderate or severe dehydration, altered mentation, or lethargy.</li><li>Electrolytes for moderate to severe dehydration, IV rehydration, or abnormal history (very young age, prolonged illness).</li><li>Look for the H's and T's in arrest: hypovolemia, hypoxia, acidosis, hypoglycemia, hypo- or hyperkalemia, hypothermia, tension pneumothorax, tamponade, toxins, thrombosis.</li></ul>"
+    },
+    {
+     "t": "Treat",
+     "b": "<p><b>Cardiac arrest</b> (2025 AHA PALS cardiac arrest algorithm):</p><ul><li>CPR at 100 to 120 per minute, depth at least one third of the chest, 15:2 with two rescuers before puberty, 30:2 with one rescuer or after puberty; with an advanced airway, one breath every 2 to 3 seconds.</li><li><b>Epinephrine</b> 0.01 mg/kg IV or IO (0.1 mL/kg of 0.1 mg/mL), maximum 1 mg, every 3 to 5 minutes.</li><li><b>Defibrillation</b> for VF or pulseless VT: 2 J/kg, then 4 J/kg, then 4 J/kg or more up to 10 J/kg or the adult dose.</li><li><b>Amiodarone</b> 5 mg/kg IV or IO (maximum 300 mg first dose, 150 mg later doses), up to 3 doses, or <b>lidocaine</b> 1 mg/kg.</li></ul><p><b>Bradycardia</b> (2025 AHA PALS bradycardia algorithm): epinephrine 0.01 mg/kg (maximum 1 mg); atropine 0.02 mg/kg (minimum 0.1 mg, maximum single dose 0.5 mg) for increased vagal tone or primary AV block, may repeat once; consider pacing.</p><p><b>SVT</b> (2025 Red Cross PALS card): adenosine 0.1 mg/kg rapid push (maximum 6 mg), then 0.2 mg/kg (maximum 12 mg); synchronized cardioversion 0.5 to 1 J/kg, then 2 J/kg.</p><p><b>Septic shock</b> (2025 Red Cross PALS septic shock card): 10 to 20 mL/kg balanced crystalloid boluses with reassessment after each, repeated to a maximum of 60 mL/kg, or up to 40 mL/kg over the first hour where intensive care access is limited; 5 to 10 mL/kg in cardiac dysfunction; stop for signs of fluid overload. Epinephrine 0.1 to 1 mcg/kg/min or norepinephrine 0.05 to 2 mcg/kg/min; antibiotics within 60 minutes.</p><p><b>Dehydration</b> (OHSU pathway):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Ondansetron</b> for children 6 months and older: oral 1 to 2 mg (7 to 14 kg), 2 to 4 mg (15 to 26 kg), 8 mg (27 kg or more); IV 0.1 to 0.2 mg/kg, maximum 8 mg.</li><li><b>Oral rehydration</b> in small frequent aliquots: under 10 kg, 5 mL every 5 minutes for 20 minutes then 10 mL every 5 minutes; 10 kg or more, 10 mL then 20 mL every 5 minutes; 30 kg or more, 30 mL every 5 minutes for 40 minutes then 60 mL; reassess at 30 to 60 minutes.</li><li><b>IV rehydration</b> for severe dehydration or failed oral trial: 20 mL/kg normal saline, up to two boluses with reassessment; 10 mL/kg for neonates, cardiac, frail, or malnourished infants.</li><li><b>Hypoglycemia</b> (glucose below 70 mg/dL in children over 6 months): D10W 4 to 5 mL/kg (2 to 5 mL/kg elsewhere in the same pathway), recheck in 30 minutes, then glucose-containing maintenance fluid.</li></ol>"
+    },
+    {
+     "t": "Pitfalls and disposition",
+     "b": "<div class=\"trap\"><b>Trap:</b> Dosing by guess. Mental arithmetic under pressure causes tenfold errors; use a length-based system or weight-based reference and read doses aloud.</div><ul><li>Atropine is not first-line for hypoxic bradycardia; ventilate and oxygenate, then epinephrine.</li><li>Unchecked fluid boluses in septic children without ICU support can harm (FEAST trial); reassess after each.</li><li>Skipping the glucose check in a lethargic dehydrated toddler.</li><li>Dehydration discharge: tolerates oral fluids, caregivers can continue ORS, vital signs normal, mental status at baseline.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the PALS 2025 epinephrine dose in pediatric cardiac arrest?",
+     "a": "0.01 mg/kg IV or IO (0.1 mL/kg of 0.1 mg/mL), maximum 1 mg, every 3 to 5 minutes."
+    },
+    {
+     "q": "What defibrillation energies does PALS 2025 use for pediatric VF?",
+     "a": "2 J/kg, then 4 J/kg, then 4 J/kg or more up to 10 J/kg or the adult dose."
+    },
+    {
+     "q": "What is the pediatric amiodarone dose in shock-refractory VF?",
+     "a": "5 mg/kg IV or IO, up to 3 doses (maximum 300 mg first dose)."
+    },
+    {
+     "q": "What are the pediatric adenosine doses for SVT?",
+     "a": "0.1 mg/kg (maximum 6 mg), then 0.2 mg/kg (maximum 12 mg)."
+    },
+    {
+     "q": "What pediatric atropine dose limits apply?",
+     "a": "0.02 mg/kg, minimum 0.1 mg, maximum single dose 0.5 mg."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "UMEM Educational Pearls: 2026 Surviving Sepsis Campaign executive summary",
+   "url": "https://www.medschool.umaryland.edu/em/cme/umem-educational-pearls/?id=5041"
+  },
+  {
+   "title": "Hyperglycaemic crises in adults with diabetes: a consensus report (2024)",
+   "url": "https://endoinfo.ru/guidelines/s00125-024-06183-8.pdf"
+  },
+  {
+   "title": "Wilderness Medical Society clinical practice guidelines for out-of-hospital evaluation and treatment of accidental hypothermia: 2019 update",
+   "url": "https://www.femecv.com/sites/default/files/WMS%20hipotermia_2019.pdf"
+  },
+  {
+   "title": "ERC hypothermia and special circumstances algorithm poster",
+   "url": "https://www.cprguidelines.eu/assets/posters/6.5-Hypoth-Spec-Circs-Algorithms-5.pdf"
+  },
+  {
+   "title": "SCCM Guideline for the Treatment of Heat Stroke (2025)",
+   "url": "https://sccm.org/clinical-resources/guidelines/guidelines/guideline-for-the-treatment-of-heat-stroke"
+  },
+  {
+   "title": "UKKA clinical practice guideline: management of hyperkalaemia in adults (updated July 2026)",
+   "url": "https://www.ukkidney.org/sites/default/files/documents/FINAL%20VERSION%20-%20UKKA%20CLINICAL%20PRACTICE%20GUIDELINE%20-%20MANAGEMENT%20OF%20HYPERKALAEMIA%20IN%20ADULTS%20-%20UPDATED%20JULY%202026_0.pdf"
+  },
+  {
+   "title": "WikEM: Hyponatremia",
+   "url": "https://www.wikem.org/wiki/Hyponatremia"
+  },
+  {
+   "title": "Society for Endocrinology: management of adrenal crisis",
+   "url": "https://www.endocrinology.org/media/3716/management-of-adrenal-crisis.pdf"
+  },
+  {
+   "title": "LITFL: Thyroid storm",
+   "url": "https://litfl.com/thyroid-storm/"
+  },
+  {
+   "title": "Vim Book (Vanderbilt): Thyroid storm",
+   "url": "https://vimbook.vumc.org/endocrinology/thyroid-storm"
+  },
+  {
+   "title": "Emergency Care BC: Myxedema coma clinical summary",
+   "url": "https://emergencycarebc.ca/clinical_resource/clinical-summary/myxedema-coma/"
+  },
+  {
+   "title": "ACG Clinical Guideline: Upper Gastrointestinal and Ulcer Bleeding (2021)",
+   "url": "https://docs.bvsalud.org/biblioref/2021/07/1281327/acg_clinical_guideline__upper_gastrointestinal_and14.pdf"
+  },
+  {
+   "title": "Management of acute variceal bleeding teaching slides citing Baveno VII",
+   "url": "https://elearningdigestivo.es/wp-content/uploads/2023/01/master-MRLD-ev-gv-phg-gave-v2.pdf"
+  },
+  {
+   "title": "AFP: Management of acute lower GI bleeding, ACG guidelines (2024)",
+   "url": "https://www.aafp.org/afp/2024/0300/practice-guidelines-acute-lower-gi-bleeding"
+  },
+  {
+   "title": "WSES Jerusalem guidelines 2020 update for acute appendicitis, summary table",
+   "url": "https://wjes.biomedcentral.com/articles/10.1186/s13017-020-00306-3/tables/3"
+  },
+  {
+   "title": "McMaster Textbook of Internal Medicine: Acute mesenteric ischemia",
+   "url": "https://empendium.com/mcmtextbook/chapter/B31.II.4.19.1."
+  },
+  {
+   "title": "ACG guideline: management of acute pancreatitis (MDCalc summary)",
+   "url": "https://www.mdcalc.com/guidelines/10120/acg/management-acute-pancreatitis"
+  },
+  {
+   "title": "The WATERFALL trial summary (RESUS)",
+   "url": "https://resus.com.au/the-waterfall-trial-aggressive-vs-moderate-fluid-resuscitation-in-acute-pancreatitis/"
+  },
+  {
+   "title": "UCLA antimicrobial stewardship guidebook: central nervous system infections",
+   "url": "https://asp.mednet.ucla.edu/asp/files/view/guidebook/Central_nervous_system_infections.pdf"
+  },
+  {
+   "title": "AFP: Management of bacterial meningitis, new guidelines from the IDSA",
+   "url": "https://www.aafp.org/pubs/afp/issues/2005/0515/p2003.html"
+  },
+  {
+   "title": "WikEM: LRINEC score",
+   "url": "https://www.wikem.org/wiki/LRINEC_score"
+  },
+  {
+   "title": "Kansas Perinatal Quality Collaborative acute treatment algorithm (ACOG-based)",
+   "url": "https://kansaspqc.kdhe.ks.gov/acute-treatment-algorithm-spring25"
+  },
+  {
+   "title": "EB Medicine rapid reference: Postpartum hemorrhage",
+   "url": "https://foamed.ebmedicine.net/rapid-reference/postpartum-hemorrhage/"
+  },
+  {
+   "title": "CHOP febrile infant antimicrobials: recommendations, dosing and rationale",
+   "url": "https://www.chop.edu/clinical-pathway/febrile-infant-antimicrobials-recommendations-dosing-and-rationale"
+  },
+  {
+   "title": "AHA 2025 PALS Cardiac Arrest Algorithm",
+   "url": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-PALS-CA-250123.pdf?sc_lang=en"
+  },
+  {
+   "title": "Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2026 (Critical Care Medicine full text)",
+   "url": "https://site-medway.s3.sa-east-1.amazonaws.com/wp-content/uploads/sites/5/2026/03/23112346/surviving_sepsis_campaign__international.786.pdf"
+  },
+  {
+   "title": "Resuscitation Council UK 2025 special circumstances guidelines (ERC 2025)",
+   "url": "https://www.resus.org.uk/library/2025-resuscitation-guidelines/special-circumstances-guidelines"
+  },
+  {
+   "title": "Dextrose 50% injection prescribing information (Hospira)",
+   "url": "https://labeling.pfizer.com/ShowLabeling.aspx?id=4422"
+  },
+  {
+   "title": "Glucagon for injection emergency kit label (Fresenius Kabi)",
+   "url": "https://ndclist.com/ndc/51662-1498/label"
+  },
+  {
+   "title": "ACEP management algorithm for adult with hyperkalemia",
+   "url": "https://www.acep.org/siteassets/sites/acep/media/hyperk/documents/management-algorithm-for-adult-with-hyperkalemia.pdf"
+  },
+  {
+   "title": "Society for Endocrinology: emergency management of severe and moderately severe symptomatic hyponatraemia (2022)",
+   "url": "https://www.endocrinology.org/media/xhrhxhxm/emergency-management-of-severe-and-moderately-severely-symptomatic-hyponatraemia-in-adult-patients-2022.pdf"
+  },
+  {
+   "title": "Cleveland Clinic Journal of Medicine (2024): management of acute variceal hemorrhage",
+   "url": "https://www.ccjm.org/content/91/7/409.full.pdf"
+  },
+  {
+   "title": "AFP (2025): Oakland score for predicting safe discharge after lower GI bleeding",
+   "url": "https://www.aafp.org/pubs/afp/issues/2025/0800/mbtn-oakland-score-lower-gastrointestinal-bleeding.html"
+  },
+  {
+   "title": "ESVS 2024 clinical practice guidelines on abdominal aorto-iliac artery aneurysms",
+   "url": "https://arts.units.it/bitstream/11368/3098740/1/PIIS1078588423008894.pdf"
+  },
+  {
+   "title": "WSES Bologna guidelines for adhesive small bowel obstruction (2013 update)",
+   "url": "https://link.springer.com/content/pdf/10.1186/1749-7922-8-42.pdf"
+  },
+  {
+   "title": "IDSA 2014 practice guidelines for skin and soft tissue infections",
+   "url": "https://qmplus.qmul.ac.uk/pluginfile.php/1070437/mod_book/chapter/70535/2014_Practice%20Guidelines%20for%20the%20Diagnosis%20of%20Skin%20and%20Soft%20Tissue%20Infections.pdf"
+  },
+  {
+   "title": "UC Davis pediatric meningitis antimicrobial guideline",
+   "url": "https://health.ucdavis.edu/media-resources/antibiotic-stewardship/documents/pdfs/guidelines/meningitis_peds.pdf"
+  },
+  {
+   "title": "Society of Family Planning: Rh testing in early pregnancy (Guideline Central summary)",
+   "url": "https://www.guidelinecentral.com/guideline/1986844/"
+  },
+  {
+   "title": "Kansas Perinatal Quality Collaborative eclampsia algorithm (ACOG 2023)",
+   "url": "https://kansaspqc.kdhe.ks.gov/eclampsia-algorithm"
+  },
+  {
+   "title": "AAP REVISE II febrile infant implementation matrix (2021 guideline)",
+   "url": "https://downloads.aap.org/AAP/QI/REVISE2/REVISE%20II%20Febrile%20Infant%20Matrix%206.6.pdf"
+  }
+ ]
+}
