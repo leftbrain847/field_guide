@@ -1,0 +1,663 @@
+<title>Mastery Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; sticky bar with topic tabs + Read/Study switch; Read = nested disclosures per concept; Study = one flashcard at a time. */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --ink:#141820; --muted:#596274; --line:#dde2ea;
+  --accent:#2a52c4; --accent-ink:#ffffff; --accent-soft:#e6ecfb; --code-bg:#eef1f6; --warn:#a2560b; --warn-soft:#fbefe1;
+  --again:#b42318; --hard:#a2560b; --good:#1f7a4d; --easy:#2a52c4;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1117; --surface:#161a22; --ink:#e6e9ef; --muted:#9aa3b5; --line:#2a303c;
+  --accent:#8ea8ff; --accent-ink:#0e1117; --accent-soft:#1d2540; --code-bg:#1c212b; --warn:#f0b06a; --warn-soft:#2d2215;
+  --again:#ff8a80; --hard:#f0b06a; --good:#6fd39b; --easy:#8ea8ff; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0e1117; --surface:#161a22; --ink:#e6e9ef; --muted:#9aa3b5; --line:#2a303c;
+  --accent:#8ea8ff; --accent-ink:#0e1117; --accent-soft:#1d2540; --code-bg:#1c212b; --warn:#f0b06a; --warn-soft:#2d2215;
+  --again:#ff8a80; --hard:#f0b06a; --good:#6fd39b; --easy:#8ea8ff; color-scheme:dark }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:24px 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header h1{font-family:var(--f-display);font-weight:750;font-size:clamp(26px,6vw,38px);line-height:1.08;letter-spacing:-.02em;margin:0 0 8px;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+
+/* sticky bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+/* home grid: one card per category; the topic view swaps it for a back crumb */
+.home{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.cat{color:inherit;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:block;min-height:112px}
+.cat > span{display:block}
+.cat > span + span{margin-top:6px}
+.cat:hover{border-color:var(--accent)}
+.cat .cname{font:700 17px/1.2 var(--f-display);letter-spacing:-.01em}
+.cat .ccount{font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.cat .ctopics{font-size:13px;color:var(--muted);line-height:1.4}
+.crumb{display:flex;align-items:center;gap:10px;min-width:0}
+.crumb button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 10px;font:600 13px var(--f-body)}
+.crumb span{font:600 13px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrap[data-view="home"] .bar,.wrap[data-view="home"] #topicNote,.wrap[data-view="home"] #readView,.wrap[data-view="home"] #studyView{display:none!important}
+.wrap[data-view="topic"] #home,.wrap[data-view="topic"] header{display:none}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:500;font-size:14px;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modes{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;align-self:flex-start;background:var(--surface)}
+.modes button{border:0;background:none;padding:6px 16px;font-size:13px;font-weight:600}
+.modes button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+
+.topicnote{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.topicnote .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.chip{font:600 11px var(--f-mono);padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);letter-spacing:.04em}
+.chip.stale{background:var(--warn-soft);color:var(--warn)}
+.chip.planned{background:var(--code-bg);color:var(--muted)}
+.tab.planned{border-style:dashed;color:var(--muted);background:transparent}
+.tab.planned[aria-selected="true"]{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+.is-planned .toolbar{display:none}
+.topicnote p{margin:0;max-width:66ch}
+
+/* read view */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar input{flex:1 1 220px;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.toolbar button{font:500 13px var(--f-body);padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+#list{display:flex;flex-direction:column;gap:24px}
+.group{display:flex;flex-direction:column;gap:6px}
+.group h2{font:600 12px var(--f-mono);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 4px}
+details.concept{background:var(--surface);border:1px solid var(--line);border-radius:10px;scroll-margin-top:110px}
+details.concept[open]{border-color:var(--accent)}
+details.concept.flash{box-shadow:0 0 0 3px var(--accent-soft)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+.concept>summary{display:flex;align-items:baseline;gap:12px;padding:13px 14px}
+.num{font:500 12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;flex:none;width:2ch}
+.cname{font-family:var(--f-display);font-weight:600;font-size:17px;flex:1;min-width:0}
+.chev{flex:none;display:inline-block;color:var(--muted);transition:transform .15s}
+details[open]>summary .chev{transform:rotate(90deg)}
+.inner{padding:0 14px 14px 46px;display:flex;flex-direction:column;gap:8px}
+.tldr{margin:0;padding:10px 12px;background:var(--accent-soft);border-radius:8px;font-weight:500}
+details.sub{border-top:1px solid var(--line)}
+details.sub>summary{display:flex;gap:8px;align-items:baseline;padding:9px 0;font-weight:600;font-size:14px}
+details.sub .chev{font-size:12px}
+.body{padding:0 0 10px 18px;min-width:0}
+.body p{margin:0 0 8px;max-width:66ch}
+.body ul,.body ol{margin:0 0 8px;padding-left:18px}
+.body li{margin-bottom:4px}
+.body details.sub{margin-top:4px}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{background:var(--code-bg);border-radius:8px;padding:10px 12px;overflow-x:auto;margin:4px 0 10px;font:13px/1.5 var(--f-mono)}
+pre code{background:none;padding:0;font-size:inherit;overflow-wrap:normal}
+.trap{background:var(--warn-soft);color:var(--ink);border-left:3px solid var(--warn);padding:8px 10px;border-radius:0 6px 6px 0;margin:4px 0 10px}
+.trap b{color:var(--warn)}
+.synth{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 10px;border-radius:0 6px 6px 0;margin:4px 0 10px}
+.synth b{color:var(--accent)}
+.cardcount{font:500 11px var(--f-mono);color:var(--muted);flex:none}
+.empty{color:var(--muted);text-align:center;padding:24px}
+.sources{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.sources>summary{padding:12px 14px;font-weight:600;font-size:14px;display:flex;gap:8px}
+.sources ul{margin:0;padding:0 14px 14px 36px}
+.sources li{margin-bottom:4px;overflow-wrap:anywhere}
+.sources a{color:var(--accent)}
+
+/* study view */
+.studybar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.studybar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.studybar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.stats{display:flex;gap:14px;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums}
+.stats span{color:var(--muted)}
+.stats b{color:var(--ink);font-weight:600}
+.fcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column;gap:14px;min-height:300px}
+.cmeta{font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:8px;flex-wrap:wrap}
+.cmeta .state{color:var(--accent)}
+.cmeta span+span::before{content:"·";margin-right:8px;color:var(--muted)}
+.cq{font-family:var(--f-display);font-weight:600;font-size:clamp(19px,4.6vw,23px);line-height:1.3;text-wrap:balance}
+.ca{border-top:1px dashed var(--line);padding-top:14px;font-size:16px;max-width:62ch}
+.reveal{align-self:stretch;padding:12px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-weight:600}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grades button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:600;font-size:14px}
+.grades button small{font:500 11px var(--f-mono);color:var(--muted)}
+.grades button[data-g="0"]{color:var(--again)} .grades button[data-g="1"]{color:var(--hard)}
+.grades button[data-g="2"]{color:var(--good)} .grades button[data-g="3"]{color:var(--easy)}
+.grades button:hover{border-color:currentColor}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font-size:13px;font-weight:500;align-self:flex-start;text-decoration:underline;text-underline-offset:3px}
+.done{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px 18px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.done h3{font-family:var(--f-display);margin:0;font-size:20px}
+.done p{margin:0;color:var(--muted)}
+.savenote{font-size:12px;color:var(--muted);margin:0}
+.manage{font-size:13px;color:var(--muted)}
+.manage summary{display:inline-flex;gap:6px;padding:4px 0}
+.manage .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-top:8px}
+.manage button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px}
+.manage button.danger{border-color:var(--again);color:var(--again)}
+footer{color:var(--muted);font-size:13px}
+@media (max-width:520px){.inner{padding-left:14px}.grades{grid-template-columns:repeat(2,1fr)}}
+@media (prefers-reduced-motion:reduce){.chev{transition:none}}
+</style>
+
+<div class="wrap" data-view="home">
+  <header>
+    <h1>Mastery Field Guide</h1>
+    <p>Curated, targeted topics, each a dense dump of what mastery requires. Read each concept as nested notes, or switch to Study to drill its flashcards on a spaced-repetition schedule.</p>
+  </header>
+
+  <nav class="home" id="home" aria-label="Categories"></nav>
+
+  <div class="bar">
+    <div class="crumb"><button type="button" id="homeBtn" aria-label="All categories">‹ All</button><span id="catLabel"></span></div>
+    <div class="tabs" role="tablist" id="tabs" aria-label="Topics"></div>
+    <div class="modes" role="group" aria-label="Mode">
+      <button type="button" id="modeRead" aria-pressed="true">Read</button>
+      <button type="button" id="modeStudy" aria-pressed="false">Study</button>
+    </div>
+  </div>
+
+  <div class="topicnote" id="topicNote"></div>
+
+  <section id="readView" style="display:flex;flex-direction:column;gap:16px">
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Filter this topic" aria-label="Filter concepts">
+      <button id="openAll" type="button">Expand all</button>
+      <button id="closeAll" type="button">Collapse all</button>
+    </div>
+    <div id="list"></div>
+    <p class="empty" id="empty" hidden>No concepts match that filter.</p>
+    <details class="sources" id="sources"><summary><span class="chev" aria-hidden="true">›</span>Sources checked for this topic</summary><ul id="sourceList"></ul></details>
+  </section>
+
+  <section id="studyView" hidden style="flex-direction:column;gap:14px">
+    <div class="studybar">
+      <label for="scope">Deck
+        <select id="scope">
+          <option value="topic">This topic</option>
+          <option value="category">This category</option>
+          <option value="all">All topics</option>
+        </select>
+      </label>
+      <div class="stats" aria-live="polite"><div><span>Due </span><b id="stDue">0</b></div><div><span>New </span><b id="stNew">0</b></div><div><span>Learned </span><b id="stLearned">0</b></div></div>
+    </div>
+    <div class="fcard" id="fcard">
+      <div class="cmeta" id="cMeta"></div>
+      <div class="cq" id="cQ"></div>
+      <div class="ca" id="cA" hidden></div>
+      <button class="reveal" id="showBtn" type="button">Show answer</button>
+      <div class="grades" id="grades" hidden></div>
+      <button class="linkbtn" id="readMore" type="button">Read the full entry</button>
+    </div>
+    <div class="done" id="done" hidden>
+      <h3 id="doneTitle">All caught up</h3>
+      <p id="doneText"></p>
+    </div>
+    <p class="savenote" id="saveNote">Loading your progress…</p>
+    <details class="manage">
+      <summary>Manage progress</summary>
+      <div class="row">
+        <span id="resetLabel">Reset progress for this topic</span>
+        <button type="button" id="resetBtn">Reset</button>
+        <button type="button" class="danger" id="resetConfirm" hidden>Yes, erase it</button>
+        <button type="button" id="resetCancel" hidden>Cancel</button>
+      </div>
+    </details>
+  </section>
+
+  <footer id="footer">Content is written to be accurate as of each topic's date. Product features, names and defaults change; check the vendor docs before relying on a specific number.</footer>
+</div>
+
+<!--TOPICS-->
+
+<script>
+// ================= CONFIG (edit to reconfigure) =================
+const CONFIG = {
+  home: { previewTopics: 3 },   // home grid: how many topic names each category card previews
+  categories: [   // category -> topic ids, in tab order; ids must match topic data blocks
+    { key: "data",      label: "Data engineering",   topics: ["fundamentals", "git", "workato", "databricks", "powerautomate", "fabric", "powerbi", "sqlserver", "dbt"] },
+    { key: "ai",        label: "AI",                 topics: ["agentic", "mcp", "evals", "agentarch", "aisecurity", "shipping"] },
+    { key: "medicine",  label: "Medicine",           topics: ["em", "cardiology", "pulm", "renal", "gi", "endo", "heme", "neuro", "id", "mskderm", "obgyn", "peds", "pharm", "ebm"] },
+    { key: "law",       label: "Law",                topics: ["legalreasoning", "law1l", "healthlaw", "everydaylaw"] },
+    { key: "reasoning", label: "Reasoning & society", topics: ["fallacies", "decisions", "philosophy", "ethics", "sociology"] },
+    { key: "mind",      label: "Mind & habits",      topics: ["eq", "habits", "conflict"] },
+    { key: "games",     label: "Games & strategy",   topics: ["nfl", "fantasy", "footballanalytics", "poker"] },
+    { key: "survival",  label: "Survival & safety",  topics: ["firstaid", "survivalcore", "climates", "wildernessfa"] },
+    { key: "venture",   label: "Entrepreneurship",   topics: ["gtm", "venture"] }
+  ],
+  placeholders: {   // planned topics: shown as dashed tabs until their data file exists
+    cardiology:        { title: "Cardiology",              scope: "ACS, heart failure, arrhythmias, valvular disease, hypertension, ECG interpretation." },
+    pulm:              { title: "Pulmonology",             scope: "Asthma, COPD, PE, pneumonia, ARDS, ventilation basics, ABG interpretation." },
+    renal:             { title: "Renal & electrolytes",    scope: "AKI, CKD, sodium, potassium, calcium, acid-base." },
+    gi:                { title: "GI & hepatology",         scope: "GI bleeding, pancreatitis, liver disease, biliary disease, IBD, the acute abdomen." },
+    endo:              { title: "Endocrinology",           scope: "Diabetes and its emergencies, thyroid, adrenal, pituitary, calcium." },
+    heme:              { title: "Hematology & oncology",   scope: "Anemia, coagulation and anticoagulation, transfusion, oncologic emergencies." },
+    neuro:             { title: "Neurology",               scope: "Stroke, seizures, headache, weakness, altered mental status, neuroimaging basics." },
+    id:                { title: "Infectious disease",      scope: "Sepsis, meningitis, pneumonia, UTI, skin and soft tissue, antibiotic selection and stewardship." },
+    mskderm:           { title: "MSK & dermatology",       scope: "Fractures, joint emergencies, back pain red flags, dangerous rashes." },
+    obgyn:             { title: "OB/GYN",                  scope: "Pregnancy emergencies, ectopic, preeclampsia, postpartum hemorrhage, gynecologic emergencies." },
+    peds:              { title: "Pediatrics",              scope: "Pediatric assessment, fever, dehydration, respiratory illness, weight-based dosing, development." },
+    pharm:             { title: "Pharmacology",            scope: "Pharmacokinetics, high-risk drug classes, interactions, toxidromes, renal and hepatic dosing." },
+    ebm:               { title: "Biostats & EBM",          scope: "Sensitivity, specificity, likelihood ratios, NNT, study design, appraising evidence." },
+    fabric:            { title: "Microsoft Fabric",        scope: "OneLake, lakehouse vs warehouse, Data Factory pipelines and dataflows, capacity and cost, Git and deployment, migrating from Azure Data Factory." },
+    powerbi:           { title: "Power BI & DAX",          scope: "Semantic models, star schemas, DAX evaluation context, Direct Lake vs import vs DirectQuery, row-level security, performance tuning." },
+    sqlserver:         { title: "SQL Server & T-SQL",      scope: "Query plans, indexing, isolation levels and locking, window functions, temporal tables, CDC and change tracking." },
+    dbt:               { title: "dbt",                     scope: "Models, materializations, incremental models, tests and contracts, snapshots, CI with state selection, semantic layer." },
+    mcp:               { title: "MCP & tool design",       scope: "Model Context Protocol servers and clients, designing tools agents use well, auth, and when to use a skill instead." },
+    evals:             { title: "LLM evals",               scope: "Building eval sets, graders, regression testing for prompts and agents, measuring quality over time." },
+    agentarch:         { title: "Agent architecture",      scope: "Agent loops, orchestration patterns, memory and context management, multi-agent systems, harness design." },
+    aisecurity:        { title: "AI security",             scope: "Prompt injection, data exfiltration, secrets handling, sandboxing, permissions for autonomous agents." },
+    shipping:          { title: "Shipping apps & games",   scope: "Cloudflare Workers, D1 and Durable Objects for multiplayer, Google Play publishing and policy, game design fundamentals, monetization." },
+    legalreasoning:    { title: "Legal reasoning",         scope: "How law is made and found, reading cases and statutes, IRAC, precedent, burdens and standards of proof." },
+    law1l:             { title: "The 1L core",             scope: "Contracts, torts, property, civil procedure, criminal law, constitutional law: the doctrines every lawyer carries." },
+    healthlaw:         { title: "Healthcare law",          scope: "HIPAA, 42 CFR Part 2, telehealth and controlled-substance prescribing, licensure across states, mental health law." },
+    everydaylaw:       { title: "Everyday law",            scope: "Tenant rights in DC, MD and VA, employment law, contracts you sign, small claims. Study material, not legal advice." },
+    decisions:         { title: "Decision science",        scope: "Probability, expected value, Bayesian updating, forecasting and calibration, game theory, cognitive biases." },
+    philosophy:        { title: "Philosophy",              scope: "Core questions and positions in epistemology, metaphysics, mind and language, with the arguments for each." },
+    ethics:            { title: "Ethics",                  scope: "Consequentialism, deontology, virtue ethics, contractualism, applied ethics in medicine, tech and AI." },
+    sociology:         { title: "Sociology",               scope: "Core theories and methods, institutions, stratification, networks, and how to read social science evidence." },
+    habits:            { title: "Habits",                  scope: "What the evidence says about habit formation, implementation intentions, environment design, and sustaining change." },
+    conflict:          { title: "Assertiveness & conflict", scope: "Assertive communication, conflict de-escalation, negotiation, managing up and advocating for a team." },
+    fantasy:           { title: "Fantasy football",        scope: "PPR strategy, draft theory, waiver and trade valuation, start/sit decisions, playoff planning." },
+    footballanalytics: { title: "Football analytics",      scope: "EPA, success rate, win probability, 4th-down decision models, and how to build them." },
+    poker:             { title: "Poker",                   scope: "No-limit hold'em fundamentals, ranges, game-theory-optimal vs exploitative play, mental game, bankroll." },
+    survivalcore:      { title: "Survival core",           scope: "Priorities and the rule of threes, water, shelter, fire, navigation, signaling, and the survival mindset." },
+    climates:          { title: "Survival by climate",     scope: "Cold and arctic, desert, jungle and tropical, mountain and altitude, and at sea: what changes in each." },
+    wildernessfa:      { title: "Wilderness first aid",    scope: "Care when help is hours away: patient assessment, improvised splints, hypothermia and heat, evacuation decisions." }
+  },
+  staleAfterDays: 90,          // default; a topic's refreshDays overrides. Show a "refresh recommended" chip after this many days
+  defaultMode: "read",
+  showNumbers: true,
+  autoCardFromSummary: true,   // every concept also gets a "name -> one-line summary" card
+  srs: {
+    newPerDay: 20,             // new cards introduced per day, per deck
+    learnSteps: { again: 1, hard: 6 },   // minutes, for new/relearning cards
+    relearnMinutes: 10,        // a lapsed review card comes back after this many minutes
+    graduateDays: { good: 1, easy: 4 },  // first interval when a new card graduates
+    startEase: 2.5, minEase: 1.3,
+    easeDelta: { again: -0.2, hard: -0.15, easy: 0.15 },
+    hardFactor: 1.2, easyBonus: 1.3,
+    maxDays: 365
+  },
+  storage: { docPrefix: "srs-", localPrefix: "fieldguide-srs-", loadTimeoutMs: 10000 }
+};
+const GRADES = [
+  { key: "again", label: "Again" }, { key: "hard", label: "Hard" },
+  { key: "good", label: "Good" },   { key: "easy", label: "Easy" }
+];
+
+// ================= DATA =================
+const TOPICS = CONFIG.categories.flatMap(c => c.topics)
+  .map(id => {
+    const el = document.getElementById("topic-" + id);
+    if (el) return JSON.parse(el.textContent);
+    const ph = CONFIG.placeholders[id];
+    return ph ? { id, title: ph.title, note: ph.scope, placeholder: true, groups: [], concepts: [] } : null;
+  })
+  .filter(Boolean);
+const TOPIC_BY_ID = Object.fromEntries(TOPICS.map(t => [t.id, t]));
+
+function hash(s){ let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h.toString(36); }
+
+// Build the card list for each topic
+const CARDS = {};
+TOPICS.forEach(t => {
+  const list = [];
+  t.concepts.forEach((c, ci) => {
+    if (CONFIG.autoCardFromSummary) list.push({ q: "In one sentence: " + c.n + "?", a: c.s, ci, auto: true });
+    (c.cards || []).forEach(k => list.push({ q: k.q, a: k.a, ci }));
+  });
+  list.forEach(k => { k.topic = t.id; k.id = hash(t.concepts[k.ci].n + "|" + k.q); });
+  CARDS[t.id] = list;
+});
+
+// ================= STATE =================
+const ui = { topic: TOPICS[0].id, mode: CONFIG.defaultMode, scope: "topic" };
+const srs = {};            // topicId -> {cards:{id:{due,ivl,ease,reps,lapses}}, newDay:{date,n}}
+let store = null;          // {kind:"db", db, uid} | {kind:"local"}
+let loaded = false;
+const today = () => new Date().toLocaleDateString("en-CA");
+
+// ================= READ VIEW =================
+const CHEV = '<span class="chev" aria-hidden="true">›</span>';
+const listEl = document.getElementById("list");
+function renderSub(sec){
+  const d = document.createElement("details"); d.className = "sub";
+  d.innerHTML = "<summary>" + CHEV + '<span class="stitle"></span></summary>';
+  d.querySelector(".stitle").textContent = sec.t;
+  const body = document.createElement("div"); body.className = "body"; body.innerHTML = sec.b || "";
+  (sec.c || []).forEach(ch => body.appendChild(renderSub(ch)));
+  d.appendChild(body);
+  return d;
+}
+function renderRead(){
+  const t = TOPIC_BY_ID[ui.topic];
+  listEl.innerHTML = "";
+  document.getElementById("readView").classList.toggle("is-planned", !!t.placeholder);
+  if (t.placeholder) {
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "This topic is planned and not written yet. The note above shows what it will cover.";
+    listEl.appendChild(p);
+  }
+  let n = 0;
+  t.groups.forEach(g => {
+    const items = t.concepts.map((c, i) => ({ c, i })).filter(o => o.c.g === g.key);
+    if (!items.length) return;
+    const sec = document.createElement("section"); sec.className = "group";
+    const h = document.createElement("h2"); h.textContent = g.label; sec.appendChild(h);
+    items.forEach(({ c, i }) => {
+      n++;
+      const d = document.createElement("details"); d.className = "concept"; d.id = "c-" + t.id + "-" + i;
+      d.dataset.text = (c.n + " " + c.s + " " + JSON.stringify(c.x)).toLowerCase().replace(/<[^>]+>/g, " ");
+      const cardsN = CARDS[t.id].filter(k => k.ci === i).length;
+      d.innerHTML = '<summary><span class="num"></span><span class="cname"></span><span class="cardcount"></span>' + CHEV + "</summary>";
+      d.querySelector(".num").textContent = CONFIG.showNumbers ? String(i + 1).padStart(2, "0") : "";
+      d.querySelector(".cname").textContent = c.n;
+      d.querySelector(".cardcount").textContent = cardsN + " cards";
+      const inner = document.createElement("div"); inner.className = "inner";
+      const p = document.createElement("p"); p.className = "tldr"; p.textContent = c.s; inner.appendChild(p);
+      c.x.forEach(s => inner.appendChild(renderSub(s)));
+      d.appendChild(inner);
+      sec.appendChild(d);
+    });
+    listEl.appendChild(sec);
+  });
+  const src = document.getElementById("sources"), sl = document.getElementById("sourceList");
+  sl.innerHTML = "";
+  (t.sources || []).forEach(s => {
+    const li = document.createElement("li"), a = document.createElement("a");
+    a.href = s.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = s.title; li.appendChild(a); sl.appendChild(li);
+  });
+  src.hidden = !(t.sources && t.sources.length);
+  document.getElementById("q").value = "";
+  document.getElementById("empty").hidden = true;
+}
+document.getElementById("q").addEventListener("input", e => {
+  const term = e.target.value.trim().toLowerCase(); let shown = 0;
+  listEl.querySelectorAll("section.group").forEach(sec => {
+    let any = false;
+    sec.querySelectorAll("details.concept").forEach(d => {
+      const hit = !term || d.dataset.text.includes(term); d.hidden = !hit; if (hit) { any = true; shown++; }
+    });
+    sec.hidden = !any;
+  });
+  document.getElementById("empty").hidden = shown > 0;
+});
+document.getElementById("openAll").addEventListener("click", () =>
+  listEl.querySelectorAll("details.concept:not([hidden]), details.concept:not([hidden]) details").forEach(d => d.open = true));
+document.getElementById("closeAll").addEventListener("click", () =>
+  listEl.querySelectorAll("details").forEach(d => d.open = false));
+
+// ================= TOPIC NOTE + TABS =================
+function fmtDate(iso){ const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+function renderNote(){
+  const t = TOPIC_BY_ID[ui.topic], el = document.getElementById("topicNote");
+  if (t.placeholder) {
+    el.innerHTML = '<div class="meta"><span>Planned topic</span><span class="chip planned">Not built yet</span></div><p></p>';
+    el.querySelector("p").textContent = t.note;
+    return;
+  }
+  const [y, m, d] = t.updated.split("-").map(Number);
+  const age = Math.floor((Date.now() - new Date(y, m - 1, d)) / 864e5);
+  const stale = age > (t.refreshDays || CONFIG.staleAfterDays);  // per-topic override
+  el.innerHTML = '<div class="meta"><span></span><span class="chip"></span></div><p></p>';
+  el.querySelector(".meta span").textContent = "Last updated " + fmtDate(t.updated) + " · " + t.concepts.length + " concepts · " + CARDS[t.id].length + " cards";
+  const chip = el.querySelector(".chip");
+  chip.textContent = stale ? age + " days old · refresh recommended" : "Current";
+  chip.classList.toggle("stale", stale);
+  el.querySelector("p").textContent = t.note;
+}
+const tabsEl = document.getElementById("tabs"), catsEl = document.getElementById("home"), wrapEl = document.querySelector(".wrap");
+const CATS = CONFIG.categories.map(c => ({ ...c, topics: c.topics.filter(id => TOPIC_BY_ID[id]) })).filter(c => c.topics.length);
+const CAT_OF = Object.fromEntries(CATS.flatMap(c => c.topics.map(id => [id, c.key])));
+CATS.forEach(c => {
+  const built = c.topics.filter(id => !TOPIC_BY_ID[id].placeholder), planned = c.topics.length - built.length;
+  const nConcepts = built.reduce((n, id) => n + TOPIC_BY_ID[id].concepts.length, 0);
+  const b = document.createElement("a"); b.className = "cat"; b.dataset.key = c.key; b.href = "#" + c.topics[0];
+  const add = (cls, txt) => { const e = document.createElement("span"); e.className = cls; e.textContent = txt; b.appendChild(e); };
+  add("cname", c.label);
+  add("ccount", built.length ? built.length + (built.length === 1 ? " topic · " : " topics · ") + nConcepts + " concepts" : planned + " planned");
+  add("ctopics", (built.length ? built : c.topics).slice(0, CONFIG.home.previewTopics).map(id => TOPIC_BY_ID[id].title).join(" · "));
+  b.addEventListener("click", e => { e.preventDefault(); setCategory(c.key); showView("topic", true); });
+  catsEl.appendChild(b);
+});
+function showView(v, push){
+  wrapEl.dataset.view = v;
+  if (v === "home") { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
+  else if (push) { try { history.pushState({ fg: 1 }, "", "#" + ui.topic); } catch (e) {} }
+  scrollTo(0, 0);
+}
+document.getElementById("homeBtn").addEventListener("click", () => { if (history.state && history.state.fg) history.back(); else showView("home"); });
+addEventListener("popstate", () => { const id = location.hash.slice(1); if (TOPIC_BY_ID[id]) { setTopic(id); wrapEl.dataset.view = "topic"; } else wrapEl.dataset.view = "home"; });
+function setCategory(key, topicId){
+  ui.category = key;
+  catsEl.querySelectorAll(".cat").forEach(b => b.setAttribute("aria-selected", String(b.dataset.key === key)));
+  const cat = CATS.find(c => c.key === key);
+  document.getElementById("catLabel").textContent = cat.label;
+  tabsEl.innerHTML = "";
+  cat.topics.forEach(id => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "tab"; b.role = "tab";
+    b.textContent = TOPIC_BY_ID[id].title; b.dataset.id = id; if (TOPIC_BY_ID[id].placeholder) b.classList.add("planned"); b.addEventListener("click", () => setTopic(id)); tabsEl.appendChild(b);
+  });
+  setTopic(topicId && cat.topics.includes(topicId) ? topicId : cat.topics[0]);
+}
+function setTopic(id){
+  if (CAT_OF[id] !== ui.category) { setCategory(CAT_OF[id], id); return; }
+  ui.topic = id;
+  tabsEl.querySelectorAll(".tab").forEach(b => { const on = b.dataset.id === id; b.setAttribute("aria-selected", String(on)); if (on) b.scrollIntoView({ block: "nearest", inline: "nearest" }); });
+  try { if (wrapEl.dataset.view === "topic" && location.hash.slice(1) !== id) history.replaceState(history.state, "", "#" + id); } catch (e) {}
+  renderNote(); renderRead();
+  document.getElementById("resetLabel").textContent = "Reset progress for " + TOPIC_BY_ID[id].title;
+  if (ui.mode === "study") startSession();
+}
+function setMode(m){
+  ui.mode = m;
+  document.getElementById("modeRead").setAttribute("aria-pressed", String(m === "read"));
+  document.getElementById("modeStudy").setAttribute("aria-pressed", String(m === "study"));
+  document.getElementById("readView").hidden = m !== "read";
+  const sv = document.getElementById("studyView"); sv.hidden = m !== "study"; sv.style.display = m === "study" ? "flex" : "";
+  if (m === "study") startSession();
+}
+document.getElementById("modeRead").addEventListener("click", () => setMode("read"));
+document.getElementById("modeStudy").addEventListener("click", () => setMode("study"));
+
+// ================= SPACED REPETITION =================
+const S = CONFIG.srs, MIN = 6e4, DAY = 864e5;
+function cardState(k){ return (srs[k.topic] && srs[k.topic].cards[k.id]) || null; }
+function schedule(st, g){
+  // returns new state; st null = new card
+  const now = Date.now();
+  const s = st ? { ...st } : { ivl: 0, ease: S.startEase, reps: 0, lapses: 0 };
+  const key = GRADES[g].key;
+  if (s.ivl === 0) { // learning / relearning
+    if (key === "again") s.due = now + S.learnSteps.again * MIN;
+    else if (key === "hard") s.due = now + S.learnSteps.hard * MIN;
+    else { s.ivl = key === "easy" ? S.graduateDays.easy : (s.lapses ? Math.max(1, s.prevIvl || 1) : S.graduateDays.good); s.due = now + s.ivl * DAY; }
+    if (key === "easy") s.ease += S.easeDelta.easy;
+  } else {
+    if (key === "again") { s.lapses++; s.ease = Math.max(S.minEase, s.ease + S.easeDelta.again); s.prevIvl = Math.max(1, Math.round(s.ivl * 0.3)); s.ivl = 0; s.due = now + S.relearnMinutes * MIN; }
+    else {
+      if (key === "hard") { s.ivl = Math.max(s.ivl + 1, Math.round(s.ivl * S.hardFactor)); s.ease = Math.max(S.minEase, s.ease + S.easeDelta.hard); }
+      if (key === "good") s.ivl = Math.max(s.ivl + 1, Math.round(s.ivl * s.ease));
+      if (key === "easy") { s.ivl = Math.max(s.ivl + 2, Math.round(s.ivl * s.ease * S.easyBonus)); s.ease += S.easeDelta.easy; }
+      s.ivl = Math.min(s.ivl, S.maxDays); s.due = now + s.ivl * DAY;
+    }
+  }
+  s.ease = Math.round(s.ease * 100) / 100;
+  s.reps++; s.last = now;
+  return s;
+}
+function fmtIvl(ms){
+  const m = ms / MIN; if (m < 60) return Math.max(1, Math.round(m)) + "m";
+  const d = ms / DAY; if (d < 1) return Math.round(m / 60) + "h";
+  if (d < 30) return Math.round(d) + "d"; if (d < 365) return Math.round(d / 30) + "mo";
+  return (d / 365).toFixed(1) + "y";
+}
+function deckTopics(){
+  if (ui.scope === "all") return TOPICS.map(t => t.id);
+  if (ui.scope === "category") return CATS.find(c => c.key === ui.category).topics;
+  return [ui.topic];
+}
+function newUsedToday(ids){ return ids.reduce((n, id) => { const nd = srs[id] && srs[id].newDay; return n + (nd && nd.date === today() ? nd.n : 0); }, 0); }
+function counts(){
+  const ids = deckTopics(), now = Date.now(); let due = 0, fresh = 0, learned = 0;
+  ids.forEach(id => CARDS[id].forEach(k => { const st = cardState(k); if (!st) fresh++; else { if (st.due <= now) due++; if (st.ivl >= 1) learned++; } }));
+  const newAvail = Math.min(fresh, Math.max(0, S.newPerDay - newUsedToday(ids)));
+  return { due, fresh, newAvail, learned };
+}
+let queue = [], current = null;
+function buildQueue(){
+  const ids = deckTopics(), now = Date.now();
+  const dueCards = [], newCards = [];
+  ids.forEach(id => CARDS[id].forEach(k => { const st = cardState(k); if (!st) newCards.push(k); else if (st.due <= now) dueCards.push(k); }));
+  dueCards.sort((a, b) => cardState(a).due - cardState(b).due);
+  const allowance = Math.max(0, S.newPerDay - newUsedToday(ids));
+  queue = dueCards.concat(newCards.slice(0, allowance));
+}
+function startSession(){
+  if (!loaded) { showLoading(); return; }
+  buildQueue(); nextCard();
+}
+function showLoading(){
+  document.getElementById("fcard").hidden = true; document.getElementById("done").hidden = true;
+}
+function updateStats(){
+  const c = counts();
+  document.getElementById("stDue").textContent = c.due;
+  document.getElementById("stNew").textContent = c.newAvail;
+  document.getElementById("stLearned").textContent = c.learned;
+  return c;
+}
+function nextCard(){
+  const now = Date.now();
+  // pull forward learning cards whose step has elapsed
+  current = queue.shift() || null;
+  if (!current) {
+    // any learning card due within the next 20 minutes? surface the soonest when its time comes
+    const ids = deckTopics(); let soon = null;
+    ids.forEach(id => CARDS[id].forEach(k => { const st = cardState(k); if (st && st.ivl === 0 && (!soon || st.due < cardState(soon).due)) soon = k; }));
+    if (soon && cardState(soon).due - now < 20 * MIN) { current = soon; }
+  }
+  const c = updateStats();
+  const fc = document.getElementById("fcard"), done = document.getElementById("done");
+  if (!current) {
+    fc.hidden = true; done.hidden = false;
+    const nextDue = deckTopics().flatMap(id => CARDS[id].map(cardState)).filter(Boolean).map(s => s.due).sort((a, b) => a - b)[0];
+    document.getElementById("doneTitle").textContent = "All caught up";
+    document.getElementById("doneText").textContent =
+      (c.fresh > 0 && c.newAvail === 0 ? "You've reached today's limit of " + S.newPerDay + " new cards. " : "") +
+      (nextDue ? "Next review in " + fmtIvl(Math.max(MIN, nextDue - now)) + "." : "Switch topics or decks to keep going.");
+    return;
+  }
+  done.hidden = true; fc.hidden = false;
+  const t = TOPIC_BY_ID[current.topic], st = cardState(current);
+  const meta = document.getElementById("cMeta"); meta.innerHTML = "";
+  [t.title, t.concepts[current.ci].n].forEach(x => { const s = document.createElement("span"); s.textContent = x; meta.appendChild(s); });
+  const tag = document.createElement("span"); tag.className = "state"; tag.textContent = !st ? "New" : st.ivl === 0 ? "Learning" : "Review"; meta.appendChild(tag);
+  document.getElementById("cQ").textContent = current.q;
+  const a = document.getElementById("cA"); a.textContent = current.a; a.hidden = true;
+  document.getElementById("showBtn").hidden = false;
+  const gr = document.getElementById("grades"); gr.hidden = true; gr.innerHTML = "";
+  GRADES.forEach((g, i) => {
+    const b = document.createElement("button"); b.type = "button"; b.dataset.g = i;
+    const ns = schedule(st, i);
+    b.innerHTML = "<span></span><small></small>";
+    b.querySelector("span").textContent = g.label; b.querySelector("small").textContent = fmtIvl(ns.due - Date.now());
+    b.addEventListener("click", () => grade(i)); gr.appendChild(b);
+  });
+}
+function reveal(){
+  if (!current) return;
+  document.getElementById("cA").hidden = false; document.getElementById("showBtn").hidden = true; document.getElementById("grades").hidden = false;
+  document.getElementById("grades").querySelector('[data-g="2"]').focus({ preventScroll: true });
+}
+document.getElementById("showBtn").addEventListener("click", reveal);
+function grade(g){
+  if (!current || document.getElementById("grades").hidden) return;
+  const k = current, tid = k.topic;
+  srs[tid] = srs[tid] || { cards: {}, newDay: { date: today(), n: 0 } };
+  const wasNew = !srs[tid].cards[k.id];
+  const ns = schedule(srs[tid].cards[k.id] || null, g);
+  srs[tid].cards[k.id] = ns;
+  if (wasNew) { const nd = srs[tid].newDay; srs[tid].newDay = nd && nd.date === today() ? { date: nd.date, n: nd.n + 1 } : { date: today(), n: 1 }; }
+  if (ns.ivl === 0) queue.push(k);  // learning: see it again this session
+  save(tid);
+  nextCard();
+}
+document.getElementById("readMore").addEventListener("click", () => {
+  if (!current) return;
+  const k = current; setMode("read"); if (ui.topic !== k.topic) setTopic(k.topic);
+  const d = document.getElementById("c-" + k.topic + "-" + k.ci);
+  if (d) { d.open = true; d.scrollIntoView({ block: "start" }); d.classList.add("flash"); setTimeout(() => d.classList.remove("flash"), 1600); }
+});
+document.getElementById("scope").addEventListener("change", e => { ui.scope = e.target.value; startSession(); });
+document.addEventListener("keydown", e => {
+  if (ui.mode !== "study" || e.target.matches("input,select,textarea")) return;
+  if ((e.key === " " || e.key === "Enter") && !document.getElementById("showBtn").hidden && current) { e.preventDefault(); reveal(); }
+  else if (["1", "2", "3", "4"].includes(e.key)) grade(Number(e.key) - 1);
+});
+
+// reset (in-page confirmation)
+const rb = document.getElementById("resetBtn"), rc = document.getElementById("resetConfirm"), rx = document.getElementById("resetCancel");
+rb.addEventListener("click", () => { rb.hidden = true; rc.hidden = false; rx.hidden = false; });
+rx.addEventListener("click", () => { rb.hidden = false; rc.hidden = true; rx.hidden = true; });
+rc.addEventListener("click", () => {
+  srs[ui.topic] = { cards: {}, newDay: { date: today(), n: 0 } }; save(ui.topic);
+  rb.hidden = false; rc.hidden = true; rx.hidden = true; if (ui.mode === "study") startSession();
+});
+
+// ================= PERSISTENCE =================
+const writeChains = {};
+function setNote(t){ document.getElementById("saveNote").textContent = t; }
+function save(tid){
+  const body = JSON.parse(JSON.stringify(srs[tid]));
+  if (store && store.kind === "db") {
+    const ref = store.db.doc("data/users/" + store.uid + "/" + CONFIG.storage.docPrefix + tid);
+    writeChains[tid] = (writeChains[tid] || Promise.resolve()).then(() => ref.set(body)).then(
+      () => setNote("Progress saved to your account. It follows you across devices."),
+      e => { setNote(e && e.code === "quota_exceeded" ? "Storage is full; progress for this card was not saved." : "Couldn't save this answer; your progress is kept on this device for now."); localSave(tid, body); });
+  } else localSave(tid, body);
+}
+function localSave(tid, body){ try { localStorage.setItem(CONFIG.storage.localPrefix + tid, JSON.stringify(body)); } catch (e) {} }
+function localLoad(tid){ try { const v = localStorage.getItem(CONFIG.storage.localPrefix + tid); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function finishLoad(note){
+  loaded = true; setNote(note);
+  if (ui.mode === "study") startSession(); else updateStats();
+}
+function useLocal(note){
+  store = { kind: "local" };
+  TOPICS.forEach(t => { srs[t.id] = localLoad(t.id) || { cards: {}, newDay: { date: today(), n: 0 } }; });
+  finishLoad(note);
+}
+async function initStore(){
+  const api = window.claude && window.claude.use ? window.claude : null;
+  if (!api) { useLocal("Progress is saved in this browser only."); return; }
+  try {
+    const [db, user] = await Promise.all([api.use("db"), api.use("user")]);
+    const uid = user ? await user.id() : null;
+    if (!db || !uid) { useLocal("Sign in to claude.ai to sync progress. For now it's saved in this browser only."); return; }
+    const timer = new Promise((_, rej) => setTimeout(() => rej({ code: "timeout" }), CONFIG.storage.loadTimeoutMs));
+    const snaps = await Promise.race([Promise.all(TOPICS.map(t => db.doc("data/users/" + uid + "/" + CONFIG.storage.docPrefix + t.id).get())), timer]);
+    store = { kind: "db", db, uid };
+    TOPICS.forEach((t, i) => {
+      const d = snaps[i].exists ? snaps[i].data() : null;
+      srs[t.id] = d ? JSON.parse(JSON.stringify(d)) : { cards: {}, newDay: { date: today(), n: 0 } };
+      if (!srs[t.id].cards) srs[t.id].cards = {};
+    });
+    finishLoad("Progress is saved to your account and follows you across devices.");
+  } catch (e) {
+    useLocal("Your saved progress couldn't be reached, so this session is saved in this browser only.");
+  }
+}
+
+// ================= BOOT =================
+const startId = location.hash.slice(1);
+setTopic(TOPIC_BY_ID[startId] ? startId : CATS[0].topics[0]);
+if (TOPIC_BY_ID[startId]) wrapEl.dataset.view = "topic";   // a #topic link opens straight into that topic; no hash opens the home grid
+setMode(CONFIG.defaultMode);
+initStore();
+</script>

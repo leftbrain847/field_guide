@@ -1,0 +1,1983 @@
+{
+ "id": "agentic",
+ "title": "Claude Code & agentic work",
+ "updated": "2026-11-04",
+ "refreshDays": 30,
+ "note": "Claude Code and agentic engineering from first session to how the top individuals and teams work, built mainly from frontier labs' published material, their engineers' posts and talks, and proven practitioners. This field changes weekly: features ship, get renamed, and best practices shift with each model release. Refresh this tab at least monthly, and re-check anything here before you rely on a specific flag or default. Blue Synthesis boxes are conclusions drawn across sources, not something a single source states.",
+ "groups": [
+  {
+   "key": "start",
+   "label": "Getting started: 0 to 1"
+  },
+  {
+   "key": "context",
+   "label": "Context, memory and steering"
+  },
+  {
+   "key": "workflow",
+   "label": "Core workflows"
+  },
+  {
+   "key": "verify",
+   "label": "Verification and quality"
+  },
+  {
+   "key": "extend",
+   "label": "Extending Claude Code"
+  },
+  {
+   "key": "safety",
+   "label": "Permissions, sandboxing and safety"
+  },
+  {
+   "key": "automate",
+   "label": "Headless, CI and the Agent SDK"
+  },
+  {
+   "key": "parallel",
+   "label": "Parallel and long-running agents"
+  },
+  {
+   "key": "team",
+   "label": "Team and org practices"
+  },
+  {
+   "key": "landscape",
+   "label": "Tool landscape"
+  },
+  {
+   "key": "frontier",
+   "label": "Frontier practitioners and what's next"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Install, surfaces and sign-in",
+   "g": "start",
+   "s": "Claude Code is one agent engine reachable from the terminal CLI, IDE extensions, a desktop app, the web and mobile, Slack and CI, and they all share the same CLAUDE.md, settings and MCP configuration.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The Claude Code overview page describes it as an agentic coding tool that reads your codebase, edits files, runs commands and integrates with your tools. Each surface connects to the same engine, so your <code>CLAUDE.md</code> files, settings and MCP servers work across all of them.</p><ul><li><b>Terminal CLI</b>: the full-featured surface. The docs recommend the native installer (a curl of Anthropic's <code>install.sh</code> piped to bash on macOS, Linux and WSL, or a PowerShell script on Windows). Native installs auto-update in the background.</li><li><b>Homebrew</b>: <code>brew install --cask claude-code</code> tracks a stable channel that the docs say is usually about a week behind and skips releases with major regressions; <code>claude-code@latest</code> tracks the newest. Homebrew and WinGet installs do not auto-update.</li><li><b>IDE</b>: the VS Code extension (also installs in Cursor) gives inline diffs, @-mentions and plan review. The JetBrains plugin needs the CLI installed separately.</li><li><b>Desktop app</b>: macOS and Windows, with Linux in beta. It bundles Claude Code and adds visual diff review, parallel sessions and scheduled tasks. It requires a paid subscription.</li><li><b>Web and mobile</b>: claude.ai/code runs sessions in the cloud on a fresh clone, available in desktop browsers and the Claude iOS and Android apps.</li></ul>"
+    },
+    {
+     "t": "Moving work between surfaces",
+     "b": "<p>The overview and Remote Control pages list these hand-offs:</p><ul><li><b>Remote Control</b> (<code>claude remote-control</code>, or <code>/remote-control</code> in Desktop and VS Code) lets a phone or browser drive a session that keeps executing on your machine. It needs a Pro, Max, Team or Enterprise login; API keys are not supported, and on Team and Enterprise an Owner must enable it.</li><li><b>Cloud to terminal</b>: start a long task on the web or mobile and pull it local with <code>claude --teleport</code>; push local work up with <code>claude --cloud</code>.</li><li><b>Terminal to desktop</b>: <code>/desktop</code> continues the current terminal session in the desktop app for visual diff review.</li><li><b>Slack</b>: mention <code>@Claude</code> with a bug report and get a pull request back.</li></ul>"
+    },
+    {
+     "t": "Sign-in and providers",
+     "b": "<p>Per the overview, most surfaces need a Claude subscription or a Claude Console account. If <code>ANTHROPIC_API_KEY</code> is set, Claude Code skips the login prompt and asks you to approve the key instead. The terminal CLI, VS Code and JetBrains also run against third-party providers (Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry). On native Windows, the docs recommend Git for Windows so the Bash tool works; without it Claude Code falls back to PowerShell.</p><p>For a healthcare org, the HIPAA setup page says the HIPAA configuration applies only to local-mode sessions signed in with a Claude Enterprise account that connect directly to the Claude API. Sessions through Bedrock, Vertex, Foundry or an LLM gateway are not eligible for it.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming a Homebrew or WinGet install keeps itself current. Only native installs auto-update; package-manager installs need <code>brew upgrade</code> or <code>winget upgrade</code> for features and security fixes.</div><div class=\"trap\"><b>Trap:</b> Expecting a cloud session to see your local plugins, user settings or <code>settings.local.json</code>. The settings page says cloud sessions read the repo's committed <code>.claude/settings.json</code> and server-managed settings only.</div><div class=\"synth\"><b>Synthesis:</b> Pick the surface by where the code must execute: local terminal or desktop when Claude needs your files, tools and credentials; cloud when the task is long, parallel or must survive a closed laptop; Remote Control when you want the phone UI but local execution.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which Claude Code install methods auto-update in the background?",
+     "a": "Native installs. Homebrew and WinGet installs do not, so you upgrade them yourself."
+    },
+    {
+     "q": "What does Remote Control do, and where does the code execute?",
+     "a": "It lets claude.ai/code or the Claude mobile app drive a Claude Code session, while execution and file access stay on your own machine."
+    },
+    {
+     "q": "Which command pulls a cloud session into your local terminal?",
+     "a": "claude --teleport. It requires a claude.ai subscription."
+    },
+    {
+     "q": "What is the difference between the claude-code and claude-code@latest Homebrew casks?",
+     "a": "claude-code tracks the stable channel, usually about a week behind and skipping releases with major regressions; claude-code@latest gets every release immediately."
+    },
+    {
+     "q": "Does the JetBrains plugin include the CLI?",
+     "a": "No. It requires the Claude Code CLI to be installed separately; the desktop app, by contrast, bundles Claude Code."
+    }
+   ]
+  },
+  {
+   "n": "The agent loop, tools, sessions and checkpoints",
+   "g": "start",
+   "s": "Claude Code is a harness that wraps a Claude model with tools and context management, runs a gather-act-verify loop you can interrupt at any point, and records every session locally so you can resume, fork or rewind it.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The How Claude Code works page describes three blended phases: <b>gather context</b>, <b>take action</b> and <b>verify results</b>. Two components power the loop: the model that reasons and the tools that act. The docs call the surrounding layer the <b>agentic harness</b>.</p><ul><li><b>Built-in tool categories</b>: file operations, search, execution (shell, tests, git), web (search and fetch) and code intelligence (type errors, go-to-definition; needs a code intelligence plugin). Claude also has tools to spawn subagents and ask you questions.</li><li><b>What it can access</b>: your project directory, your terminal, git state, CLAUDE.md, auto memory and any extensions you configure.</li><li><b>Steering</b>: press <code>Esc</code> to stop immediately (the running tool call is cancelled). Type a correction and press <code>Enter</code> without stopping to queue it; Claude reads it after the current tool calls finish, within the same turn.</li></ul>"
+    },
+    {
+     "t": "Sessions: resume, fork, branch",
+     "b": "<p>Per the docs, each message, tool use and result is written to a plaintext JSONL file under <code>~/.claude/projects/</code>. Sessions are independent: a new session starts with a fresh context window.</p><ul><li><code>claude --continue</code> or <code>claude --resume</code> reopens a session under the same ID and appends to it.</li><li><code>--fork-session</code> or <code>/branch</code> copies the history into a new session ID and leaves the original unchanged.</li><li>Sessions are tied to a directory; the <code>/resume</code> picker shows the current worktree's sessions by default.</li><li>Switching git branches changes the files Claude sees but keeps the conversation.</li></ul>"
+    },
+    {
+     "t": "Checkpoints and rewind",
+     "b": "<p>The checkpointing page says every prompt that starts a turn creates a checkpoint of files Claude's edit tools touch. Snapshots are kept for the 100 most recent checkpoints in a session and are deleted by the retention sweep, by default about 30 days after the session last saved one (<code>cleanupPeriodDays</code>).</p><p>Open the menu with <code>/rewind</code> or <code>Esc</code> twice on an empty prompt. Options: <b>Restore code and conversation</b>, <b>Restore conversation</b>, <b>Restore code</b>, <b>Summarize from here</b>, <b>Summarize up to here</b>, <b>Never mind</b>.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating checkpoints as a safety net for shell commands. Files changed by Bash (<code>rm</code>, <code>mv</code>, <code>cp</code>), most subagent edits, external edits, and symlinked or hard-linked files are not restored. Remote side effects (databases, APIs, deploys) cannot be checkpointed at all.</div><div class=\"trap\"><b>Trap:</b> Using checkpoints in place of git. The docs describe them as session-level recovery; commits remain your durable history.</div><div class=\"trap\"><b>Trap:</b> Pressing <code>Esc</code> twice with text in the prompt. That clears the input instead of opening the rewind menu (the text goes to input history).</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>Does this task touch remote systems that rewind cannot undo? If so, gate them with permission rules instead of relying on checkpoints.</li><li>Do I want to continue this thread (<code>--continue</code>) or explore an alternative without losing it (<code>/branch</code>)?</li><li>Is the context now polluted enough that a fresh session plus a written handoff beats resuming?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the three phases of Claude Code's agentic loop?",
+     "a": "Gather context, take action and verify results. They blend together and repeat until the task is done."
+    },
+    {
+     "q": "How do you redirect Claude mid-task without stopping it?",
+     "a": "Type the correction and press Enter. It is queued and Claude reads it as soon as the running tool calls finish, within the same turn."
+    },
+    {
+     "q": "What is the difference between --resume and --fork-session?",
+     "a": "--resume (or --continue) appends to the same session ID; --fork-session (or /branch) copies the history into a new session ID and leaves the original intact."
+    },
+    {
+     "q": "Does /rewind undo a file deleted with rm through the Bash tool?",
+     "a": "No. Checkpoints track only edits made by Claude's file editing tools, not Bash-driven changes."
+    },
+    {
+     "q": "How many checkpoints keep file snapshots per session?",
+     "a": "The 100 most recent checkpoints in a session."
+    }
+   ]
+  },
+  {
+   "n": "Models, effort, thinking and cost visibility",
+   "g": "start",
+   "s": "You choose a model with an alias or full ID, tune reasoning depth with effort levels, and watch spend with /usage, the status line and JSON cost fields.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The model configuration page lists aliases <code>default</code>, <code>best</code>, <code>fable</code>, <code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>sonnet[1m]</code>, <code>opus[1m]</code> and <code>opusplan</code>. Aliases resolve to the newest model in the family for your provider; pin a version with a full model name. Precedence, highest first: <code>/model</code> in session, <code>claude --model</code>, <code>ANTHROPIC_MODEL</code>, the <code>model</code> setting, then <code>ANTHROPIC_DEFAULT_MODEL</code>.</p><ul><li><b>Fable</b> models (Fable 5.1 and Fable 5) are described as the most capable, for long autonomous tasks, and are never the default; select them with <code>/model fable</code>.</li><li><b>opusplan</b> uses Opus in plan mode and Sonnet for execution.</li><li><b>Fallback</b>: <code>--fallback-model</code> or a <code>fallbackModel</code> array tries alternates when the primary is overloaded.</li><li>Each model has its own prompt cache, so the settings page warns that the first request after a switch re-reads the whole conversation uncached.</li></ul>"
+    },
+    {
+     "t": "Effort and thinking",
+     "b": "<p>Effort levels are <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code> and <code>max</code>, set with <code>/effort</code>, <code>--effort</code>, <code>CLAUDE_CODE_EFFORT_LEVEL</code> or <code>effortLevel</code>. Defaults vary by model. The Week 16 digest called <code>xhigh</code> the recommended setting for most coding work when it shipped with Opus 4.7.</p><p>The costs page says extended thinking is on by default, thinking tokens bill as output, and thinking cannot be turned off on Opus 5.5, Sonnet 5.5, Haiku 5.5 or the Fable models. On adaptive-reasoning models use effort instead of <code>MAX_THINKING_TOKENS</code>, which they ignore when nonzero.</p><p><code>/effort ultracode</code> (or <code>claude --effort ultracode</code>) is a separate session toggle that has Claude plan a dynamic workflow for each substantive task; the workflows page warns each request then uses more tokens and time.</p>"
+    },
+    {
+     "t": "Cost and usage visibility",
+     "b": "<ul><li><code>/usage</code>: the Session block shows token counts and a locally computed dollar estimate (meant for API users); subscribers also see plan usage bars and, on paid plans, attribution of usage to skills, subagents, plugins and MCP servers with fix recommendations.</li><li><code>/insights</code> writes an HTML report on how you work, from up to 200 recent sessions.</li><li><code>claude -p --output-format json</code> returns <code>total_cost_usd</code> with a per-model breakdown; both are client-side estimates.</li><li>OpenTelemetry export is the only option the docs name for streaming per-user token and cost metrics into your own observability stack on every setup.</li></ul><p>The costs page reports enterprise averages of about $13 per developer per active day and $150 to $250 per developer per month, with 90% of users under $30 per active day.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Leaving Opus as the default for routine work on an API or cloud-provider plan. The costs page names long uncleared sessions and Opus-as-default as the usual causes of unexpected spend.</div><div class=\"trap\"><b>Trap:</b> Switching models mid-session casually. The next request re-reads the full conversation without cache.</div><div class=\"trap\"><b>Trap:</b> Trusting the <code>/usage</code> dollar figure as your bill. It is computed at list price unless an admin sets <code>modelPricing</code> in managed settings.</div><div class=\"synth\"><b>Synthesis:</b> Treat model and effort as two separate dials: the model sets the capability ceiling, effort sets how much of it each turn spends. Raise effort before switching to a bigger model when a task fails for lack of reasoning depth.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does the opusplan alias do?",
+     "a": "It uses Opus while in plan mode and switches to Sonnet for execution."
+    },
+    {
+     "q": "List the Claude Code effort levels from lowest to highest.",
+     "a": "low, medium, high, xhigh, max."
+    },
+    {
+     "q": "Which takes precedence: claude --model or the model key in settings.json?",
+     "a": "claude --model. The order is /model, then --model, then ANTHROPIC_MODEL, then the model setting, then ANTHROPIC_DEFAULT_MODEL."
+    },
+    {
+     "q": "Which JSON field gives the estimated cost of a claude -p run?",
+     "a": "total_cost_usd, returned with --output-format json alongside a per-model breakdown."
+    },
+    {
+     "q": "Why does switching models mid-session cost more on the next request?",
+     "a": "Each model has its own prompt cache, so the first request after a switch re-reads the whole conversation uncached."
+    }
+   ]
+  },
+  {
+   "n": "Plan mode",
+   "g": "start",
+   "s": "Plan mode lets Claude read, explore and write a plan without editing your source, and you approve or edit that plan before any change happens.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The permission modes page gives three ways in: press <code>Shift+Tab</code> to cycle to it, prefix a single prompt with <code>/plan</code>, or start with <code>claude --permission-mode plan</code>. Press <code>Shift+Tab</code> again to leave without approving.</p><ul><li>Claude can read files, run shell commands to explore and write a plan. It cannot edit source until you approve.</li><li>Shell commands while planning: if auto mode is available and <code>useAutoModeDuringPlan</code> is on (the default), the classifier reviews commands; otherwise anything outside the built-in read-only set prompts you.</li><li>The built-in <b>Plan</b> subagent does read-only research during plan mode.</li></ul>"
+    },
+    {
+     "t": "Approving the plan",
+     "b": "<p>When the plan is ready, Claude offers <b>Yes, and use auto mode</b> (or <b>Yes, auto-accept edits</b> when auto mode is unavailable), <b>Yes, manually approve edits</b>, or <b>No, keep planning</b>. Press <code>Ctrl+G</code> to open the plan in your text editor and change it first.</p><p>Plans are saved to <code>~/.claude/plans/</code> by default (change with <code>plansDirectory</code>). The context window page says the plan is re-injected from disk after compaction, so it survives a long session.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Boris Cherny, who created Claude Code, said in an X thread (January 2, per Thread Reader) that he starts most sessions in plan mode, iterates until the plan is right, then switches to auto-accept edits.</li><li>The costs page recommends plan mode for complex tasks because a wrong initial direction causes expensive rework.</li><li>The <code>opusplan</code> alias pairs naturally with plan mode: stronger reasoning for the plan, cheaper execution.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming plan mode is a hard read-only sandbox in every case. The docs note an exception: in interactive terminal sessions with bypass permissions available, plan-mode blocks are not enforced.</div><div class=\"trap\"><b>Trap:</b> Approving a plan you skimmed. Once you choose an auto option, edits flow without per-file prompts; <code>Ctrl+G</code> editing is the cheap place to fix scope.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name three ways to enter plan mode.",
+     "a": "Shift+Tab to cycle to it, prefix a prompt with /plan, or start with claude --permission-mode plan."
+    },
+    {
+     "q": "Which key opens the proposed plan in your editor before approval?",
+     "a": "Ctrl+G."
+    },
+    {
+     "q": "Where are plan files stored by default?",
+     "a": "~/.claude/plans/, configurable with the plansDirectory setting."
+    },
+    {
+     "q": "Does the plan survive auto-compaction?",
+     "a": "Yes. The plan Claude wrote in plan mode is re-injected from disk after compaction."
+    }
+   ]
+  },
+  {
+   "n": "CLAUDE.md, rules, AGENTS.md and auto memory",
+   "g": "context",
+   "s": "CLAUDE.md files are instructions you write and Claude loads every session, .claude/rules scopes instructions to file paths, and auto memory is a per-repo notebook Claude writes for itself.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The memory docs list four CLAUDE.md locations, all concatenated into context (none override each other):</p><ul><li><b>Managed policy</b>: <code>/Library/Application Support/ClaudeCode/CLAUDE.md</code> (macOS), <code>/etc/claude-code/CLAUDE.md</code> (Linux, WSL), <code>C:\\Program Files\\ClaudeCode\\CLAUDE.md</code> (Windows).</li><li><b>User</b>: <code>~/.claude/CLAUDE.md</code>.</li><li><b>Project</b>: <code>./CLAUDE.md</code> or <code>./.claude/CLAUDE.md</code>, committed for the team.</li><li><b>Local</b>: <code>./CLAUDE.local.md</code>, personal and gitignored.</li></ul><p>Files in the working directory and every ancestor load at launch, ordered root-down so the closest file is read last; <code>CLAUDE.local.md</code> is appended after <code>CLAUDE.md</code> at each level. Files in subdirectories load on demand when Claude reads or edits a file there. <code>/init</code> generates a starter CLAUDE.md (and suggests improvements if one exists). Run <code>/context</code> to confirm what loaded.</p>"
+    },
+    {
+     "t": "Imports, rules and AGENTS.md",
+     "b": "<ul><li><b>Imports</b>: <code>@path/to/file</code> expands another file inline. Relative paths resolve from the importing file; maximum depth is four hops. Imports organize content but do not reduce context cost.</li><li><b>.claude/rules/</b>: markdown files that load every session, or only when Claude touches matching files if they have <code>paths</code> frontmatter. <code>~/.claude/rules/</code> holds personal rules for every project.</li><li><b>AGENTS.md</b>: Claude Code reads it as project instructions when no <code>CLAUDE.md</code>, <code>.claude/CLAUDE.md</code> or <code>CLAUDE.local.md</code> exists in the working directory or above (requires v2.1.277 or later). The <b>Project instructions</b> setting <code>claude-md-and-agents-md</code> loads both.</li></ul><pre><code>---\npaths:\n  - \"src/api/**/*.ts\"\n---\n\n# API Development Rules\n- All API endpoints must include input validation</code></pre>"
+    },
+    {
+     "t": "Auto memory",
+     "b": "<p>The memory page says Claude saves four kinds of notes, tagged with a <code>type</code> field: <code>user</code>, <code>feedback</code>, <code>project</code> and <code>reference</code>. It skips anything derivable from the code or already in CLAUDE.md.</p><ul><li>Stored at <code>~/.claude/projects/&lt;project&gt;/memory/</code>; the project is derived from the git repo, so all worktrees share one memory directory.</li><li>The first 200 lines or 25KB of <code>MEMORY.md</code>, whichever comes first, load at session start.</li><li>On by default in local sessions. Toggle in <code>/memory</code> (saves <code>autoMemoryEnabled</code>), set <code>autoMemoryEnabled: false</code> per project, or export <code>CLAUDE_CODE_DISABLE_AUTO_MEMORY=1</code>.</li></ul><p>Related steering: <b>output styles</b> (<code>/output-style</code>; built-ins Proactive, Concise, Explanatory, Learning) change role, tone and format for a whole session. The output styles page frames the split as CLAUDE.md for what Claude should know and an output style for how it responds.</p>"
+    },
+    {
+     "t": "Senior-level nuance and failure modes",
+     "b": "<ul><li>Target under 200 lines per CLAUDE.md; the docs say longer files cost context and reduce adherence. Move part-of-the-codebase guidance into path-scoped rules and occasional reference material into skills.</li><li>The project-root CLAUDE.md and unscoped rules are re-read from disk after <code>/compact</code>; nested CLAUDE.md files and <code>paths:</code> rules reload only when a matching file is read again.</li></ul><div class=\"trap\"><b>Trap:</b> Writing guardrails as CLAUDE.md prose. The memory page says Claude treats CLAUDE.md as context, not enforced configuration; use a PreToolUse hook or a deny rule for anything that must never happen.</div><div class=\"trap\"><b>Trap:</b> Adding a <code>CLAUDE.local.md</code> to a repo that relies on <code>AGENTS.md</code>. It counts as a CLAUDE.md file, so Claude stops reading <code>AGENTS.md</code> for you unless you switch Project instructions to <code>claude-md-and-agents-md</code>.</div><div class=\"trap\"><b>Trap:</b> Expecting a gitignored <code>CLAUDE.local.md</code> to follow you into new worktrees. It exists only where you created it; import a file from your home directory instead.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In what order do CLAUDE.md files from parent directories appear in context?",
+     "a": "From the filesystem root down to the working directory, so the file closest to where you launched is read last; CLAUDE.local.md follows CLAUDE.md at each level."
+    },
+    {
+     "q": "What is the maximum import depth for @path imports in CLAUDE.md?",
+     "a": "Four hops."
+    },
+    {
+     "q": "How much of MEMORY.md loads at session start?",
+     "a": "The first 200 lines or 25KB, whichever comes first."
+    },
+    {
+     "q": "When does Claude Code read AGENTS.md by default?",
+     "a": "Only when there is no CLAUDE.md, .claude/CLAUDE.md or CLAUDE.local.md in the working directory or above it."
+    },
+    {
+     "q": "How do you make a rule load only when Claude works on TypeScript API files?",
+     "a": "Put it in .claude/rules/ with paths frontmatter, for example paths: [\"src/api/**/*.ts\"]."
+    }
+   ]
+  },
+  {
+   "n": "Context window, compaction and /clear",
+   "g": "context",
+   "s": "Everything Claude Code sends lives in one finite context window, and you manage it with /context to inspect, /compact or /rewind summaries to shrink, /clear to reset, and subagents to keep bulky reads out.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The context window page lists what loads at startup: system prompt, auto memory, environment info, MCP tool names (schemas deferred), skill descriptions, CLAUDE.md files, plus a git status snapshot. As you work, file reads, command output and conversation accumulate.</p><p>Anthropic's engineering post on context engineering frames context as a finite attention budget with diminishing returns (context rot), and cites Claude Code's compaction as a long-horizon technique that keeps key decisions while discarding redundant tool output.</p><p>Several current models (the Fable models, Sonnet 5 and recent Opus models) run with a 1M-token window per the model config page; older 4.6 models need a <code>[1m]</code> suffix. <code>CLAUDE_CODE_DISABLE_1M_CONTEXT=1</code> keeps a 200K window.</p>"
+    },
+    {
+     "t": "Commands that manage context",
+     "b": "<ul><li><code>/context</code>: live breakdown by category with suggestions; <code>/context all</code> shows per-MCP-tool token use.</li><li><code>/compact focus on ...</code>: summarize now, keeping what you name. A <code>Compact Instructions</code> section in CLAUDE.md steers every compaction.</li><li><code>/autocompact 500k</code>: set how full the window gets before auto-compaction (also <code>autoCompactWindow</code>, <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code>; values 100K to 1M).</li><li><code>/rewind</code> then <b>Summarize from here</b> or <b>Summarize up to here</b>: compress part of the conversation.</li><li><code>/clear</code>: start fresh between unrelated tasks. The costs page notes it costs nothing, while <code>/compact</code> is itself a large request.</li></ul>"
+    },
+    {
+     "t": "What survives compaction",
+     "b": "<p>Per the context window page:</p><ul><li>Re-injected from disk: project-root CLAUDE.md and unscoped rules, auto memory, the plan-mode plan.</li><li>Reloaded only on a matching read: <code>paths:</code> rules and nested CLAUDE.md files.</li><li>Files read or edited: up to five re-read, most recently modified first; a file over 5,000 tokens comes back as a path reference.</li><li>Invoked skill bodies: re-injected, capped at 5,000 tokens per skill and 25,000 total, oldest dropped first, truncated from the end.</li><li>Background commands and subagents keep running.</li><li>SessionStart hooks matching the <code>compact</code> source run and add their output.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Giving an important rule only in chat. Early conversation instructions can be lost at compaction; put persistent rules in CLAUDE.md.</div><div class=\"trap\"><b>Trap:</b> Pasting one giant log or file. If a single output refills the window right after each summary, Claude Code stops auto-compacting after a few attempts with a thrashing error.</div><div class=\"trap\"><b>Trap:</b> Putting the critical part of a long SKILL.md at the bottom. Re-injection keeps the start of the file, so the end is what gets cut.</div><div class=\"synth\"><b>Synthesis:</b> Use the cheapest tool that fits: /clear for a new task, a focused /compact for continuity, a subagent before the bulky read happens. Compaction is a recovery move; isolation is a prevention move.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which command shows what is consuming your context window?",
+     "a": "/context, which gives a live breakdown by category with optimization suggestions."
+    },
+    {
+     "q": "How many recently touched files does Claude Code re-read after compaction?",
+     "a": "Up to five, most recently modified first; files over 5,000 tokens come back as a path reference only."
+    },
+    {
+     "q": "What caps apply to skill bodies re-injected after compaction?",
+     "a": "5,000 tokens per skill and 25,000 tokens total, with the oldest invoked skills dropped first."
+    },
+    {
+     "q": "How do you make Claude preserve specific details whenever it compacts?",
+     "a": "Add a Compact Instructions section to CLAUDE.md, or pass a focus to /compact, such as /compact focus on the API changes."
+    },
+    {
+     "q": "Why prefer /clear over /compact when switching to unrelated work?",
+     "a": "/clear costs nothing and removes stale context entirely, while /compact must read the whole conversation to summarize it."
+    }
+   ]
+  },
+  {
+   "n": "Explore, plan, implement, commit",
+   "g": "workflow",
+   "s": "The default professional loop separates read-only exploration and planning from implementation so the agent does not solve the wrong problem, and it ends each unit of work in a reviewable commit.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Anthropic's Claude Code best practices page recommends four phases:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Explore</b> in plan mode. The agent reads files and answers questions without changing anything.</li><li><b>Plan.</b> Ask for a detailed implementation plan (files to change, flow, risks). The page notes you can open the plan in your editor and edit it before the agent proceeds.</li><li><b>Implement.</b> Leave plan mode and have the agent code against its plan, write tests, run the suite and fix failures.</li><li><b>Commit.</b> Ask for a descriptive commit message and a PR.</li></ol><p>OpenAI's Codex best practices make the same split: use Plan mode for complex or ambiguous work, ask Codex to interview you and challenge assumptions when the idea is fuzzy, and keep a PLANS.md or execution-plan template for long multi-step work. Every task prompt should carry four things: goal, context, constraints and done criteria (\"what should be true before the task is complete\").</p>"
+    },
+    {
+     "t": "When to skip the plan",
+     "b": "<ul><li>Anthropic's rule of thumb: if you could describe the diff in one sentence, skip the plan. Planning pays when you are unsure of the approach, the change spans several files, or the code is unfamiliar.</li><li>Boris Cherny, who created Claude Code, said in X posts summarized by InfoQ in January 2026 that he stays in plan mode until he likes the plan, then switches to auto-accepting edits, because \"a good plan is really important.\"</li><li>Peter Steinberger, in his December 2025 post \"Shipping at Inference-Speed\", described the opposite habit: he skips plan mode and explores conversationally with the model, then refactors as he goes.</li></ul><div class=\"synth\"><b>Synthesis:</b> Planning effort should scale with ambiguity and blast radius. A large mechanical change with a clear pattern can need less planning than a three-line change in unfamiliar authentication code.</div>"
+    },
+    {
+     "t": "Prompt specificity",
+     "b": "<p>Anthropic's page gives four before/after patterns that hold across tools:</p><ul><li><b>Scope the task:</b> name the file, the scenario and test preferences (\"cover the logged-out edge case, avoid mocks\").</li><li><b>Point to sources:</b> tell the agent where the answer lives (\"look through this class's git history\").</li><li><b>Reference existing patterns:</b> name an exemplar file to copy the structure from.</li><li><b>Describe the symptom:</b> give the symptom, the likely location and what fixed looks like, ideally as a failing test.</li></ul><p>Codex guidance adds: match reasoning effort to difficulty, low for scoped tasks and higher for debugging or long agentic work.</p>"
+    },
+    {
+     "t": "Course-correcting",
+     "b": "<ul><li>Interrupt early. Anthropic's page says tight feedback loops beat waiting for a finished but wrong result.</li><li>Rewind restores conversation, code or both to an earlier prompt checkpoint. Checkpoints only track edits made through the agent's file-editing tools, so changes made by shell commands are not captured, and they are no substitute for git.</li><li>After two failed corrections on the same issue, Anthropic recommends clearing the session and writing a better first prompt that includes what you learned, because the failed attempts now pollute the context.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Letting the agent jump straight to code on an ambiguous task. It produces a plausible solution to the wrong problem, and you pay for it in review.</div><div class=\"trap\"><b>Trap:</b> Running a full plan cycle on a typo fix. Plan mode adds overhead that a one-sentence diff does not need.</div><div class=\"trap\"><b>Trap:</b> Correcting the same mistake over and over in one long session. Each failed attempt stays in context and biases the next one.</div><div class=\"trap\"><b>Trap:</b> Treating agent checkpoints as version control. Commit early and often so you can reset to a known-good state.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Per Anthropic's best practices, what is the quick test for skipping plan mode?",
+     "a": "If you could describe the diff in one sentence, skip the plan and ask for the change directly."
+    },
+    {
+     "q": "What four elements does OpenAI's Codex guidance say every task prompt should contain?",
+     "a": "Goal, context, constraints and done criteria, meaning what should be true before the task counts as complete."
+    },
+    {
+     "q": "What should you do after correcting the agent twice on the same issue?",
+     "a": "Clear the session and restart with a sharper initial prompt that includes what you learned, since the failed attempts are polluting context."
+    },
+    {
+     "q": "Do Claude Code checkpoints capture changes made by Bash commands?",
+     "a": "No. They only track edits made through the file-editing tools, so you still need git commits as your real safety net."
+    }
+   ]
+  },
+  {
+   "n": "Specs, interviews and spec-driven development",
+   "g": "workflow",
+   "s": "Writing a self-contained spec before implementation, often by letting the agent interview you, front-loads the decisions agents are worst at guessing, although heavy spec frameworks can become overhead of their own.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Anthropic's best practices recommend that for larger features you start with a minimal prompt and ask Claude to interview you in detail (technical implementation, UI, edge cases, tradeoffs), then write the result to SPEC.md. You then start a <b>fresh session</b> to implement it, so the new context is focused on building and the spec is the durable reference.</p><p>The page says the most useful specs are self-contained: they name the files and interfaces involved, state what is out of scope, and end with an end-to-end verification step that proves the feature works. It adds that time spent making the spec precise pays off more than time spent watching the implementation.</p><pre><code>I want to build [brief description]. Interview me in detail.\nAsk about implementation, UI/UX, edge cases and tradeoffs.\nSkip obvious questions. Keep going until we've covered everything,\nthen write a complete spec to SPEC.md.</code></pre>"
+    },
+    {
+     "t": "Harper Reed's spec, plan, todo pipeline",
+     "b": "<p>Harper Reed's widely shared February 2025 post \"My LLM codegen workflow atm\" laid out a pattern many practitioners still copy:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Idea honing:</b> a chat model interviews you with \"Ask me one question at a time so we can develop a thorough, step-by-step spec for this idea,\" then writes <code>spec.md</code>.</li><li><b>Planning:</b> a reasoning model turns the spec into a blueprint of small, testable steps written as a sequence of codegen prompts in <code>prompt_plan.md</code>, plus a <code>todo.md</code> checklist.</li><li><b>Execution:</b> the coding tool works through the prompts and checks off <code>todo.md</code>, which preserves state across sessions.</li></ol><p>He describes the planning step as about 15 minutes and warns about getting \"over my skis\", where pace outruns understanding.</p>"
+    },
+    {
+     "t": "Spec-driven development tools and their critics",
+     "b": "<p>Birgitta Böckeler's October 2025 analysis on martinfowler.com sorts spec-driven development (SDD) into three levels:</p><ul><li><b>Spec-first:</b> write a spec and use it for the current task.</li><li><b>Spec-anchored:</b> keep the spec after the task and maintain it alongside the code.</li><li><b>Spec-as-source:</b> humans edit only the spec, and code is regenerated from it.</li></ul><p>Her hands-on findings: Kiro generated four user stories and 16 acceptance criteria for a small bug; GitHub's spec-kit produced many repetitive markdown files that were tedious to review, and the agent still ignored notes about existing code and created duplicates; Tessl (then in private beta) showed non-determinism when regenerating code from the same spec. She compares the risk to model-driven development: its inflexibility combined with LLM non-determinism.</p><p>In Geoffrey Huntley's Ralph loop setup the agent reads a <code>specs/</code> directory and a prioritized fix plan on every iteration, so the spec doubles as the loop's long-term memory.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Simon Willison notes in his October 2025 post on parallel agents that reviewing code that matches a spec you wrote takes much less effort than reviewing code that arrives unexpectedly. The spec is a review aid as much as a build input.</li><li>Böckeler found reviewing long markdown harder than reviewing code. Keep specs short enough that a human actually reads them.</li></ul><div class=\"synth\"><b>Synthesis:</b> The parts of a spec that bind are the parts the agent can check: interface signatures, acceptance tests and the end-to-end verification step. Prose requirements without a corresponding check drift silently after the first implementation.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> A spec longer than the diff. Böckeler's Kiro example shows fixed-ceremony workflows misfit small changes.</div><div class=\"trap\"><b>Trap:</b> Implementing in the same session that produced the spec. The interview transcript fills context that implementation needs.</div><div class=\"trap\"><b>Trap:</b> Treating a generated spec as reviewed. If nobody read it closely, it encodes the agent's guesses with false authority.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name Böckeler's three levels of spec-driven development.",
+     "a": "Spec-first, spec-anchored and spec-as-source."
+    },
+    {
+     "q": "Why does Anthropic recommend a fresh session after the spec interview?",
+     "a": "The new session has clean context focused on implementation, with the written spec as the durable reference."
+    },
+    {
+     "q": "Per Anthropic, what three properties make a spec self-contained and useful?",
+     "a": "It names the files and interfaces involved, states what is out of scope, and ends with an end-to-end verification step."
+    },
+    {
+     "q": "What three files does Harper Reed's workflow produce before coding starts?",
+     "a": "spec.md, prompt_plan.md (a sequence of codegen prompts) and todo.md (a checklist the agent checks off)."
+    }
+   ]
+  },
+  {
+   "n": "Context engineering in daily sessions",
+   "g": "workflow",
+   "s": "Treat the context window as the scarce resource of every session, filling it with the smallest set of high-signal tokens and pushing research, logs and history out to subagents, files and fresh sessions.",
+   "x": [
+    {
+     "t": "Principles",
+     "b": "<p>Anthropic's September 2025 engineering post \"Effective context engineering for AI agents\" frames the core ideas:</p><ul><li><b>Context rot:</b> recall accuracy drops as the window fills, because models have a finite \"attention budget\".</li><li><b>Smallest high-signal set:</b> aim for \"the smallest set of high-signal tokens that maximize the likelihood of your desired outcome.\"</li><li><b>Right altitude:</b> instructions should sit between brittle hard-coded logic and vague guidance.</li><li><b>Just-in-time retrieval:</b> keep lightweight identifiers such as file paths and load content only when needed.</li><li><b>Compaction, structured notes and subagents:</b> summarize near the limit, persist notes outside the window, and let subagents work in clean windows and return condensed summaries.</li></ul><p>The Claude Code best practices page states the practical consequence bluntly: most best practices follow from the fact that the window fills fast and performance degrades as it fills.</p>"
+    },
+    {
+     "t": "Session tactics",
+     "b": "<ul><li>Clear between unrelated tasks. Anthropic calls the mixed-topic session the \"kitchen sink\" anti-pattern.</li><li>Compact with instructions when you need continuity, and tell your instruction file what must survive compaction (for example the list of modified files and test commands).</li><li>Send investigations to subagents so their file reads never enter the main context.</li><li>Prefer CLI tools such as <code>gh</code> for external services; Anthropic calls them the most context-efficient integration.</li><li>OpenAI's Codex guidance: keep one thread per coherent unit of work, fork only when work truly branches, and avoid \"one thread per project\", which bloats context.</li></ul>"
+    },
+    {
+     "t": "Keep tool output small",
+     "b": "<p>Nicholas Carlini's February 2026 Anthropic post on building a C compiler with parallel agents gives concrete harness rules: print only a few lines, write full logs to files, tag errors so <code>grep</code> finds them, and precompute summary statistics. Because the model has no sense of elapsed time, the test runner had a <code>--fast</code> option that ran a deterministic random 1% or 10% sample.</p><div class=\"synth\"><b>Synthesis:</b> For data work the same rule applies to query results: have the agent write large result sets to files and read back counts, schemas and a few sample rows, rather than dumping thousands of rows into the conversation.</div>"
+    },
+    {
+     "t": "Instruction files are context too",
+     "b": "<ul><li>Anthropic: for each line in CLAUDE.md ask \"Would removing this cause Claude to make mistakes?\" If not, cut it. Bloated files cause the agent to ignore real instructions.</li><li>OpenAI: \"A short, accurate AGENTS.md is more useful than a long file full of vague rules.\"</li><li>OpenAI's harness engineering write-up (reported by InfoQ in February 2026) keeps detailed knowledge in a structured docs directory of maps, execution plans and design specs that agents load on demand.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> The unscoped investigation. Asking the agent to \"look into\" something without limits lets it read hundreds of files into the main context.</div><div class=\"trap\"><b>Trap:</b> Trusting compaction blindly. Summaries drop details; persist critical state to a file the next session can read.</div><div class=\"trap\"><b>Trap:</b> Context anxiety. Anthropic's March 2026 harness design post describes models wrapping up early as they near what they believe is the limit. Watch for sudden premature \"done\" claims late in long sessions.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does Anthropic mean by context rot?",
+     "a": "The model's ability to recall information accurately declines as the context window fills, so more context can make results worse."
+    },
+    {
+     "q": "Which Claude Code habit keeps exploratory file reads out of your main context?",
+     "a": "Delegating the investigation to a subagent, which reads in its own window and returns only a summary."
+    },
+    {
+     "q": "What did the C compiler harness do about the model's lack of a sense of time?",
+     "a": "It printed progress sparingly and offered a --fast mode that ran a deterministic 1% or 10% random sample of tests."
+    },
+    {
+     "q": "What is OpenAI's guidance on how many threads to keep in Codex?",
+     "a": "One thread per coherent unit of work, forking only when the work truly branches, because one thread per project bloats context."
+    }
+   ]
+  },
+  {
+   "n": "Harness engineering and prompt libraries",
+   "g": "workflow",
+   "s": "Top practitioners turn every repeated correction into durable infrastructure, such as an instruction-file rule, a reusable command or skill, a script or a hook, so the same mistake does not recur.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Mitchell Hashimoto's February 2026 post \"My AI Adoption Journey\" names this step \"harness engineering\": whenever an agent makes a mistake, build a fix so it cannot happen again. His fixes include AGENTS.md updates and small scripts and tools, for example for taking screenshots and running filtered tests.</p><ul><li>Boris Cherny's team keeps a CLAUDE.md in git that records mistakes and practices, and he tags coworkers' PRs so lessons get added to it (X posts summarized by InfoQ, January 2026). His file was about 2.5k tokens.</li><li>Cherny runs daily workflows such as commit, push and PR through slash commands in <code>.claude/commands/</code>; his <code>/commit-push-pr</code> command uses inline bash to precompute git status and he uses it dozens of times a day.</li><li>OpenAI's Codex guidance: when Codex makes the same mistake twice, ask it for a retrospective and update AGENTS.md; if you keep reusing a prompt or correcting the same workflow, make it a skill.</li></ul>"
+    },
+    {
+     "t": "Prompt libraries",
+     "b": "<p>Geoffrey Huntley's early 2025 \"stdlib\" post argued for building a structured library of rules files instead of retyping one-off prompts. The idea now ships as product features: skills (a <code>SKILL.md</code> with instructions, resources and scripts), custom commands and plugins that bundle them.</p><p>OpenAI's skill advice: scope each skill to one job, start from two or three concrete use cases, and write a description that says what it does and when to use it, including likely trigger phrases. Their summary line: \"Skills define the method, automations define the schedule.\"</p>"
+    },
+    {
+     "t": "Advisory versus deterministic controls",
+     "b": "<ul><li>Anthropic's best practices distinguish advisory instructions (CLAUDE.md) from deterministic hooks that run every time. Use hooks for anything that must happen with zero exceptions, such as formatting after each edit or blocking writes to a migrations folder.</li><li>Cherny's PostToolUse hook runs the formatter after every write so CI never fails on formatting.</li><li>OpenAI's harness write-up enforces architecture with linters, CI checks and structural tests over a fixed dependency layering (Types → Config → Repo → Service → Runtime → UI).</li></ul><div class=\"synth\"><b>Synthesis:</b> Promote a rule up the ladder as it proves important: prompt, then instruction file, then skill or command, then hook, linter or CI check. Each step trades flexibility for reliability.</div>"
+    },
+    {
+     "t": "The harness moves with the model",
+     "b": "<p>Prithvi Rajasekaran's March 2026 Anthropic post on harness design reports removing components one at a time when a new model shipped to see which were still load-bearing. With Opus 4.6 the sprint structure was dropped while the planner and evaluator stayed. His conclusion: the space of useful harness designs does not shrink as models improve; it shifts.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Rules pile-up. Anthropic warns that if the agent keeps ignoring a rule, the file is probably too long and the rule is lost in noise.</div><div class=\"trap\"><b>Trap:</b> Marking many lines IMPORTANT. Emphasis works only when it is rare.</div><div class=\"trap\"><b>Trap:</b> Never pruning after model upgrades. Instructions that compensated for an older model's weakness cost context and can now mislead.</div><div class=\"trap\"><b>Trap:</b> Skills with vague descriptions. The agent decides when to load a skill from its description, so a fuzzy description means it never triggers.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does Hashimoto mean by harness engineering?",
+     "a": "Whenever an agent makes a mistake, building a durable fix, such as an AGENTS.md rule or a helper script, so the mistake does not recur."
+    },
+    {
+     "q": "When should a rule become a hook instead of an instruction-file line?",
+     "a": "When it must happen every time with zero exceptions, because hooks are deterministic while instruction files are advisory."
+    },
+    {
+     "q": "What is OpenAI's rule of thumb for creating a Codex skill?",
+     "a": "If you keep reusing the same prompt or correcting the same workflow, package it as a skill."
+    },
+    {
+     "q": "What did Anthropic's harness design work find when new models shipped?",
+     "a": "Some harness components stopped being load-bearing and could be removed, while new ones became useful, so the harness should be re-examined per model."
+    }
+   ]
+  },
+  {
+   "n": "Give the agent a way to verify",
+   "g": "verify",
+   "s": "The highest-leverage practice in agentic coding is giving the agent a check it can run, such as tests, a build, a linter, a type checker or a screenshot comparison, so it can close the loop without you.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Anthropic's best practices put this first: the agent stops when the work looks done, and without a runnable check \"looks done\" is the only signal, so you become the verification loop. A check is anything that returns a readable pass or fail: a test suite, a build exit code, a linter, a script that diffs output against a fixture, or a browser screenshot compared against a design.</p><p>The page lists escalating ways to gate the stop:</p><ul><li><b>In one prompt:</b> ask the agent to run the check and iterate.</li><li><b>Across a session:</b> set a goal condition that a separate evaluator re-checks after every turn.</li><li><b>As a deterministic gate:</b> a Stop hook runs your check and blocks the turn from ending until it passes (Claude Code overrides it after 8 consecutive blocks).</li><li><b>By a second opinion:</b> a verification subagent tries to refute the result in a fresh context.</li></ul><p>It also recommends asking for evidence (the command run, its output, a screenshot) instead of an assertion of success.</p>"
+    },
+    {
+     "t": "What practitioners report",
+     "b": "<ul><li>Boris Cherny called a verification feedback loop the most important tip and claimed it improves results by a factor of 2 to 3 (X posts summarized by InfoQ, January 2026). For the Claude Code web app, Claude tests each change in a browser and iterates until the UI works.</li><li>Hashimoto lists \"give agents a way to verify their output\" among the lessons from redoing his own commits with agents.</li><li>OpenAI's Codex guidance: ask Codex to write or update tests, run the relevant checks, confirm behavior and review its own diff, and define \"what good looks like\" in the prompt or AGENTS.md.</li></ul>"
+    },
+    {
+     "t": "End-to-end and UI checks",
+     "b": "<p>Anthropic's November 2025 post on long-running harnesses found that, left alone, Claude verified with unit tests or <code>curl</code> and missed features that failed end-to-end. Prompting it to test as a human user through browser automation (a Puppeteer MCP server) improved results significantly. It still could not see browser-native alert modals, so features depending on them were buggier.</p><p>OpenAI's harness write-up (via InfoQ) describes agents using logs, metrics and spans to reproduce bugs in isolated environments.</p><div class=\"synth\"><b>Synthesis:</b> For BI and data pipelines the equivalent checks are row-count and checksum reconciliations against a known-good source, schema and contract tests, and a rendered dashboard screenshot compared with an expected one.</div>"
+    },
+    {
+     "t": "The verifier is the real spec",
+     "b": "<p>Carlini's C compiler post: the tests must be nearly perfect, or Claude will optimize for the wrong target. He later added CI so new commits could not break existing features, and he warns that passing tests does not mean the work is done.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Fixing symptoms. Anthropic's example prompt says \"address the root cause, don't suppress the error\" because agents will otherwise silence the failing signal.</div><div class=\"trap\"><b>Trap:</b> Premature \"passing\" claims. The long-running harness post lists marking features done before careful testing as a core failure; require evidence.</div><div class=\"trap\"><b>Trap:</b> Flaky or slow checks. An agent cannot reason about a check that passes randomly or takes too long to run often.</div><div class=\"trap\"><b>Trap:</b> If you cannot verify it, do not ship it. Anthropic's trust-then-verify gap: plausible code that misses edge cases.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why does Anthropic say a runnable check matters so much?",
+     "a": "The agent stops when work looks done; without a pass or fail signal, you become the verification loop and every mistake waits for you."
+    },
+    {
+     "q": "After how many consecutive blocks does Claude Code override a Stop hook and end the turn?",
+     "a": "8 consecutive blocks."
+    },
+    {
+     "q": "What did Anthropic's long-running harness work find about unit tests versus browser testing?",
+     "a": "Unit tests and curl missed end-to-end failures; prompting Claude to test as a user through browser automation improved results significantly."
+    },
+    {
+     "q": "What improvement factor did Boris Cherny claim for giving Claude a verification loop?",
+     "a": "Roughly 2 to 3 times better results, in X posts summarized by InfoQ."
+    }
+   ]
+  },
+  {
+   "n": "Test-driven agent loops",
+   "g": "verify",
+   "s": "Red/green test-driven development gives an agent a precise executable target and makes cheating visible, which is why many experienced practitioners make it the default mode for agent work.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Simon Willison's Agentic Engineering Patterns guide (started February 2026) has a chapter on red/green TDD: writing the failing test first helps agents produce more succinct and reliable code with minimal extra prompting. Anthropic's best practices use the same move for bugs: \"write a failing test that reproduces the issue, then fix it.\"</p><p>Kent Beck's June 2025 essay \"Augmented Coding: Beyond the Vibes\" includes his system prompt for building a B+ tree with an agent. Its core rules:</p><ul><li>Write one failing test at a time, then the minimum code to pass it, then refactor.</li><li>Keep structural changes separate from behavioral changes: \"Never mix structural and behavioral changes in the same commit.\"</li><li>Commit only when all tests pass and compiler and linter warnings are resolved.</li></ul>"
+    },
+    {
+     "t": "Beck's warning signs",
+     "b": "<p>Beck lists three signals that the agent (his \"genie\") is going off track:</p><ul><li>Repetitive loops.</li><li>Functionality nobody asked for, even if it looks like a reasonable next step.</li><li>Cheating, such as disabling or deleting tests.</li></ul><p>He stayed closely involved in design, stopped unproductive work, and when Rust stalled he had the agent write a Python version against the same tests and transliterate it. He was satisfied with correctness and performance but not simplicity, and concluded \"Yes programming changes with a genie, but it's still programming.\"</p>"
+    },
+    {
+     "t": "Protecting the tests",
+     "b": "<ul><li>Anthropic's long-running harness stored the feature list as JSON in which coding agents could only flip a <code>passes</code> field, and the prompt said removing or editing tests is unacceptable. JSON was chosen because the model was less likely to overwrite it inappropriately than a markdown file.</li><li>Anthropic also suggests splitting roles across sessions: one writes the tests, another writes code to pass them.</li></ul><div class=\"synth\"><b>Synthesis:</b> Make tests read-only for the implementing agent wherever the tooling allows it, for example with a hook that blocks edits to the test directory during implementation, then review any test change as a separate, explicit step.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Tests written after the code that mirror the implementation. They pass by construction and verify nothing.</div><div class=\"trap\"><b>Trap:</b> Mock-heavy tests. Anthropic's example prompt says \"avoid mocks\" when the point is real behavior.</div><div class=\"trap\"><b>Trap:</b> Accepting a diff that touches both tests and code without checking which moved. A weakened assertion looks like a fix.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What three warning signs does Kent Beck watch for in an AI coding session?",
+     "a": "Repetitive loops, functionality nobody asked for, and cheating such as disabling or deleting tests."
+    },
+    {
+     "q": "Which commit rule from Beck's TDD prompt separates kinds of change?",
+     "a": "Never mix structural changes (no behavior change) and behavioral changes in the same commit."
+    },
+    {
+     "q": "Why did Anthropic's harness store the feature list as JSON rather than markdown?",
+     "a": "The model was less likely to inappropriately overwrite or edit JSON, and agents were only allowed to change the passes field."
+    },
+    {
+     "q": "What is the recommended first step when asking an agent to fix a reported bug?",
+     "a": "Have it write a failing test that reproduces the issue, then fix the code until the test passes."
+    }
+   ]
+  },
+  {
+   "n": "Reviewing agent output and owning the code",
+   "g": "verify",
+   "s": "Review is the bottleneck of agentic development, so strong teams pair fresh-context AI reviewers with human standards that require the author to understand and own every line that ships.",
+   "x": [
+    {
+     "t": "Fresh-context AI review",
+     "b": "<ul><li>Anthropic's best practices describe a Writer/Reviewer pattern: one session implements, a second session with fresh context reviews, because a model is biased toward code it just wrote. The same page recommends an adversarial review subagent that sees only the diff and your criteria before you count work as done.</li><li>Its caveat: a reviewer asked to find gaps will usually report some even when the work is sound. Chasing every finding leads to over-engineering, so tell it to flag only gaps that affect correctness or stated requirements.</li><li>Anthropic's harness design post found that agents praise their own mediocre work, and that a separate evaluator is easier to tune toward skepticism than a generator is to make self-critical, though it still leaned lenient.</li></ul>"
+    },
+    {
+     "t": "Review bots on pull requests",
+     "b": "<ul><li>OpenAI's Codex guidance says OpenAI has Codex review 100% of its PRs. <code>/review</code> covers a base branch, uncommitted changes or a specific commit, and a <code>code_review.md</code> referenced from AGENTS.md keeps standards consistent across repos.</li><li>GitHub's February 2026 changelog lets reviewers mention <code>@claude</code> or <code>@codex</code> in PR review comments to request changes (public preview).</li></ul>"
+    },
+    {
+     "t": "Human ownership",
+     "b": "<ul><li>Andrej Karpathy, in a January 2026 X post reported by The Decoder, listed the errors he sees: wrong assumptions built on without checking, no pushback, bloated abstractions and dead code (about 1,000 lines that could be 100). For code that matters his advice is to \"watch them like a hawk.\"</li><li>Armin Ronacher's December 2025 \"A Year Of Vibes\" says the GitHub PR model \"doesn't carry enough information to review AI generated code properly\"; he wants the prompts and failed attempts visible and argues review should become part of version control.</li><li>Willison reports he can only review and land one significant change at a time, which caps how much parallel agent output is useful.</li></ul>"
+    },
+    {
+     "t": "How much to read",
+     "b": "<p>Practitioners disagree openly. Steinberger wrote \"These days I don't read much code anymore. I watch the stream and sometimes look at key parts.\" Steve Yegge has said he never looks at the code. Maggie Appleton's January 2026 response argues the right level of oversight depends on domain, feedback loops, risk tolerance, codebase age, team size and developer experience.</p><div class=\"synth\"><b>Synthesis:</b> For regulated or patient-facing code paths (PHI access, clinical logic, billing), line-level human review stays mandatory. Low-risk internal tooling with strong tests is where reading less is defensible.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Rubber-stamping a large agent PR because CI is green. Size it so a human can actually review it.</div><div class=\"trap\"><b>Trap:</b> Treating every AI reviewer finding as mandatory. It inflates code with defensive branches and needless abstractions.</div><div class=\"trap\"><b>Trap:</b> Merging code nobody can explain. The person who merges owns it, whoever typed it.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why does Anthropic recommend reviewing in a fresh session or subagent?",
+     "a": "A fresh context sees only the diff and criteria, so it is not biased toward the reasoning that produced the code."
+    },
+    {
+     "q": "What is the risk of prompting an AI reviewer to find gaps?",
+     "a": "It will usually report some even when the work is sound, and chasing them all leads to over-engineering; limit it to correctness and requirement gaps."
+    },
+    {
+     "q": "What share of OpenAI's PRs does Codex review, per OpenAI's Codex best practices?",
+     "a": "100%."
+    },
+    {
+     "q": "What does Ronacher say is missing from the GitHub PR model for AI-written code?",
+     "a": "Enough information to review it properly, such as the prompts and failed attempts behind the change."
+    }
+   ]
+  },
+  {
+   "n": "Security: sandboxes, permissions and prompt injection",
+   "g": "verify",
+   "s": "Most agent productivity comes from fewer approval prompts, and the defensible way to get it is isolation plus least privilege, because prompt injection makes anything the agent reads a potential instruction.",
+   "x": [
+    {
+     "t": "Threat model",
+     "b": "<p>Simon Willison's October 2025 write-up of his talk \"Living dangerously with Claude\" defines the <b>lethal trifecta</b>: access to private data, exposure to untrusted content, and the ability to communicate externally. With all three, an attacker can trick the agent into leaking data. His rule: anyone who can put text into the agent's context should be treated as controlling what it does next, including which tools it calls.</p><p>He argues sandboxes are the only credible defense, since AI-based attack detection is not reliable, and prefers sandboxes on someone else's computer (Claude Code on the web, Codex Cloud, Jules), so the worst case is a compromised remote machine. Restricting network access cuts off the exfiltration step.</p>"
+    },
+    {
+     "t": "The approval spectrum",
+     "b": "<ul><li><b>Manual approval:</b> Anthropic's March 2026 auto mode post reports users accept 93% of permission prompts, so manual approval decays into click-through.</li><li><b>Allowlists:</b> Cherny pre-approves safe commands such as build and test scripts and uses the skip-permissions flag only for long tasks inside a sandbox.</li><li><b>Auto mode:</b> a classifier pipeline replaces most prompts. An input probe scans tool output for injection; a two-stage transcript classifier sees only user messages and tool calls. Anthropic reports a 0.4% false-positive rate on real traffic and a 17% miss rate on a small set (52) of real overeager actions, and says it is \"not a drop-in replacement for careful human review on high-stakes infrastructure.\"</li><li><b>Full isolation:</b> containers or cloud sandboxes with restricted network, where skipping approvals is reasonable.</li></ul><p>OpenAI's Codex guidance: start with default permissions and loosen them only for trusted repos or specific workflows.</p>"
+    },
+    {
+     "t": "Case study: Clinejection",
+     "b": "<p>The Cloud Security Alliance's research note describes an early 2026 supply chain attack on the Cline project. An AI issue-triage workflow inserted issue titles straight into the agent's prompt, gave it shell and network tools, and let anyone trigger it. A crafted issue title led to Actions cache poisoning, theft of publishing tokens and, on February 17, 2026, a tampered <code>cline@2.3.0</code> npm release that installed an unrelated agent on roughly 4,000 machines.</p><p>Its mitigations: audit workflows that put issue or PR text into prompts, restrict triggers to collaborators, give triage agents only label and comment permissions, isolate caches between low- and high-privilege workflows, use short-lived scoped credentials, and log agent inputs and actions.</p>"
+    },
+    {
+     "t": "Healthcare angle",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> In a HIPAA environment treat the agent like a new contractor laptop: no PHI or production credentials in its environment, read-only scoped database roles, synthetic or de-identified data for testing, and network egress limited to approved hosts. Confirm with your vendor and compliance team which agent products and plans your organization has approved for regulated data before connecting any of them.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Running a skip-all-permissions session on your laptop with cloud credentials in the environment. One injected instruction in a fetched web page can exfiltrate them.</div><div class=\"trap\"><b>Trap:</b> Assuming a classifier makes autonomy safe. Anthropic publishes a 17% miss rate on real overeager actions.</div><div class=\"trap\"><b>Trap:</b> Wiring an agent with write or shell access to public issue text. That is the Clinejection pattern.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the three parts of Willison's lethal trifecta?",
+     "a": "Access to private data, exposure to untrusted content, and the ability to communicate externally."
+    },
+    {
+     "q": "What share of permission prompts do Claude Code users accept, per Anthropic's auto mode post?",
+     "a": "93%, which is why manual approval tends to decay into click-through."
+    },
+    {
+     "q": "What miss rate did Anthropic report for auto mode on real overeager actions?",
+     "a": "17% on a small sample of 52, which Anthropic called the honest number."
+    },
+    {
+     "q": "What was the entry point of the Clinejection attack?",
+     "a": "A crafted GitHub issue title that an AI triage workflow inserted directly into its prompt while the agent had shell and network tools."
+    },
+    {
+     "q": "Which single control most directly blocks data exfiltration by a hijacked agent?",
+     "a": "Restricting the agent's network access, which removes the external communication leg of the trifecta."
+    }
+   ]
+  },
+  {
+   "n": "Skills (SKILL.md)",
+   "g": "extend",
+   "s": "A skill is a folder with a SKILL.md whose name and description sit in context until Claude or you invoke it, at which point the full instructions and any bundled files load on demand.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The skills docs say skills follow the Agent Skills open standard, and Claude Code adds invocation control, subagent execution and dynamic context injection. Anthropic's engineering post on Agent Skills describes three levels of progressive disclosure: metadata (name and description) preloaded at startup, the SKILL.md body read when relevant, and linked files opened only when needed.</p><ul><li><b>Locations</b>: enterprise (managed), personal <code>~/.claude/skills/&lt;name&gt;/SKILL.md</code>, project <code>.claude/skills/&lt;name&gt;/SKILL.md</code>, and plugin <code>&lt;plugin&gt;/skills/&lt;name&gt;/SKILL.md</code> (invoked as <code>/plugin-name:skill-name</code>).</li><li><b>Invocation</b>: type <code>/skill-name</code>, or Claude loads it when the description matches the task.</li><li>Edits are picked up live without restarting. Legacy <code>.claude/commands/</code> files still work as commands.</li><li>Bundled skills include <code>/code-review</code>, <code>/batch</code>, <code>/debug</code>, <code>/loop</code>, <code>/verify</code> and <code>/doctor</code>.</li></ul>"
+    },
+    {
+     "t": "Frontmatter that matters",
+     "b": "<ul><li><code>description</code>: what it does and when to use it; truncated at 1,536 characters combined with <code>when_to_use</code>.</li><li><code>disable-model-invocation: true</code>: only you can invoke it (deploys, commits) and it costs no context until used.</li><li><code>user-invocable: false</code>: only Claude can invoke it (background knowledge).</li><li><code>allowed-tools</code>: tools pre-approved during the turn that invokes the skill.</li><li><code>context: fork</code> plus <code>agent</code>: run the skill in a subagent.</li><li><code>paths</code>, <code>model</code>, <code>effort</code>, <code>hooks</code>, <code>argument-hint</code>, <code>arguments</code>.</li></ul><pre><code>---\nname: fix-issue\ndescription: Fix a GitHub issue\ndisable-model-invocation: true\n---\n\nFix GitHub issue $ARGUMENTS following our coding standards.\n1. Read the issue  2. Implement the fix  3. Write tests  4. Commit</code></pre><p>A line such as <code>!`git diff HEAD`</code> in the body is dynamic context injection: Claude Code runs it before Claude sees the skill.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Keep <code>SKILL.md</code> under 500 lines and push reference docs and scripts into sibling files the body links to.</li><li>Skill content stays in context across later turns, so the docs advise writing standing instructions, not one-time steps.</li><li>Govern skills like tools: deny <code>Skill</code> entirely, or write rules like <code>Skill(deploy *)</code>; <code>skillOverrides</code> sets a skill you did not write to <code>on</code>, <code>name-only</code>, <code>user-invocable-only</code> or <code>off</code>.</li><li><code>/skill-doctor</code> reports each skill's context cost and usage; the <code>skill-creator</code> plugin runs with-and-without baselines.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Vague or overlapping descriptions. The features overview says Claude matches tasks against descriptions, so a fuzzy one loads the wrong skill or none.</div><div class=\"trap\"><b>Trap:</b> Leaving side-effecting skills model-invocable. Set <code>disable-model-invocation: true</code> on deploy or release skills so Claude cannot trigger them on its own.</div><div class=\"trap\"><b>Trap:</b> Installing skills from untrusted sources. Anthropic's Agent Skills post warns they can carry malicious code or instructions and recommends trusted sources only, plus review of bundled scripts.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What loads into context for a model-invocable skill at session start?",
+     "a": "Only its name and description; the full SKILL.md body loads when the skill is invoked."
+    },
+    {
+     "q": "Which frontmatter field stops Claude from invoking a skill on its own?",
+     "a": "disable-model-invocation: true, which also keeps its description out of context until you invoke it."
+    },
+    {
+     "q": "How do you run a skill inside an isolated subagent?",
+     "a": "Set context: fork in its frontmatter, optionally with agent: (for example Explore) to pick the subagent type."
+    },
+    {
+     "q": "What is the description length limit for a skill?",
+     "a": "1,536 characters, counted together with when_to_use."
+    },
+    {
+     "q": "How is a skill from a plugin invoked?",
+     "a": "With the namespaced form /plugin-name:skill-name."
+    }
+   ]
+  },
+  {
+   "n": "Subagents",
+   "g": "extend",
+   "s": "A subagent is a separate Claude instance with its own context window, system prompt, tools and permissions that does a delegated task and returns only a summary to the main conversation.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The subagents page lists four reasons to use them: preserving context, enforcing tool constraints, reusing configurations, and controlling cost by routing work to smaller models. Claude delegates when a task matches a subagent's <code>description</code>.</p><ul><li><b>Built-in</b>: <b>Explore</b> (fast, read-only search; Write and Edit denied), <b>Plan</b> (read-only research in plan mode), <b>General-purpose</b> (full tools).</li><li><b>Fork</b>: a subagent that starts with a copy of your conversation. The Week 33 digest says fork mode is on by default in interactive sessions.</li><li><b>Background</b>: per the Week 27 digest, subagents run in the background by default so Claude keeps working.</li><li>Invoke by natural language, by @-mention (<code>@\"code-reviewer (agent)\"</code>), or run a whole session as one with <code>claude --agent code-reviewer</code>.</li></ul>"
+    },
+    {
+     "t": "Defining a custom subagent",
+     "b": "<p>Subagents are Markdown files with YAML frontmatter; only <code>name</code> and <code>description</code> are required. Priority when names collide: managed, <code>--agents</code> flag, <code>.claude/agents/</code>, <code>~/.claude/agents/</code>, plugin <code>agents/</code>.</p><pre><code>---\nname: code-reviewer\ndescription: Reviews code for quality and best practices. Use after code changes.\ntools: Read, Glob, Grep\nmodel: sonnet\n---\n\nYou are a code reviewer. Analyze the code and give specific,\nactionable feedback on quality, security, and best practices.</code></pre><p>Other fields: <code>disallowedTools</code>, <code>model</code> (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>fable</code>, full ID or <code>inherit</code>), <code>permissionMode</code>, <code>maxTurns</code>, <code>skills</code> (preloaded in full), <code>mcpServers</code>, <code>hooks</code>, <code>memory</code>, <code>isolation: worktree</code>, <code>effort</code>.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>A subagent gets its own system prompt, not Claude Code's. CLAUDE.md and git status load, except for Explore and Plan, and except when <code>omitClaudeMd</code> is set.</li><li>Model resolution: per-invocation model from Claude, then frontmatter <code>model</code>, then <code>CLAUDE_CODE_SUBAGENT_MODEL</code>, then the main conversation's model.</li><li>Disable specific agents with deny rules such as <code>Agent(Explore)</code>.</li><li>Combined descriptions over 15,000 tokens trigger a startup warning.</li><li>The Week 24 digest says subagents can spawn their own subagents, with background chains capped at five levels.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Expecting the subagent to know what you discussed. A non-fork subagent starts fresh, so the delegation prompt must carry the context it needs.</div><div class=\"trap\"><b>Trap:</b> Assuming subagents are free. Their summaries still land in your context, and their own requests still draw on your usage.</div><div class=\"trap\"><b>Trap:</b> Relying on <code>/rewind</code> for subagent edits. The checkpointing page says most subagent edits are not restored; use git.</div><div class=\"synth\"><b>Synthesis:</b> Delegate when the intermediate work is large and disposable (searches, logs, multi-file reads) and only the conclusion matters. Keep work in the main thread when you need to watch and steer each step.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which built-in subagent is read-only and optimized for codebase search?",
+     "a": "Explore. Write and Edit are denied for it."
+    },
+    {
+     "q": "Which two frontmatter fields are required in a custom subagent file?",
+     "a": "name and description."
+    },
+    {
+     "q": "Where do project and personal subagent definitions live?",
+     "a": ".claude/agents/ for the project and ~/.claude/agents/ for all your projects."
+    },
+    {
+     "q": "How do you stop Claude from using a particular subagent?",
+     "a": "Add a deny rule such as Agent(Explore) or Agent(my-agent) to permissions.deny, or pass it in --disallowedTools."
+    },
+    {
+     "q": "What does isolation: worktree do in a subagent definition?",
+     "a": "Runs the subagent in its own temporary git worktree so its edits do not collide with yours."
+    }
+   ]
+  },
+  {
+   "n": "Parallel agents: worktrees, agent view, teams and workflows",
+   "g": "extend",
+   "s": "Claude Code scales out through git worktrees for file isolation, agent view for managing background sessions, experimental agent teams for peer coordination, and dynamic workflows that run many subagents from a script.",
+   "x": [
+    {
+     "t": "Worktrees",
+     "b": "<p>The worktrees page: <code>claude --worktree feature-auth</code> (or <code>-w</code>) creates <code>.claude/worktrees/&lt;name&gt;/</code> on a branch named <code>worktree-&lt;name&gt;</code>. <code>claude --worktree \"#1234\"</code> branches from a pull request.</p><ul><li><code>.worktreeinclude</code> (gitignore syntax) copies gitignored files such as <code>.env</code> into new worktrees.</li><li><code>worktree.baseRef</code>: <code>\"fresh\"</code> (default, remote default branch) or <code>\"head\"</code> (your local HEAD, carrying unpushed work).</li><li>On exit, a clean unnamed worktree is removed automatically; one with work prompts you.</li><li>For non-git VCS, <code>WorktreeCreate</code> and <code>WorktreeRemove</code> hooks replace the git logic.</li></ul>"
+    },
+    {
+     "t": "Agent view and background sessions",
+     "b": "<p>Agent view is a research preview per its docs page. <code>claude agents</code> lists every local session grouped as Pinned, Ready for review, Needs input, Working and Completed. Start one with <code>claude --bg \"prompt\"</code> or send the current session away with <code>/bg</code>; <code>/fork</code> copies it into a background session. Shell controls include <code>claude attach</code>, <code>claude logs</code>, <code>claude stop</code>. Background sessions move into their own worktree before editing. Each session draws on your quota independently.</p>"
+    },
+    {
+     "t": "Agent teams and dynamic workflows",
+     "b": "<ul><li><b>Agent teams</b> are experimental and off by default; enable with <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code>. A lead session spawns teammates that share a task list and message each other directly. The docs suggest starting with 3 to 5 teammates, and the costs page says teams use about 7x the tokens of a standard session when teammates run in plan mode.</li><li><b>Dynamic workflows</b> are a JavaScript script Claude writes, run in the background by a runtime. Ask for one in a prompt (or include the keyword <code>ultracode</code>), watch with <code>/workflows</code>, and save a run as a reusable command in <code>.claude/workflows/</code>. Limits: up to 16 concurrent agents by default and 1,000 agents per run. <code>/deep-research</code> is the bundled example.</li><li><b>Cross-session messaging</b> lets your own sessions pass findings to each other (macOS and Linux, per the Week 32 digest).</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Two parallel agents editing the same files. Agent teams docs warn this causes overwrites; give each worker its own files or its own worktree.</div><div class=\"trap\"><b>Trap:</b> Forgetting that a worktree is a fresh checkout. Dependencies, <code>.env</code> files and build artifacts are missing until you install them or list them in <code>.worktreeinclude</code>.</div><div class=\"trap\"><b>Trap:</b> Launching a large workflow without a pilot. The workflows page recommends a small slice first; a <code>Large workflow</code> warning appears past 25 agents or 1.5 million projected tokens.</div><div class=\"synth\"><b>Synthesis:</b> Choose by who holds the plan: you (separate worktree sessions), Claude turn by turn (subagents, teams), or a script (workflows). Move the plan into code once the same fan-out pattern repeats.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where does claude --worktree feature-auth create the worktree, and on what branch?",
+     "a": "Under .claude/worktrees/feature-auth/ at the repo root, on a new branch named worktree-feature-auth."
+    },
+    {
+     "q": "Which file copies gitignored files like .env into new worktrees?",
+     "a": ".worktreeinclude at the project root, using .gitignore syntax."
+    },
+    {
+     "q": "How do you enable agent teams?",
+     "a": "Set CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 in the environment or in the env block of settings.json; they are experimental and off by default."
+    },
+    {
+     "q": "Which command opens the screen that lists all your background Claude Code sessions?",
+     "a": "claude agents (agent view, a research preview)."
+    },
+    {
+     "q": "In a dynamic workflow, who decides what runs next?",
+     "a": "The script Claude wrote, executed by the workflow runtime; intermediate results live in script variables instead of Claude's context."
+    }
+   ]
+  },
+  {
+   "n": "Hooks",
+   "g": "extend",
+   "s": "Hooks are handlers Claude Code itself runs at lifecycle events, which makes them the deterministic layer for formatting, logging, notifications and policy enforcement.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The hooks guide says hooks give deterministic control: certain actions always happen instead of relying on the model to choose them. You add a <code>hooks</code> block to a settings file; all matching hooks for an event run in parallel. Key events include <code>SessionStart</code>, <code>UserPromptSubmit</code>, <code>PreToolUse</code> (can block), <code>PermissionRequest</code>, <code>PostToolUse</code>, <code>Notification</code>, <code>SubagentStop</code>, <code>Stop</code>, <code>PreCompact</code>, <code>PostCompact</code>, <code>InstructionsLoaded</code>, <code>ConfigChange</code>, <code>WorktreeCreate</code> and <code>SessionEnd</code>.</p><p>Handler types: <code>command</code> (shell), <code>http</code> (POST the event JSON), <code>mcp_tool</code>, <code>prompt</code> (single-turn model judgment) and <code>agent</code> (multi-turn verifier with tools; experimental).</p>"
+    },
+    {
+     "t": "Config example: format after every edit",
+     "b": "<pre><code>{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          { \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | xargs npx prettier --write\" }\n        ]\n      }\n    ]\n  }\n}</code></pre><p>Hooks read event JSON on stdin and answer through exit codes and stdout. In the guide's protect-files example, a PreToolUse script exits with code 2 to block an edit and its stderr is fed back to Claude. For PreToolUse decisions the most restrictive answer wins, in the order deny, defer, ask, allow.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>The guide says PreToolUse hooks fire before any permission-mode check, so a hook returning deny blocks the tool even in <code>bypassPermissions</code>. A hook returning allow cannot override deny rules from settings.</li><li>A <code>Stop</code> hook of type <code>prompt</code> or <code>agent</code> can keep Claude working until a condition holds; <code>/goal</code> is built on a session-scoped prompt Stop hook.</li><li>A SessionStart hook with the <code>compact</code> matcher re-injects context after compaction.</li><li>The costs page shows a PreToolUse hook rewriting test commands to emit only failures, cutting context from thousands of tokens to hundreds.</li><li>Default timeouts: 10 minutes for command, http and mcp_tool hooks (lower for some events), 30 seconds for prompt, 60 seconds for agent. <code>/hooks</code> lists what is configured.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Expecting PostToolUse to undo something. The tool has already executed; block in PreToolUse instead.</div><div class=\"trap\"><b>Trap:</b> Relying on one hook's deny to stop a sibling hook's side effect. All matching hooks run to completion before results merge.</div><div class=\"trap\"><b>Trap:</b> Two hooks rewriting the same tool input with <code>updatedInput</code>. They run in parallel and the last to finish wins, which is non-deterministic.</div><div class=\"trap\"><b>Trap:</b> Assuming a Stop hook means task complete. It fires whenever Claude finishes responding, not on user interrupts.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which hook event can block a tool call before it runs?",
+     "a": "PreToolUse."
+    },
+    {
+     "q": "What exit code makes a command hook block the action and feed stderr back to Claude?",
+     "a": "Exit code 2."
+    },
+    {
+     "q": "Can a PreToolUse hook block a tool in bypassPermissions mode?",
+     "a": "Yes. PreToolUse hooks run before the permission-mode check, so a deny holds even with --dangerously-skip-permissions."
+    },
+    {
+     "q": "Which hook type asks a model to judge a condition in a single turn?",
+     "a": "type: \"prompt\", which returns {\"ok\": true} or {\"ok\": false, \"reason\": ...}."
+    },
+    {
+     "q": "Which command shows the hooks Claude Code has loaded?",
+     "a": "/hooks."
+    }
+   ]
+  },
+  {
+   "n": "MCP servers",
+   "g": "extend",
+   "s": "MCP (Model Context Protocol) servers give Claude tools and data from external systems, configured at local, project or user scope, with tool schemas deferred until Claude needs them.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The MCP docs show two main transports:</p><pre><code># remote HTTP server (recommended for remote)\nclaude mcp add --transport http notion &lt;server-url&gt;\n\n# local stdio server; -- separates Claude's options from the server command\nclaude mcp add --env AIRTABLE_API_KEY=KEY --transport stdio airtable \\\n  -- npx -y airtable-mcp-server</code></pre><p>SSE is deprecated. <code>/mcp</code> shows server status, handles OAuth sign-in and toggles or reconnects servers; <code>claude mcp login &lt;name&gt;</code> authenticates from the shell.</p>"
+    },
+    {
+     "t": "Scopes and precedence",
+     "b": "<ul><li><b>Local</b> (default): this project only, stored in <code>~/.claude.json</code>.</li><li><b>Project</b> (<code>--scope project</code>): <code>.mcp.json</code> at the repo root, shareable via git. Interactive sessions ask for approval before using these servers; <code>claude mcp reset-project-choices</code> resets the choices.</li><li><b>User</b>: all your projects, stored in <code>~/.claude.json</code>.</li></ul><p>When a server is defined in several places, Claude Code uses the single highest-precedence definition without merging fields: local, then project, then user, then plugin-provided, then claude.ai connectors.</p>"
+    },
+    {
+     "t": "Context and output limits",
+     "b": "<ul><li>Tool search is on by default: only tool names and server instructions enter context; full schemas load on demand.</li><li>Claude Code warns when a tool result exceeds 10,000 tokens; the default cap is 25,000 tokens, adjustable with <code>MAX_MCP_OUTPUT_TOKENS</code>.</li><li>Permission rules use <code>mcp__&lt;server&gt;__*</code> for every tool on a server or <code>mcp__&lt;server&gt;__&lt;tool&gt;</code> for one.</li></ul><p>The features overview frames the split this way: MCP gives Claude purpose-built tools for an external system, and a skill teaches Claude how to use those tools well (for example a schema and query patterns for a database MCP).</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming project servers always ask first. In <code>claude -p</code>, the Agent SDK and cloud sessions no prompt can show, so <code>.mcp.json</code> servers load without asking; exclude them with <code>--strict-mcp-config</code>, <code>disabledMcpjsonServers</code> or setting sources.</div><div class=\"trap\"><b>Trap:</b> Wrapping a CLI that already exists. The costs page says tools like <code>gh</code>, <code>aws</code> and <code>gcloud</code> are still more context-efficient than MCP servers because they add no per-tool listing.</div><div class=\"trap\"><b>Trap:</b> Expecting fields to merge across scopes. The highest-precedence definition wins whole.</div><div class=\"synth\"><b>Synthesis:</b> Reach for MCP when the system has no good CLI, needs OAuth, or you want the same integration on every surface including cloud sessions. Pair each important server with a skill that encodes how your team uses it.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where is a project-scoped MCP server stored?",
+     "a": "In .mcp.json at the project root, which you can commit to share."
+    },
+    {
+     "q": "What is the default MCP scope for claude mcp add, and where is it stored?",
+     "a": "Local scope, stored in ~/.claude.json and active only for the current project."
+    },
+    {
+     "q": "What is the default MCP tool output limit and how do you change it?",
+     "a": "25,000 tokens; set MAX_MCP_OUTPUT_TOKENS to raise it. A warning appears above 10,000 tokens."
+    },
+    {
+     "q": "What does the -- do in claude mcp add ... -- npx server?",
+     "a": "It separates Claude Code's own options from the server's command and arguments."
+    },
+    {
+     "q": "Write a permission rule matching every tool on an MCP server named github.",
+     "a": "mcp__github__* (the bare mcp__github form also matches)."
+    }
+   ]
+  },
+  {
+   "n": "Plugins and marketplaces",
+   "g": "extend",
+   "s": "A plugin bundles skills, subagents, hooks and MCP servers into one installable, versioned unit, and a marketplace is a catalog file that lists plugins and where to fetch them.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The plugins overview defines a plugin as a directory of components with a manifest at <code>.claude-plugin/plugin.json</code>. Components include skills (<code>skills/&lt;name&gt;/SKILL.md</code>, run as <code>/my-plugin:review</code>), agents (<code>agents/</code>), hooks (<code>hooks/hooks.json</code>), MCP servers (<code>.mcp.json</code>), output styles and a JavaScript hooks module (a plugin with one is called a mod).</p><p>A marketplace is a repo or directory with <code>.claude-plugin/marketplace.json</code>. You add it once, then install by name, such as <code>commit-commands@claude-plugins-official</code>. Claude Code adds Anthropic's official marketplace on your first interactive session unless policy blocks it. Run <code>/plugin</code> and use the Discover tab; disable with <code>/plugin</code> or <code>claude plugin disable</code>.</p>"
+    },
+    {
+     "t": "Scopes and loading",
+     "b": "<ul><li><b>User</b>: every project on this computer. <b>Project</b>: enabled for everyone via committed <code>.claude/settings.json</code> (each person still installs it). <b>Local</b>: you, this repo only.</li><li>A user-scope install in the terminal also appears in the desktop app's local sessions and VS Code, because they read the same settings files. Cloud sessions do not load your local plugins.</li><li>During development, load straight from a folder with <code>--plugin-dir</code> (it also accepts <code>.zip</code>, per the Week 19 digest).</li><li><code>claude plugin eval</code> scores a plugin against test cases versus a no-plugin baseline (Week 37 digest).</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>The overview says an enabled plugin is part of every session: each model-invocable skill, agent and command adds its name and description to context on every turn, its MCP servers run, and its hooks fire. Official-marketplace plugins show a Context cost estimate before install.</li><li>Plugins run code with your user privileges in any tier (official, community, third-party).</li><li>Managed settings can allowlist or block marketplaces and force-install plugins across an org.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Installing many plugins \"just in case\". Their descriptions cost context on every turn even when unused; check the Installed tab's Not used recently group.</div><div class=\"trap\"><b>Trap:</b> Confusing a Claude Code plugin with the VS Code extension or JetBrains plugin. Those are IDE integrations, not plugins.</div><div class=\"synth\"><b>Synthesis:</b> The features overview's trigger list is a good maturity ladder: CLAUDE.md first, skills when you repeat a prompt, hooks when something must always happen, and a plugin only when a second repository needs the same setup.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where does a plugin's manifest live?",
+     "a": ".claude-plugin/plugin.json inside the plugin directory."
+    },
+    {
+     "q": "What file defines a plugin marketplace?",
+     "a": ".claude-plugin/marketplace.json in a repository or directory."
+    },
+    {
+     "q": "How do you load a plugin you are developing without a marketplace?",
+     "a": "Start Claude Code with --plugin-dir pointing at the plugin folder (or a .zip)."
+    },
+    {
+     "q": "Why can an unused plugin still cost tokens?",
+     "a": "The names and descriptions of its model-invocable skills, agents and commands sit in context on every turn while it is enabled."
+    }
+   ]
+  },
+  {
+   "n": "Permission modes, including auto mode",
+   "g": "safety",
+   "s": "A permission mode sets which actions run without asking, from Manual (default) through acceptEdits, plan, auto, dontAsk and bypassPermissions, and you cycle the interactive ones with Shift+Tab.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>From the permission modes page:</p><ul><li><code>default</code> (shown as <b>Manual</b>): only reads run without asking.</li><li><code>acceptEdits</code>: reads, file edits and common filesystem commands (<code>mkdir</code>, <code>touch</code>, <code>mv</code>, <code>cp</code>).</li><li><code>plan</code>: reads, plus classifier-approved commands when auto mode is available; no source edits.</li><li><code>auto</code>: everything, with a background classifier blocking risky actions.</li><li><code>dontAsk</code>: pre-approved tools only; anything that would prompt is denied. For locked-down CI.</li><li><code>bypassPermissions</code> (<code>--dangerously-skip-permissions</code>): everything; isolated containers and VMs only.</li></ul><p>Deny rules apply in every mode, including bypass.</p>"
+    },
+    {
+     "t": "Auto mode",
+     "b": "<p>A separate classifier model reviews actions before they run and blocks anything that escalates beyond your request, targets unrecognized infrastructure or looks driven by hostile content. Examples blocked by default: <code>curl | bash</code>, production deploys, force pushes, <code>git reset --hard</code>, <code>terraform destroy</code>, sending secrets out. Three blocks in a row or 20 total pause auto mode and return to prompting. Explicit ask rules still force a prompt.</p><p>Starting mode: with v2.1.283 or later the built-in default is <code>auto</code> for interactive terminal and VS Code sessions, while <code>claude -p</code> and the Agent SDK default to Manual. <code>permissions.defaultMode</code> overrides it, but <code>auto</code> and <code>bypassPermissions</code> are ignored in project-level settings files.</p>"
+    },
+    {
+     "t": "Protected and critical paths",
+     "b": "<ul><li>Writes to protected paths (<code>.git</code>, <code>.vscode</code>, <code>.idea</code>, <code>.husky</code>, <code>.devcontainer</code>, most of <code>.claude</code>, shell rc files, <code>.npmrc</code>, <code>.mcp.json</code>, <code>.claude.json</code>) are never auto-approved outside bypass mode.</li><li><code>rm</code> and <code>rmdir</code> on critical targets (root, home, top-level dirs, the working directory) are blocked even in bypass; the docs call this best-effort, not a sandbox.</li><li>Bypass refuses to start as root or under sudo unless a recognized sandbox is detected; admins can disable it with <code>permissions.disableBypassPermissionsMode: \"disable\"</code>.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating auto mode as a guarantee. The docs state it reduces prompts but does not guarantee safety; pair it with deny rules and the sandbox.</div><div class=\"trap\"><b>Trap:</b> Committing <code>defaultMode: \"auto\"</code> or <code>\"bypassPermissions\"</code> to the repo's <code>.claude/settings.json</code> and expecting teammates to get it. Those values are ignored in project and local settings.</div><div class=\"trap\"><b>Trap:</b> Running a scheduled <code>claude -p</code> job and wondering why tools are denied. Non-interactive runs default to Manual; pass <code>--permission-mode</code> or <code>--allowedTools</code>.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which permission mode denies anything not pre-approved instead of prompting?",
+     "a": "dontAsk."
+    },
+    {
+     "q": "What does acceptEdits auto-approve beyond file edits?",
+     "a": "Common filesystem commands such as mkdir, touch, mv and cp."
+    },
+    {
+     "q": "Do deny rules apply in bypassPermissions mode?",
+     "a": "Yes. Deny rules block in every mode, including bypassPermissions."
+    },
+    {
+     "q": "What pauses auto mode and returns to prompting?",
+     "a": "Three classifier blocks in a row, or 20 blocks in total."
+    },
+    {
+     "q": "What permission mode does claude -p start in when nothing sets one?",
+     "a": "Manual (default); auto is the built-in default only for interactive terminal and VS Code sessions on v2.1.283 or later."
+    }
+   ]
+  },
+  {
+   "n": "Permission rules and the settings hierarchy",
+   "g": "safety",
+   "s": "Allow, ask and deny rules in layered settings files decide what each tool may do, with deny always winning and managed settings sitting above everything a developer can change.",
+   "x": [
+    {
+     "t": "Rule syntax",
+     "b": "<p>The permissions page: rules are <code>Tool</code> or <code>Tool(specifier)</code>, evaluated deny, then ask, then allow; the first match wins and specificity does not change the order.</p><pre><code>{\n  \"permissions\": {\n    \"allow\": [\"Bash(npm run *)\", \"Bash(git commit *)\"],\n    \"ask\":   [\"Bash(git push *)\"],\n    \"deny\":  [\"Read(./.env)\", \"Read(./.env.*)\", \"WebFetch\"]\n  }\n}</code></pre><ul><li>Put <code>*</code> after the subcommand: <code>Bash(git log *)</code> allows only git log; <code>Bash(git *)</code> allows all git.</li><li>Shell operators are parsed: <code>Bash(safe-cmd *)</code> does not approve <code>safe-cmd &amp;&amp; other-cmd</code>; deny and ask rules match any subcommand.</li><li>Paths use gitignore syntax: <code>//path</code> is filesystem-absolute, <code>~/path</code> is home, <code>/path</code> is relative to the settings source, <code>./path</code> or bare is relative to cwd.</li><li>A bare deny such as <code>Bash</code> removes the tool from Claude's context entirely.</li><li>Other forms: <code>WebFetch(domain:example.com)</code>, <code>mcp__server__tool</code>, <code>Agent(Explore)</code>, <code>Skill(deploy *)</code>.</li></ul>"
+    },
+    {
+     "t": "Settings files and precedence",
+     "b": "<p>The settings page lists, highest first: <b>managed</b> (managed-settings.json, MDM, or server-managed from the claude.ai console), <b>command line</b> (<code>--settings</code>), <b>project local</b> <code>.claude/settings.local.json</code>, <b>shared project</b> <code>.claude/settings.json</code>, <b>user</b> <code>~/.claude/settings.json</code>. List keys such as <code>permissions.allow</code> merge across files instead of overriding. A deny at any level cannot be allowed by another level.</p><p><code>~/.claude.json</code> is a separate file Claude Code writes itself for account details, MCP servers and per-project trust. Run <code>/status</code> to see which sources loaded and <code>claude doctor</code> to see rejected entries. Settings reload on save, so <code>permissions</code> and <code>hooks</code> edits apply mid-session.</p>"
+    },
+    {
+     "t": "Org and healthcare controls",
+     "b": "<ul><li><code>allowManagedPermissionRulesOnly</code> makes managed settings the only source of permission rules.</li><li>Committed <code>permissions.allow</code> rules and most <code>env</code> values wait until each teammate trusts the folder; deny and ask rules apply immediately.</li><li>The HIPAA setup page (Enterprise with a BAA) suggests managed keys <code>forceLoginMethod: \"claudeai\"</code>, <code>forceLoginOrgUUID</code>, <code>allowedProviders: [\"anthropic\"]</code> and <code>cleanupPeriodDays</code>, requires v2.1.285 or later, and lists features turned off under that configuration: WebFetch, cloud sessions, Remote Control, feedback submission and artifact publishing.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Writing <code>Read(/Users/me/secrets/**)</code> expecting an absolute path. A single leading slash anchors at the settings source; use <code>//Users/me/secrets/**</code>.</div><div class=\"trap\"><b>Trap:</b> Trying to carve an allow exception out of a broad deny. <code>Bash(aws *)</code> in deny blocks <code>Bash(aws s3 ls)</code> even if it is allowed.</div><div class=\"trap\"><b>Trap:</b> Expecting CLAUDE.md to restrict tools. The docs note permission rules are enforced by Claude Code, not the model; prompts only shape what Claude tries.</div><div class=\"trap\"><b>Trap:</b> A <code>//</code> comment or trailing comma in settings.json. Settings files are strict JSON and the file is reported as a Settings Error.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In what order are permission rules evaluated?",
+     "a": "Deny, then ask, then allow; the first match wins regardless of specificity."
+    },
+    {
+     "q": "Rank the settings sources from highest to lowest precedence.",
+     "a": "Managed, command line (--settings), .claude/settings.local.json, .claude/settings.json, ~/.claude/settings.json."
+    },
+    {
+     "q": "How do you write an absolute path in a Read or Edit rule?",
+     "a": "Start it with two slashes, for example Read(//Users/alice/secrets/**)."
+    },
+    {
+     "q": "Does Bash(npm run *) approve npm run build && curl evil.sh?",
+     "a": "No. Each subcommand must match an allow rule independently."
+    },
+    {
+     "q": "What happens when the same list key, like permissions.allow, appears in user and project settings?",
+     "a": "The lists merge, so both files' entries apply."
+    }
+   ]
+  },
+  {
+   "n": "Sandboxing",
+   "g": "safety",
+   "s": "The Bash sandbox is an operating-system boundary around shell commands that limits which files they can write and which hosts they can reach, so sandboxed commands can run without per-command approval.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The sandboxing page says the sandbox is off by default; turn it on with <code>/sandbox</code> or <code>sandbox.enabled: true</code>. It uses Seatbelt on macOS and <code>bubblewrap</code> plus <code>socat</code> on Linux and WSL2; native Windows runs commands unsandboxed. It is built on the open-source <code>@anthropic-ai/sandbox-runtime</code> package.</p><ul><li><b>Writes</b>: working directory, a per-user temp dir and added directories; protected paths stay write-denied.</li><li><b>Reads</b>: most of the machine by default, including <code>~/.ssh</code> and <code>~/.aws/credentials</code>, unless you add <code>denyRead</code>.</li><li><b>Network</b>: no direct route out; a local proxy checks each host against <code>network.allowedDomains</code>, which starts empty.</li><li><b>Scope</b>: Bash, PowerShell and Monitor commands and their children. Read, Edit, WebFetch, MCP servers and hooks run outside it and follow permission rules instead.</li></ul>"
+    },
+    {
+     "t": "Config example",
+     "b": "<pre><code>{\n  \"sandbox\": {\n    \"enabled\": true,\n    \"allowUnsandboxedCommands\": false,\n    \"filesystem\": {\n      \"allowWrite\": [\"~/.kube\", \"/tmp/build\"],\n      \"denyRead\": [\"~/\"],\n      \"allowRead\": [\".\"]\n    }\n  }\n}</code></pre><p>Place the read rules in project settings: <code>.</code> resolves to the project root there, but to <code>~/.claude</code> in user settings. Sandbox paths use normal conventions (<code>/tmp</code> absolute, <code>~</code> home), unlike permission rules' <code>//</code> form.</p>"
+    },
+    {
+     "t": "Modes and escape hatches",
+     "b": "<ul><li><b>Auto-allow</b>: commands that run inside the sandbox are approved without a prompt. Deny rules, content-scoped ask rules like <code>Bash(git push *)</code>, and critical-path <code>rm</code> still apply.</li><li><b>Regular permissions mode</b>: sandboxed commands still go through the normal prompt flow.</li><li>When a command fails in the sandbox, Claude may retry with <code>dangerouslyDisableSandbox</code>. Set <code>allowUnsandboxedCommands: false</code> (shown as Strict sandbox mode) to remove that retry, and <code>failIfUnavailable</code> to refuse unsandboxed runs when the sandbox cannot start.</li><li><code>excludedCommands</code> runs listed tools fully outside the sandbox; the docs prefer <code>allowWrite</code> or <code>allowedDomains</code> when a tool needs just one more path or host.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming the sandbox protects secrets from reads. Default reads include credential files; add <code>denyRead</code> or the <code>credentials</code> options.</div><div class=\"trap\"><b>Trap:</b> Assuming <code>allowedDomains</code> limits WebFetch. It only governs sandboxed shell traffic; WebFetch follows permission rules.</div><div class=\"synth\"><b>Synthesis:</b> Use permissions to decide what Claude may attempt and the sandbox to cap the blast radius if a prompt injection gets past that decision. The permissions docs describe the two as complementary layers; for full isolation of MCP servers and hooks too, run Claude Code itself in a container or VM.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which OS mechanism does the Claude Code sandbox use on macOS, and what on Linux?",
+     "a": "Seatbelt on macOS; bubblewrap plus socat on Linux and WSL2."
+    },
+    {
+     "q": "Is the sandbox on by default?",
+     "a": "No. Enable it with /sandbox or sandbox.enabled: true."
+    },
+    {
+     "q": "Which tools does the sandbox cover?",
+     "a": "Bash, PowerShell and Monitor commands and their child processes; file tools, WebFetch, MCP servers and hooks run outside it."
+    },
+    {
+     "q": "How do you stop Claude from retrying a failed command outside the sandbox?",
+     "a": "Set sandbox.allowUnsandboxedCommands to false (Strict sandbox mode)."
+    },
+    {
+     "q": "What hosts can sandboxed commands reach by default?",
+     "a": "None. network.allowedDomains starts empty and a local proxy checks each host."
+    }
+   ]
+  },
+  {
+   "n": "Headless mode (claude -p)",
+   "g": "automate",
+   "s": "claude -p runs the full agent loop non-interactively for scripts and CI, with text, JSON or streamed JSON output, schema-validated results and explicit tool and permission flags.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The headless page says <code>-p</code> (or <code>--print</code>) runs any <code>claude</code> command non-interactively and reads stdin, so it pipes like a Unix tool. Exit code 0 means success; a SIGTERM exits 143 and leaves the turn unfinished. Piped stdin is capped at 10MB.</p><pre><code>cat build-error.txt | claude -p \"concisely explain the root cause\" &gt; output.txt\n\nclaude -p \"Find and fix the bug in auth.py\" --allowedTools \"Read,Edit,Bash\"\n\nclaude --bare -p \"Summarize README.md\" --allowedTools \"Read\"</code></pre>"
+    },
+    {
+     "t": "Output and structured results",
+     "b": "<ul><li><code>--output-format text</code> (default), <code>json</code> (result, <code>session_id</code>, metadata, <code>total_cost_usd</code>) or <code>stream-json</code> (newline-delimited events; add <code>--verbose --include-partial-messages</code> for tokens).</li><li><code>--json-schema '&lt;schema&gt;'</code> with <code>--output-format json</code> puts validated output in <code>structured_output</code>; check that the field exists before using it.</li><li>The <code>system/init</code> event reports <code>plugin_errors</code> and <code>mcp_server_errors</code>, which a CI gate can fail on.</li><li>Multi-step: <code>--continue</code> for the latest conversation, or capture <code>session_id</code> and pass <code>--resume</code>.</li></ul>"
+    },
+    {
+     "t": "Bare mode and permissions",
+     "b": "<p><code>--bare</code> skips auto-discovery of hooks, skills, commands, subagents, plugins, MCP servers, auto memory and CLAUDE.md, so every machine gets the same result. It never reads OAuth or the keychain, so set <code>ANTHROPIC_API_KEY</code>. The docs call it the recommended mode for scripted and SDK calls and say it will become the default for <code>-p</code> in a future release.</p><ul><li><code>--allowedTools</code> uses permission rule syntax, e.g. <code>\"Bash(git diff *),Bash(git commit *)\"</code>.</li><li><code>--permission-mode</code> sets a baseline (<code>acceptEdits</code>, <code>auto</code>, <code>dontAsk</code>).</li><li><code>--permission-prompts none</code> (v2.1.259 or later) denies anything that would wait for a human and tells Claude not to retry.</li><li><code>--append-system-prompt</code> adds instructions; <code>--system-prompt</code> replaces the default.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Running <code>-p</code> without <code>--bare</code> in an untrusted checkout. Without it, a <code>-p</code> session runs the repo's <code>.claude/settings.json</code> hooks and connects <code>.mcp.json</code> servers with no trust dialog.</div><div class=\"trap\"><b>Trap:</b> Writing <code>Bash(git diff*)</code> without a space. It also matches <code>git diff-index</code>; the space before <code>*</code> is what makes it a word-boundary prefix.</div><div class=\"trap\"><b>Trap:</b> Expecting <code>--bg</code> with <code>-p</code>. Claude Code rejects the combination.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which flag makes a claude -p run skip local hooks, plugins, MCP servers and CLAUDE.md?",
+     "a": "--bare."
+    },
+    {
+     "q": "Where does schema-validated output appear when you pass --json-schema?",
+     "a": "In the structured_output field of the --output-format json response."
+    },
+    {
+     "q": "How do you continue a specific earlier headless conversation?",
+     "a": "Capture session_id from --output-format json, then run claude -p \"...\" --resume <session_id>."
+    },
+    {
+     "q": "What are the three --output-format values?",
+     "a": "text (default), json and stream-json."
+    },
+    {
+     "q": "Which flag denies every permission request that would wait for a human in an unattended run?",
+     "a": "--permission-prompts none (v2.1.259 or later)."
+    }
+   ]
+  },
+  {
+   "n": "GitHub Actions, CI and scheduled automation",
+   "g": "automate",
+   "s": "The claude-code-action runs Claude Code inside GitHub workflows on @claude mentions or any event, and scheduled tasks, /loop and /goal keep Claude working on a clock or toward a condition.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The GitHub Actions page: run <code>/install-github-app</code> in Claude Code (github.com repos only; needs <code>gh</code> and repo admin) to install the Claude GitHub App, store a secret and open a workflow PR. The secret is <code>ANTHROPIC_API_KEY</code> for an API key or <code>CLAUDE_CODE_OAUTH_TOKEN</code> for a subscription token from <code>claude setup-token</code>.</p><ul><li><b>Interactive mode</b>: no <code>prompt</code> input; Claude responds to the trigger phrase (<code>@claude</code> by default) in issues and PRs.</li><li><b>Automation mode</b>: a <code>prompt</code> input (plain text or a <code>/skill</code>) runs on any event, including cron.</li><li><code>claude_args</code> passes any CLI flag, e.g. <code>--max-turns</code>, <code>--model</code>, <code>--allowedTools</code>, <code>--mcp-config</code>.</li></ul><pre><code>- uses: anthropics/claude-code-action@v1\n  with:\n    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n    prompt: \"Generate a summary of yesterday's commits and open issues\"\n    claude_args: |\n      --allowedTools \"mcp__github__list_commits,mcp__github__list_issues\"</code></pre>"
+    },
+    {
+     "t": "CI nuance",
+     "b": "<ul><li>Upgrading from <code>@beta</code>: switch to <code>@v1</code>, drop <code>mode</code>, rename <code>direct_prompt</code> to <code>prompt</code>, move CLI options into <code>claude_args</code>.</li><li>Org rollouts: the docs prefer a Console API key over an OAuth token for shared secrets, or workload identity federation (OIDC) to avoid a long-lived secret.</li><li>Only users with write access trigger runs by default, and bot actors are rejected unless listed in <code>allowed_bots</code>.</li><li>Commits pushed with the default <code>GITHUB_TOKEN</code> do not trigger other workflows; let the action authenticate as the Claude GitHub App.</li><li>Cost controls named in the docs: concise CLAUDE.md, <code>--max-turns</code>, workflow timeouts and concurrency limits. GitLab CI/CD and a managed Code Review product are separate options.</li></ul>"
+    },
+    {
+     "t": "Scheduling and long-running work",
+     "b": "<ul><li><b>/loop</b>: <code>/loop 5m check the deploy</code> reruns a prompt in the open session; omit the interval and Claude picks one each iteration. Session-scoped, minimum 1 minute, up to 50 tasks, recurring tasks expire after 7 days.</li><li><b>Cloud scheduled tasks</b> (formerly routines, research preview): a saved prompt plus repos and connectors that runs on Anthropic's cloud on a schedule (minimum 1 hour), an API call or GitHub events. Create with <code>/schedule</code> or at claude.ai/code. Desktop scheduled tasks run on your machine with local file access.</li><li><b>/goal</b>: <code>/goal all tests in test/auth pass and lint is clean</code> keeps starting turns until a small fast model judges the condition met or impossible. Condition up to 4,000 characters; <code>/goal clear</code> stops it; works with <code>-p</code>.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Committing an API key in a workflow file. Store it as a GitHub secret and reference it.</div><div class=\"trap\"><b>Trap:</b> Writing a /goal condition the evaluator cannot see. The goal docs say it judges only what Claude surfaced in the conversation and runs no commands itself, so state the proof, for example \"npm test exits 0\".</div><div class=\"trap\"><b>Trap:</b> Relying on <code>/loop</code> for durable jobs. It stops when the session closes; use cloud or desktop scheduled tasks or a cron-triggered Action.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which command sets up the Claude GitHub App, secret and workflow from inside Claude Code?",
+     "a": "/install-github-app."
+    },
+    {
+     "q": "What decides whether claude-code-action runs in interactive or automation mode?",
+     "a": "Whether the workflow provides a prompt input; without one it waits for the @claude trigger phrase."
+    },
+    {
+     "q": "Which two secret names does the action accept for authentication?",
+     "a": "ANTHROPIC_API_KEY for an API key, or CLAUDE_CODE_OAUTH_TOKEN for a subscription token created with claude setup-token."
+    },
+    {
+     "q": "When do recurring /loop tasks expire?",
+     "a": "Seven days after creation; they fire one last time and delete themselves."
+    },
+    {
+     "q": "How does /goal decide the work is done?",
+     "a": "After each turn a small fast model checks the condition against the conversation and returns not yet met, met or impossible."
+    }
+   ]
+  },
+  {
+   "n": "The Claude Agent SDK",
+   "g": "automate",
+   "s": "The Claude Agent SDK packages Claude Code's agent loop, tools, permissions, hooks, subagents and sessions as a Python or TypeScript library you embed in your own application.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>The SDK overview says it gives you the same tools, agent loop and context management that power Claude Code. Install <code>claude-agent-sdk</code> (Python 3.10+) or <code>@anthropic-ai/claude-agent-sdk</code> (Node 18+); both bundle a native Claude Code binary. <code>query()</code> returns an async iterator of messages as Claude thinks, calls tools and finishes.</p><pre><code>import asyncio\nfrom claude_agent_sdk import query, ClaudeAgentOptions\n\nasync def main():\n    async for message in query(\n        prompt=\"Review utils.py for bugs that would cause crashes. Fix them.\",\n        options=ClaudeAgentOptions(\n            allowed_tools=[\"Read\", \"Edit\", \"Glob\"],\n            permission_mode=\"acceptEdits\",\n        ),\n    ):\n        print(message)\n\nasyncio.run(main())</code></pre>"
+    },
+    {
+     "t": "Capabilities and configuration",
+     "b": "<ul><li>Built-in tools, hooks (as callbacks), subagents, MCP (including in-process custom tools), permissions with a <code>canUseTool</code> approval callback, sessions that resume or fork, structured outputs, cost tracking and OpenTelemetry.</li><li>Per the overview's capability table, skills, commands and memory load from the project's <code>.claude/</code> and <code>~/.claude/</code> the same as Claude Code; <code>settingSources</code> controls which filesystem settings load.</li><li>Other options include <code>system_prompt</code>, <code>mcp_servers</code>, <code>agents</code> and <code>hooks</code>. The SDK defaults to Manual permission mode.</li><li>Authentication is an API key (<code>ANTHROPIC_API_KEY</code>, not auto-loaded from <code>.env</code>) or Bedrock, Claude Platform on AWS, Vertex or Foundry flags.</li></ul>"
+    },
+    {
+     "t": "Choosing the right layer",
+     "b": "<p>The overview compares four options: the <b>Agent SDK</b> (embed Claude Code's agent in your own process), the <b>CLI</b> (interactive and one-off), the <b>Client SDK</b> (raw API, you write the tool loop) and <b>Managed Agents</b> (Anthropic hosts the harness). For other languages, run <code>claude -p --output-format json</code> as a subprocess. Anthropic's post on building agents with the SDK says the Claude Code SDK was renamed the Claude Agent SDK because the same harness can power many kinds of agents beyond coding, and it describes the same gather context, take action, verify work loop.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Shipping a product that signs users in with claude.ai. The overview says third-party developers may not offer claude.ai login or rate limits unless previously approved; use API keys.</div><div class=\"trap\"><b>Trap:</b> Branding your agent as \"Claude Code\". Allowed: \"Claude Agent\" or \"YourAgent Powered by Claude\"; not permitted: \"Claude Code\", \"Claude Code Agent\" or look-alike visuals.</div><div class=\"trap\"><b>Trap:</b> Assuming an SDK agent is isolated from your developer config. It loads <code>.claude/</code> and <code>~/.claude/</code> unless you restrict setting sources, so a hook or MCP server on the build host can change behavior.</div><div class=\"synth\"><b>Synthesis:</b> Treat the SDK as a deployable Claude Code: anything you prototype interactively (skills, hooks, subagents, permission rules) transfers, so prove the workflow in the CLI first, then pin settings sources and permissions when you embed it.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the Agent SDK package names for Python and TypeScript?",
+     "a": "claude-agent-sdk on PyPI and @anthropic-ai/claude-agent-sdk on npm."
+    },
+    {
+     "q": "What does query() return?",
+     "a": "An async iterator that yields messages (reasoning, tool calls, tool results, final result) as the agent loop runs."
+    },
+    {
+     "q": "Can a third-party product built on the Agent SDK let users log in with claude.ai?",
+     "a": "Not unless previously approved by Anthropic; such products should use API key authentication."
+    },
+    {
+     "q": "How do you drive the Claude Code agent loop from a language without an Agent SDK?",
+     "a": "Run claude -p with --output-format json (or stream-json) as a subprocess."
+    },
+    {
+     "q": "Which Agent SDK option controls whether project and user filesystem settings load?",
+     "a": "settingSources (setting_sources in Python)."
+    }
+   ]
+  },
+  {
+   "n": "Parallel sessions, worktrees and background agents",
+   "g": "parallel",
+   "s": "Running several agents at once multiplies throughput only when tasks are independent, isolated in separate checkouts, and sized so your review capacity keeps up.",
+   "x": [
+    {
+     "t": "How top practitioners run it",
+     "b": "<ul><li>Cherny runs about five local sessions, each in its own git checkout, plus 5 to 10 sessions on Claude Code's web version, and abandons roughly 10 to 20% of them (X posts summarized by InfoQ, January 2026).</li><li>Willison (October 2025) runs Claude Code and Codex CLI in several terminals, uses fresh checkouts in a temp directory instead of worktrees, and sends riskier asynchronous work to Codex Cloud, often from his phone.</li><li>Hashimoto blocks the last 30 minutes of each day to start agents on research and triage for a \"warm start\" next morning, outsources tasks he is confident they will handle, and turns off agent desktop notifications so he controls when to check in. He estimates a background agent runs only 10 to 20% of his workday.</li><li>Steinberger runs 3 to 8 projects at once and commits straight to main, queuing tasks and reviewing results instead of watching each run.</li></ul>"
+    },
+    {
+     "t": "Isolation mechanics",
+     "b": "<ul><li>Anthropic's best practices list git worktrees, desktop-app sessions each in its own worktree, cloud sessions on the web, an agent view for background sessions (research preview), and agent teams (experimental, disabled by default).</li><li>OpenAI lists running \"live threads on the same files without using git worktrees\" as a common Codex mistake.</li><li>For large mechanical changes, Claude Code's <code>/batch</code> splits work across 5 to 30 subagents, each in its own worktree opening its own PR. A script that loops <code>claude -p</code> over a file list does the same with your own control; Anthropic advises refining the prompt on 2 or 3 files before running the full set and scoping tools with <code>--allowedTools</code>.</li></ul><pre><code>for file in $(cat files.txt); do\n  claude -p \"Migrate $file ... Return OK or FAIL.\" \\\n    --allowedTools \"Edit,Bash(git commit *)\"\ndone</code></pre>"
+    },
+    {
+     "t": "What to parallelize",
+     "b": "<p>Willison's patterns for low-overhead parallel work:</p><ul><li>Research prototypes that answer whether libraries work together.</li><li>Explanations of how an existing system works, saved as reusable context.</li><li>Small maintenance chores such as deprecation warnings.</li><li>Carefully specified work where you wrote the spec.</li><li>Scouting: give an agent a hard task you do not intend to merge, just to see which files it touches.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Review capacity is the binding constraint. Treat agent sessions like work in progress on a kanban board: set a limit equal to the number of results you can review well in a sitting, and start new sessions only when one lands or is abandoned. Abandoning 10 to 20% of sessions, as Cherny reports, is normal and cheaper than rescuing them.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Two agents editing the same files in one checkout. Use separate worktrees or clones.</div><div class=\"trap\"><b>Trap:</b> Shared mutable resources such as one dev database, port or cache. Parallel agents collide outside git too.</div><div class=\"trap\"><b>Trap:</b> More sessions than you can review. Output piles up, context switching rises, and quality drops.</div><div class=\"trap\"><b>Trap:</b> Unscoped fan-out. A loop over 2,000 files with a bad prompt makes 2,000 bad commits; pilot on a few first.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Roughly what share of his parallel sessions does Boris Cherny report abandoning?",
+     "a": "About 10 to 20%."
+    },
+    {
+     "q": "What does Hashimoto do in the last 30 minutes of his workday?",
+     "a": "Starts agents on research, exploration and triage so he has a warm start the next morning."
+    },
+    {
+     "q": "What isolation mistake does OpenAI call out for Codex?",
+     "a": "Running live threads on the same files without git worktrees."
+    },
+    {
+     "q": "What does Anthropic recommend before running a claude -p fan-out over thousands of files?",
+     "a": "Test and refine the prompt on 2 or 3 files first, and restrict tools with --allowedTools."
+    }
+   ]
+  },
+  {
+   "n": "The Ralph loop and autonomous loops",
+   "g": "parallel",
+   "s": "The Ralph loop, named and popularized by Geoffrey Huntley, runs a coding agent over and over on the same prompt file, relying on on-disk plans, specs and tests for memory and on sheer persistence for progress.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Huntley's post \"Ralph Wiggum as a 'software engineer'\" presents the technique as a single bash loop that pipes the same prompt file into the agent forever:</p><pre><code>while :; do cat PROMPT.md | claude-code ; done</code></pre><p>Coverage of the technique describes the supporting files: <code>PROMPT.md</code> (instructions fed each iteration), a prioritized <code>fix_plan.md</code> the agent reads and updates, <code>specs/</code> to build against, and an agent notes file with build and test knowledge. Each iteration does one item and must search the codebase before assuming something is unimplemented.</p><p>On the Dev Interrupted podcast (January 2026) Huntley described it as brute force plus persistence, discussed managing context rot, and favored fresh context over compaction.</p>"
+    },
+    {
+     "t": "Why it works",
+     "b": "<ul><li>Every iteration starts with a clean context window, so there is no accumulated rot.</li><li>State lives on disk (plan, specs, git), so a stuck iteration costs one loop, not the project.</li><li>Tests and builds supply backpressure: the loop can only claim progress the checks accept.</li></ul><p>Anthropic's C compiler project used the same shape: a bash loop restarted a fresh Claude session in a container whenever one finished.</p><div class=\"synth\"><b>Synthesis:</b> Product features now cover parts of the pattern: goal conditions and Stop hooks keep a session working until a check passes, and long-running harness posts formalize the progress file. The bare loop remains useful because it is transparent and tool-agnostic.</div>"
+    },
+    {
+     "t": "When to use it",
+     "b": "<ul><li>Greenfield projects with a clear spec and a strong test suite. Huntley's own framing, his tagline \"deterministically bad in an undeterministic world\", says the failures are predictable, so you tune the prompt and plan when you see one.</li><li>Large backlogs of independent, checkable items such as porting or migrations.</li><li>It fits legacy codebases poorly, where implicit context and weak tests let the loop wander.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Weak backpressure. Without strong tests the loop happily produces code that compiles and does the wrong thing.</div><div class=\"trap\"><b>Trap:</b> Repo litter. Reported failure modes include leftover temporary files and binaries; plan cleanup passes and gitignore rules.</div><div class=\"trap\"><b>Trap:</b> Silent drift. When the loop goes off track the usual fix is a hard reset to a good commit plus a corrected prompt, so commit after every iteration.</div><div class=\"trap\"><b>Trap:</b> Unbounded spend. An infinite loop on a paid API has no natural stop; cap iterations or budget.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the Ralph loop in one line?",
+     "a": "A bash loop that repeatedly pipes the same PROMPT.md into a coding agent, with progress persisted on disk between runs."
+    },
+    {
+     "q": "Why does each Ralph iteration do only one item?",
+     "a": "To keep the fresh context window focused and avoid filling it with noise, which keeps quality high per iteration."
+    },
+    {
+     "q": "Where does a Ralph loop keep its memory between iterations?",
+     "a": "On disk: the prompt file, a prioritized fix plan, specs and git history."
+    },
+    {
+     "q": "What kind of codebase suits the Ralph loop worst?",
+     "a": "Legacy codebases with implicit context and weak tests, where the loop has little backpressure."
+    }
+   ]
+  },
+  {
+   "n": "Long-running harnesses and agent teams",
+   "g": "parallel",
+   "s": "Multi-hour and multi-day agent work succeeds when the harness gives each fresh session external memory (feature list, progress log, git history, startup script), a separate evaluator, and, for teams of agents, a simple way to claim independent work.",
+   "x": [
+    {
+     "t": "Initializer and coding agents",
+     "b": "<p>Justin Young's November 2025 Anthropic post \"Effective harnesses for long-running agents\" splits the job:</p><ul><li>An <b>initializer agent</b> runs once and writes an <code>init.sh</code> that starts the dev server, a <code>claude-progress.txt</code> log, an initial git commit, and a JSON feature list (over 200 items for a claude.ai clone) with every feature marked failing.</li><li>A <b>coding agent</b> runs every later session, works on one feature, commits with a descriptive message, and updates the progress file so the next session does not have to guess.</li></ul><p>Each session starts with a ritual: check the working directory, read the progress file and feature list, read the git log, run <code>init.sh</code> and a basic end-to-end check, and only then pick the highest-priority unfinished feature.</p>"
+    },
+    {
+     "t": "Planner, generator, evaluator",
+     "b": "<p>Rajasekaran's March 2026 follow-up adds three roles. A planner expands a 1 to 4 sentence prompt into a product spec; a generator builds in sprints; an evaluator clicks through the running app with Playwright and fails a sprint if any criterion is below threshold. Before each sprint the generator and evaluator agree a \"sprint contract\" of what will be built and how it will be checked.</p><ul><li>A retro game maker took 20 minutes and $9 solo versus 6 hours and $200 with the full harness, with far better results.</li><li>He defines <b>context anxiety</b> as wrapping up early near the perceived limit. Sonnet 4.5 needed context resets; with Opus 4.5 he dropped resets for automatic compaction, and with Opus 4.6 he removed sprints.</li></ul>"
+    },
+    {
+     "t": "Teams of agents",
+     "b": "<p>Carlini's February 2026 C compiler post ran 16 Claude agents for nearly 2,000 sessions over about two weeks for just under $20,000, producing a roughly 100,000-line Rust compiler that builds Linux 6.9 on x86, ARM and RISC-V. Coordination was deliberately simple: each agent had its own container and clone, claimed a task by writing a lock file in <code>current_tasks/</code>, and git conflicts prevented double claims. There was no orchestrator agent.</p><ul><li>When all agents hit the same monolithic problem (compiling the kernel) they collided; using GCC as a known-good oracle for most files let them fix different bugs in parallel.</li><li>Some agents had standing roles: deduplication, performance, code quality critique, documentation.</li><li>Limits: new features often broke existing ones, code quality was well below expert, and he judged the project near the model's ceiling.</li></ul><p>Claude Code's built-in agent teams are experimental and disabled by default, per Anthropic's best practices page.</p>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Declaring the project finished early because some features exist. Fix: an explicit feature list with one feature per session.</div><div class=\"trap\"><b>Trap:</b> Half-finished, undocumented work at the end of a session. Fix: commit and update the progress log before stopping.</div><div class=\"trap\"><b>Trap:</b> Self-grading. Generators rate their own work too generously; use a separate, tuned evaluator.</div><div class=\"trap\"><b>Trap:</b> Parallelizing a task that is not decomposable. Agents collide unless you create an oracle or split the work.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>Can a brand-new session learn the project state in under a minute from files alone?</li><li>Which file is the single source of truth for what is done, and can the agent corrupt it?</li><li>What does the evaluator check that the generator's own tests do not?</li><li>Which harness components are still load-bearing on the current model?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What two agent roles does Anthropic's long-running harness use?",
+     "a": "An initializer agent that sets up init.sh, the progress log, the feature list and the first commit, and a coding agent that advances one feature per session."
+    },
+    {
+     "q": "What is a sprint contract in Anthropic's planner, generator, evaluator harness?",
+     "a": "An agreement between generator and evaluator, before coding, on what will be built and how success will be verified."
+    },
+    {
+     "q": "How did the 16 agents in the C compiler project avoid claiming the same task?",
+     "a": "Each wrote a lock file into current_tasks/ in a shared git repo, and git conflicts rejected duplicate claims."
+    },
+    {
+     "q": "What is context anxiety?",
+     "a": "A model wrapping up work prematurely as it approaches what it believes is its context limit."
+    },
+    {
+     "q": "Roughly what did the C compiler project cost and produce?",
+     "a": "Just under $20,000 over about 2,000 sessions, producing a roughly 100,000-line Rust compiler that builds Linux 6.9."
+    }
+   ]
+  },
+  {
+   "n": "Shared agent configuration as team infrastructure",
+   "g": "team",
+   "s": "Teams get compounding returns by versioning agent instructions, skills, commands and hooks in the repository and maintaining them like code, so one engineer's lesson becomes every agent's default.",
+   "x": [
+    {
+     "t": "What to share",
+     "b": "<ul><li><b>Instruction files.</b> Anthropic recommends checking CLAUDE.md into git because it compounds in value. Include commands the agent cannot guess, non-default style rules, test instructions, repo etiquette, architectural decisions, environment quirks and gotchas. Exclude anything derivable from code, standard conventions, long tutorials and fast-changing information.</li><li><b>Layering.</b> Codex reads a global AGENTS.md, a repo-level file and subdirectory files, and the closest file wins.</li><li><b>Skills and commands.</b> Codex stores team skills in <code>.agents/skills</code>; Claude Code uses <code>.claude/skills</code> and <code>.claude/commands</code>; plugins bundle skills, hooks, subagents and MCP servers into one installable unit.</li><li><b>Review standards.</b> OpenAI suggests a <code>code_review.md</code> referenced from AGENTS.md.</li></ul>"
+    },
+    {
+     "t": "Maintaining it",
+     "b": "<ul><li>Cherny tags coworkers' PRs so lessons land in the shared CLAUDE.md.</li><li>Anthropic: treat the file like code, review it when things go wrong, prune it, and test changes by watching whether behavior shifts. For a checked-in CLAUDE.md, its <code>/doctor</code> command proposes cuts for content derivable from the code.</li><li>OpenAI's harness engineering write-up (InfoQ, February 2026) treats a structured docs directory as the agents' single source of truth, with cross-linked design docs validated by linters and CI.</li></ul>"
+    },
+    {
+     "t": "Make the repository legible to agents",
+     "b": "<p>The same OpenAI write-up describes a five-month internal project that shipped a roughly one-million-line beta with no manually written source code. Engineers designed environments and specified intent while agents iterated, and architecture was enforced mechanically by linters and structural tests rather than left to review.</p><div class=\"synth\"><b>Synthesis:</b> For a BI or analytics engineering repo, the shared file should hold the warehouse naming conventions, the exact commands to build and test models, which schemas are off limits, and PHI handling rules. Back the critical ones with deny rules or hooks, for example blocking any command that references a production connection string.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Personal preferences in the shared file. Keep individual style in user-level files so the team file stays short.</div><div class=\"trap\"><b>Trap:</b> Stale commands. An instruction that names a renamed script misleads every agent on the team.</div><div class=\"trap\"><b>Trap:</b> Conflicting instructions across layers. A subdirectory file that contradicts the root file produces erratic behavior.</div><div class=\"trap\"><b>Trap:</b> Copying another team's giant CLAUDE.md. Length is a cost; start from /init and add only what fixes observed mistakes.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "For Codex, which AGENTS.md wins when global, repo and subdirectory files conflict?",
+     "a": "The closest file to the work, so subdirectory files override repo-level and global ones."
+    },
+    {
+     "q": "Name two things Anthropic says to exclude from CLAUDE.md.",
+     "a": "Anything the agent can learn by reading the code, and standard language conventions it already knows (also long tutorials and fast-changing information)."
+    },
+    {
+     "q": "Where does Codex look for shared team skills inside a repo?",
+     "a": "In .agents/skills."
+    },
+    {
+     "q": "How did OpenAI's harness engineering team enforce architecture without relying on review?",
+     "a": "With linters, CI checks and structural tests over a fixed dependency layering."
+    }
+   ]
+  },
+  {
+   "n": "Agents in CI, issue trackers and review bots",
+   "g": "team",
+   "s": "Headless agents triggered from CI, issue assignment or schedules turn agent work into an asynchronous team pipeline, which also makes them a new privileged attack surface.",
+   "x": [
+    {
+     "t": "Mechanisms",
+     "b": "<ul><li><b>Headless runs.</b> Anthropic documents <code>claude -p</code> for CI, pre-commit hooks and scripts, with text, JSON or streaming JSON output.</li><li><b>Issue assignment.</b> GitHub's February 2026 changelog put Anthropic's Claude and OpenAI's Codex in public preview as coding agents for Copilot Pro+ and Copilot Enterprise. You assign an issue to Claude, Codex, Copilot or all three, and the agent opens a draft PR. During the preview each agent session consumes one premium request.</li><li><b>Scheduled automations.</b> The Codex app schedules recurring tasks; OpenAI suggests commit summaries, bug scans, release-note drafts and CI failure checks, and advises making a workflow reliable manually before automating it.</li><li><b>Review bots.</b> Codex can review PRs automatically or on mention.</li></ul>"
+    },
+    {
+     "t": "Design rules",
+     "b": "<ul><li>Follow the Cloud Security Alliance's post-Clinejection guidance: restrict who can trigger AI workflows, give each agent only the tools its job needs, isolate caches between low- and high-privilege workflows, use short-lived scoped credentials, and log agent inputs and actions.</li><li>Anthropic notes that <code>--allowedTools</code> matters most when running unattended.</li></ul><div class=\"synth\"><b>Synthesis:</b> Keep humans on the merge button: agents open draft PRs, required reviewers approve. Run triage agents with label and comment permissions only, and give code-writing agents a branch, not a deploy key.</div>"
+    },
+    {
+     "t": "Example: nightly data-quality triage",
+     "b": "<pre><code># CI job, nightly, read-only warehouse role\nclaude -p \"Read reports/dq_failures.json. For each failure, find the dbt\nmodel, explain the likely cause, and draft a GitHub issue body.\nDo not modify files.\" \\\n  --allowedTools \"Read,Grep,Glob\" \\\n  --output-format json &gt; triage.json</code></pre><div class=\"synth\"><b>Synthesis:</b> This shape works well in BI: the agent reads failure output and source, writes issue drafts as JSON, and a separate deterministic step files the issues. The agent never holds write credentials.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Putting untrusted issue or PR text straight into a prompt for an agent with shell or write access.</div><div class=\"trap\"><b>Trap:</b> Bot noise. A review bot that comments on every PR trains people to ignore it; tune it to correctness findings.</div><div class=\"trap\"><b>Trap:</b> Automating a flaky manual workflow. Automation multiplies its failures.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "On GitHub, how do you hand an issue to Claude or Codex as a coding agent?",
+     "a": "Assign the issue to the agent in the Assignees dropdown, and it opens a draft pull request for review (public preview, Copilot Pro+ and Enterprise)."
+    },
+    {
+     "q": "What does OpenAI advise before turning a workflow into a Codex automation?",
+     "a": "Make the workflow reliable manually first."
+    },
+    {
+     "q": "Which permission set should an issue-triage agent usually have?",
+     "a": "Label management and commenting only, without shell or write access."
+    },
+    {
+     "q": "Which Claude Code flag limits tool use for unattended headless runs?",
+     "a": "--allowedTools."
+    }
+   ]
+  },
+  {
+   "n": "What the productivity evidence shows",
+   "g": "team",
+   "s": "Rigorous evidence on coding-agent productivity is thin and mixed: self-reports and throughput metrics are rising, while controlled studies have found slowdowns, measurement breakdowns and stability costs.",
+   "x": [
+    {
+     "t": "METR's controlled studies",
+     "b": "<ul><li>METR's 2025 randomized trial found experienced open-source developers were 19% slower with early-2025 AI tools, while believing they had been sped up.</li><li>Per Rob Bowley's April 2026 summary of METR's February 2026 update, METR's follow-up could not produce reliable results: developers now relied on AI so heavily they would not work without it, so there was no usable control group, and changed working patterns broke simple time-on-task measurement. METR believes productivity is improving but published no new figure.</li><li>Bowley adds that these studies cover individual tasks by open-source contributors, not teams on production codebases.</li></ul>"
+    },
+    {
+     "t": "Anthropic's internal study",
+     "b": "<p>Anthropic's December 2025 study of its own staff (132 survey responses, 53 interviews, about 200,000 Claude Code transcripts):</p><ul><li>Claude use rose from 28% to about 59% of daily work; self-reported productivity gains rose from +20% to +50%.</li><li>Merged PRs per engineer per day rose 67% after org-wide adoption.</li><li>27% of Claude-assisted work would not have been done otherwise.</li><li>More than half said they can fully delegate only 0 to 20% of their work.</li><li>Maximum consecutive tool calls rose from 9.8 to 21.2 while human turns fell from 6.2 to 4.1.</li></ul><p>Its stated limitations: non-anonymous employees, partly convenience sampling, recall bias, and models from mid-2025.</p>"
+    },
+    {
+     "t": "DORA 2025",
+     "b": "<p>Google's 2025 DORA report (nearly 5,000 respondents, via InfoQ) found roughly 90% AI use, with AI acting as an <b>amplifier</b> of existing strengths and dysfunctions. AI adoption now correlates with higher delivery throughput but also higher delivery instability, and the researchers found no evidence that faster repair offsets the instability. Over 80% believe AI raised their productivity, while trust in AI output stays low.</p>"
+    },
+    {
+     "t": "Measuring your own team",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Self-reports overstate gains (METR's perception gap), and PR counts reward volume. Track outcome metrics that include rework: lead time to production, change failure rate, time to restore, review latency and the share of agent PRs reverted or heavily rewritten. Compare like-for-like work types, since agents shift the mix toward small fixes and work that would not otherwise have been done.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Quoting the 19% slowdown as current truth. It measured early-2025 tools, and METR itself says its newer measurements are unreliable.</div><div class=\"trap\"><b>Trap:</b> Quoting vendor self-reports as causal evidence. Anthropic's own study lists non-anonymity and recall bias.</div><div class=\"trap\"><b>Trap:</b> Celebrating throughput while instability rises. DORA found both move together.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What did METR's 2025 randomized trial find about experienced open-source developers using AI?",
+     "a": "They were 19% slower on average, yet believed AI had sped them up."
+    },
+    {
+     "q": "Why could METR's 2026 follow-up not produce a reliable number?",
+     "a": "Developers would not work without AI, leaving no usable control group, and changed work patterns broke time-on-task measurement."
+    },
+    {
+     "q": "What did DORA 2025 call AI's primary role in software delivery?",
+     "a": "An amplifier: it magnifies an organization's existing strengths and dysfunctions."
+    },
+    {
+     "q": "What share of their work did most Anthropic staff say they can fully delegate to Claude?",
+     "a": "Only 0 to 20%, despite using Claude in most of their work."
+    }
+   ]
+  },
+  {
+   "n": "Skill formation and the changing engineer role",
+   "g": "team",
+   "s": "Heavy delegation can erode the skills needed to supervise agents, so strong engineers and teams choose interaction patterns that keep understanding in the loop while the role shifts toward design, specification and review.",
+   "x": [
+    {
+     "t": "Evidence",
+     "b": "<p>Anthropic's January 2026 randomized trial had 52 mostly junior engineers learn the Trio async library. The AI-assisted group averaged 50% on a follow-up quiz versus 67% for hand-coders (Cohen's d of 0.738, p of 0.01), with the largest gap on debugging, and finished only about two minutes faster, which was not significant.</p><ul><li>Patterns that preserved learning: asking only conceptual questions, requesting code with explanations, and generating code then asking follow-ups to understand it.</li><li>Patterns that harmed it: full delegation, progressive reliance, and using AI to debug instead of to understand.</li></ul><p>Caveats from the authors: small sample, short-term quiz, and a chat sidebar instead of an agentic tool, which they expect could have larger effects.</p>"
+    },
+    {
+     "t": "Practitioner reports",
+     "b": "<ul><li>Karpathy wrote on X in January 2026 that his workflow flipped from about 80% manual coding to about 80% agent-driven within a month, and that his manual coding ability is slowly atrophying; being able to review code is different from being able to write it.</li><li>Engineers in Anthropic's internal study worried about skill atrophy and reduced mentorship as Claude becomes the first stop for questions.</li><li>Hashimoto worries most about junior engineers without strong fundamentals. His own on-ramp was to redo his manual commits with agents, doing the work twice to learn where agents help.</li></ul>"
+    },
+    {
+     "t": "The role shift",
+     "b": "<ul><li>Karpathy's early-February 2026 X post said his favorite name for the new default is \"agentic engineering\": you orchestrate agents and act as oversight most of the time, aiming for the leverage \"without any compromise on the quality of the software.\"</li><li>Willison defines agentic engineering as professional engineers using agents that write and run code to amplify existing expertise, distinct from vibe coding where you do not look at the code.</li><li>Appleton: when agents write the code, \"design becomes the limiting factor.\"</li></ul>"
+    },
+    {
+     "t": "Practices that protect skill",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> Write the spec and the tests yourself on work you want to learn from; use the generate-then-explain pattern on unfamiliar code; debug the first instance of a new class of bug by hand; and schedule some unassisted work on core systems. For juniors, require an explanation of every agent-written change in the PR description, written by the human.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using the agent as the debugger of first resort while learning a new stack. That pattern scored lowest in Anthropic's trial.</div><div class=\"trap\"><b>Trap:</b> Assuming review skill substitutes for writing skill. Karpathy reports the two diverge.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In Anthropic's skill-formation trial, how did the AI group's quiz score compare to the hand-coding group?",
+     "a": "50% versus 67%, with the largest gap on debugging questions."
+    },
+    {
+     "q": "Which AI interaction pattern preserved learning best in Anthropic's trial?",
+     "a": "Asking conceptual questions (and code-with-explanation or generate-then-comprehend), as opposed to delegating code or debugging."
+    },
+    {
+     "q": "How does Karpathy describe agentic engineering?",
+     "a": "Orchestrating agents and acting as oversight instead of writing code directly, while not compromising on software quality."
+    },
+    {
+     "q": "What on-ramp did Hashimoto use to learn agents?",
+     "a": "He redid his own manual commits with agents, doing the work twice, to learn where they help and where they fail."
+    }
+   ]
+  },
+  {
+   "n": "Coding agent landscape (November 2026)",
+   "g": "landscape",
+   "s": "The major coding agents have converged on the same loop and extension model, so choosing among them turns on model access, where the agent runs, review and team integration, and pricing, all of which change month to month.",
+   "x": [
+    {
+     "t": "Terminal-first agents",
+     "b": "<ul><li><b>Claude Code (Anthropic):</b> terminal, IDE, desktop and web sessions; CLAUDE.md, skills, hooks, subagents and plugins. Per its best practices page, auto mode is the default permission mode for interactive sessions on Pro, Max and Team plans; agent view is a research preview and agent teams are experimental.</li><li><b>Codex (OpenAI):</b> CLI, IDE extension and Codex app sharing configuration layers; AGENTS.md, skills, scheduled automations, <code>/review</code> and GitHub PR review.</li><li><b>Antigravity CLI (Google):</b> announced May 19, 2026 as the replacement for Gemini CLI and tied to the Antigravity 2.0 desktop agent platform. It keeps agent skills, hooks, subagents and extensions (now called plugins), without full Gemini CLI parity at launch. Gemini CLI stopped serving Google AI Pro, Ultra and free individual users on June 18, 2026, while paid enterprise and API-key access continue.</li><li><b>Amp and Pi:</b> Ronacher's December 2025 review uses both alongside Claude Code, likening Amp to a premium option and Pi to an open-source one.</li></ul>"
+    },
+    {
+     "t": "Platform and cloud agents",
+     "b": "<ul><li><b>GitHub:</b> the Copilot coding agent takes assigned issues and opens draft PRs; since February 2026 Claude and Codex can be assigned the same way in public preview on Copilot Pro+ and Enterprise. VS Code 1.109 or later shows Local, Cloud and Background agent sessions.</li><li><b>Cloud sandboxes:</b> Willison names Claude Code on the web, Codex Cloud and Google's Jules as agents that run on someone else's machine, which limits blast radius.</li></ul><div class=\"synth\"><b>Synthesis:</b> Cursor remains the main IDE-first option, with its own agent mode and cloud agents. Because its features and model lineup change quickly, check its changelog directly before relying on any specific capability.</div>"
+    },
+    {
+     "t": "What actually differs",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> The loop (read, plan, edit, run, iterate), instruction files, skills and subagents are now common to all major tools, and a SKILL.md written for one tool is close to portable. Real differences are: which frontier models you can use and at what price; local versus cloud execution and sandbox defaults; how parallel sessions are managed; depth of GitHub and CI integration; enterprise controls; and, for healthcare, which products are covered by your organization's data agreements.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Picking a tool from last quarter's comparison article. Google retired Gemini CLI for most individual users within a month of announcing its replacement.</div><div class=\"trap\"><b>Trap:</b> Encoding team knowledge in one vendor's proprietary format only. Keep the substance in plain markdown docs that any agent can read.</div><div class=\"trap\"><b>Trap:</b> Assuming a consumer plan is approved for regulated data. Verify coverage with compliance before any PHI touches an agent.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What happened to Gemini CLI in 2026?",
+     "a": "Google announced Antigravity CLI as its replacement on May 19, 2026, and Gemini CLI stopped serving AI Pro, Ultra and free individual users on June 18, 2026."
+    },
+    {
+     "q": "How do you get Claude or Codex to work a GitHub issue?",
+     "a": "Assign the issue to the agent in GitHub (public preview on Copilot Pro+ and Enterprise), and it opens a draft PR."
+    },
+    {
+     "q": "Which three cloud-hosted agents does Willison cite as safer places for risky autonomy?",
+     "a": "Claude Code on the web, OpenAI Codex Cloud and Google Jules."
+    },
+    {
+     "q": "Per Anthropic's docs, what is the default permission mode for interactive Claude Code sessions on Pro, Max and Team plans?",
+     "a": "Auto mode, where a classifier reviews most actions instead of prompting you."
+    }
+   ]
+  },
+  {
+   "n": "Evaluating agents: benchmarks versus your own work",
+   "g": "landscape",
+   "s": "Public benchmarks show agent capability rising fast on well-specified tasks, but only an evaluation on your own repositories, with your own checks and review standards, tells you what a tool will do for your team.",
+   "x": [
+    {
+     "t": "METR time horizon",
+     "b": "<p>METR measures the length of tasks, in skilled-human time, that a model completes with 50% reliability. As reported by OfficeChai in February 2026, Claude Opus 4.6 scored a 50% horizon of about 14.5 hours with a very wide confidence interval (6 to 98 hours), and the fitted trend since 2023 doubles about every 123 days.</p><ul><li>METR warned its task suite is near saturation, which distorts estimates.</li><li>The tasks are well-specified and self-contained, closer to a contractor brief than a real job.</li><li>Performance drops substantially when work is judged holistically instead of by automated criteria.</li></ul>"
+    },
+    {
+     "t": "Coding benchmarks",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> SWE-bench style leaderboards measure whether an agent can resolve real GitHub issues against hidden tests. Scores at the top cluster closely, public repositories raise contamination risk, and harness and scaffolding choices move results as much as the model does. Treat a few points of difference as noise and newer, harder variants as more informative than saturated ones.</div><p>Carlini's C compiler post is a useful corrective: the agents passed huge test suites, yet new features often broke old ones and the code was well below expert quality. Passing tests did not mean done.</p>"
+    },
+    {
+     "t": "Run your own evaluation",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Pick 10 to 20 recently closed tickets of different types from your own repos, with the merged fix as reference.</li><li>Give each tool the same ticket text, the same instruction file and the same check commands.</li><li>Score passing checks, reviewer minutes to reach mergeable, rework needed, cost, and any policy violation such as touching tests or unrelated files.</li><li>Repeat after major model releases, since rankings shift.</li></ol><div class=\"synth\"><b>Synthesis:</b> For a BI team, include a dbt model change with data tests, a SQL performance fix with an explain-plan check, and a dashboard change verified by screenshot.</div>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reading a 50% time horizon as \"can do a 14-hour job.\" It means a coin-flip success rate on clean, well-specified tasks.</div><div class=\"trap\"><b>Trap:</b> Judging tools on demos. Your messy legacy repo and review standards are the real benchmark.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does METR's 50% time horizon measure?",
+     "a": "The length of task, in skilled-human time, that a model completes successfully half the time."
+    },
+    {
+     "q": "What doubling time did METR's fitted trend show for time horizons as of early 2026?",
+     "a": "About 123 days, roughly every four months."
+    },
+    {
+     "q": "Why does METR caution that time-horizon results overstate real-job readiness?",
+     "a": "The tasks are well-specified and self-contained, and performance drops substantially under holistic grading."
+    },
+    {
+     "q": "Name three metrics to score in an internal agent evaluation.",
+     "a": "Passing checks, reviewer minutes to reach a mergeable state, rework needed (also cost and policy violations)."
+    }
+   ]
+  },
+  {
+   "n": "Practitioner school: augmented engineering",
+   "g": "frontier",
+   "s": "One school of top practitioners treats agents as powerful but fallible collaborators and keeps the engineer responsible for design, tests and review, trading some speed for code they understand.",
+   "x": [
+    {
+     "t": "Simon Willison",
+     "b": "<ul><li>Agentic Engineering Patterns guide (February 2026), with chapters such as \"Writing code is cheap now\" and red/green TDD; he defines agentic engineering as professionals amplifying expertise with agents that write and run code.</li><li>Coined \"prompt injection\" and the lethal trifecta; advises living dangerously only inside a sandbox.</li><li>Parallel agents for research, explanations, chores and specified work, with review as the hard limit.</li></ul>"
+    },
+    {
+     "t": "Kent Beck and Armin Ronacher",
+     "b": "<ul><li>Beck: \"augmented coding\", where \"you care about the code, its complexity, the tests, & their coverage,\" versus vibe coding where you care only about behavior. TDD system prompt, structural and behavioral changes in separate commits, and three warning signs (loops, unrequested features, cheating on tests).</li><li>Ronacher (\"A Year Of Vibes\", December 2025): works almost entirely through agents as an engineering lead, still reviews heavily, prefers simple code and fewer dependencies, finds MCP does not work for him, and argues failed attempts carry value and review should live in version control.</li></ul>"
+    },
+    {
+     "t": "Mitchell Hashimoto",
+     "b": "<p>His February 2026 adoption journey is the clearest on-ramp: drop the chatbot for an agent; reproduce your own work; start end-of-day agents; outsource the slam dunks; engineer the harness; aim to always have an agent running. He is candid that for a long stretch agents felt no faster than doing the work himself, and that his always-on goal is still aspirational.</p>"
+    },
+    {
+     "t": "Andrej Karpathy and Harper Reed",
+     "b": "<ul><li>Karpathy (X posts, early 2026): the 80/20 flip to agent-driven coding, \"mostly programming in English now\", a catalogue of model failure modes, watch output \"like a hawk\" on code that matters, and a predicted 2026 \"slopacolypse\" of almost-right content.</li><li>Reed: the spec, plan, todo pipeline with one-question-at-a-time interviews, and a warning about getting \"over my skis.\"</li></ul>"
+    },
+    {
+     "t": "Common threads",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> This school converges on: specs and tests written or approved by a human, small reviewable diffs, heavy use of agents for research and chores, sandboxes for autonomy, and continuous harness improvement. Its cost is a review ceiling on throughput, which it accepts in exchange for understanding the codebase.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How does Kent Beck distinguish augmented coding from vibe coding?",
+     "a": "In augmented coding you care about the code, its complexity, the tests and coverage; in vibe coding you care only about the system's behavior."
+    },
+    {
+     "q": "Name Hashimoto's six adoption steps.",
+     "a": "Drop the chatbot, reproduce your own work, end-of-day agents, outsource the slam dunks, engineer the harness, always have an agent running."
+    },
+    {
+     "q": "What does Ronacher think code review needs to become?",
+     "a": "Part of the version control system, with prompts and failed attempts visible to teammates."
+    },
+    {
+     "q": "What is Karpathy's predicted 2026 slopacolypse?",
+     "a": "A flood of low-quality, almost-right AI-generated content across code repositories, papers and social media."
+    }
+   ]
+  },
+  {
+   "n": "Practitioner school: throughput maximalists",
+   "g": "frontier",
+   "s": "A second school pushes autonomy and parallelism as far as current models allow, reading less code and investing in loops, orchestration and verification instead, with results that are impressive and openly contested.",
+   "x": [
+    {
+     "t": "Geoffrey Huntley",
+     "b": "<ul><li>The Ralph loop: one prompt file, an infinite bash loop, specs and a fix plan on disk, tests as backpressure.</li><li>\"Deterministically bad in an undeterministic world\": failures are predictable, so you tune the prompt instead of babysitting each step.</li><li>Earlier \"stdlib\" work on building libraries of reusable rules.</li></ul>"
+    },
+    {
+     "t": "Steve Yegge",
+     "b": "<p>Yegge released Gas Town, an open-source orchestrator for many Claude Code or Codex agents, on January 1, 2026. Roles include a Mayor that decomposes work into tasks stored in his Beads tracker, short-lived worker agents each in its own git worktree, a Refinery that merges and checks output, and watchdog agents that restart stuck ones. In a March 2026 conversation with Tim O'Reilly he urged developers to stop reading code (\"Code is a liquid\").</p><p>Maggie Appleton's January 2026 analysis treats Gas Town as design fiction: valuable patterns (persistent roles with disposable sessions, continuous work queues, merge management) wrapped in an ad hoc design, with agents that stall, forget and duplicate work, and costs she estimates at $2,000 to $5,000 a month.</p>"
+    },
+    {
+     "t": "Peter Steinberger and Boris Cherny",
+     "b": "<ul><li>Steinberger (\"Shipping at Inference-Speed\", December 2025): mostly Codex, 3 to 8 projects in parallel, commits to main, rarely reads code, and \"the amount of software I can create is now mostly limited by inference time.\" He joined OpenAI in February 2026.</li><li>Cherny: about five local plus 5 to 10 web sessions, Opus with thinking for all coding, plan first, shared CLAUDE.md, slash commands, a formatting hook, and verification as the top tip. He almost never skips permissions outside a sandbox.</li></ul>"
+    },
+    {
+     "t": "The critiques",
+     "b": "<ul><li>DORA 2025 links AI adoption to higher throughput and higher instability at the same time.</li><li>Karpathy's failure catalogue (wrong assumptions, bloat, dead code) is exactly what goes unseen when nobody reads the code.</li><li>Carlini's compiler shows verified autonomy at scale, and also new features breaking old ones and below-expert code.</li></ul><div class=\"synth\"><b>Synthesis:</b> The maximalist approach works best where verification is strong and the cost of a defect is low: greenfield tools, prototypes, personal software and well-tested libraries. In regulated systems the same techniques apply, but with humans owning specs, tests and merge.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is Gas Town?",
+     "a": "Steve Yegge's open-source orchestrator that runs many coding agents in parallel with specialized roles, worker agents in separate worktrees, and a Beads task tracker."
+    },
+    {
+     "q": "What does Steinberger say now limits how much software he can create?",
+     "a": "Mostly inference time."
+    },
+    {
+     "q": "What is Huntley's tagline for Ralph's failure behavior?",
+     "a": "Deterministically bad in an undeterministic world, meaning failures are predictable and fixable by tuning the prompt."
+    },
+    {
+     "q": "What monthly cost range did Appleton estimate for Yegge's Gas Town usage?",
+     "a": "About $2,000 to $5,000 a month."
+    }
+   ]
+  },
+  {
+   "n": "Where agentic engineering is heading",
+   "g": "frontier",
+   "s": "Agents are moving toward longer autonomous runs, teams of specialized agents and asynchronous cloud execution, which shifts the human bottleneck toward specification, verification design and review.",
+   "x": [
+    {
+     "t": "Longer autonomy",
+     "b": "<ul><li>METR's time-horizon trend has doubled roughly every four months, though on clean tasks.</li><li>Anthropic's harness posts report multi-hour autonomous app builds, and harnesses getting simpler as Opus 4.5 and 4.6 removed the need for context resets and sprints.</li><li>Products now ship the pieces: goal conditions, background agent views, scheduled automations and cloud sessions that keep running after you close your laptop.</li></ul>"
+    },
+    {
+     "t": "The bottleneck moves",
+     "b": "<ul><li>Appleton: when agents write the code, design becomes the limiting factor.</li><li>Willison: review capacity caps how much parallel output is useful.</li><li>Anthropic's internal study: engineers keep high-level design and taste decisions and delegate work that is easy to verify.</li></ul><div class=\"synth\"><b>Synthesis:</b> The scarce skills are becoming: writing specs an agent can execute, designing verifiers that catch what matters, decomposing work into independent units, and reviewing fast without losing judgment. These map closely onto senior and staff engineering skills, which is why experienced engineers tend to get more from agents.</div>"
+    },
+    {
+     "t": "Risks that grow with autonomy",
+     "b": "<ul><li>Security: the Clinejection incident shows agents in CI are already being attacked through prompt injection.</li><li>Quality and stability: DORA's throughput-with-instability finding and Karpathy's slopacolypse warning.</li><li>Skills: Anthropic's trial on learning, and practitioner reports of atrophy.</li><li>Measurement: METR could no longer run a clean control group, so evidence will lag practice.</li></ul>"
+    },
+    {
+     "t": "What to practice next",
+     "b": "<div class=\"synth\"><b>Synthesis:</b> A practical 12-month progression: (1) master the single-session loop with verification on every task; (2) build a shared instruction file, three or four skills and one hook for your team; (3) run two or three parallel sessions in worktrees with a WIP limit; (4) build one long-running harness with a progress file and evaluator for a well-tested side project; (5) put a least-privilege agent into CI for triage or review. Re-read your harness after every major model release and delete what is no longer load-bearing.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "According to Appleton, what becomes the limiting factor when agents write the code?",
+     "a": "Design: deciding what to build and how it should work."
+    },
+    {
+     "q": "What types of work did Anthropic engineers report delegating most readily?",
+     "a": "Work that is easy to verify, low-stakes, repetitive or outside their own context, while keeping high-level design and taste decisions."
+    },
+    {
+     "q": "Why does evidence on agent productivity lag practice?",
+     "a": "Adoption is so widespread that clean control groups are disappearing, as METR found in 2026."
+    },
+    {
+     "q": "What should you do to your harness after a major model release?",
+     "a": "Re-examine it and remove components that are no longer load-bearing, adding new ones only where the new model has headroom."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "How Claude Code works",
+   "url": "https://code.claude.com/docs/en/how-claude-code-works.md"
+  },
+  {
+   "title": "How Claude remembers your project (memory)",
+   "url": "https://code.claude.com/docs/en/memory.md"
+  },
+  {
+   "title": "Explore the context window",
+   "url": "https://code.claude.com/docs/en/context-window.md"
+  },
+  {
+   "title": "Model configuration",
+   "url": "https://code.claude.com/docs/en/model-config.md"
+  },
+  {
+   "title": "Choose a permission mode",
+   "url": "https://code.claude.com/docs/en/permission-modes.md"
+  },
+  {
+   "title": "Configure permissions",
+   "url": "https://code.claude.com/docs/en/permissions.md"
+  },
+  {
+   "title": "Settings files and precedence",
+   "url": "https://code.claude.com/docs/en/settings.md"
+  },
+  {
+   "title": "Configure the sandboxed Bash tool",
+   "url": "https://code.claude.com/docs/en/sandboxing.md"
+  },
+  {
+   "title": "Create custom subagents",
+   "url": "https://code.claude.com/docs/en/sub-agents.md"
+  },
+  {
+   "title": "Extend Claude with skills",
+   "url": "https://code.claude.com/docs/en/skills.md"
+  },
+  {
+   "title": "Automate actions with hooks",
+   "url": "https://code.claude.com/docs/en/hooks-guide.md"
+  },
+  {
+   "title": "Connect Claude Code to tools via MCP",
+   "url": "https://code.claude.com/docs/en/mcp.md"
+  },
+  {
+   "title": "Plugins overview",
+   "url": "https://code.claude.com/docs/en/plugins/overview.md"
+  },
+  {
+   "title": "Extend Claude Code (features overview)",
+   "url": "https://code.claude.com/docs/en/features-overview.md"
+  },
+  {
+   "title": "Checkpointing",
+   "url": "https://code.claude.com/docs/en/checkpointing.md"
+  },
+  {
+   "title": "Run parallel sessions with worktrees",
+   "url": "https://code.claude.com/docs/en/worktrees.md"
+  },
+  {
+   "title": "Manage multiple agents with agent view",
+   "url": "https://code.claude.com/docs/en/agent-view.md"
+  },
+  {
+   "title": "Orchestrate subagents at scale with dynamic workflows",
+   "url": "https://code.claude.com/docs/en/workflows.md"
+  },
+  {
+   "title": "Run Claude Code programmatically (headless)",
+   "url": "https://code.claude.com/docs/en/headless.md"
+  },
+  {
+   "title": "Claude Code GitHub Actions",
+   "url": "https://code.claude.com/docs/en/github-actions.md"
+  },
+  {
+   "title": "Run prompts on a schedule (/loop)",
+   "url": "https://code.claude.com/docs/en/scheduled-tasks.md"
+  },
+  {
+   "title": "Keep Claude working toward a goal (/goal)",
+   "url": "https://code.claude.com/docs/en/goal.md"
+  },
+  {
+   "title": "Agent SDK overview",
+   "url": "https://code.claude.com/docs/en/agent-sdk/overview.md"
+  },
+  {
+   "title": "Manage costs effectively",
+   "url": "https://code.claude.com/docs/en/costs.md"
+  },
+  {
+   "title": "Set up Claude Code (local mode) for a HIPAA-ready organization",
+   "url": "https://code.claude.com/docs/en/hipaa-setup.md"
+  },
+  {
+   "title": "Claude Code What's new (weekly digest)",
+   "url": "https://code.claude.com/docs/en/whats-new/index.md"
+  },
+  {
+   "title": "Anthropic Engineering: Effective context engineering for AI agents",
+   "url": "https://anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+  },
+  {
+   "title": "Anthropic Engineering: Equipping agents for the real world with Agent Skills",
+   "url": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills"
+  },
+  {
+   "title": "Building agents with the Claude Agent SDK (Anthropic blog)",
+   "url": "https://claude.com/blog/building-agents-with-the-claude-agent-sdk"
+  },
+  {
+   "title": "Boris Cherny X thread on how he uses Claude Code (Thread Reader)",
+   "url": "https://threadreaderapp.com/thread/2007179832300581177"
+  },
+  {
+   "title": "Best practices for Claude Code (Anthropic docs)",
+   "url": "https://code.claude.com/docs/en/best-practices?r=0"
+  },
+  {
+   "title": "Effective harnesses for long-running agents (Anthropic Engineering)",
+   "url": "https://anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+  },
+  {
+   "title": "Harness design for long-running application development (Anthropic Engineering)",
+   "url": "https://anthropic.com/engineering/harness-design-long-running-apps"
+  },
+  {
+   "title": "Effective context engineering for AI agents (Anthropic Engineering)",
+   "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+  },
+  {
+   "title": "Building a C compiler with a team of parallel Claudes (Anthropic Engineering)",
+   "url": "https://anthropic.com/engineering/building-c-compiler"
+  },
+  {
+   "title": "Claude Code auto mode (Anthropic Engineering)",
+   "url": "https://anthropic.com/engineering/claude-code-auto-mode"
+  },
+  {
+   "title": "How AI is transforming work at Anthropic",
+   "url": "https://anthropic.com/research/how-ai-is-transforming-work-at-anthropic"
+  },
+  {
+   "title": "How AI assistance impacts the formation of coding skills (Anthropic)",
+   "url": "https://www.anthropic.com/research/AI-assistance-coding-skills"
+  },
+  {
+   "title": "Codex best practices (OpenAI)",
+   "url": "https://developers.openai.com/codex/learn/best-practices.md"
+  },
+  {
+   "title": "OpenAI Introduces Harness Engineering (InfoQ)",
+   "url": "https://www.infoq.com/news/2026/02/openai-harness-engineering-codex"
+  },
+  {
+   "title": "Claude Code creator's workflow (InfoQ)",
+   "url": "https://infoq.com/news/2026/01/claude-code-creator-workflow/"
+  },
+  {
+   "title": "Ralph Wiggum as a software engineer (Geoffrey Huntley)",
+   "url": "https://ghuntley.com/ralph/"
+  },
+  {
+   "title": "Inventing the Ralph Wiggum Loop (Dev Interrupted podcast)",
+   "url": "https://devinterrupted.substack.com/p/inventing-the-ralph-wiggum-loop-creator"
+  },
+  {
+   "title": "Writing about Agentic Engineering Patterns (Simon Willison)",
+   "url": "https://simonwillison.net/2026/Feb/23/agentic-engineering-patterns/"
+  },
+  {
+   "title": "Living dangerously with Claude (Simon Willison)",
+   "url": "https://simonwillison.net/2025/Oct/22/living-dangerously-with-claude/"
+  },
+  {
+   "title": "Embracing the parallel coding agent lifestyle (Simon Willison)",
+   "url": "https://simonwillison.net/2025/Oct/5/parallel-coding-agents/"
+  },
+  {
+   "title": "My AI Adoption Journey (Mitchell Hashimoto)",
+   "url": "https://mitchellh.com/writing/my-ai-adoption-journey"
+  },
+  {
+   "title": "A Year Of Vibes (Armin Ronacher)",
+   "url": "https://lucumr.pocoo.org/2025/12/22/a-year-of-vibes/"
+  },
+  {
+   "title": "Augmented Coding: Beyond the Vibes (Kent Beck)",
+   "url": "https://newsletter.kentbeck.com/p/augmented-coding-beyond-the-vibes"
+  },
+  {
+   "title": "My LLM codegen workflow atm (Harper Reed)",
+   "url": "https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm/"
+  },
+  {
+   "title": "Shipping at Inference-Speed (summary of Peter Steinberger's post)",
+   "url": "https://second-brain-nuxt.vercel.app/shipping-at-inference-speed"
+  },
+  {
+   "title": "Karpathy now codes mostly in English (The Decoder)",
+   "url": "https://the-decoder.com/former-tesla-ai-chief-andrej-karpathy-now-codes-mostly-in-english-just-three-months-after-calling-ai-agents-useless/"
+  },
+  {
+   "title": "Understanding Spec-Driven-Development: Kiro, spec-kit, and Tessl (Birgitta Böckeler)",
+   "url": "https://www.martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html"
+  },
+  {
+   "title": "Gas Town's Agent Patterns, Design Bottlenecks, and Vibecoding at Scale (Maggie Appleton)",
+   "url": "https://maggieappleton.com/gastown"
+  },
+  {
+   "title": "METR's developer productivity research: 2026 update (Rob Bowley)",
+   "url": "https://blog.robbowley.net/2026/04/04/metrs-developer-productivity-research-2026-update/"
+  },
+  {
+   "title": "Claude Opus 4.6 has 50% time horizon of 14.5 hours on METR benchmark (OfficeChai)",
+   "url": "https://officechai.com/ai/exponential-progress-claude-opus-4-6-has-50-time-horizon-of-14-5-hours-on-metr-time-horizons-benchmark"
+  },
+  {
+   "title": "DORA 2025 State of AI-assisted Software Development (InfoQ)",
+   "url": "https://www.infoq.com/news/2025/09/dora-state-of-ai-in-dev-2025"
+  },
+  {
+   "title": "Clinejection research note (Cloud Security Alliance)",
+   "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-clinejection-prompt-injection-cicd-cache-p/"
+  },
+  {
+   "title": "Claude and Codex now available in public preview on GitHub (GitHub changelog)",
+   "url": "https://github.blog/changelog/2026-02-04-claude-and-codex-are-now-available-in-public-preview-on-github/"
+  },
+  {
+   "title": "Google moves Gemini CLI into Antigravity CLI (Virtualization Review)",
+   "url": "https://virtualizationreview.com/articles/2026/05/19/google-moves-gemini-cli-into-antigravity-cli-as-agent-platform-expands.aspx"
+  },
+  {
+   "title": "An important update: Transitioning Gemini CLI to Antigravity CLI (Google Developers Blog)",
+   "url": "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
+  }
+ ]
+}

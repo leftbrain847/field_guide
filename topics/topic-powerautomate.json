@@ -1,0 +1,1278 @@
+{
+ "id": "powerautomate",
+ "title": "Power Automate",
+ "updated": "2026-11-03",
+ "note": "Covers Power Automate cloud flows, data handling, reliability, desktop flows and process mining, Copilot and agent flows, ALM and governance, licensing and platform fit as documented on 2026-11-03. Refresh every 90 days, because Microsoft retired release waves in favor of a continuous roadmap and ships, renames and deprecates Power Platform features monthly.",
+ "groups": [
+  {
+   "key": "foundations",
+   "label": "Foundations"
+  },
+  {
+   "key": "logic",
+   "label": "Logic and data handling"
+  },
+  {
+   "key": "reliability",
+   "label": "Reliability and operations"
+  },
+  {
+   "key": "rpa",
+   "label": "Desktop flows and process mining"
+  },
+  {
+   "key": "ai",
+   "label": "AI, Copilot and agents"
+  },
+  {
+   "key": "governance",
+   "label": "ALM and governance"
+  },
+  {
+   "key": "strategy",
+   "label": "Licensing and platform strategy"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "Cloud flow types and triggers",
+   "g": "foundations",
+   "s": "Every cloud flow starts from exactly one trigger, and the trigger type (automated, instant or scheduled) decides who the flow runs as, how it is licensed and how it behaves when it is turned off.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Automated</b> flows start on an event in a connected service (a Dataverse row changes, a SharePoint item is created, an email arrives).</li><li><b>Instant</b> flows start on demand: a button, a Power Apps call, a Teams message action, a Copilot Studio agent, or an HTTP request.</li><li><b>Scheduled</b> flows use the Recurrence trigger. The limits page sets the minimum interval at 60 seconds and the maximum at 500 days.</li><li>Automated and scheduled flows always run in the context of the flow owner. Instant flows run with the connections of the person who triggers them unless you configure run-only connections to use the owner.</li></ul>"
+    },
+    {
+     "t": "Polling and webhook triggers",
+     "b": "<p>Triggers either poll the service on an interval or register a webhook and wait for a push. They behave differently when a flow is off.</p><ul><li><b>Polling:</b> when you turn the flow back on, it processes everything since the last poll, including events that happened while it was off. A large backlog can flood downstream systems.</li><li><b>Webhook:</b> events that happen while the flow is off are lost. The flow only sees new events after it is turned back on.</li><li>Microsoft's guidance to drop a polling backlog: copy the flow and delete the original, which re-registers and resets the trigger.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Pick the trigger by the data contract you need. A Dataverse row trigger gives you change scope, column filters and an OData row filter. A SharePoint trigger gives you a polling view of a list. An HTTP request trigger gives you an API that others can call.</li><li>Inbound HTTP requests must get a response within 120 seconds. For long work, respond early with 202 and continue asynchronously.</li><li>Scheduled flows are the natural replacement for simple ADF schedule triggers that only call an API or send a file. Bulk copy belongs elsewhere (see Platform fit).</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Turning a polling-trigger flow back on after a long outage. It replays every missed change at once and can trip connector throttling or flood a downstream queue.</div><div class=\"trap\"><b>Trap:</b> Assuming a webhook-trigger flow will catch up. Changes made while it was off are never delivered, so plan a reconciliation job for critical data.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which identity does an automated or scheduled cloud flow run as?",
+     "a": "The flow owner. Only instant flows run with the invoking user's context by default."
+    },
+    {
+     "q": "What happens to events that occur while a webhook-trigger flow is turned off?",
+     "a": "They are missed. The flow only processes new events after it is turned back on."
+    },
+    {
+     "q": "What is the minimum Recurrence interval for a scheduled cloud flow?",
+     "a": "60 seconds, per the Power Automate limits page."
+    },
+    {
+     "q": "How long can an inbound HTTP request to a flow wait for a response?",
+     "a": "120 seconds. Longer work should respond early and continue asynchronously."
+    },
+    {
+     "q": "How does Microsoft suggest clearing a large polling backlog on a flow?",
+     "a": "Copy the flow and delete the original, which re-registers and resets the trigger."
+    }
+   ]
+  },
+  {
+   "n": "Trigger conditions and trigger settings",
+   "g": "foundations",
+   "s": "Trigger conditions are expressions on the trigger that stop a run from ever starting unless the event matches, which saves requests and avoids noisy run history.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>In the trigger's <b>Settings</b>, add one or more <b>Trigger conditions</b>. Each must be an expression that starts with <code>@</code> and returns true or false. Multiple conditions combine with AND. For OR logic, put it in one expression.</p><pre><code>@equals(triggerOutputs()?['body/Status/Value'], 'Ready for review')\n\n@or(\n  equals(triggerOutputs()?['body/Priority'], 'High'),\n  greater(int(triggerOutputs()?['body/Amount']), 100)\n)\n\n@not(equals(triggerOutputs()?['body/_modifiedby_value'], 'GUID-OF-FLOW-APP-USER'))</code></pre><p>The last example is a loop guard: it ignores Dataverse updates that the flow's own identity made.</p>"
+    },
+    {
+     "t": "Concurrency control and split on",
+     "b": "<ul><li>Trigger concurrency limits how many runs execute at once. The limits page allows 1 to 100 when it is on. Waiting runs are capped at 10 plus the degree of parallelism.</li><li>Microsoft's trigger guidance says concurrency control is irreversible: once applied, you have to create a new flow to remove it. Apply it on a small dedicated child or wrapper flow if you need it.</li><li><b>Split on</b> debatches an array trigger into one run per item. With trigger concurrency on, split on is limited to 100 items.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>A condition action inside the flow still starts a run and still counts requests. A trigger condition prevents the run, which matters for request limits and for pay-as-you-go environments that charge per run.</li><li>Skipped triggers leave no run history. Document the condition in the flow description so nobody wastes an hour hunting for a run that never existed.</li><li>For Dataverse, prefer the trigger's <b>Select columns</b> and <b>Filter rows</b> options first, then add a trigger condition for anything OData cannot express.</li><li>Shortcut: build the logic in a temporary <b>Filter array</b> action, switch it to advanced mode, copy the expression into the trigger condition, then delete the action.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> A trigger condition that references a property the payload does not always contain. Use <code>?[]</code> safe navigation, or the expression errors and the trigger silently never fires.</div><div class=\"trap\"><b>Trap:</b> Turning on trigger concurrency to stop duplicate processing, then discovering you cannot turn it off. Decide before enabling.</div><div class=\"trap\"><b>Trap:</b> An update flow that writes back to the same row without a loop guard. It retriggers itself until throttled.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>What share of trigger events does this flow actually need? Can the trigger filter reject the rest?</li><li>Can the flow's own writes retrigger it? Where is the guard?</li><li>Does the order of processing matter? If yes, how is concurrency set, and is that choice permanent?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What character must every trigger condition expression start with?",
+     "a": "The @ symbol."
+    },
+    {
+     "q": "How do multiple trigger conditions on one trigger combine?",
+     "a": "With AND. All must be true. Use an or() expression inside a single condition for OR logic."
+    },
+    {
+     "q": "Why is a trigger condition cheaper than a Condition action as the first step?",
+     "a": "A failed trigger condition never starts a run, so it consumes no action requests and leaves no run history."
+    },
+    {
+     "q": "Can you turn off trigger concurrency control after enabling it?",
+     "a": "No. Microsoft's guidance says it is irreversible; you must create a new flow to remove it."
+    },
+    {
+     "q": "What is the split-on item limit when trigger concurrency is on?",
+     "a": "100 items."
+    }
+   ]
+  },
+  {
+   "n": "Connectors, connections and connection references",
+   "g": "foundations",
+   "s": "Connectors wrap a service's API as triggers and actions, connections hold the credentials that use a connector, and connection references let solution flows swap those credentials per environment.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Standard</b> connectors (SharePoint, Outlook, Teams, OneDrive) are usable with Microsoft 365 seeded rights.</li><li><b>Premium</b> connectors (Dataverse, SQL Server, HTTP, Salesforce and many more) need Power Automate Premium, a Process license on the flow, or another license that includes premium rights.</li><li><b>Custom</b> connectors wrap your own REST API from an OpenAPI definition. The limits page allows 50 custom connectors per user and 500 requests per minute per connection.</li><li>A <b>connection</b> is an authenticated instance of a connector, owned by a user or service principal.</li><li>A <b>connection reference</b> is a solution component that points at a connection. Solution flows use references; non-solution flows bind connections directly.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Keep parent and child flows in one solution so they share connection references. One reference per connector per solution is a sane default unless you need different identities.</li><li>Every connector has its own throttling limit, separate from Power Platform request limits. A 429 from one connector is that service protecting itself.</li><li>Use the on-premises data gateway for on-prem SQL or file shares. The gateway is a premium capability.</li><li>A service principal connection keeps a production flow from depending on a person, but only connectors that support service principal authentication can use it.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Building with personal connections and then moving the flow. Non-solution flows carry hard-bound connections, so every environment hop means rewiring actions by hand.</div><div class=\"trap\"><b>Trap:</b> A premium connector added to a flow owned by a user with only Microsoft 365 rights. The flow will not run until the owner or the flow gets a premium license.</div><div class=\"trap\"><b>Trap:</b> Deploying a solution through pipelines when a connection reference has no value in the source or the target. Pipelines cannot set it during deployment.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>Which connections in this flow are premium, and who pays for that right?</li><li>Is each connection owned by a person who might leave? Can it be a service account or service principal?</li><li>What is the connector's own throttling limit, and how many calls per run will this flow make?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What solution component lets a flow use a different connection in each environment without editing actions?",
+     "a": "A connection reference."
+    },
+    {
+     "q": "Is the HTTP connector standard or premium?",
+     "a": "Premium."
+    },
+    {
+     "q": "What is the per-connection request rate limit for custom connectors?",
+     "a": "500 requests per minute per connection, per the limits page."
+    },
+    {
+     "q": "How many custom connectors can a single user create?",
+     "a": "50, per the limits page."
+    },
+    {
+     "q": "What does an HTTP 429 from a single connector usually indicate?",
+     "a": "That connector's own throttling limit was hit, separate from your Power Platform request limits."
+    }
+   ]
+  },
+  {
+   "n": "Expressions and dynamic content",
+   "g": "foundations",
+   "s": "Power Automate expressions use the Workflow Definition Language shared with Azure Logic Apps, and fluency with a few dozen functions separates a flow that works from one that is maintainable.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Dynamic content tokens are expressions under the hood. Open the expression editor (fx) to write them directly. Key accessors:</p><pre><code>triggerBody()?['Title']                 // trigger payload\ntriggerOutputs()?['body/Status/Value']   // nested path syntax\nbody('Get_items')?['value']             // action output body\noutputs('Compose_payload')              // full outputs of an action\nitems('Apply_to_each')?['ID']           // current loop item by loop name\nitem()?['Email']                        // current item inside Select or Filter array\nvariables('BatchId')\nparameters('SqlServer (cr_SqlServer)')   // environment variable in a solution flow</code></pre>"
+    },
+    {
+     "t": "Common patterns",
+     "b": "<pre><code>coalesce(triggerBody()?['Phone'], 'none')\nformatDateTime(utcNow(), 'yyyy-MM-dd')\nconvertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time', 'yyyy-MM-ddTHH:mm:ss')\naddDays(utcNow(), -7, 'yyyy-MM-ddT00:00:00Z')\nif(empty(body('List_rows')?['value']), 'none', 'some')\nlength(body('Filter_array'))\nfirst(body('List_rows')?['value'])?['accountid']\njoin(body('Select_emails'), ';')\nsplit(triggerBody()?['Tags'], ',')\nint(triggerBody()?['Amount'])\njson(body('HTTP'))\nguid()</code></pre>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Use <code>?[]</code> safe navigation everywhere a property can be missing. Plain <code>['x']</code> throws on a missing key.</li><li>Action names are part of expressions. Rename actions before you reference them, because spaces become underscores and renames later break references in older flows.</li><li>The limits page caps an expression at 8,192 characters and expression evaluation output (concat, base64, string) at 131,072 characters. Long logic belongs in Select, Compose or a child flow.</li><li>Use <code>convertTimeZone</code> for anything a clinician or patient reads. <code>utcNow()</code> is UTC.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Comparing a number to a string. Dataverse and SharePoint often return strings; wrap with <code>int()</code> or <code>float()</code> before <code>greater()</code>.</div><div class=\"trap\"><b>Trap:</b> Referencing <code>items('Apply_to_each')</code> after the loop is renamed. Expressions that name actions are brittle; name actions well on day one.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which expression language do Power Automate and Azure Logic Apps share?",
+     "a": "The Workflow Definition Language (WDL) expression functions."
+    },
+    {
+     "q": "What does the ?[] operator do in an expression?",
+     "a": "Safe navigation: it returns null instead of throwing when the property is missing."
+    },
+    {
+     "q": "Which function returns the current item inside a Select or Filter array action?",
+     "a": "item()."
+    },
+    {
+     "q": "What is the maximum length of a single expression in a flow?",
+     "a": "8,192 characters, per the limits page."
+    },
+    {
+     "q": "How do you read a solution environment variable in a cloud flow expression?",
+     "a": "With parameters('Display name (schema_name)'), which the designer inserts as dynamic content."
+    }
+   ]
+  },
+  {
+   "n": "Solution-aware flows and the designer",
+   "g": "foundations",
+   "s": "Building every serious flow inside a Dataverse solution unlocks connection references, environment variables, versioning, pipelines and service principal ownership, while the authoring surface keeps shifting.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li>A <b>solution</b> packages flows with their connection references, environment variables, tables and other components so they move between environments as a unit.</li><li><b>Drafts and versioning</b> exist only for solution cloud flows: you save drafts, publish, and can restore an earlier version.</li><li>Solution flows store run data in the Dataverse <code>FlowRun</code> table. Microsoft's guidance gives a default time to live of 28 days, adjustable through <code>FlowRunTimeToLiveInSeconds</code> on the Organization table.</li><li>A user can own any number of solution flows, but the limits page caps non-solution flows at 600 per owner.</li></ul>"
+    },
+    {
+     "t": "Designer status as of November 2026",
+     "b": "<ul><li>The new designer is the default for new flows. The classic designer is in maintenance mode with no announced retirement date.</li><li>Copilot editing works only in the new designer.</li><li><b>Describe it to design it</b> (create a flow from a text description) retires on 30 November 2026. Microsoft points makers to the Power Automate plugin for AI coding assistants, the manual designer, or templates.</li><li>The Power Automate mobile app was deprecated on 31 August 2026. The <b>Send me a mobile notification</b> action no longer reaches anyone; replace it with Teams or email.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Make solution flows the team standard. Non-solution flows cannot use environment variables, cannot be versioned and cannot be deployed with pipelines.</li><li>Use a publisher prefix that identifies your team. It shows up in every schema name and makes inventory queries easy.</li><li>Microsoft's ALM guidance: edit only in development, deploy managed solutions to test and production, and have service principals own production flows.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Leaving critical flows in My flows outside any solution. They are tied to one person, cannot be promoted cleanly, and miss versioning.</div><div class=\"trap\"><b>Trap:</b> Keeping internal how-to guides that tell makers to start from Describe it to design it or to rely on mobile push notifications. Both paths are gone.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which flow capabilities exist only for solution-aware cloud flows?",
+     "a": "Connection references, environment variables, drafts and versioning, Dataverse run history, and deployment through pipelines."
+    },
+    {
+     "q": "How many non-solution flows can one user own?",
+     "a": "600, per the limits page. Solution flows have no such per-owner cap."
+    },
+    {
+     "q": "When does Describe it to design it retire in Power Automate?",
+     "a": "30 November 2026. Existing flows are unaffected."
+    },
+    {
+     "q": "What should replace the Send me a mobile notification action after the mobile app deprecation?",
+     "a": "A Teams message or an email action."
+    },
+    {
+     "q": "What is the status of the classic cloud flow designer?",
+     "a": "Maintenance mode: security and critical fixes only, no announced retirement date."
+    }
+   ]
+  },
+  {
+   "n": "Control flow: conditions, switch and scopes",
+   "g": "logic",
+   "s": "Conditions, switch and scope actions shape the run path, and their structural limits (nesting depth, case count, action count) decide when a flow should be split into child flows.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Condition</b> evaluates a boolean and runs a true or false branch.</li><li><b>Switch</b> matches one value against cases plus a default. The limits page caps cases at 25.</li><li><b>Scope</b> groups actions so you can collapse them, apply run-after logic to the group and read their results with <code>result()</code>.</li><li><b>Parallel branches</b> run independent steps at the same time; the flow continues after all branches finish.</li><li><b>Terminate</b> ends the run with Succeeded, Failed or Cancelled and an optional message.</li></ul>"
+    },
+    {
+     "t": "Structural limits",
+     "b": "<ul><li>500 actions per flow.</li><li>Nesting depth of 8.</li><li>250 variables per flow.</li><li>Action or trigger names up to 80 characters.</li></ul><p>All from the Power Automate limits page.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Microsoft's guidance: use parallel branches for independent steps that take more than about five seconds, such as approvals or calls to separate systems.</li><li>Skipped actions still clutter run history and cost attention. When switch branches carry many actions, call a child flow from each branch instead.</li><li>Prefer a condition expression in advanced mode over long stacks of AND rows. One expression is easier to diff and review.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Deeply nested conditions. Past three levels the new designer gets hard to navigate and you approach the depth limit of 8. Flatten with switch, early Terminate or child flows.</div><div class=\"trap\"><b>Trap:</b> Using Terminate with Succeeded inside a catch path. The run looks green and nobody gets alerted.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many cases can a Switch action have?",
+     "a": "25, per the limits page."
+    },
+    {
+     "q": "What is the maximum number of actions in one cloud flow?",
+     "a": "500."
+    },
+    {
+     "q": "What is the allowed nesting depth for actions in a cloud flow?",
+     "a": "8."
+    },
+    {
+     "q": "Which action ends a run immediately with a chosen status and message?",
+     "a": "Terminate."
+    }
+   ]
+  },
+  {
+   "n": "Loops: apply to each and do until",
+   "g": "logic",
+   "s": "Apply to each iterates over an array and do until repeats until a condition is true, and both multiply action requests, so loop design drives cost, speed and throttling.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Apply to each</b> runs its actions once per array item. The limits page allows 100,000 items (5,000 on the Low performance profile).</li><li>Loop <b>concurrency</b> is off by default (sequential). You can set a degree of parallelism from 1 to 50.</li><li><b>Do until</b> repeats until its condition is true or it hits its count or timeout limit. Default 60 iterations, maximum 5,000.</li><li>Every action inside a loop counts as one request per item. Retries and pagination also count.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Concurrency applies only to the outermost Apply to each. Inner loops always run sequentially.</li><li>Microsoft's benchmark showed gains flatten quickly: a degree of 4 and 6 gave the same time on a four-item array. Higher is not always faster and it increases pressure on the target service.</li><li>Variables are flow-scoped. Set variable and Append to array variable inside a parallel loop race with each other. Use Compose inside the loop, then collect with Select or an output array after the loop.</li><li>Before writing a loop, ask whether Select, Filter array or a single batch call can do the job with one action.</li></ul>"
+    },
+    {
+     "t": "Example: bounded polling with do until",
+     "b": "<pre><code>Do until: @or(equals(variables('JobStatus'), 'Succeeded'), equals(variables('JobStatus'), 'Failed'))\n  Limits: Count 30, Timeout PT1H\n  1. Delay 1 minute\n  2. HTTP GET job status\n  3. Set variable JobStatus = body('HTTP_GET_status')?['status']\nAfter loop: Condition on JobStatus, Terminate Failed if not Succeeded</code></pre>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Nested Apply to each over two 1,000-row arrays. That is a million inner actions per run, guaranteed throttling and a blown daily request budget.</div><div class=\"trap\"><b>Trap:</b> A do until with no timeout guard on a status that never arrives. It burns requests until the count limit and then exits silently; always test the final status after the loop.</div><div class=\"trap\"><b>Trap:</b> Turning on loop concurrency around Increment variable. Counts come out wrong without an error.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the default concurrency of an Apply to each loop?",
+     "a": "Off, meaning sequential. You can set it from 1 to 50."
+    },
+    {
+     "q": "Does loop concurrency apply to nested inner loops?",
+     "a": "No. Only the outermost Apply to each runs in parallel; inner loops are sequential."
+    },
+    {
+     "q": "What are the default and maximum iteration counts for Do until?",
+     "a": "Default 60, maximum 5,000."
+    },
+    {
+     "q": "How many requests does one action inside a 300-item loop consume per run?",
+     "a": "300, one per item processed, plus any retries."
+    },
+    {
+     "q": "Why avoid Set variable inside a concurrent Apply to each?",
+     "a": "Variables are flow-scoped, so parallel iterations race and overwrite each other."
+    }
+   ]
+  },
+  {
+   "n": "Data operations: Compose, variables, Select and Filter array",
+   "g": "logic",
+   "s": "Data operation actions reshape JSON in a single request, so knowing Compose, Parse JSON, Select, Filter array, Join and union lets you replace most loops.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Compose</b> evaluates an expression once and stores the result. It is immutable and cheap to reference.</li><li><b>Variables</b> (Initialize, Set, Increment, Append) are mutable and must be initialized at the top level of the flow.</li><li><b>Parse JSON</b> applies a schema so the designer offers typed dynamic content.</li><li><b>Select</b> maps every item of an array to a new shape in one action.</li><li><b>Filter array</b> keeps items that match a condition in one action.</li><li><b>Join</b> turns an array into a delimited string. <b>Create CSV table</b> and <b>Create HTML table</b> format arrays for files and email.</li></ul>"
+    },
+    {
+     "t": "Example: reshape without a loop",
+     "b": "<pre><code>Select\n  From: body('List_rows')?['value']\n  Map:\n    mrn:      item()?['cr_mrn']\n    visitUtc: item()?['cr_visitstart']\n    provider: item()?['_cr_provider_value@OData.Community.Display.V1.FormattedValue']\n\nFilter array\n  From: body('Select')\n  Condition: @greater(item()?['visitUtc'], addDays(utcNow(), -1))\n\nCompose distinct providers:\n  union(body('Select_providers'), body('Select_providers'))</code></pre><p><code>union(x, x)</code> removes duplicates; Microsoft's Dataverse docs suggest it because List rows has no distinct operator.</p>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Default to Compose. Use a variable only when the value must change during the run.</li><li>Parse JSON schemas generated from a sample are strict on type. Make fields nullable (for example <code>\"type\": [\"string\", \"null\"]</code>) when the source can send nulls, or the action fails.</li><li>You can skip Parse JSON entirely and read properties with <code>?[]</code> in expressions. That is less friendly in the designer but more tolerant of schema drift.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> A Parse JSON schema built from one happy-path sample. The first null or missing field in production fails the run.</div><div class=\"trap\"><b>Trap:</b> Building strings with Append to string variable inside a loop. Select plus Join does it in two actions.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which action maps each item of an array to a new shape without a loop?",
+     "a": "Select."
+    },
+    {
+     "q": "When should you use a variable instead of Compose?",
+     "a": "Only when the value must change during the run; Compose is immutable and simpler."
+    },
+    {
+     "q": "How do you remove duplicates from an array in a flow?",
+     "a": "Use union() of the array with itself."
+    },
+    {
+     "q": "Why does a generated Parse JSON schema often fail in production?",
+     "a": "It is strict on types from one sample, so nulls or missing fields fail validation unless you loosen the schema."
+    },
+    {
+     "q": "Where must Initialize variable actions be placed?",
+     "a": "At the top level of the flow, outside loops and scopes."
+    }
+   ]
+  },
+  {
+   "n": "Querying sources: OData filters and pagination",
+   "g": "logic",
+   "s": "Filtering at the source with OData queries and setting pagination deliberately keeps flows fast and cheap, because every row you pull and then discard still costs requests and memory.",
+   "x": [
+    {
+     "t": "Dataverse List rows",
+     "b": "<ul><li>Returns up to 5,000 rows per page by default.</li><li>Turn on <b>Pagination</b> and set a threshold up to 100,000 rows. The threshold rounds up to whole pages, so 7,000 returns 10,000.</li><li>With pagination on, the response omits <code>@odata.nextLink</code>. Turn pagination off if you want to page manually with the skip token.</li><li>Pagination does not work with FetchXML. Page inside the FetchXML query instead. Aggregate FetchXML queries are not supported in List rows.</li></ul><pre><code>Select columns: cr_mrn,cr_visitstart,statuscode\nFilter rows:    statuscode eq 1 and cr_visitstart ge 2026-10-01T00:00:00Z\nSort by:        cr_visitstart desc\nExpand query:   cr_provider($select=fullname,emailaddress1)</code></pre><p>Do not include <code>$filter=</code> in the Filter rows box.</p>"
+    },
+    {
+     "t": "SharePoint and SQL",
+     "b": "<pre><code>SharePoint Get items, Filter Query:\nStatus eq 'Open' and Modified ge '2026-10-01T00:00:00Z'\n\nSQL Server Get rows (V2), Filter Query:\nModifiedDate gt '2026-10-01' and IsDeleted eq 0</code></pre><ul><li>SharePoint and SQL connectors also return a limited page by default. Use the Top Count and pagination settings, and test with realistic volumes.</li><li>SQL Server connector V1 actions were disabled on 30 June 2025. Use the V2 actions.</li><li>For anything beyond simple filters on SQL, call a stored procedure and let the database do the work.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Always set Select columns on Dataverse. It cuts payload size and makes the flow resilient to new columns.</li><li>Pagination requests count toward request limits. A 100,000-row threshold is many requests per run.</li><li>Content throughput limits apply to every List rows response. Large result sets belong in a bulk tool, not a flow.</li><li>Use the legacy Dataverse connector only where you must; Microsoft recommends migrating to the current Microsoft Dataverse connector.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Getting every row and filtering in an Apply to each. You pay for every row and every iteration.</div><div class=\"trap\"><b>Trap:</b> Assuming List rows returned everything. Without pagination you silently get the first 5,000 rows and no error.</div><div class=\"trap\"><b>Trap:</b> Unencoded characters such as &amp;, # or + in a filter value. Encode them or the query breaks.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many rows does Dataverse List rows return by default without pagination?",
+     "a": "Up to 5,000."
+    },
+    {
+     "q": "What is the maximum pagination threshold on Dataverse List rows?",
+     "a": "100,000 rows, rounded up to whole pages."
+    },
+    {
+     "q": "Does the pagination setting work with a FetchXML query in List rows?",
+     "a": "No. You page inside the FetchXML query yourself."
+    },
+    {
+     "q": "What text must you leave out of the Dataverse Filter rows box?",
+     "a": "The $filter= prefix; enter only the expression."
+    },
+    {
+     "q": "Which SQL Server connector actions were disabled in June 2025?",
+     "a": "The V1 actions. Use the V2 actions."
+    }
+   ]
+  },
+  {
+   "n": "Child flows and modular design",
+   "g": "logic",
+   "s": "Child flows let one solution flow call another with the Run a Child Flow action, which gives you reusable units, smaller parents and a cleaner place to apply concurrency and licensing.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li>The child uses a manual trigger with typed inputs and ends with <b>Respond to a Power App or flow</b>. The parent calls it with <b>Run a Child Flow</b>.</li><li>Both must be solution flows, ideally in the same solution so they share connection references.</li><li>The child must use embedded connections rather than run-only user connections to be callable as a child.</li></ul>"
+    },
+    {
+     "t": "Licensing behavior",
+     "b": "<ul><li>A child flow without its own Process license runs under the parent's user context: the parent owner for automated parents, the invoking user for manual parents.</li><li>A child flow does not inherit Process capacity from its parent. Assign Process capacity to the child directly, or put parent and child in the same flow group.</li><li>A licensed child does not make the parent premium-licensed. If the parent itself uses a premium connector, the parent still needs coverage.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Child flows are the standard answer to the 500-action limit, to deep nesting, and to the burst limit of 100,000 requests in five minutes.</li><li>Put trigger concurrency on a small child that does the serialized work, so the parent stays unconstrained and the irreversible setting lives on a narrow flow.</li><li>Design the child contract like an API: typed inputs, a status output, and an error message output. Parents then branch on status instead of parsing errors.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming a Process-licensed parent covers its children. Capacity does not flow down; children fall back to user context.</div><div class=\"trap\"><b>Trap:</b> Children that never respond on failure. The parent waits until timeout. Respond in the child's catch path too.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which action does a child flow use to return values to its parent?",
+     "a": "Respond to a Power App or flow."
+    },
+    {
+     "q": "Does a child flow inherit Process license capacity from its parent?",
+     "a": "No. Assign capacity to the child or put both in the same flow group."
+    },
+    {
+     "q": "Whose license context does an unlicensed child of an automated parent use?",
+     "a": "The parent flow owner's."
+    },
+    {
+     "q": "Name two limits that child flows help you stay under.",
+     "a": "The 500-actions-per-flow limit and the 100,000-requests-per-five-minutes burst limit (also nesting depth)."
+    }
+   ]
+  },
+  {
+   "n": "Error handling, retries and timeouts",
+   "g": "reliability",
+   "s": "Reliable flows wrap work in Try, Catch and Finally scopes using configure run after, rely on retry policies for transient faults, and respect hard timeouts on actions and runs.",
+   "x": [
+    {
+     "t": "Run after and the try/catch/finally pattern",
+     "b": "<p>Every action has <b>Configure run after</b> with four states: is successful, has failed, is skipped, has timed out.</p><pre><code>Scope Try        : main work\nScope Catch      : run after Try = has failed, has timed out\n  Filter array   : From result('Try')\n                   Where @or(equals(item()?['status'], 'Failed'), equals(item()?['status'], 'TimedOut'))\n  Compose error  : first(body('Filter_array'))?['error']?['message']\n  Log + notify\n  Terminate      : Failed, message = outputs('Compose_error')\nScope Finally    : run after Catch = is successful, has failed, is skipped</code></pre><p>Build a link to the failed run from <code>workflow()</code>: environment from <code>workflow()?['tags']?['environmentName']</code>, flow from <code>workflow()?['name']</code>, run from <code>workflow()?['run']?['name']</code>, joined onto a portal base URL held in an environment variable.</p>"
+    },
+    {
+     "t": "Retry policies",
+     "b": "<ul><li>Default on Medium and High profiles: up to 12 retries at exponentially increasing intervals, scaling by 7 seconds up to about 1 hour. Low profile: up to 2 retries.</li><li>Configurable: none, fixed interval or exponential. Maximum 90 attempts, maximum delay one day, minimum delay five seconds.</li><li>Retries count as requests.</li></ul>"
+    },
+    {
+     "t": "Timeouts and duration",
+     "b": "<ul><li>A run can last up to 30 days. Anything waiting longer (an approval, a do until) is cancelled.</li><li>Outbound synchronous requests time out at 120 seconds. Asynchronous patterns (202 plus polling, or webhooks) can wait up to 30 days.</li><li>Message size is 100 MB, or 1 GB with chunking where the connector supports it.</li><li>A test run longer than 10 minutes may show a timeout in the designer while the run continues in the background.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> A Catch scope that only sends an email and then ends. The run shows Succeeded, so monitoring and alerts never see the failure. End the catch with Terminate Failed.</div><div class=\"trap\"><b>Trap:</b> Retrying a non-idempotent POST with the default policy. A timeout after the server committed creates duplicates. Set retry to none and handle it yourself, or send an idempotency key.</div><div class=\"trap\"><b>Trap:</b> Approvals that wait for a month. The run hits the 30-day limit and the approval is lost. Add a timeout and an escalation path.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>If this action fails at step N, what has already been written, and can the flow be safely rerun?</li><li>Does a handled failure still end the run as Failed?</li><li>Which actions can wait longer than 120 seconds, and are they asynchronous?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the four Configure run after states?",
+     "a": "is successful, has failed, is skipped, has timed out."
+    },
+    {
+     "q": "Which function returns the status and outputs of every action inside a scope?",
+     "a": "result('ScopeName')."
+    },
+    {
+     "q": "What is the default retry policy on Medium and High performance profiles?",
+     "a": "Up to 12 exponential retries, scaling by 7 seconds up to about an hour."
+    },
+    {
+     "q": "What is the maximum duration of a single cloud flow run?",
+     "a": "30 days."
+    },
+    {
+     "q": "What is the timeout for an outbound synchronous request from a flow?",
+     "a": "120 seconds."
+    }
+   ]
+  },
+  {
+   "n": "Request limits, throttling and performance profiles",
+   "g": "reliability",
+   "s": "Power Automate meters every trigger and action as a Power Platform request, and the license behind a flow sets its performance profile, daily allowance and how hard it can burst.",
+   "x": [
+    {
+     "t": "How counting works",
+     "b": "<ul><li>Every trigger and action is a request, including Compose, Initialize variable and Scope. Failed actions count; skipped actions do not.</li><li>Each loop iteration counts per action. Retries and pagination count.</li><li>Burst limit: 100,000 requests in any rolling five minutes, for every profile.</li><li>License entitlements: Power Automate Premium 40,000 actions per user per day; Process 250,000 per license per day, stackable up to 10 on one flow; Microsoft 365 seeded use 6,000 per day.</li></ul>"
+    },
+    {
+     "t": "Performance profiles",
+     "b": "<ul><li><b>Low:</b> free, Microsoft 365, Power Automate Plan 1, Per App, trials, developer plan. Fewer loop items (5,000), fewer retries, lower throughput.</li><li><b>Medium:</b> Power Automate Premium, Power Apps per user, Dynamics 365 Enterprise and Professional.</li><li><b>High:</b> Process and the legacy per-flow plan.</li><li><b>Unlimited Extended:</b> pay-as-you-go flows and Dynamics 365 in-context flows under a service principal using the tenant pool.</li></ul>"
+    },
+    {
+     "t": "Separate limits you also hit",
+     "b": "<ul><li><b>Connector throttling:</b> each connector has its own limit and returns HTTP 429 with a retry hint.</li><li><b>Dataverse service protection:</b> per user, per web server, 6,000 requests and 20 minutes of combined execution time in a 300-second sliding window, plus a concurrent request limit of 52 or higher. A Process license does not raise these.</li><li><b>Content throughput:</b> per-5-minute and per-day data volume caps by profile.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reading a slow flow as broken. A flow over its daily allowance is delayed first. Check flow Analytics, Actions before debugging logic.</div><div class=\"trap\"><b>Trap:</b> Buying a Process license to fix Dataverse 429s. Service protection limits are per user and are unaffected by the flow's license.</div><div class=\"trap\"><b>Trap:</b> Ignoring the 14-day rule. A flow throttled continuously for 14 days is turned off automatically.</div>"
+    },
+    {
+     "t": "Sizing formula",
+     "b": "<p>Microsoft's sizing guidance: actions per run times runs per day. A flow with 40 actions inside a loop over 200 rows, running hourly, is about 40 x 200 x 24 = 192,000 requests per day, beyond one Premium user's 40,000 and inside one Process license's 250,000.</p>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Do skipped actions count toward Power Platform request limits?",
+     "a": "No. Successful and failed actions count; skipped actions do not."
+    },
+    {
+     "q": "What is the burst limit for cloud flow requests?",
+     "a": "100,000 requests in any rolling five-minute window."
+    },
+    {
+     "q": "How many daily actions does one Power Automate Process license provide?",
+     "a": "250,000 per day, stackable up to 10 licenses on a single flow."
+    },
+    {
+     "q": "Does assigning a Process license raise Dataverse service protection limits?",
+     "a": "No. Those limits are per user and unaffected by the flow's license."
+    },
+    {
+     "q": "What happens to a flow that is throttled continuously for 14 days?",
+     "a": "It is turned off automatically."
+    }
+   ]
+  },
+  {
+   "n": "Idempotency and duplicate handling",
+   "g": "reliability",
+   "s": "Triggers can fire more than once, retries can repeat side effects and runs can be resubmitted, so any flow that writes data must be designed to produce the same result when it runs twice.",
+   "x": [
+    {
+     "t": "Where duplicates come from",
+     "b": "<ul><li>A retry after a timeout where the server had already committed the write.</li><li>A polling trigger turned back on, replaying a backlog.</li><li>A maker or operator resubmitting a failed run from run history.</li><li>The flow updating the record that triggered it, which fires the trigger again.</li><li>Two parallel runs processing the same item because trigger concurrency allows overlap.</li></ul>"
+    },
+    {
+     "t": "Patterns",
+     "b": "<ul><li><b>Upsert on a natural key.</b> Dataverse supports alternate keys; SQL can use MERGE in a stored procedure.</li><li><b>Processed marker.</b> Write a run ID or status to the source row and add a trigger condition that skips rows already marked.</li><li><b>Idempotency key</b> on outbound API calls, built from stable fields, never from <code>guid()</code> generated per run.</li><li><b>Serialize</b> the critical section with trigger concurrency set to 1 on a dedicated child flow when ordering or single-writer access matters.</li></ul>"
+    },
+    {
+     "t": "Example: loop guard and dedupe key",
+     "b": "<pre><code>Trigger condition (skip rows this flow already handled):\n@not(equals(triggerOutputs()?['body/cr_syncstatus'], 'Synced'))\n\nCompose idempotency key:\nconcat(triggerOutputs()?['body/cr_mrn'], '|', triggerOutputs()?['body/cr_encounterid'])</code></pre>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Using <code>guid()</code> as an idempotency key. Each retry or resubmit generates a new one, so the receiver cannot detect the duplicate.</div><div class=\"trap\"><b>Trap:</b> Resubmitting a failed run that already sent half its emails or created half its records. Resubmit replays from the start; make the flow safe for that first.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why is guid() a bad idempotency key for an outbound call?",
+     "a": "Each retry or resubmission generates a new value, so the receiver cannot detect duplicates."
+    },
+    {
+     "q": "What is the simplest Dataverse pattern to avoid duplicate inserts from a flow?",
+     "a": "Upsert on an alternate key instead of a plain create."
+    },
+    {
+     "q": "Name two common causes of duplicate side effects in cloud flows.",
+     "a": "Retries after a timeout that actually succeeded, and resubmitting failed runs (also polling backlogs and self-retriggering)."
+    },
+    {
+     "q": "How do you stop an update flow from retriggering itself on its own writes?",
+     "a": "Add a trigger condition that skips rows the flow already marked or that its own identity modified."
+    }
+   ]
+  },
+  {
+   "n": "Monitoring, run history and alerts",
+   "g": "reliability",
+   "s": "Operating flows at scale means combining per-flow run history, Power Platform Monitor alerts, admin inventory and owner notifications, and knowing the rules that turn flows off.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Run history</b> keeps runs for 30 days per the limits page. Solution flows also write run data to the Dataverse FlowRun table.</li><li><b>Power Platform Monitor alerts</b> became generally available on 8 April 2026. Rules are threshold-based (for example cloud flow success rate below a target), scoped to an environment or a single item, evaluated daily, and send email to people or security groups. Predefined alerts for degrading high-use flows are on by default. Work queue alerts are in preview.</li><li>Owners get service emails for common failures such as broken connections and throttling.</li><li>Managed Environments can export data to Azure Application Insights for custom alerting and Kusto queries.</li></ul>"
+    },
+    {
+     "t": "Automatic turn-off rules",
+     "b": "<ul><li>Flows that keep failing: turned off after 14 days.</li><li>Flows throttled continuously: turned off after 14 days.</li><li>The limits page also lists a 90-day rule for flows without trigger activity, with owners notified 30 days before suspension.</li><li>Owner loses Premium or leaves the org: the flow is downgraded, owners are notified, and it is turned off after 14 days without action.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Monitor alerts evaluate daily. For a clinical-hours SLA, add an in-flow catch that posts to Teams or opens a ticket immediately.</li><li>Build one shared logging child flow that every catch scope calls with flow name, run link, error and correlation ID. That gives you a single table to report on in Power BI or Fabric.</li><li>Assign at least one co-owner or a service principal owner to every production flow so notifications and recovery do not depend on one person.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Relying on the Power Automate mobile app for failure push notifications. It was deprecated on 31 August 2026.</div><div class=\"trap\"><b>Trap:</b> A flow that dies quietly when its owner leaves. The 14-day clock starts on departure; inventory owners regularly.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How long does Power Automate keep cloud flow run history per the limits page?",
+     "a": "30 days."
+    },
+    {
+     "q": "When did Power Platform Monitor alerts become generally available?",
+     "a": "8 April 2026."
+    },
+    {
+     "q": "How often are Monitor alert rules evaluated?",
+     "a": "Daily, after new metric data is aggregated."
+    },
+    {
+     "q": "How long until a consistently failing flow is turned off automatically?",
+     "a": "14 days."
+    },
+    {
+     "q": "What happens to a flow when its owner loses their Premium license?",
+     "a": "It is downgraded, owners are notified, and it is turned off after 14 days if nobody acts."
+    }
+   ]
+  },
+  {
+   "n": "Desktop flows: attended, unattended and machines",
+   "g": "rpa",
+   "s": "Desktop flows built in Power Automate for desktop automate Windows and browser UIs, run attended on a signed-in user's machine or unattended on registered machines, and are always started from cloud flows for orchestration.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Attended</b> runs happen on a machine where the user is signed in and watching. Premium includes one attended bot on the user's registered workstation.</li><li><b>Unattended</b> runs need a Process license allocated to the machine. Power Automate opens an RDP session for each run, then signs it out. A Process license on a machine is one unattended bot running one desktop flow at a time.</li><li><b>Machine groups</b> pool machines; runs queue and go to whichever member is free. Machines inherit group settings such as session reuse.</li><li>A cloud flow calls a desktop flow through a desktop flow connection, passing inputs and receiving outputs.</li></ul>"
+    },
+    {
+     "t": "Unattended session rules",
+     "b": "<ul><li>On Windows 10 and 11, any active user session, even locked, blocks an unattended run.</li><li>On Windows Server, a locked session for the same user as the connection makes the run fail.</li><li>The connection user needs rights to open a remote desktop session.</li><li>Flows cannot run elevated. RDP resolution may differ from authoring resolution, which breaks UI selectors; set it explicitly.</li></ul>"
+    },
+    {
+     "t": "Recent capabilities (2026)",
+     "b": "<ul><li>Desktop flow version control (drafts, publish, history, restore, compare) became generally available in May 2026. Versions are kept up to 12 months.</li><li>Environment variables usable in desktop flows: generally available since February 2026.</li><li>In preview: a self-healing agent for UI and web automation, video logs in unattended runs, current Python versions, connecting to local AI models, and a Run Power App action.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Someone remoting into the bot machine during a run. Microsoft calls this unsupported and it causes failures. Lock down interactive access to bot machines.</div><div class=\"trap\"><b>Trap:</b> Selectors captured at one screen resolution. Unattended RDP sessions use their own resolution and clicks land in the wrong place.</div><div class=\"trap\"><b>Trap:</b> Using RPA for a system that has an API or a connector. UI automation is the fallback, not the first choice.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What license makes a machine an unattended bot?",
+     "a": "A Power Automate Process license allocated to the machine; each runs one desktop flow at a time."
+    },
+    {
+     "q": "What blocks an unattended desktop flow run on Windows 10 or 11?",
+     "a": "Any active user session on the machine, including a locked one."
+    },
+    {
+     "q": "How are desktop flows usually started in production?",
+     "a": "From a cloud flow through a desktop flow connection, which passes inputs and receives outputs."
+    },
+    {
+     "q": "How long are desktop flow versions retained under the GA version control feature?",
+     "a": "Up to 12 months."
+    },
+    {
+     "q": "How many attended bots does a Power Automate Premium license include?",
+     "a": "One, on the user's registered workstation."
+    }
+   ]
+  },
+  {
+   "n": "Hosted machine groups and work queues",
+   "g": "rpa",
+   "s": "Hosted machine groups let Microsoft provision and autoscale the VMs that run unattended desktop flows, while work queues hold prioritized items with SLAs for bots and people to process.",
+   "x": [
+    {
+     "t": "Hosted machine groups",
+     "b": "<ul><li>Require the <b>Hosted Process</b> license (formerly the hosted RPA add-on). Capacity sets how many hosted bots can run in parallel.</li><li>Default image is Windows 11 Enterprise 24H2 with Edge. Custom images come from Azure Compute Gallery (Generation 2, generalized, trusted launch, up to 127 GB, same region as the environment geography).</li><li>Optional custom VNet with a subnet delegated to <code>Microsoft.PowerAutomate/hostedRpa</code> for private network access.</li><li>Limits: 10 groups per environment, 50 bots per group, 30 custom VNets per tenant.</li><li>Only unattended mode and direct-connectivity desktop flow connections. No Test flow, no remote desktop into the bots.</li></ul>"
+    },
+    {
+     "t": "Scaling behavior",
+     "b": "<ul><li><b>Max bots</b> is a group's ceiling; <b>committed bots</b> is guaranteed capacity. Capacity is load-balanced across groups in the environment.</li><li>A new group or one idle for more than three hours can take 10 minutes or more to create a bot.</li><li>Groups without committed bots are deleted after 28 days with no runs, and their connections must be reconfigured.</li></ul>"
+    },
+    {
+     "t": "Work queues",
+     "b": "<ul><li>Work queues store items with priority and status so producers and consumers (desktop flows, cloud flows, people) are decoupled.</li><li>March 2026 additions: work queue alerts on SLA violations in the admin center Monitor, and an aggregated operator view in the automation center.</li><li>Export of work queue items to CSV became generally available in July 2026.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Running a monthly batch on a hosted group with no committed bots. If it idles past 28 days it is deleted and the next run fails on missing connections.</div><div class=\"trap\"><b>Trap:</b> Expecting instant start on a cold hosted group. Budget 10 minutes or more for bot creation in time-sensitive schedules.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which license do hosted machine groups require?",
+     "a": "Power Automate Hosted Process."
+    },
+    {
+     "q": "What are the per-environment and per-group limits for hosted machine groups?",
+     "a": "10 groups per environment and 50 bots per group."
+    },
+    {
+     "q": "What happens to a hosted machine group with no committed bots after 28 days with no runs?",
+     "a": "It is deleted and must be recreated, with connections reconfigured."
+    },
+    {
+     "q": "Which run mode do hosted machine groups support?",
+     "a": "Unattended only."
+    },
+    {
+     "q": "What Power Automate feature decouples producers and consumers of RPA work items with priorities and SLAs?",
+     "a": "Work queues."
+    }
+   ]
+  },
+  {
+   "n": "Process mining",
+   "g": "rpa",
+   "s": "Process mining in Power Automate reconstructs real processes from event logs so you can find bottlenecks, measure KPIs and pick automation targets, and in 2026 it gained object-centric analysis and a new process intelligence experience.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li>You ingest event data (case ID, activity, timestamp, plus attributes) from your system of record, transform and map it, and the service builds a process map with variants, durations and KPIs.</li><li>Analysis covers visualizing processes, comparing them, root-cause analysis and KPI monitoring.</li><li>The capability was earlier branded Process advisor; current docs call it process mining.</li></ul>"
+    },
+    {
+     "t": "2026 changes",
+     "b": "<ul><li><b>Object-centric process mining</b>: generally available 5 June 2026. It models events against several related objects (an order, its lines, its invoices) instead of forcing one case ID.</li><li><b>Process intelligence experience</b>: generally available 5 June 2026, with custom KPIs generally available in July 2026.</li><li><b>Export of object-centric process mining data to a Microsoft Fabric semantic model</b>: public preview.</li><li>A Process Intelligence Studio was listed as planned in the archived 2026 wave 1 plan. Treat it as unconfirmed until it appears in the docs.</li></ul>"
+    },
+    {
+     "t": "Licensing",
+     "b": "<ul><li>Premium includes process mining with 50 MB of process mining storage per license, up to 100 GB per tenant.</li><li>Process and Hosted Process licenses do not include process mining.</li><li>The pricing page lists a Process Mining add-on at 5,000 USD per tenant per month, paid yearly, available only with Premium.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>For telepsychiatry, an object-centric model fits the real shape of the work: a referral, its intake, its appointments and its claims are separate objects with their own timestamps.</li><li>Event logs often contain PHI. Apply minimum-necessary extraction, pseudonymize patient identifiers, and confirm where the mining data is stored before loading.</li><li>Your Fabric lakehouse may already hold clean event tables. Prepare event logs there and treat process mining as the analysis layer.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Mining a log with inconsistent timestamps or time zones. Durations and variant ordering come out wrong and the analysis misleads.</div><div class=\"trap\"><b>Trap:</b> Loading full patient records into a mining dataset when only IDs, activities and timestamps are needed.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What three fields does a minimal event log for process mining need?",
+     "a": "A case ID, an activity name and a timestamp."
+    },
+    {
+     "q": "When did object-centric process mining in Power Automate become generally available?",
+     "a": "5 June 2026."
+    },
+    {
+     "q": "Which Power Automate license includes process mining?",
+     "a": "Premium, with 50 MB of mining storage per license up to 100 GB per tenant. Process and Hosted Process do not."
+    },
+    {
+     "q": "What problem does object-centric process mining solve?",
+     "a": "It lets events relate to several objects at once instead of forcing a single case ID, which fits multi-object processes."
+    }
+   ]
+  },
+  {
+   "n": "Copilot, generative actions and AI Builder",
+   "g": "ai",
+   "s": "Power Automate's AI features help you author flows with Copilot, let flows reason with generative actions (preview) and AI Builder prompts, and are shifting to Copilot Credits for billing.",
+   "x": [
+    {
+     "t": "Copilot in the designer",
+     "b": "<ul><li>Copilot in the new designer can edit a flow from a prompt, answer \"what does my flow do\", suggest a description, set up connections, and help troubleshoot failed runs.</li><li>It is powered by Azure OpenAI Service, optimized for English, and only works in the new designer.</li><li><b>Describe it to design it</b>, the create-from-description path, retires on 30 November 2026.</li></ul>"
+    },
+    {
+     "t": "Power Automate plugin for AI coding agents",
+     "b": "<ul><li>A plugin for GitHub Copilot CLI and Claude Code creates, edits, runs, debugs and manages cloud flows from the terminal, and lists and runs desktop flows.</li><li>It bundles its own Power Automate MCP server and uses the Microsoft Learn MCP server for reference.</li><li>Flows it creates start in a stopped state for review. It cannot edit Power Automate for desktop scripts.</li><li>Requires Node.js 18 or later, Azure CLI signed in with a work account, and an appropriate Power Automate license. Microsoft's doc does not label it preview.</li></ul>"
+    },
+    {
+     "t": "Generative actions (preview)",
+     "b": "<ul><li>You describe the intent; an AI runtime picks connectors and actions to achieve it.</li><li>Text inputs only, up to 2,500 characters. Up to three OneDrive reference documents.</li><li>Limited connector set (SharePoint, Outlook, OneDrive, Planner, Teams, Notifications, Office 365 Users, Approvals, Excel Online). DLP applies at the generative action level only.</li><li>Cancelling the flow does not cancel a running generative action.</li></ul>"
+    },
+    {
+     "t": "AI Builder and the credit change",
+     "b": "<ul><li>AI Builder actions (document processing, classification, prompts) continue as features.</li><li>AI Builder credits are being replaced by Copilot Credits. From 1 November 2026, new or renewed eligible licenses stop including seeded AI Builder credits; existing contracts keep them until term end. Usage draws AI Builder credits first, then Copilot Credits, and runs are blocked if neither is available.</li><li>There is no single conversion ratio. Estimate per capability using Microsoft's rate table.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Running PHI through generative or AI Builder actions without checking the environment's cross-region data movement setting for generative AI and your BAA scope.</div><div class=\"trap\"><b>Trap:</b> Budgeting AI Builder workloads on seeded credits that disappear at your next license renewal.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "In which designer does Copilot editing work for cloud flows?",
+     "a": "Only the new designer."
+    },
+    {
+     "q": "Which two AI coding agents does the Power Automate plugin support?",
+     "a": "GitHub Copilot CLI and Claude Code."
+    },
+    {
+     "q": "What is the release status of generative actions in cloud flows?",
+     "a": "Preview, not for production use."
+    },
+    {
+     "q": "What replaces AI Builder credits for billing AI Builder usage?",
+     "a": "Copilot Credits. Seeded AI Builder credits stop on new or renewed licenses from 1 November 2026."
+    },
+    {
+     "q": "What input type and size do generative actions accept?",
+     "a": "Text only, up to 2,500 characters."
+    }
+   ]
+  },
+  {
+   "n": "Agent flows and Copilot Studio workflows",
+   "g": "ai",
+   "s": "Agent flows are deterministic flows built and billed inside Copilot Studio that agents call as tools, and they trade Power Automate licensing and sharing features for Copilot Studio consumption billing.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li>An agent flow has a trigger and actions like a cloud flow, plus AI actions (run a prompt, process documents, call an agent) and human-in-the-loop actions such as approvals and requests for information.</li><li>To be used as an agent tool, the flow must be a solution flow with the <b>When an agent calls the flow</b> trigger and the <b>Respond to the agent</b> action.</li><li>You can convert a Power Automate cloud flow to an agent flow. Conversion is one-way.</li><li>Copilot Studio was rebuilt in June 2026; its new experience calls these <b>workflows</b> (some Learn pages still mark that doc preview). Classic agents and agent flows continue to coexist.</li></ul>"
+    },
+    {
+     "t": "Billing and limits",
+     "b": "<ul><li>No Power Automate license needed. Every action consumes Copilot Studio capacity.</li><li>Called from a topic: one Classic answer plus the flow actions. Called through generative orchestration: one Autonomous action plus the flow actions.</li><li>Testing in the designer or embedded test chat does not consume capacity.</li><li>When prepaid capacity runs out, new runs are blocked unless pay-as-you-go is on. In-flight runs complete.</li></ul>"
+    },
+    {
+     "t": "Cloud flow or agent flow?",
+     "b": "<ul><li>Agent flows cannot be shared, copied, given co-owners or run-only users. Desktop flows cannot be called from agent flows.</li><li>Choose an agent flow when the flow exists to serve agents and you already budget Copilot Studio capacity.</li><li>Choose a cloud flow when people or systems trigger it, when you need co-owners and run-only sharing, or when it orchestrates RPA.</li><li>DLP policies cover agent flows as well as cloud and desktop flows.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Converting a shared, co-owned cloud flow into an agent flow. Sharing and co-ownership are lost and you cannot convert back.</div><div class=\"trap\"><b>Trap:</b> Letting a chatty agent call a 50-action agent flow on every turn. Each action draws capacity; when it runs out, new runs stop.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>Who triggers this: a person, a system or an agent?</li><li>Which budget pays for each run, Power Automate licenses or Copilot Studio capacity?</li><li>Does the flow need co-owners, run-only users or desktop flows?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which trigger and action must an agent flow use to be added to an agent as a tool?",
+     "a": "The When an agent calls the flow trigger and the Respond to the agent action."
+    },
+    {
+     "q": "Can you convert an agent flow back into a Power Automate cloud flow?",
+     "a": "No. Converting a cloud flow to an agent flow is one-way."
+    },
+    {
+     "q": "How are agent flows billed?",
+     "a": "Through Copilot Studio capacity: each action consumes capacity, with no Power Automate license required."
+    },
+    {
+     "q": "Name two cloud flow capabilities that agent flows lack.",
+     "a": "Sharing or co-owners (and run-only users, copying), and calling desktop flows."
+    },
+    {
+     "q": "What happens to new agent flow runs when prepaid Copilot Studio capacity is exhausted?",
+     "a": "They are blocked unless pay-as-you-go is enabled; running flows finish."
+    }
+   ]
+  },
+  {
+   "n": "Environments and Managed Environments",
+   "g": "governance",
+   "s": "Environments are the security, data and deployment boundary for flows, and Managed Environments add the governance features (sharing limits, usage insights, pipelines targets, data policies for desktop flows) that serious tenants run on.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li>Each environment has its own Dataverse database (if provisioned), security roles, connections and region. Types include production, sandbox, developer, trial and default.</li><li><b>Managed Environments</b> add environment groups, sharing limits, weekly usage insights, data policies, pipelines, maker welcome content, solution checker, IP firewall, customer-managed keys, Lockbox, extended backup, data policies for desktop flows, Application Insights export, default environment routing and Virtual Network support.</li><li>Managed Environments are included with standalone Power Apps, Power Automate, Copilot Studio, Power Pages and Dynamics 365 licenses. The Developer Plan does not include them.</li></ul>"
+    },
+    {
+     "t": "2026 deprecations to plan for",
+     "b": "<ul><li>Unmanaged developer environments: creation ends 15 November 2026, suspension starts 15 December 2026, deletion starts 15 January 2027. Each user can create one managed developer environment going forward.</li><li>Dataverse for Teams environment creation ends 15 November 2026; existing ones that are not upgraded are suspended in September 2027 and decommissioned in October 2027.</li><li>Pipelines that deploy to unmanaged targets trigger admin notifications from October 2026, with 30 days to enable Managed Environments before deployments are blocked.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Keep the default environment for personal productivity only. Put departmental flows in dedicated dev, test and prod environments.</li><li>Turn on environment routing so new makers land in their own managed developer environment.</li><li>For PHI workloads, choose the environment region deliberately and record it. Region is fixed at creation in practice; moving is a support-led process.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Business-critical flows living in someone's unmanaged developer environment. After 15 December 2026 they stop running.</div><div class=\"trap\"><b>Trap:</b> A production solution in the default environment, where every licensed user is a maker and policy is weakest.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "When can users no longer create unmanaged developer environments?",
+     "a": "From 15 November 2026. Suspension starts 15 December 2026 and deletion 15 January 2027."
+    },
+    {
+     "q": "Which licenses include Managed Environments as an entitlement?",
+     "a": "Standalone Power Apps, Power Automate, Copilot Studio, Power Pages and Dynamics 365 licenses; not the Developer Plan."
+    },
+    {
+     "q": "Name three Managed Environments features.",
+     "a": "Any three of: sharing limits, usage insights, data policies, pipelines, solution checker, IP firewall, customer-managed key, Lockbox, Application Insights export, environment routing."
+    },
+    {
+     "q": "Why should departmental production flows not live in the default environment?",
+     "a": "Every licensed user is a maker there and governance controls are weakest, so isolation and ALM are poor."
+    }
+   ]
+  },
+  {
+   "n": "Data policies, advanced connector policies and PHI controls",
+   "g": "governance",
+   "s": "Data policies (DLP) and the newer advanced connector policies decide which connectors, actions and endpoints flows may use, and together with Microsoft's HIPAA BAA scope they frame what a PHI flow can touch.",
+   "x": [
+    {
+     "t": "Classic data policies (DLP)",
+     "b": "<ul><li>Connectors are grouped as Business, Non-business or Blocked; a flow cannot mix Business and Non-business connectors.</li><li>Connector action control blocks specific actions; endpoint filtering limits which URLs or servers a connector can reach.</li><li>Since 2025: triggers can be blocked like actions, policies are enforced at runtime as well as design time, compliant flows suspended in the previous 7 days reactivate after a policy rollback, and environment variables can be used in endpoint definitions.</li><li>Policies cover cloud flows, desktop flows and Copilot Studio agent flows.</li></ul>"
+    },
+    {
+     "t": "Advanced connector policies",
+     "b": "<ul><li>Advanced connector policies became generally available in June 2026.</li><li>They are a default-deny allowlist: any connector not listed is blocked, and each allowed connector can be limited to specific actions and connection types.</li><li>Assign a policy to an environment group, and every environment in the group inherits and stays in sync; or assign it to a single environment. Each environment has one effective policy.</li><li>Manage them in the admin center or through the Power Platform API rule-based policies endpoints.</li></ul>"
+    },
+    {
+     "t": "HIPAA and PHI",
+     "b": "<ul><li>Microsoft's HIPAA BAA is offered by default through the Online Services Data Protection Addendum to covered entities and business associates.</li><li>Microsoft's HIPAA offering page lists Power Automate, Power Apps and Power BI as in scope. Copilot Studio is not listed there; confirm agent and generative AI scope with Microsoft before sending PHI.</li><li>Third-party connectors send data to services outside Microsoft's BAA. Each needs its own BAA review.</li><li>Generative AI features have an admin setting that can move data across regions. Check it for PHI environments.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> A tenant-wide DLP that blocks HTTP but leaves a third-party file-sharing connector Business. PHI leaves through the connector instead.</div><div class=\"trap\"><b>Trap:</b> Switching a group to an advanced connector policy without inventorying connectors first. Default-deny blocks everything not listed and flows fail at save or run.</div><div class=\"trap\"><b>Trap:</b> Assuming the BAA covers every connector. It covers listed Microsoft services, not the external SaaS on the other end.</div>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>Which connectors in this flow touch PHI, and does each endpoint have a BAA?</li><li>Is the environment covered by an allowlist policy, and who approves additions?</li><li>Is any AI or generative action in the path, and where does it process data?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are the three connector groups in a classic data policy?",
+     "a": "Business, Non-business and Blocked."
+    },
+    {
+     "q": "What is the default behavior for connectors not listed in an advanced connector policy?",
+     "a": "They are blocked; the policy is a default-deny allowlist."
+    },
+    {
+     "q": "How does Microsoft provide its HIPAA BAA?",
+     "a": "By default through the Microsoft Online Services Data Protection Addendum for covered entities and business associates."
+    },
+    {
+     "q": "Is Power Automate listed as in scope on Microsoft's HIPAA offering page?",
+     "a": "Yes, alongside Power Apps and Power BI. Copilot Studio is not listed there."
+    },
+    {
+     "q": "Which flow types do Power Platform data policies cover?",
+     "a": "Cloud flows, desktop flows and Copilot Studio agent flows."
+    }
+   ]
+  },
+  {
+   "n": "ALM: solutions, environment variables and pipelines",
+   "g": "governance",
+   "s": "Professional Power Automate delivery means building in unmanaged solutions in development, externalizing configuration in environment variables, and promoting managed solutions through Pipelines in Power Platform or Git-based CI/CD.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Unmanaged</b> solutions are for development. <b>Managed</b> solutions are locked and deployed to test and production.</li><li><b>Environment variables</b> hold values that change per environment (URLs, IDs, folder paths, secrets via Azure Key Vault references). Only solution flows support them.</li><li><b>Pipelines in Power Platform</b> deploy a solution from development through stages. The host should be a production environment; every target must be a Managed Environment; only managed solutions can be deployed.</li><li><b>Delegated deployments</b> run as a service principal or pipeline owner with approval, so makers never need production rights.</li><li><b>Git integration</b> (generally available since April 2025) syncs solution objects to source control in readable YAML.</li></ul>"
+    },
+    {
+     "t": "Pipeline limits",
+     "b": "<ul><li>One solution per deployment request.</li><li>No Dataverse table data, only solutions and their configuration.</li><li>No cross-tenant deployment; use Azure DevOps or GitHub with the Power Platform CLI for that.</li><li>Import uses Upgrade without overwrite customizations; advanced import options are not configurable.</li><li>Rolling back to an older version needs the redeploy setting.</li></ul>"
+    },
+    {
+     "t": "Example: externalized config",
+     "b": "<pre><code>Environment variables in solution cr_intake:\n  cr_SharePointSite     (Text)       dev: .../sites/intake-dev   prod: .../sites/intake\n  cr_AlertTeamsChannel  (Text)       per environment\n  cr_BatchSize          (Number)     dev: 10   prod: 200\n  cr_ApiKey             (Secret)     Azure Key Vault reference\n\nIn the flow:\n  parameters('Batch size (cr_BatchSize)')</code></pre>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Treat environment variables as the configuration surface. Anything a release might change (thresholds, recipients, URLs, batch sizes) goes there, not in actions.</li><li>Use one solution per deployable unit. Shared components (logging child flow, shared connection references) can live in a base solution deployed first.</li><li>Production flows should be owned by a service principal and deployed by one. That keeps runtime identity independent of the people on the team.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Editing a flow directly in production. It creates an unmanaged layer on top of the managed solution and later upgrades do not behave as expected.</div><div class=\"trap\"><b>Trap:</b> Hardcoded site URLs and email addresses inside actions. Every promotion needs a manual edit, which defeats the pipeline.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Can Pipelines in Power Platform deploy unmanaged solutions to a target?",
+     "a": "No. Only managed solutions can be deployed to targets."
+    },
+    {
+     "q": "What must every pipeline target environment be?",
+     "a": "A Managed Environment."
+    },
+    {
+     "q": "Do pipelines deploy Dataverse table data?",
+     "a": "No. Only solutions and their configuration such as connection references and environment variables."
+    },
+    {
+     "q": "Can pipelines deploy across tenants?",
+     "a": "No. Use Azure DevOps or GitHub with the Power Platform CLI for cross-tenant deployments."
+    },
+    {
+     "q": "Which solution component stores a value that differs per environment, such as a site URL?",
+     "a": "An environment variable."
+    }
+   ]
+  },
+  {
+   "n": "Ownership, sharing and service principals",
+   "g": "governance",
+   "s": "Who owns a flow decides its license context, what happens when people leave and whether production keeps running, so production flows should be co-owned or owned by a service principal.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>Co-owners</b> can edit, see run history and manage the flow. Owners can be users or security groups.</li><li><b>Run-only users</b> can trigger instant flows, either with their own connections or the owner's embedded connections.</li><li>Owners and admins can change a flow's primary owner.</li><li>A <b>service principal</b> (application user in the environment) can own and run solution flows. It cannot be a co-owner and cannot hold a license.</li></ul>"
+    },
+    {
+     "t": "Service principal licensing",
+     "b": "<ul><li>Standard-connector service principal flows share a tenant-level pool of 25,000 actions per day.</li><li>Premium service principal flows need a Process or per-flow license on the flow, membership in a Process-licensed flow group, or a designated licensed user.</li><li>Dynamics 365 in-context flows can use a tenant pool: 500,000 base plus 5,000 per Dynamics 365 user license, up to 10 million per day.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance",
+     "b": "<ul><li>Pattern for production: deploy via pipeline with a service principal, so the service principal owns the flow; add a security group as co-owner for operators where possible.</li><li>Connections in the flow are separate from ownership. A service principal can own a flow whose SharePoint connection still belongs to a service account; decide each identity explicitly.</li><li>The CoE Starter Kit is no longer actively maintained. Microsoft points to the admin center's inventory, usage, Monitor and actions pages, and to the Power Platform inventory API, to find ownerless or orphaned flows.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> One shared service account with one Premium license running flows for many users. Microsoft calls that multiplexing and it is not compliant; license the flow with Process instead.</div><div class=\"trap\"><b>Trap:</b> A sole owner leaving. The flow is downgraded and turned off 14 days later unless someone acts.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Can a service principal be a co-owner of a flow?",
+     "a": "No. It can only be the owner."
+    },
+    {
+     "q": "How do you license a premium-connector flow owned by a service principal outside Dynamics 365 context?",
+     "a": "Assign a Process or per-flow license to the flow, add it to a Process-licensed flow group, or designate a licensed user."
+    },
+    {
+     "q": "What is the daily action pool for standard-connector service principal flows?",
+     "a": "25,000 actions per day at the tenant level."
+    },
+    {
+     "q": "What is Microsoft's status for the CoE Starter Kit?",
+     "a": "No longer actively maintained; it still works but gets no new features or issue fixes."
+    },
+    {
+     "q": "What admin tools replace CoE Starter Kit inventory?",
+     "a": "The Power Platform admin center inventory, usage, Monitor and actions pages, plus the Power Platform inventory API."
+    }
+   ]
+  },
+  {
+   "n": "Licensing: Premium, Process and seeded rights",
+   "g": "strategy",
+   "s": "Power Automate licensing combines per-user Premium, per-flow or per-bot Process capacity and limited Microsoft 365 seeded rights, and the multiplexing rule is the one most teams get wrong.",
+   "x": [
+    {
+     "t": "License types",
+     "b": "<ul><li><b>Premium</b> (user): premium and custom connectors, unlimited cloud flows within limits, one attended RPA bot, process mining, 40,000 actions per day. List price 15 USD per user per month, paid yearly.</li><li><b>Process</b> (capacity): assigned to a solution cloud flow or a machine. 250,000 actions per day, premium connectors regardless of who owns or triggers the flow, or one unattended bot on a machine. List price 150 USD per bot per month, paid yearly.</li><li><b>Hosted Process</b>: superset of Process with one hosted bot. List price 215 USD per bot per month, paid yearly.</li><li><b>Per-flow</b> is a legacy plan with 250,000 actions per day; it cannot stack or join a flow group.</li><li><b>Microsoft 365 seeded</b>: automated, scheduled and instant cloud flows with standard connectors, 6,000 actions per day. No premium connectors (except in Dataverse for Teams), custom connectors, gateway or RPA.</li></ul>"
+    },
+    {
+     "t": "Flow groups and stacking",
+     "b": "<ul><li>Stack up to 10 Process licenses on one flow for 2.5 million actions per day.</li><li>A <b>flow group</b> shares one Process license across up to 25 solution-aware cloud flows. Add every parent and child explicitly. Groups cannot stack and are environment-specific. Generally available July 2026.</li></ul>"
+    },
+    {
+     "t": "Multiplexing and context",
+     "b": "<ul><li>Automated and scheduled flows need only the owner licensed for premium connectors.</li><li>Instant flows with premium connectors need every user who runs them licensed, or a Process license on the flow.</li><li>Sharing one Premium license through a service account for many users is multiplexing and non-compliant.</li><li>Flows that only deliver data to people (a report email, a file in a shared folder) are not multiplexing; the recipients consume data rather than trigger the flow.</li><li>Power Apps and Dynamics 365 in-context flows can run on those app licenses when associated with the app.</li></ul>"
+    },
+    {
+     "t": "Failure modes",
+     "b": "<div class=\"trap\"><b>Trap:</b> Planning AI Builder workloads on seeded credits. From 1 November 2026 new and renewed licenses stop including them; plan Copilot Credits.</div><div class=\"trap\"><b>Trap:</b> Licensing only the parent of a premium child flow with Process. The child does not inherit capacity; use a flow group or license the child.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "How many actions per day does a Power Automate Premium user get?",
+     "a": "40,000."
+    },
+    {
+     "q": "How many solution cloud flows can share one Process license in a flow group?",
+     "a": "Up to 25."
+    },
+    {
+     "q": "Who must be licensed for an instant flow that uses a premium connector?",
+     "a": "Every user who runs it, unless the flow has a Process license."
+    },
+    {
+     "q": "Is a scheduled premium flow that emails a report to 200 unlicensed colleagues multiplexing?",
+     "a": "No. Recipients consume data rather than trigger the flow, so only the owner needs Premium."
+    },
+    {
+     "q": "What does Microsoft 365 seeded Power Automate exclude?",
+     "a": "Premium connectors (outside Dataverse for Teams), custom connectors, the on-premises gateway and RPA; it allows 6,000 actions per day."
+    }
+   ]
+  },
+  {
+   "n": "Platform fit: Power Automate next to Workato, Logic Apps, Fabric and Databricks",
+   "g": "strategy",
+   "s": "Power Automate is the right tool for Microsoft 365-centric workflow, approvals, light integration and RPA, and the wrong tool for bulk data movement, which belongs in Fabric Data Factory, Databricks or another pipeline engine.",
+   "x": [
+    {
+     "t": "Where each tool fits",
+     "b": "<ul><li><b>Power Automate:</b> approvals, notifications, SharePoint, Teams and Outlook workflows, Dataverse and Power Apps logic, desktop RPA, and flows called by Copilot Studio agents.</li><li><b>Azure Logic Apps:</b> the same expression language and many of the same connectors, with Azure resource management, ARM or Bicep deployment, Azure Monitor and B2B (Enterprise Integration Pack). Microsoft positions it for IT-built enterprise integration.</li><li><b>Workato:</b> cross-SaaS enterprise integration and API management outside the Microsoft stack, with its own governance model.</li><li><b>Fabric Data Factory (pipelines, Dataflow Gen2, copy jobs):</b> scheduled and bulk data movement into OneLake and warehouses. This is the natural landing zone for ADF pipelines.</li><li><b>Databricks:</b> large-scale transformation, Spark and ML workloads.</li></ul>"
+    },
+    {
+     "t": "Integration points",
+     "b": "<ul><li>Fabric Activator rules can call Power Automate flows through custom actions, passing fields that the flow reads with <code>triggerBody()?['customProperties/FIELD_NAME']</code>.</li><li>Power BI can trigger flows from a report button, and flows can refresh datasets or export reports.</li><li>Cloud flows can call Fabric or Databricks job APIs over HTTP, then poll status with a bounded do until.</li></ul>"
+    },
+    {
+     "t": "When not to use Power Automate",
+     "b": "<ul><li>Moving or transforming large datasets. Message size, 100,000-item loop and pagination caps, content throughput limits and per-action metering all make it slow and expensive.</li><li>Sub-second, high-throughput event processing.</li><li>Logic that needs real version control and code review beyond solution YAML, where Logic Apps Standard or code is a better fit.</li><li>Long-running batch jobs that might exceed 30 days or need checkpoint restart.</li></ul>"
+    },
+    {
+     "t": "Senior-level nuance for an ADF exit",
+     "b": "<ul><li>Map each ADF pipeline to a workload type first: bulk copy and transformation goes to Fabric or Databricks; event-driven business workflow goes to Power Automate or Workato.</li><li>Pick one owner per integration. Two tools syncing the same table produce conflicts and audit gaps.</li><li>Power Automate is attractive where the work already touches Microsoft 365, Dataverse or Teams and where the Premium licenses are already paid for.</li></ul>"
+    },
+    {
+     "t": "Design review questions",
+     "b": "<ul><li>How many rows or MB per run, and how many runs per day? Does that fit request and throughput limits?</li><li>Which tool already holds the connection, credentials and BAA coverage for each endpoint?</li><li>Who operates it, and where do they see failures?</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which Microsoft service shares Power Automate's workflow expression language but deploys as an Azure resource?",
+     "a": "Azure Logic Apps."
+    },
+    {
+     "q": "Where should bulk ADF copy pipelines land in a Fabric migration?",
+     "a": "Fabric Data Factory pipelines or copy jobs (or Databricks), not Power Automate."
+    },
+    {
+     "q": "How can a Fabric Activator rule start a Power Automate flow?",
+     "a": "Through an Activator custom action built as a flow with the Activator trigger."
+    },
+    {
+     "q": "Name two Power Automate limits that make it a poor bulk data mover.",
+     "a": "The 100 MB message size and per-action request metering (also loop and pagination caps and content throughput)."
+    }
+   ]
+  }
+ ],
+ "refreshDays": 90,
+ "sources": [
+  {
+   "title": "Limits of automated, scheduled, and instant flows",
+   "url": "https://learn.microsoft.com/power-automate/limits-and-config"
+  },
+  {
+   "title": "Understand platform limits and avoid throttling",
+   "url": "https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/understand-limits"
+  },
+  {
+   "title": "Employ robust error handling",
+   "url": "https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/error-handling"
+  },
+  {
+   "title": "Optimize Power Automate triggers",
+   "url": "https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/optimize-power-automate-triggers"
+  },
+  {
+   "title": "Customize triggers with conditions",
+   "url": "https://learn.microsoft.com/power-automate/customize-triggers"
+  },
+  {
+   "title": "Implement parallel execution",
+   "url": "https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/implement-parallel-execution"
+  },
+  {
+   "title": "List rows from a table in Dataverse",
+   "url": "https://learn.microsoft.com/en-us/power-automate/dataverse/list-rows"
+  },
+  {
+   "title": "Understand the benefits of solution-aware flows",
+   "url": "https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/understand-benefits-solution-aware-flows"
+  },
+  {
+   "title": "Classic vs modern designer",
+   "url": "https://learn.microsoft.com/en-ie/power-automate/classic-vs-modern-designer"
+  },
+  {
+   "title": "Important changes (deprecations) coming in Power Platform",
+   "url": "https://learn.microsoft.com/en-us/power-platform/important-changes-coming"
+  },
+  {
+   "title": "Power Automate licensing types",
+   "url": "https://learn.microsoft.com/power-platform/admin/power-automate-licensing/types"
+  },
+  {
+   "title": "Frequently asked questions about Power Automate licensing",
+   "url": "https://learn.microsoft.com/power-platform/admin/power-automate-licensing/faqs"
+  },
+  {
+   "title": "Power Automate pricing",
+   "url": "https://www.microsoft.com/power-platform/products/power-automate/pricing"
+  },
+  {
+   "title": "Support for service principal owned flows",
+   "url": "https://learn.microsoft.com/en-us/power-automate/service-principal-support"
+  },
+  {
+   "title": "Pipelines in Power Platform",
+   "url": "https://learn.microsoft.com/en-us/power-platform/alm/pipelines"
+  },
+  {
+   "title": "Managed Environments overview",
+   "url": "https://learn.microsoft.com/power-platform/admin/managed-environment-overview"
+  },
+  {
+   "title": "Manage advanced connector policies programmatically",
+   "url": "https://learn.microsoft.com/en-us/power-platform/admin/programmability-tutorial-manage-advanced-connector-policies"
+  },
+  {
+   "title": "Announcing major DLP enhancements for Power Automate and Copilot Studio",
+   "url": "https://www.microsoft.com/en-us/power-platform/blog/power-automate/announcing-major-dlp-enhancements-for-power-automate-and-copilot-studio/"
+  },
+  {
+   "title": "HIPAA and HITECH Act compliance offering",
+   "url": "https://learn.microsoft.com/compliance/regulatory/offering-hipaa-hitech"
+  },
+  {
+   "title": "Hosted machine groups",
+   "url": "https://learn.microsoft.com/power-automate/desktop-flows/hosted-machine-groups"
+  },
+  {
+   "title": "Run unattended desktop flows",
+   "url": "https://learn.microsoft.com/power-automate/desktop-flows/run-unattended-desktop-flows"
+  },
+  {
+   "title": "New and planned features for Power Automate, 2026 release wave 1",
+   "url": "https://learn.microsoft.com/en-us/power-platform/release-plan/2026wave1/power-automate/planned-features"
+  },
+  {
+   "title": "Power Automate plugin for external AI tools",
+   "url": "https://learn.microsoft.com/en-us/power-automate/power-automate-plugin-external-tools"
+  },
+  {
+   "title": "Use generative actions in cloud flows (preview)",
+   "url": "https://learn.microsoft.com/power-automate/generative-actions-overview"
+  },
+  {
+   "title": "Agent flows FAQ (Copilot Studio)",
+   "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-faqs"
+  }
+ ]
+}

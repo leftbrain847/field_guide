@@ -1,0 +1,805 @@
+{
+ "id": "venture",
+ "title": "Venture capital",
+ "updated": "2026-11-14",
+ "refreshDays": 180,
+ "note": "Everything a founder needs to raise the odds of landing in the minority that exits with a payout: base rates, payout math, how VCs think, terms, and the idea scorecard. Deal-term data is quarterly and tax law changes, so refresh every six months.",
+ "groups": [
+  {
+   "key": "odds",
+   "label": "The odds"
+  },
+  {
+   "key": "payout",
+   "label": "Payout math"
+  },
+  {
+   "key": "vcs",
+   "label": "How VCs think"
+  },
+  {
+   "key": "decide",
+   "label": "Raise or not"
+  },
+  {
+   "key": "terms",
+   "label": "Instruments and terms"
+  },
+  {
+   "key": "rubric",
+   "label": "The scorecard"
+  },
+  {
+   "key": "exit",
+   "label": "The exit"
+  }
+ ],
+ "concepts": [
+  {
+   "n": "The founder payoff distribution",
+   "g": "odds",
+   "s": "Most VC-backed founders get nothing at exit: in the largest recent study, 84% received zero exit value and the top 2% captured 80% of all founder value.",
+   "x": [
+    {
+     "t": "The evidence",
+     "b": "<p>Azevedo, Scheuer, Smetters and Yang (NBER working paper 34512, November 2025) built a dataset of about 96,000 US VC-backed startups and 180,000 founders from 1987 to 2021, using PitchBook, CB Insights, SEC filings and other sources.</p><ul><li>84% of founders received zero exit value; 16% received a positive payoff.</li><li>Founding teams were wiped out in 74% of companies; founders who left surviving companies early shrank the positive group further.</li><li>Among founders with a positive payoff, the average after-tax payoff was about $45.6M and the median about $5.6M.</li><li>The top 2% of founders captured 80% of total founder exit value.</li></ul><p>A revised version of the manuscript reports an even harsher split: 88% with zero and the top 1% holding 79% of value. It is a working paper and has not been peer reviewed.</p>",
+     "c": []
+    },
+    {
+     "t": "What it means",
+     "b": "<p>If your target is the group that exits profitably, the base rate is roughly 12-16% per VC-backed attempt, below the commonly quoted 20%. And landing in that group usually means a mid-single-digit-millions payoff, since the mean is pulled up by a few outliers.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Anchoring on the mean. A $45.6M average among winners comes from a tiny tail; plan around the median outcome, and around the 84% that get zero.</div><div class=\"trap\"><b>Trap:</b> Counting \"exits\" as founder wins. An acquisition can return nothing to common stock once investor preferences are paid.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "In NBER w34512, what share of VC-backed founders received zero exit value?",
+     "a": "84% (88% in the revised manuscript)."
+    },
+    {
+     "q": "Among founders with any payoff, what were the median and mean after-tax payoffs?",
+     "a": "Median about $5.6M; mean about $45.6M."
+    },
+    {
+     "q": "What share of total founder exit value did the top 2% capture?",
+     "a": "About 80%."
+    },
+    {
+     "q": "In what share of companies were founding teams wiped out?",
+     "a": "About 74%."
+    }
+   ]
+  },
+  {
+   "n": "What actually predicts success",
+   "g": "odds",
+   "s": "The best-documented predictors of VC-backed success are prior success, the industry and year you start in, and, for first-time founders, backing from an experienced VC firm.",
+   "x": [
+    {
+     "t": "Serial founders",
+     "b": "<p>Gompers, Kovner, Lerner and Scharfstein (\"Performance Persistence in Entrepreneurship\", Journal of Financial Economics, 2010) studied VC-backed ventures and defined success as going public or filing to.</p><p>Raw success rates:</p><ul><li>Founders with a prior success: 30%.</li><li>First-time founders: 18%.</li><li>Founders who previously failed: 20%, about the same as first-timers.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Timing is a skill",
+     "b": "<p>The same paper found the industry-year success rate of a founder's first venture was the best predictor of success in the next one. Their example: 52% of computer startups founded in 1983 went public versus 18% of those founded in 1985.</p>",
+     "c": []
+    },
+    {
+     "t": "Experienced investors",
+     "b": "<p>First-time founders had a 20.9% chance of success when backed by more experienced VC firms versus 14.3% with less experienced ones. The investor effect did not show up for founders with a prior success.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> \"Failure teaches.\" In this data, a prior failure barely moved the odds. Treat a failed attempt as a fresh draw unless you can name what changed.</div><div class=\"synth\"><b>Synthesis:</b> A Claude analysis of a free 2015 Crunchbase snapshot (about 4,600 US VC-backed companies founded 1998-2007) found sector explained a large share of variation in exit rates, but year-to-year timing within a sector was mostly noise and nothing knowable at founding predicted a good year. Treat sector base rates as measurable and \"why now\" as judgment.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Success rates in Gompers et al. for prior-success, first-time and prior-failure founders?",
+     "a": "30%, 18% and 20%."
+    },
+    {
+     "q": "What was the best predictor of success in a founder's next venture?",
+     "a": "The industry-year success rate of their first venture (picking the right industry and time)."
+    },
+    {
+     "q": "First-time founders: success with experienced vs less experienced VCs?",
+     "a": "20.9% vs 14.3%."
+    },
+    {
+     "q": "What share of 1983 vs 1985 computer startups went public?",
+     "a": "52% vs 18%."
+    },
+    {
+     "q": "How did Gompers et al. define success?",
+     "a": "Going public or filing to go public."
+    }
+   ]
+  },
+  {
+   "n": "Repeated attempts math",
+   "g": "odds",
+   "s": "Multiple ventures raise the chance of at least one paying exit only slowly, because each attempt is close to an independent draw at a low base rate and takes years.",
+   "x": [
+    {
+     "t": "The arithmetic",
+     "b": "<p>P(at least one paying exit in n tries) = 1 - (1 - p)^n.</p><ul><li>At p = 12%: 3 tries gives about 32%, 4 tries about 40%.</li><li>At p = 16%: 3 tries gives about 41%, 4 tries about 50%.</li><li>Expected tries to one success is 1/p: about 6 to 8.</li></ul><p>Each VC-backed attempt typically takes several years, so four attempts is roughly a decade.</p>",
+     "c": []
+    },
+    {
+     "t": "What moves p",
+     "b": "<ul><li>Prior success (30% vs 18% in Gompers et al.).</li><li>Industry and timing.</li><li>Experienced investors, for first-timers.</li><li>Capital structure that keeps common stock in the money at a median exit (see Liquidation preferences).</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming each failure raises the next attempt's odds. The data shows near-zero lift from failure alone.</div><div class=\"synth\"><b>Synthesis:</b> Treat each attempt as a ticket whose cost you control. The lever you fully own is how much each losing ticket costs you in pay, years and reputation.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Formula for the chance of at least one success in n independent tries?",
+     "a": "1 - (1 - p)^n."
+    },
+    {
+     "q": "At a 12% per-attempt rate, roughly what is the chance of at least one paying exit in 4 tries?",
+     "a": "About 40%."
+    },
+    {
+     "q": "At p = 15%, about how many attempts does one success take on average?",
+     "a": "About 6.7 (1/p)."
+    },
+    {
+     "q": "What cost of each attempt can a founder control most directly?",
+     "a": "Opportunity cost: forgone pay, years, and re-entry penalties."
+    }
+   ]
+  },
+  {
+   "n": "Liquidation preferences and the waterfall",
+   "g": "payout",
+   "s": "A liquidation preference lets preferred investors take their money back before common stock gets anything, so the total preference stack decides whether founders are paid in a modest exit.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<ul><li><b>1x non-participating</b> (the market standard): at exit each investor takes the greater of its money back or its pro-rata share as if converted to common.</li><li><b>Participating</b>: the investor takes its money back and then also shares in the rest.</li><li><b>Multiples above 1x</b> (for example 2x): the investor takes a multiple of its money first.</li><li><b>Seniority</b>: senior preferred is paid before junior; pari passu means classes share equally.</li></ul><p>Cooley's venture reports show founder-friendly terms dominate: in Q4 2025, 98% of deals used a 1x preference and 96% used non-participating preferred.</p>",
+     "c": []
+    },
+    {
+     "t": "Worked example",
+     "b": "<p>Investors put in $40M total at 1x non-participating and own 50%. The company sells for $50M.</p><ul><li>Converting gives investors 50% of $50M = $25M, less than $40M, so they take the $40M preference.</li><li>Common (founders, employees) splits $10M.</li><li>At a $30M sale, investors take all $30M and common gets zero.</li></ul><p>A founder who owns 20% of the company holds 40% of the common, so gets about $4M before tax from a $50M headline price.</p>",
+     "c": []
+    },
+    {
+     "t": "Design rule",
+     "b": "<p>Model the waterfall at a realistic exit, not a home run. If common is near zero at a plausible sale price, more money raised makes your outcome worse.</p><div class=\"synth\"><b>Synthesis:</b> Keep total preferences well below a realistic exit price, for example under about a third, so common stays in the money. This threshold is a rule of thumb, not a research finding.</div>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Optimizing the headline valuation. A higher valuation usually means more money raised and a bigger preference stack, which raises the exit price you need just to break even on common.</div><div class=\"trap\"><b>Trap:</b> Forgetting management carve-outs and bridge rounds. Bridges often come with extra preference or a senior position.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Under a 1x non-participating preference, what does the investor take at exit?",
+     "a": "The greater of its original investment or its as-converted share of proceeds."
+    },
+    {
+     "q": "How does participating preferred differ?",
+     "a": "The investor takes its money back and also shares pro rata in the remaining proceeds."
+    },
+    {
+     "q": "Per Cooley Q4 2025, what share of deals had a 1x preference and non-participating preferred?",
+     "a": "98% and 96%."
+    },
+    {
+     "q": "$40M preference stack, $30M sale, 1x non-participating: what does common get?",
+     "a": "Zero; investors take the full $30M."
+    },
+    {
+     "q": "Why can a higher valuation hurt a founder's payout?",
+     "a": "It usually comes with more capital raised and a larger preference stack, raising the exit price needed for common to get anything."
+    }
+   ]
+  },
+  {
+   "n": "Dilution and the cap table",
+   "g": "payout",
+   "s": "Each priced round typically sells about a fifth of the company, so founders usually hold around a third of the company by Series A.",
+   "x": [
+    {
+     "t": "Benchmarks",
+     "b": "<ul><li>Carta data shows median dilution of roughly 20% at a priced seed and at Series A in recent years, falling at later rounds.</li><li>Carta's 2026 Founder Ownership Report puts the median founding team at about 56% after seed and about 36% after Series A.</li><li>Carta reported that fewer than 10% of software seed rounds in 2025 sold 30% or more.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "The option pool shuffle",
+     "b": "<p>Investors often require the employee option pool be created or enlarged in the pre-money valuation. That dilutes only existing holders, so the effective pre-money is lower than the headline. Size the pool to a hiring plan for the next round, not a round number.</p>",
+     "c": []
+    },
+    {
+     "t": "SAFE stacking",
+     "b": "<p>Post-money SAFEs fix the holder's ownership at the cap. Raising several SAFEs before a priced round means all of that dilution lands on founders, and it converts at the first priced round on top of that round's dilution.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reading ownership pre-pool. Always look at fully diluted ownership including the pool and all convertibles.</div><div class=\"trap\"><b>Trap:</b> Selling 30%+ at seed. It is uncommon in Carta's data and leaves little room for later rounds.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Typical median dilution at a priced seed or Series A in Carta data?",
+     "a": "About 20% (roughly 18-20% in recent data)."
+    },
+    {
+     "q": "Median founding-team ownership after seed and after Series A (Carta 2026)?",
+     "a": "About 56% and about 36%."
+    },
+    {
+     "q": "What is the option pool shuffle?",
+     "a": "Putting the new or enlarged option pool in the pre-money, so only existing holders bear its dilution and the effective pre-money falls."
+    },
+    {
+     "q": "Why can stacked post-money SAFEs surprise founders?",
+     "a": "Each fixes the investor's ownership, so all SAFE dilution falls on existing holders and then stacks with the priced round."
+    }
+   ]
+  },
+  {
+   "n": "Pay while you build",
+   "g": "payout",
+   "s": "Because equity is usually worth zero, a founder's realistic financial outcome is mostly cash pay during the venture plus career earnings after it.",
+   "x": [
+    {
+     "t": "How it works",
+     "b": "<p>Cash pay at the earliest stage is usually well below market and rises after funding and revenue. Your true cost of founding is an opportunity-cost budget:</p><p><code>(market pay - founder pay) x years + re-entry cost if it fails</code></p>",
+     "c": []
+    },
+    {
+     "t": "Design rule",
+     "b": "<ul><li>Before traction: build beside your job.</li><li>Go all-in when a round or revenue can pay close to market (for example within about 15%).</li><li>A portfolio of income streams counts only if together they reach market pay.</li></ul><div class=\"synth\"><b>Synthesis:</b> The 15% band is the scorecard's working rule, chosen so the equity does not have to pay much for the bet to break even. It is a judgment, not a study result.</div>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Going all-in early to signal commitment. Investors care about traction; the personal burn shortens your runway and pushes you toward bad terms.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Write the founder opportunity-cost budget.",
+     "a": "(Market pay minus founder pay) times years, plus the re-entry cost if it fails."
+    },
+    {
+     "q": "When does the scorecard say to go all-in?",
+     "a": "When funding or revenue can pay close to market, within about 15%."
+    },
+    {
+     "q": "Why focus on cash pay if equity is the prize?",
+     "a": "Most founders' equity ends at zero, so cash pay and later career earnings are the realistic outcome."
+    }
+   ]
+  },
+  {
+   "n": "Fund math and the power law",
+   "g": "vcs",
+   "s": "Venture returns are so concentrated that a fund needs a few companies to return the whole fund, which is why VCs push every company toward a huge outcome.",
+   "x": [
+    {
+     "t": "The power law",
+     "b": "<p>Data that Horsley Bridge, a large investor in VC funds, shared with Andreessen Horowitz showed about 6% of investments, using 4.5% of dollars, produced about 60% of total returns across funds since 1985. The same data showed the best funds lost money on a larger share of deals than merely good funds.</p>",
+     "c": []
+    },
+    {
+     "t": "Return-the-fund math",
+     "b": "<p>A $100M fund aiming to return 3x net needs well over $300M back before fees and carry. If it owns 10% of a company at exit, that one company must sell for about $1B to return the fund once. So the partner judges your company on whether it can be that kind of outcome, not whether it can be a good business.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming your investors want what you want. A $60M sale can change a founder's life and be irrelevant to a $500M fund.</div><div class=\"synth\"><b>Synthesis:</b> Pick fund size to match your realistic exit. A small seed fund or angels can be happy with outcomes a large fund would block or ignore.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Horsley Bridge data: what share of investments produced about 60% of returns?",
+     "a": "About 6% (using 4.5% of dollars)."
+    },
+    {
+     "q": "A $100M fund owns 10% at exit. How big must one exit be to return the fund?",
+     "a": "About $1B."
+    },
+    {
+     "q": "Did the best funds in Horsley Bridge data lose money on fewer deals?",
+     "a": "No; great funds lost money on a larger share of deals than good funds."
+    },
+    {
+     "q": "Why does fund size matter to a founder?",
+     "a": "Bigger funds need bigger exits to matter, so they may push against a sale that is good for the founder."
+    }
+   ]
+  },
+  {
+   "n": "When founder and VC incentives split",
+   "g": "vcs",
+   "s": "Founders own one company and want a high chance of a decent payout, while VCs own a portfolio and want a small chance of a huge one, and that gap shows up in exit decisions.",
+   "x": [
+    {
+     "t": "Where it shows",
+     "b": "<ul><li><b>Early acquisition offers:</b> founders may want to sell; a VC may prefer to swing for a larger outcome.</li><li><b>Raising more:</b> more capital raises the odds of a giant outcome and lowers the odds common gets paid in a modest one.</li><li><b>Protective provisions:</b> preferred holders can often block a sale or a new round.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "How to manage it",
+     "b": "<ul><li>Discuss exit expectations before taking money.</li><li>Keep board control balanced through the early rounds.</li><li>Consider a founder secondary in a later round to take some money off the table, which lowers your need to sell early.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Discovering misalignment at the exit. By then the investors' veto rights are already signed.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why might a VC oppose a sale a founder wants?",
+     "a": "The sale is too small to matter for the fund's returns, which depend on rare huge outcomes."
+    },
+    {
+     "q": "What is a founder secondary?",
+     "a": "A founder selling some existing shares, usually during a later round, to take money off the table."
+    },
+    {
+     "q": "When should exit expectations be discussed with investors?",
+     "a": "Before taking their money."
+    }
+   ]
+  },
+  {
+   "n": "Picking investors",
+   "g": "vcs",
+   "s": "Investor choice matters most for first-time founders, so judge firms on experience, partner track record and how they behave when things go badly.",
+   "x": [
+    {
+     "t": "Signal",
+     "b": "<ul><li>Firm experience: Gompers et al. found first-time founders backed by more experienced firms succeeded more often (20.9% vs 14.3%).</li><li>The specific partner: board experience and portfolio companies at your stage.</li><li>Back-channel references, especially founders whose companies failed or sold small.</li><li>Reserves and follow-on behavior: will they fund the next round?</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Noise",
+     "b": "<ul><li>Brand alone.</li><li>The highest valuation offered.</li><li>Promised \"platform\" services you cannot verify.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Only calling references the investor gives you. Those are chosen to be positive.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Whose references reveal the most about an investor?",
+     "a": "Founders of companies that failed or sold small, found through back channels."
+    },
+    {
+     "q": "For which founders did VC experience predict success in Gompers et al.?",
+     "a": "First-time founders and those who had previously failed, not prior-success founders."
+    },
+    {
+     "q": "Name two noise signals when choosing an investor.",
+     "a": "Brand alone and the highest valuation offered."
+    }
+   ]
+  },
+  {
+   "n": "Raise, bootstrap, or something else",
+   "g": "decide",
+   "s": "Venture capital suits companies that can plausibly become very large very fast; most good businesses are better funded by customers, savings, debt or non-dilutive money.",
+   "x": [
+    {
+     "t": "Options",
+     "b": "<ul><li><b>Bootstrapping:</b> fund from revenue and savings; keep ownership and exit choice.</li><li><b>Customer funding:</b> pre-orders, annual prepayment, paid pilots.</li><li><b>Angels and small funds:</b> smaller checks, smaller exit needs.</li><li><b>Revenue-based financing:</b> repaid from a share of revenue, for companies with predictable recurring revenue.</li><li><b>Non-dilutive grants:</b> federal SBIR/STTR awards, reauthorized in April 2026 through September 30, 2031.</li><li><b>Bank and SBA-backed loans</b> for businesses with assets or cash flow.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "When VC fits",
+     "b": "<ul><li>A market that can support a very large company.</li><li>Growth that needs capital before revenue can fund it.</li><li>Winner-take-most dynamics where speed decides the outcome.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Raising because it signals success. Each round raises the exit price you need for common to get paid.</div><div class=\"synth\"><b>Synthesis:</b> None of the NBER or Gompers numbers describe bootstrapped or non-VC companies. Their payoff shape is different, often more modest at the top and less often zero.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Name three non-VC funding routes.",
+     "a": "Bootstrapping, customer prepayment or pre-orders, revenue-based financing (also angels, SBIR grants, bank or SBA loans)."
+    },
+    {
+     "q": "Through when are SBIR/STTR authorized after the 2026 reauthorization?",
+     "a": "September 30, 2031."
+    },
+    {
+     "q": "Name two signs VC fits a company.",
+     "a": "A market that supports a very large company and growth that needs capital before revenue can fund it."
+    },
+    {
+     "q": "Who is revenue-based financing for?",
+     "a": "Companies with predictable recurring revenue, repaid from a share of that revenue."
+    }
+   ]
+  },
+  {
+   "n": "SAFEs and convertible notes",
+   "g": "terms",
+   "s": "SAFEs and convertible notes delay pricing until a later round, then convert into preferred stock at a discount or a valuation cap.",
+   "x": [
+    {
+     "t": "How they work",
+     "b": "<ul><li><b>SAFE</b> (simple agreement for future equity, created by Y Combinator): not debt, no interest or maturity; converts at the next priced round.</li><li><b>Valuation cap:</b> the highest valuation at which it converts. <b>Discount:</b> a percentage off the next round's price. The holder gets whichever is better.</li><li><b>Post-money SAFE:</b> the cap is measured after the SAFE money, so the holder's ownership is fixed and easy to compute; the dilution falls on existing holders.</li><li><b>Convertible note:</b> debt with interest and a maturity date that converts at a priced round.</li><li><b>MFN:</b> a most-favored-nation clause gives the holder the better terms of later SAFEs.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Quick math",
+     "b": "<p>$1M post-money SAFE at a $10M cap: the holder will own 10% before the priced round's new money.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating SAFE money as free. It converts at the next round, and several SAFEs can add up to a large chunk of the company.</div><div class=\"trap\"><b>Trap:</b> Letting a note hit maturity. A matured note is debt the holder can demand repaid.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Is a SAFE debt?",
+     "a": "No; it has no interest or maturity and converts into equity at a future priced round."
+    },
+    {
+     "q": "A $1M post-money SAFE at a $10M cap gives the holder what ownership?",
+     "a": "10%, before the priced round's new money."
+    },
+    {
+     "q": "What does a valuation cap do?",
+     "a": "Sets the maximum valuation at which the SAFE or note converts."
+    },
+    {
+     "q": "What does an MFN clause give a SAFE holder?",
+     "a": "The right to the better terms of any later SAFE."
+    }
+   ]
+  },
+  {
+   "n": "Priced-round economic terms",
+   "g": "terms",
+   "s": "Beyond valuation, the terms that move money in a priced round are liquidation preference, participation, anti-dilution, dividends, redemption and pay-to-play.",
+   "x": [
+    {
+     "t": "The terms",
+     "b": "<ul><li><b>Liquidation preference and participation:</b> see the payout group; 1x non-participating is standard.</li><li><b>Anti-dilution:</b> if a later round prices lower, broad-based weighted average adjusts the investor's conversion price modestly and is standard; full ratchet resets it to the new low price and is harsh.</li><li><b>Dividends:</b> usually non-cumulative and only if declared; cumulative or accruing dividends add to the preference.</li><li><b>Redemption:</b> the investor can force the company to buy back shares after a period. Rare and investor-friendly.</li><li><b>Pay-to-play:</b> investors who do not join a new round lose preferred rights. Cooley reported it in 6.3% of Q4 2025 deals, down from 9.9% the quarter before.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Accepting a high valuation with a full ratchet, participation or a multiple preference. These can cost more at exit than a lower clean valuation.</div><div class=\"trap\"><b>Trap:</b> Ignoring a bridge round's terms. Down-market bridges often carry seniority or extra preference.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which anti-dilution is standard and which is harsh?",
+     "a": "Broad-based weighted average is standard; full ratchet is harsh."
+    },
+    {
+     "q": "What does a full ratchet do?",
+     "a": "Resets the investor's conversion price to the lower price of a later round."
+    },
+    {
+     "q": "What is pay-to-play?",
+     "a": "Investors who do not participate in a new round lose some preferred rights or convert to common."
+    },
+    {
+     "q": "Why are cumulative dividends investor-friendly?",
+     "a": "They accrue and add to the amount paid ahead of common at exit."
+    }
+   ]
+  },
+  {
+   "n": "Control terms",
+   "g": "terms",
+   "s": "Control terms decide who can approve a sale, a new round or a CEO change, and they often matter more than price when outcomes diverge.",
+   "x": [
+    {
+     "t": "The terms",
+     "b": "<ul><li><b>Board composition:</b> a common early structure is two founder seats and one investor seat, shifting as rounds add investor seats and independents.</li><li><b>Protective provisions:</b> preferred holders must approve actions such as selling the company, issuing senior stock or changing the charter.</li><li><b>Drag-along:</b> if the board and a set majority approve a sale, other holders must go along.</li><li><b>Information and pro-rata rights:</b> financial reports and the right to invest in later rounds.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Giving up board control early. Losing the board means losing control of hiring and firing the CEO, and of the sale decision.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are protective provisions?",
+     "a": "Actions, such as a sale or issuing senior stock, that require preferred holders' approval."
+    },
+    {
+     "q": "What does a drag-along do?",
+     "a": "Forces other holders to join a sale once the required parties approve it."
+    },
+    {
+     "q": "What can a founder lose with board control?",
+     "a": "Control over the CEO role and over sale and financing decisions."
+    }
+   ]
+  },
+  {
+   "n": "Founder equity hygiene",
+   "g": "terms",
+   "s": "A few early paperwork steps (vesting, the 83(b) election, and QSBS eligibility) can swing a founder's after-tax payout by millions.",
+   "x": [
+    {
+     "t": "Vesting and acceleration",
+     "b": "<p>Standard founder vesting is four years with a one-year cliff. Single-trigger acceleration vests on a sale; double-trigger vests on a sale plus termination, and investors and acquirers generally prefer double-trigger.</p>",
+     "c": []
+    },
+    {
+     "t": "83(b) election",
+     "b": "<p>When founders receive restricted stock subject to vesting, filing an 83(b) election with the IRS within 30 days of the grant lets them pay tax on today's low value instead of on each vesting date. The deadline cannot be extended.</p>",
+     "c": []
+    },
+    {
+     "t": "QSBS (Section 1202)",
+     "b": "<p>Gains on qualified small business stock in a C corporation can be excluded from federal tax. For stock issued after July 4, 2025, the One Big Beautiful Bill Act set:</p><ul><li>50% exclusion after 3 years, 75% after 4, 100% after 5.</li><li>A per-issuer cap of the greater of $15M or 10x basis, indexed for inflation from 2027.</li><li>A $75M aggregate gross assets limit at issuance.</li></ul><p>Stock issued on or before July 4, 2025 keeps the old rules: a 5-year hold, a $10M or 10x cap, and a $50M asset limit. The taxable part of a 3- or 4-year sale is taxed at 28%. Study material, not tax advice.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Missing the 83(b) deadline. Tax is then due on each vesting date at the stock's value then, possibly with no cash to pay it.</div><div class=\"trap\"><b>Trap:</b> Forming as an LLC and converting late. QSBS needs C-corporation stock acquired at original issuance; the clock starts at issuance.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Standard founder vesting?",
+     "a": "Four years with a one-year cliff."
+    },
+    {
+     "q": "Deadline to file an 83(b) election?",
+     "a": "Within 30 days of receiving the restricted stock."
+    },
+    {
+     "q": "QSBS exclusion for stock issued after July 4, 2025 at 3, 4 and 5 years?",
+     "a": "50%, 75% and 100%."
+    },
+    {
+     "q": "New QSBS per-issuer cap and asset limit after OBBBA?",
+     "a": "Greater of $15M or 10x basis; $75M in gross assets at issuance."
+    },
+    {
+     "q": "Single vs double-trigger acceleration?",
+     "a": "Single vests on a sale; double needs a sale plus termination."
+    }
+   ]
+  },
+  {
+   "n": "Idea scorecard: the gates",
+   "g": "rubric",
+   "s": "Before scoring an idea, run four pass-or-fail gates; failing any one means drop the idea or change its structure.",
+   "x": [
+    {
+     "t": "The core equation",
+     "b": "<p>Founder payout is roughly (exit price - preferences paid first) x your ownership of common. Every gate asks whether that stays above zero at a typical exit, not just a home run.</p>",
+     "c": []
+    },
+    {
+     "t": "The four gates",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Exit path.</b> Signal: three or more named, plausible acquirers and real acquisitions in the space. Noise: \"this could IPO.\"</li><li><b>Capital vs exit.</b> Signal: common still gets money at a median-sized exit after preferences. Noise: the headline valuation.</li><li><b>Work mode fits stage.</b> Side project before traction; all-in only near market pay; a portfolio only if it adds up to market pay. Noise: going all-in to show commitment.</li><li><b>Kill criteria written first.</b> The milestone, metric and date that would make you stop, written before you start.</li></ol>",
+     "c": []
+    },
+    {
+     "t": "Why gates before scores",
+     "b": "<p>Gates can kill an idea with arithmetic. A weighted score keeps you disciplined but does not predict success, so it should never rescue an idea that fails a gate.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Scoring first and rationalizing the gates after. Motivated reasoning works on totals; pass/fail checks resist it.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the scorecard's core payout equation?",
+     "a": "(Exit price minus preferences paid first) times your ownership of common."
+    },
+    {
+     "q": "Name the four gates.",
+     "a": "Exit path, capital vs exit, work mode fits stage, kill criteria written first."
+    },
+    {
+     "q": "What is the signal for the exit-path gate?",
+     "a": "Three or more named plausible acquirers and real acquisitions in the space."
+    },
+    {
+     "q": "Why run gates before scoring?",
+     "a": "Gates kill ideas with arithmetic; scores discipline thinking but do not predict success, so they must not override a failed gate."
+    }
+   ]
+  },
+  {
+   "n": "Idea scorecard: weighted criteria",
+   "g": "rubric",
+   "s": "Score surviving ideas 1-5 on six weighted criteria, knowing that only sector base rates and investor fit have research behind them.",
+   "x": [
+    {
+     "t": "Criteria and weights",
+     "b": "<ul><li><b>Sector base rate (20).</b> Signal: the sector's historical exit rate. Noise: hype and funding headlines.</li><li><b>Catalyst / why now (10).</b> Signal: a specific change such as a regulation, a cost drop or a new budget line. Noise: \"AI changes everything.\"</li><li><b>Edge / arbitrage (25).</b> Signal: you can name the mispricing and why incumbents cannot take it. Noise: \"nobody's doing this.\"</li><li><b>Distribution (20).</b> Signal: your first 10 customers, by name. Noise: market-size slides.</li><li><b>Iteration cost (15).</b> Signal: a test that could kill it in under two weeks, done on the side. Noise: building before demand is proven.</li><li><b>Investor fit (10).</b> Signal: the firm's experience and a partner who has held board seats. Noise: brand, valuation offered.</li></ul><p>Weights total 100 and are judgment calls; change them per idea and record why.</p>",
+     "c": []
+    },
+    {
+     "t": "Evidence behind each",
+     "b": "<ul><li>Sector and timing: Gompers et al.'s industry-year effect (52% vs 18%).</li><li>Investor fit: the experienced-VC effect for first-time founders (20.9% vs 14.3%).</li><li>Edge, distribution and iteration cost: structure that keeps you honest, not proven predictors.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Connect to GTM",
+     "b": "<p>Distribution is scored against the motion map in the Go-to-market tab: naming your first 10 customers means knowing your rung, buyer and channel.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating a high total as a forecast. The score ranks ideas you have already filtered; it does not estimate your odds.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which two scorecard criteria have research support?",
+     "a": "Sector base rate (industry-year effect) and investor fit (experienced-VC effect)."
+    },
+    {
+     "q": "What is the signal for distribution?",
+     "a": "You can name your first 10 customers."
+    },
+    {
+     "q": "Which criterion has the highest weight?",
+     "a": "Edge / arbitrage, at 25."
+    },
+    {
+     "q": "What is the signal for iteration cost?",
+     "a": "A test that could kill the idea in under two weeks, run on the side."
+    }
+   ]
+  },
+  {
+   "n": "Getting to a paying exit",
+   "g": "exit",
+   "s": "Most founder payouts come from acquisitions, so build relationships with likely acquirers early and read the deal terms that decide how much reaches common.",
+   "x": [
+    {
+     "t": "How M&A pays out",
+     "b": "<ul><li><b>Escrow and holdbacks:</b> part of the price is held back for months to cover indemnity claims.</li><li><b>Earnouts:</b> part of the price depends on hitting future targets, often after you lose control of the business.</li><li><b>Retention packages:</b> acquirers may pay key people through new equity or bonuses rather than through the purchase price.</li><li><b>Management carve-outs:</b> when preferences would leave common with nothing, boards sometimes set aside a slice for the team to get the deal done.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Playbook",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>List likely acquirers at founding (the exit gate) and track their acquisitions.</li><li>Build partnerships with them years before any sale.</li><li>Keep the preference stack small enough that a realistic offer pays common.</li><li>Run a competitive process with a banker or adviser when an offer arrives.</li><li>Model the waterfall for every offer, including escrow, earnout and retention.</li></ol>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Counting earnout money as yours. Many earnout targets are never fully met.</div><div class=\"trap\"><b>Trap:</b> Negotiating one offer alone. A single bidder sets the price.</div>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is an escrow or holdback?",
+     "a": "Part of the purchase price held back for months to cover claims after closing."
+    },
+    {
+     "q": "What is a management carve-out?",
+     "a": "A slice of sale proceeds set aside for the team when preferences would otherwise leave common with little or nothing."
+    },
+    {
+     "q": "Why discount earnouts?",
+     "a": "They depend on future targets, often after you lose control, and frequently are not fully paid."
+    },
+    {
+     "q": "What raises the price when an offer arrives?",
+     "a": "Running a competitive process with several bidders."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "title": "NBER w34512: Dilution vs. Risk Taking (Azevedo, Scheuer, Smetters, Yang)",
+   "url": "https://www.nber.org/papers/w34512"
+  },
+  {
+   "title": "NBER Digest summary: Capital gains taxation and startup founders",
+   "url": "https://www.nber.org/index%2Ephp/be/20261/capital-gains-taxation-and-startup-founders"
+  },
+  {
+   "title": "Revised manuscript (University of Zurich)",
+   "url": "https://www.econ.uzh.ch/dam/jcr:27d6a8b3-df03-43ce-8804-8f4e0aed23cc/manuscript%20fs.pdf"
+  },
+  {
+   "title": "Gompers, Kovner, Lerner, Scharfstein: Performance Persistence in Entrepreneurship (NY Fed copy)",
+   "url": "https://www.newyorkfed.org/medialibrary/media/research/economists/kovner/performance_persistence"
+  },
+  {
+   "title": "Harvard Law corporate governance forum: Performance persistence summary",
+   "url": "https://corpgov.law.harvard.edu/2010/04/16/performance-persistence-in-entrepreneurship-and-venture-capital"
+  },
+  {
+   "title": "a16z: Performance data and the Babe Ruth effect in venture capital",
+   "url": "https://a16z.com/performance-data-and-the-babe-ruth-effect-in-venture-capital/"
+  },
+  {
+   "title": "Cooley: Q4 2025 Venture Financing Report",
+   "url": "https://www.cooley.com/news/insight/2026/2026-02-09-q4-2025-venture-financing-report"
+  },
+  {
+   "title": "Cooley GO venture data",
+   "url": "https://www.cooleygo.com/data/"
+  },
+  {
+   "title": "Fenwick: Q1 2026 Venture Beacon",
+   "url": "https://www.fenwick.com/insights/publications/q1-2026-venture-beacon-key-vc-market-trends"
+  },
+  {
+   "title": "Carta: How much equity founders sell in each round",
+   "url": "https://carta.com/data/linkedin-dilution-by-venture-round-medians/"
+  },
+  {
+   "title": "Carta: Founders should reject 30 percent dilution at seed",
+   "url": "https://carta.com/data/linkedin-seed-30-percent-dilution-not-market/"
+  },
+  {
+   "title": "Carta 2026 Founder Ownership Report (summary)",
+   "url": "https://echai.ventures/startingup/r/2026-founder-ownership-report--t5-su-money-1-r009"
+  },
+  {
+   "title": "Cooley: The One Big Beautiful Bill Act expands QSBS benefits",
+   "url": "https://www.cooley.com/news/insight/2025/2025-07-11-the-one-big-beautiful-bill-act-expands-qsbs-benefits"
+  },
+  {
+   "title": "Davis Wright Tremaine: QSBS changes under OBBBA",
+   "url": "https://www.dwt.com/blogs/startup-law-blog/2025/07/qsbs-big-beautiful-bill-tax-code-upgrades"
+  },
+  {
+   "title": "Joe Wallin: The Big Beautiful Bill and QSBS",
+   "url": "https://www.thestartuplawblog.com/the-big-beautiful-bill-a-new-era-for-qsbs-and-startup-investment/"
+  },
+  {
+   "title": "CRS: Small business research programs reauthorized after six-month lapse",
+   "url": "https://www.everycrsreport.com/reports/IN12705.html"
+  },
+  {
+   "title": "Osler: 2025 Deal Points Report (participating preferred and seniority)",
+   "url": "https://www.osler.com/en/insights/reports/2025-deal-points-report-venture-capital-financings/financing-terms-intelligence-preferred-share-financings/"
+  }
+ ]
+}
