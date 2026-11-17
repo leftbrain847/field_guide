@@ -3,8 +3,12 @@
  "title": "Founder's bookshelf",
  "updated": "2026-11-17",
  "refreshDays": 365,
- "note": "The core ideas of four business books, paraphrased from reviews and summaries, never quoting the books' text; buying and reading them is the point. Books do not change, so refresh yearly only to add titles.",
+ "note": "The core ideas of four business books, led by a synthesis of the best of all four, paraphrased from reviews and summaries, never quoting the books' text; buying and reading them is the point. Books do not change, so refresh yearly only to add titles.",
  "groups": [
+  {
+   "key": "core",
+   "label": "The synthesis: best of all four"
+  },
   {
    "key": "rfa",
    "label": "Ready, Fire, Aim (Michael Masterson)"
@@ -23,6 +27,171 @@
   }
  ],
  "concepts": [
+  {
+   "n": "Sell first, then build the system",
+   "g": "core",
+   "s": "Get paying customers before anything else, then add structure only as fast as growth demands it.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li><b>Masterson:</b> launch before it feels ready; stage one is all selling.</li><li><b>Drucker:</b> judge work by outside results, never by effort.</li><li><b>Hughes Johnson:</b> write down goals and principles as complexity grows; some of it can wait.</li></ul>"
+    },
+    {
+     "t": "Do this",
+     "b": "<ul><li>Until one channel sells reliably, spend most of your week on customers.</li><li>Add a process only when its absence is costing you now.</li></ul>"
+    },
+    {
+     "t": "Where it breaks",
+     "b": "<div class=\"trap\"><b>Trap:</b> Building org charts, values decks and dashboards before the first repeatable sale.</div><div class=\"synth\"><b>Synthesis:</b> Masterson sets the order (sell, then systematize); Hughes Johnson supplies the system once you get there.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What comes before any company structure, across these books?",
+     "a": "A repeatable, profitable sale."
+    },
+    {
+     "q": "When should you add a process?",
+     "a": "When its absence is costing you now, not in anticipation."
+    },
+    {
+     "q": "How does Drucker say to judge your work?",
+     "a": "By contribution to outside results, never by effort or activity."
+    }
+   ]
+  },
+  {
+   "n": "Concentrate: few goals, kill the rest",
+   "g": "core",
+   "s": "Pick very few priorities, say them often, and deliberately stop everything else.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li><b>Drucker:</b> first things first, one at a time; set posteriorities (what you stop).</li><li><b>Masterson:</b> kill product tests that don't sell, fast.</li><li><b>Hughes Johnson:</b> few clear goals, repeated and reviewed publicly on one cadence.</li></ul>"
+    },
+    {
+     "t": "Do this",
+     "b": "<ul><li>Keep a stop-doing list beside the to-do list.</li><li>Each quarter, drop any project you would not start today.</li><li>Review goals weekly; review strategy on its own calendar.</li></ul>"
+    },
+    {
+     "t": "Where it breaks",
+     "b": "<div class=\"trap\"><b>Trap:</b> Prioritizing by adding. A ranked list with nothing removed only reorders the overload.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are Drucker's posteriorities?",
+     "a": "Tasks you deliberately stop doing or never start."
+    },
+    {
+     "q": "What matters more than the goal framework, per Hughes Johnson?",
+     "a": "Few clear goals, communicated again and again."
+    },
+    {
+     "q": "What does Masterson do with a product test that doesn't sell?",
+     "a": "Kills it quickly."
+    }
+   ]
+  },
+  {
+   "n": "Hire for strength and character, by rubric",
+   "g": "core",
+   "s": "Hire for one standout strength plus humble, hungry and smart, scored the same way by every interviewer.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li><b>Drucker:</b> staff for what someone does uncommonly well; no weakness is no qualification.</li><li><b>Lencioni:</b> require humble, hungry and smart together; be strictest on humble.</li><li><b>Hughes Johnson:</b> keep a pipeline before you need it, write honest job descriptions, use one rubric.</li></ul>"
+    },
+    {
+     "t": "Do this",
+     "b": "<ul><li>One rubric: the role's key strength, then humble, hungry, smart.</li><li>Debrief on all of it right after each interview.</li><li>Ask about wins (listen for we vs I) and the biggest failure.</li></ul>"
+    },
+    {
+     "t": "Where it breaks",
+     "b": "<div class=\"trap\"><b>Trap:</b> Panic hiring when a seat opens, or letting a strong résumé override a doubt on humility.</div><div class=\"synth\"><b>Synthesis:</b> Drucker says what to hire for, Lencioni says who fits a team, Hughes Johnson says how to run the process.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which Lencioni virtue should you be strictest on?",
+     "a": "Humble."
+    },
+    {
+     "q": "Why does Drucker reject the well-rounded candidate with no standout strength?",
+     "a": "Absence of weakness is no qualification; you staff for what someone does uncommonly well."
+    },
+    {
+     "q": "What does Hughes Johnson say to build before a seat opens?",
+     "a": "A recruiting pipeline."
+    }
+   ]
+  },
+  {
+   "n": "Turn repeat decisions into written rules",
+   "g": "core",
+   "s": "When a problem recurs, decide it once as a written principle so others can act without you.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li><b>Drucker:</b> classify each problem as generic or exceptional; generic ones get a rule. Seek dissent before deciding.</li><li><b>Hughes Johnson:</b> write a mission, long-term goals and principles that settle real trade-offs; teams write charters.</li></ul>"
+    },
+    {
+     "t": "Do this",
+     "b": "<ul><li>Second time a question reaches you, write the rule.</li><li>Delete any value or principle that has never decided anything.</li></ul>"
+    },
+    {
+     "t": "Where it breaks",
+     "b": "<div class=\"trap\"><b>Trap:</b> Patching a recurring problem case by case, or writing slogans that decide nothing.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is Drucker's first question about any problem?",
+     "a": "Generic or exceptional? Generic problems get a rule."
+    },
+    {
+     "q": "What makes a written principle useful, per Hughes Johnson?",
+     "a": "It settles a real trade-off so people can decide without asking."
+    },
+    {
+     "q": "Why did Drucker want dissent before a decision?",
+     "a": "Without it, no one has examined the alternatives."
+    }
+   ]
+  },
+  {
+   "n": "Know your time and yourself",
+   "g": "core",
+   "s": "Measure where your time really goes and write down how you work, because both feel different from how they are.",
+   "x": [
+    {
+     "t": "The rule",
+     "b": "<ul><li><b>Drucker:</b> log time in real time, cut and delegate, then pool what is left into big blocks.</li><li><b>Hughes Johnson:</b> write a working-with-me guide and ask your team what it gets wrong.</li><li><b>Lencioni:</b> \"smart\" means reading people, which starts with reading yourself.</li></ul>"
+    },
+    {
+     "t": "Do this",
+     "b": "<ul><li>Log three to four weeks of time as it happens, about twice a year.</li><li>Protect one long block a day before meetings refill it.</li><li>Share your guide; ask new hires to write theirs.</li></ul>"
+    },
+    {
+     "t": "Where it breaks",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reconstructing your week from memory. It flatters you.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What are Drucker's three time steps?",
+     "a": "Record, manage (cut and delegate), consolidate into large blocks."
+    },
+    {
+     "q": "What two parts does a working-with-me guide have?",
+     "a": "How you like to work, and how you handle work emotionally."
+    },
+    {
+     "q": "What does Lencioni mean by \"smart\"?",
+     "a": "Interpersonal common sense: reading people and situations."
+    }
+   ]
+  },
   {
    "n": "Ready, fire, aim",
    "g": "rfa",
