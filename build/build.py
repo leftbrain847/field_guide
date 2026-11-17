@@ -44,7 +44,10 @@ def render(quiet=True):
             print(tid, *n)
         js = json.dumps(t, ensure_ascii=False).replace("</", "<\\/")
         blocks.append(f'<script type="application/json" id="topic-{tid}">{js}</script>')
+    listen = open(os.path.join(HERE, "listen.js")).read()
+    assert "</" not in listen, "listen.js must not contain '</' (it is inlined in a script tag)"
     html = open(os.path.join(HERE, "template.html")).read().replace("<!--TOPICS-->", "\n".join(blocks))
+    html = html.replace("<!--LISTEN-->", "<script>\n" + listen.rstrip("\n") + "\n</script>")
     return SKELETON_HEAD + "\n" + html.rstrip("\n") + "\n\n" + SKELETON_TAIL
 
 

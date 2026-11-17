@@ -14,10 +14,13 @@ The index's homepage copies `web/mastery_field_guide.html` from `main` nightly (
 pip install pytest && pytest -q     # every topic file is well formed and wired in, and the committed page is current
 node --test                         # snapshot script tests
 ```
-Browser smoke checks at phone width (not in CI): `PWMOD=$(npm root -g)/playwright node tests/browser/smoke_categories.mjs $PWD/web/mastery_field_guide.html`.
+`node --test` also covers Listen mode's logic (`tests/listen.test.mjs`). Browser smoke checks at phone width (not in CI): `PWMOD=$(npm root -g)/playwright node tests/browser/smoke_categories.mjs $PWD/web/mastery_field_guide.html`, and `node tests/browser/smoke_listen.mjs $PWD/web/mastery_field_guide.html shot.png` (Listen with a fake speech engine).
 
 ## Deployed
 - Live: https://leftbrain847.github.io/mastery_field_guide/ (once the index points at this repo)
+
+## Listen
+A third mode beside Read and Study, modelled on comprehensible_input's player. Tick topics, groups or single concepts in a tree (this category; the selection spans the whole guide), choose **Summaries** (name + one-line summary) or **Full notes** (every section), and press play. The bottom bar shows what is playing (tap it for the queue; tap an item to jump), then repeat (each concept ×2, ×3, off), previous, play/pause, next and speed (0.8–2×). Selection and settings are remembered on the device. The voice is the device's own English voice (best quality first, with a picker), so it works offline with nothing to download; on iPhone it stops when you leave the page or lock the screen. Settings: `CONFIG.listen` in `build/template.html`; pure logic: `build/listen.js`, inlined by `build.py`. Desktop keys: Space, ←/→, R.
 
 ## Layout
 - `topics/topic-<id>.json`: one file per built tab. Schema and writing rules are in `FORMAT.md`.
