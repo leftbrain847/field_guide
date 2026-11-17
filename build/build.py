@@ -15,7 +15,7 @@ PAGE = os.path.join(ROOT, "web", "mastery_field_guide.html")
 # renders in standards mode anywhere it is opened and the artifact publisher recognizes it instead of nesting it.
 SKELETON_HEAD = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>'
 SKELETON_TAIL = "</body></html>"
-ORDER = ["em", "fundamentals", "git", "workato", "databricks", "powerautomate", "agentic", "fallacies", "eq", "nfl", "firstaid", "gtm", "venture"]
+ORDER = ["em", "fundamentals", "git", "workato", "databricks", "powerautomate", "agentic", "fallacies", "eq", "nfl", "firstaid", "gtm", "venture", "bookshelf"]
 
 def check(t):
     keys = {g["key"] for g in t["groups"]}
