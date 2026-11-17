@@ -1,6 +1,6 @@
 """Merge the Emergency medicine drafts (drafts/em-a.json, drafts/em-b.json) into topics/topic-em.json.
 
-    python field_guide/build/merge_em.py
+    python build/merge_em.py
 
 Each concept is a medicine block: it gets a stable "id" (lowercase_with_underscores) and "type": "condition",
 so later outlines (Clinical, Mechanisms) can reference the same block.
