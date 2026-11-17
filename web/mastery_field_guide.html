@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one reading column; sticky bar with topic tabs + Read/Study switch; Read = nested disclosures per concept; Study = one flashcard at a time. */
+/* Layout: one reading column; a bar with wrapping category and topic tiles + Read/Study/Listen switch; Read = nested disclosures per concept; Study = one flashcard at a time. */
 :root{
   --bg:#f4f6f9; --surface:#ffffff; --ink:#141820; --muted:#596274; --line:#dde2ea;
   --accent:#2a52c4; --accent-ink:#ffffff; --accent-soft:#e6ecfb; --code-bg:#eef1f6; --warn:#a2560b; --warn-soft:#fbefe1;
@@ -33,25 +33,14 @@ header p{margin:0;color:var(--muted);max-width:62ch}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button{font:inherit;color:inherit;cursor:pointer}
 
-/* sticky bar */
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
-/* home grid: one card per category; the topic view swaps it for a back crumb */
-.home{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.cat{color:inherit;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:block;min-height:112px}
-.cat > span{display:block}
-.cat > span + span{margin-top:6px}
-.cat:hover{border-color:var(--accent)}
-.cat .cname{font:700 17px/1.2 var(--f-display);letter-spacing:-.01em}
-.cat .ccount{font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.cat .ctopics{font-size:13px;color:var(--muted);line-height:1.4}
-.crumb{display:flex;align-items:center;gap:10px;min-width:0}
-.crumb button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 10px;font:600 13px var(--f-body)}
-.crumb span{font:600 13px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wrap[data-view="home"] .bar,.wrap[data-view="home"] #topicNote,.wrap[data-view="home"] #readView,.wrap[data-view="home"] #studyView{display:none!important}
-.wrap[data-view="topic"] #home,.wrap[data-view="topic"] header{display:none}
-.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:500;font-size:14px;white-space:nowrap}
+/* nav bar */
+.bar{background:var(--bg);padding-block:8px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+/* categories and topics wrap onto as many rows as they need (small name-only tiles), never off screen */
+.cats{display:flex;flex-wrap:wrap;gap:6px}
+.cat{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 9px;font:600 12px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.cat[aria-selected="true"]{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-weight:500;font-size:13px;white-space:nowrap}
 .tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .modes{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;align-self:flex-start;background:var(--surface)}
 .modes button{border:0;background:none;padding:6px 16px;font-size:13px;font-weight:600}
@@ -143,7 +132,6 @@ pre code{background:none;padding:0;font-size:inherit;overflow-wrap:normal}
 footer{color:var(--muted);font-size:13px}
 
 /* listen view */
-.wrap[data-view="home"] #listenView{display:none!important}
 .lhint{font-size:13px;color:var(--muted);margin:0}
 .lopts{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
 .lopts label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
@@ -181,20 +169,19 @@ footer{color:var(--muted);font-size:13px}
 .lnowlist button small{color:var(--muted);font:500 11px var(--f-mono);margin-right:8px}
 .lnowlist button[aria-current="true"]{color:var(--accent);font-weight:600;background:var(--accent-soft)}
 body.has-lbar{padding-bottom:130px}
+.lstatus{margin:0 auto;max-width:800px;width:100%;font-size:12px;color:var(--warn);background:var(--warn-soft);border-radius:6px;padding:6px 8px}
 @media (max-width:520px){.inner{padding-left:14px}.grades{grid-template-columns:repeat(2,1fr)}}
 @media (prefers-reduced-motion:reduce){.chev{transition:none}}
 </style>
 
-<div class="wrap" data-view="home">
+<div class="wrap">
   <header>
     <h1>Mastery Field Guide</h1>
     <p>Curated, targeted topics, each a dense dump of what mastery requires. Read each concept as nested notes, or switch to Study to drill its flashcards on a spaced-repetition schedule.</p>
   </header>
 
-  <nav class="home" id="home" aria-label="Categories"></nav>
-
   <div class="bar">
-    <div class="crumb"><button type="button" id="homeBtn" aria-label="All categories">‹ All</button><span id="catLabel"></span></div>
+    <div class="cats" role="tablist" id="cats" aria-label="Categories"></div>
     <div class="tabs" role="tablist" id="tabs" aria-label="Topics"></div>
     <div class="modes" role="group" aria-label="Mode">
       <button type="button" id="modeRead" aria-pressed="true">Read</button>
@@ -272,6 +259,7 @@ body.has-lbar{padding-bottom:130px}
 <div class="lbar" id="lBar" hidden>
   <button type="button" class="lnow" id="lNow" aria-expanded="false" aria-controls="lNowList">Nothing selected</button>
   <div class="lnowlist" id="lNowList" hidden></div>
+  <p class="lstatus" id="lStatus" role="status" hidden></p>
   <div class="lctl">
     <button type="button" id="lRepeat" aria-pressed="false" aria-label="Repeat each concept">⟲<span id="lRepeatN"></span></button>
     <button type="button" id="lPrev" aria-label="Previous">⏮</button>
@@ -413,7 +401,6 @@ const Listen = (() => {
 <script>
 // ================= CONFIG (edit to reconfigure) =================
 const CONFIG = {
-  home: { previewTopics: 3 },   // home grid: how many topic names each category card previews
   categories: [   // category -> topic ids, in tab order; ids must match topic data blocks
     { key: "data",      label: "Data engineering",   topics: ["fundamentals", "git", "workato", "databricks", "powerautomate", "fabric", "powerbi", "sqlserver", "dbt"] },
     { key: "ai",        label: "AI",                 topics: ["agentic", "mcp", "evals", "agentarch", "aisecurity", "shipping"] },
@@ -489,7 +476,9 @@ const CONFIG = {
     prevGraceMs: 2500,         // previous within this long of an item's start goes to the item before
     wordsPerMinute: 165,       // for the length estimate at 1x
     voice: { langPrefix: "en", preferredLangs: ["en-US", "en-GB", "en-AU", "en-IE", "en-CA"], quality: ["premium", "enhanced", "natural", "neural"] },
-    storageKey: "fieldguide-listen"
+    storageKey: "fieldguide-listen",
+    startTimeoutMs: 3000,      // no speech by then: show the hint below
+    noSoundHint: "Check the volume, try the page in Safari or Chrome (the Claude app may block speech), or pick another voice."
   }
 };
 const GRADES = [
@@ -618,33 +607,17 @@ function renderNote(){
   chip.classList.toggle("stale", stale);
   el.querySelector("p").textContent = t.note;
 }
-const tabsEl = document.getElementById("tabs"), catsEl = document.getElementById("home"), wrapEl = document.querySelector(".wrap");
+const tabsEl = document.getElementById("tabs"), catsEl = document.getElementById("cats");
 const CATS = CONFIG.categories.map(c => ({ ...c, topics: c.topics.filter(id => TOPIC_BY_ID[id]) })).filter(c => c.topics.length);
 const CAT_OF = Object.fromEntries(CATS.flatMap(c => c.topics.map(id => [id, c.key])));
 CATS.forEach(c => {
-  const built = c.topics.filter(id => !TOPIC_BY_ID[id].placeholder), planned = c.topics.length - built.length;
-  const nConcepts = built.reduce((n, id) => n + TOPIC_BY_ID[id].concepts.length, 0);
-  const b = document.createElement("a"); b.className = "cat"; b.dataset.key = c.key; b.href = "#" + c.topics[0];
-  const add = (cls, txt) => { const e = document.createElement("span"); e.className = cls; e.textContent = txt; b.appendChild(e); };
-  add("cname", c.label);
-  add("ccount", built.length ? built.length + (built.length === 1 ? " topic · " : " topics · ") + nConcepts + " concepts" : planned + " planned");
-  add("ctopics", (built.length ? built : c.topics).slice(0, CONFIG.home.previewTopics).map(id => TOPIC_BY_ID[id].title).join(" · "));
-  b.addEventListener("click", e => { e.preventDefault(); setCategory(c.key); showView("topic", true); });
-  catsEl.appendChild(b);
+  const b = document.createElement("button"); b.type = "button"; b.className = "cat"; b.role = "tab";
+  b.textContent = c.label; b.dataset.key = c.key; b.addEventListener("click", () => setCategory(c.key)); catsEl.appendChild(b);
 });
-function showView(v, push){
-  wrapEl.dataset.view = v;
-  if (v === "home") { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
-  else if (push) { try { history.pushState({ fg: 1 }, "", "#" + ui.topic); } catch (e) {} }
-  scrollTo(0, 0);
-}
-document.getElementById("homeBtn").addEventListener("click", () => { if (history.state && history.state.fg) history.back(); else showView("home"); });
-addEventListener("popstate", () => { const id = location.hash.slice(1); if (TOPIC_BY_ID[id]) { setTopic(id); wrapEl.dataset.view = "topic"; } else wrapEl.dataset.view = "home"; });
 function setCategory(key, topicId){
   ui.category = key;
-  catsEl.querySelectorAll(".cat").forEach(b => b.setAttribute("aria-selected", String(b.dataset.key === key)));
+  catsEl.querySelectorAll(".cat").forEach(b => { const on = b.dataset.key === key; b.setAttribute("aria-selected", String(on)); });
   const cat = CATS.find(c => c.key === key);
-  document.getElementById("catLabel").textContent = cat.label;
   tabsEl.innerHTML = "";
   cat.topics.forEach(id => {
     const b = document.createElement("button"); b.type = "button"; b.className = "tab"; b.role = "tab";
@@ -655,8 +628,8 @@ function setCategory(key, topicId){
 function setTopic(id){
   if (CAT_OF[id] !== ui.category) { setCategory(CAT_OF[id], id); return; }
   ui.topic = id;
-  tabsEl.querySelectorAll(".tab").forEach(b => { const on = b.dataset.id === id; b.setAttribute("aria-selected", String(on)); if (on) b.scrollIntoView({ block: "nearest", inline: "nearest" }); });
-  try { if (wrapEl.dataset.view === "topic" && location.hash.slice(1) !== id) history.replaceState(history.state, "", "#" + id); } catch (e) {}
+  tabsEl.querySelectorAll(".tab").forEach(b => { const on = b.dataset.id === id; b.setAttribute("aria-selected", String(on)); });
+  try { if (location.hash.slice(1) !== id) history.replaceState(null, "", "#" + id); } catch (e) {}
   renderNote(); renderRead();
   document.getElementById("resetLabel").textContent = "Reset progress for " + TOPIC_BY_ID[id].title;
   if (ui.mode === "study") startSession();
@@ -987,14 +960,26 @@ $("lAll").addEventListener("click", () => { catKeys().forEach(k => lp.sel.add(k)
 $("lNone").addEventListener("click", () => { catKeys().forEach(k => lp.sel.delete(k)); saveListen(); requeue(); paintBoxes(); });
 
 // engine
+let lutter = null, lwatch = null;   // hold the utterance: some browsers drop events for one that was garbage-collected
+function setStatus(t){ $("lStatus").textContent = t || ""; $("lStatus").hidden = !t; }
 function speakPart(){
   const it = lq[li]; if (!it || !synth) { stopListen(); return; }
   const u = new SpeechSynthesisUtterance(it.parts[lpart]);
   const v = chosenVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LC.voice.preferredLangs[0];
   u.rate = lp.speed;
   const my = ++lgen;
-  u.onend = () => { if (my === lgen && lplaying) advance(); };
-  u.onerror = e => { if (my === lgen && lplaying && e.error !== "interrupted" && e.error !== "canceled") advance(); };
+  u.onstart = () => { if (my === lgen) { clearTimeout(lwatch); setStatus(""); } };
+  u.onend = () => { if (my === lgen && lplaying) { clearTimeout(lwatch); advance(); } };
+  u.onerror = e => {
+    if (my !== lgen || !lplaying || e.error === "interrupted" || e.error === "canceled") return;
+    clearTimeout(lwatch);
+    stopListen();   // never race silently through the queue on an engine error
+    setStatus("The speech engine refused (" + (e.error || "unknown error") + "). " + LC.noSoundHint);
+  };
+  lutter = u;
+  clearTimeout(lwatch);
+  lwatch = setTimeout(() => { if (my === lgen && lplaying && !synth.speaking) setStatus("No sound yet from this device's speech engine. " + LC.noSoundHint); }, LC.startTimeoutMs);
+  if (synth.paused) synth.resume();   // iOS can leave the engine paused after the page was in the background
   synth.speak(u);
 }
 function advance(){
@@ -1004,7 +989,11 @@ function advance(){
   if (n === null) { li = 0; lpart = 0; stopListen(); return; }
   ltimer = setTimeout(() => { if (lplaying) goTo(n); }, LC.gapMs / lp.speed);
 }
-function restartPart(){ lgen++; clearTimeout(ltimer); synth.cancel(); speakPart(); }
+function restartPart(){
+  lgen++; clearTimeout(ltimer);
+  if (synth.speaking || synth.pending) synth.cancel();   // iOS drops a speak() issued right after an idle cancel()
+  speakPart();
+}
 function goTo(i){
   li = i; lpart = 0; lstarted = Date.now();
   if (lplaying) restartPart();
@@ -1016,7 +1005,7 @@ function playListen(){
   paintListenBar(); paintBoxes();
 }
 function stopListen(){
-  lplaying = false; lgen++; clearTimeout(ltimer); if (synth) synth.cancel();
+  lplaying = false; lgen++; clearTimeout(ltimer); clearTimeout(lwatch); if (synth && (synth.speaking || synth.pending)) synth.cancel();
   paintListenBar(); paintBoxes();
 }
 $("lPlay").addEventListener("click", () => lplaying ? stopListen() : playListen());
@@ -1072,7 +1061,6 @@ else $("lHint").textContent += " On iPhone, speech stops if you leave the page o
 // ================= BOOT =================
 const startId = location.hash.slice(1);
 setTopic(TOPIC_BY_ID[startId] ? startId : CATS[0].topics[0]);
-if (TOPIC_BY_ID[startId]) wrapEl.dataset.view = "topic";   // a #topic link opens straight into that topic; no hash opens the home grid
 setMode(CONFIG.defaultMode);
 initStore();
 </script>
