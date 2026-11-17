@@ -31,6 +31,23 @@ def check(t):
             assert k["q"] and k["a"], (t["id"], c["n"])
     return len(t["concepts"]), sum(len(c.get("cards", [])) for c in t["concepts"])
 
+def audio_marks():
+    """Recorded summaries (build/audio.py) whose text still matches the topic: {topic: {file, marks}}. A topic whose
+    text changed since recording is left out, so the page reads it with the device voice until it is re-recorded."""
+    import importlib.util   # load by path: the repo's audio/ folder would shadow a plain "import audio"
+    spec = importlib.util.spec_from_file_location("fg_audio", os.path.join(HERE, "audio.py"))
+    audio = importlib.util.module_from_spec(spec); spec.loader.exec_module(audio)
+    out = {}
+    for tid in ORDER:
+        meta = os.path.join(audio.AUDIO["out_dir"], tid + ".json")
+        if not os.path.exists(meta):
+            continue
+        m = json.load(open(meta))
+        if m.get("hash") == audio.topic_hash(json.load(open(os.path.join(TOPICS_DIR, f"topic-{tid}.json")))):
+            out[tid] = {"file": m["file"], "marks": [[k["start"], k["end"]] for k in m["marks"]]}
+    return out
+
+
 def render(quiet=True):
     """The whole page as one string (the committed page must equal this)."""
     blocks = []
@@ -48,6 +65,7 @@ def render(quiet=True):
     assert "</" not in listen, "listen.js must not contain '</' (it is inlined in a script tag)"
     html = open(os.path.join(HERE, "template.html")).read().replace("<!--TOPICS-->", "\n".join(blocks))
     html = html.replace("<!--LISTEN-->", "<script>\n" + listen.rstrip("\n") + "\n</script>")
+    html = html.replace("<!--AUDIO-->", '<script type="application/json" id="audio-marks">' + json.dumps(audio_marks()) + "</script>")
     return SKELETON_HEAD + "\n" + html.rstrip("\n") + "\n\n" + SKELETON_TAIL
 
 

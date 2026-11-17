@@ -238,7 +238,7 @@ body.has-lbar{padding-bottom:130px}
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
-    <p class="lhint" id="lHint">Tick what to hear, then press play. It reads the selection in order with your device's English voice.</p>
+    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked; Full notes use your device's voice.</p>
     <div class="lopts">
       <div class="seg" role="group" aria-label="What to read">
         <button type="button" id="lSummary" aria-pressed="false">Summaries</button>
@@ -246,7 +246,7 @@ body.has-lbar{padding-bottom:130px}
       </div>
       <button type="button" id="lAll">All</button>
       <button type="button" id="lNone">None</button>
-      <label for="lVoice">Voice <select id="lVoice"></select></label>
+      <label for="lVoice">Device voice <select id="lVoice"></select></label>
     </div>
     <p class="ltotal" id="lTotal" aria-live="polite"></p>
     <div class="ltree" id="lTree"></div>
@@ -270,6 +270,7 @@ body.has-lbar{padding-bottom:130px}
 
 <!--TOPICS-->
 
+<!--AUDIO-->
 <!--LISTEN-->
 
 <script>
@@ -351,6 +352,8 @@ const CONFIG = {
     wordsPerMinute: 165,       // for the length estimate at 1x
     voice: { langPrefix: "en", preferredLangs: ["en-US", "en-GB", "en-AU", "en-IE", "en-CA"], quality: ["premium", "enhanced", "natural", "neural"] },
     storageKey: "fieldguide-listen",
+    audioBase: "",             // recordings load from <audioBase>audio/summary/<topic>.mp3 (next to the page)
+    flowSlackS: 1.5,           // play straight on into the next concept when the file is already this close to it
     startTimeoutMs: 3000,      // no speech by then: show the hint below
     noSoundHint: "Check the volume, try the page in Safari or Chrome (the Claude app may block speech), or pick another voice."
   }
@@ -754,7 +757,10 @@ $("lVoice").addEventListener("change", e => { lp.voice = e.target.value; saveLis
 
 LC.speeds.forEach(sp => { const o = document.createElement("option"); o.value = sp; o.textContent = sp + "×"; $("lSpeed").appendChild(o); });
 $("lSpeed").value = String(lp.speed);
-$("lSpeed").addEventListener("change", e => { lp.speed = Number(e.target.value); saveListen(); paintTotal(); if (lplaying) restartPart(); });
+$("lSpeed").addEventListener("change", e => {
+  lp.speed = Number(e.target.value); saveListen(); paintTotal();
+  if (lplaying && recCur && recGen === lgen) player.playbackRate = lp.speed; else if (lplaying) restartPart();
+});
 
 function requeue(){
   const was = lq[li];
@@ -837,7 +843,9 @@ $("lNone").addEventListener("click", () => { catKeys().forEach(k => lp.sel.delet
 let lutter = null, lwatch = null;   // hold the utterance: some browsers drop events for one that was garbage-collected
 function setStatus(t){ $("lStatus").textContent = t || ""; $("lStatus").hidden = !t; }
 function speakPart(){
-  const it = lq[li]; if (!it || !synth) { stopListen(); return; }
+  const it = lq[li];
+  if (!it) { stopListen(); return; }
+  if (!synth) { stopListen(); setStatus("This part has no recording and this browser has no voice. Choose Summaries."); return; }
   const u = new SpeechSynthesisUtterance(it.parts[lpart]);
   const v = chosenVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LC.voice.preferredLangs[0];
   u.rate = lp.speed;
@@ -863,10 +871,45 @@ function advance(){
   if (n === null) { li = 0; lpart = 0; stopListen(); return; }
   ltimer = setTimeout(() => { if (lplaying) goTo(n); }, LC.gapMs / lp.speed);
 }
+// Recorded summaries (build/audio.py): one MP3 per topic, played from each concept's start to its end. An audio file
+// keeps playing in other apps and on the lock screen; the device voice is the fallback for anything not recorded.
+const REC = (() => { try { return JSON.parse(document.getElementById("audio-marks").textContent); } catch (e) { return {}; } })();
+const player = new Audio(); player.preload = "auto";
+let recCur = null, recGen = -1;
+const recFor = it => (it && lp.content === "summary" ? Listen.recSpan(REC, it.tid, it.ci) : null);
+const sameFile = f => player.src && decodeURI(player.src).endsWith(f);
+function startItem(){
+  const it = lq[li]; if (!it) { stopListen(); return; }
+  const r = recFor(it);
+  if (r) playRec(r); else { if (!player.paused) player.pause(); speakPart(); }
+}
+function playRec(r){
+  const my = ++lgen; recGen = my; recCur = r;
+  if (synth && (synth.speaking || synth.pending)) synth.cancel();
+  if (!sameFile(r.file)) player.src = LC.audioBase + r.file;
+  player.defaultPlaybackRate = player.playbackRate = lp.speed;
+  const seek = () => { if (player.currentTime < r.start - 0.3 || player.currentTime >= r.end) player.currentTime = r.start; };
+  if (player.readyState >= 1) seek(); else player.addEventListener("loadedmetadata", seek, { once: true });
+  setStatus("");
+  const pr = player.play();
+  if (pr) pr.catch(e => { if (my === lgen && lplaying) { stopListen(); setStatus("The recording didn't start (" + e.name + "). Tap play again."); } });
+}
+function onRecEnd(){
+  const n = Listen.following(li, lq.length);
+  if (n === null) { li = 0; lpart = 0; stopListen(); return; }
+  const next = recFor(lq[n]), t = player.currentTime;
+  li = n; lpart = 0; lstarted = Date.now();
+  if (Listen.flowsOn(recCur, next, t, LC.flowSlackS)) recCur = next;   // already rolling into it: no seek, no gap
+  else startItem();
+  paintListenBar(); paintBoxes();
+}
+player.addEventListener("timeupdate", () => { if (lplaying && recGen === lgen && recCur && player.currentTime >= recCur.end) onRecEnd(); });
+player.addEventListener("ended", () => { if (lplaying && recGen === lgen) onRecEnd(); });
+player.addEventListener("error", () => { if (lplaying && recGen === lgen) { stopListen(); setStatus("The recording couldn't load. Check your connection and tap play again."); } });
 function restartPart(){
   lgen++; clearTimeout(ltimer);
-  if (synth.speaking || synth.pending) synth.cancel();   // iOS drops a speak() issued right after an idle cancel()
-  speakPart();
+  if (synth && (synth.speaking || synth.pending)) synth.cancel();   // iOS drops a speak() issued right after an idle cancel()
+  startItem();
 }
 function goTo(i){
   li = i; lpart = 0; lstarted = Date.now();
@@ -874,12 +917,12 @@ function goTo(i){
   paintListenBar(); paintBoxes();
 }
 function playListen(){
-  if (!synth || !lq.length) return;
+  if (!lq.length || (!synth && !recFor(lq[li]))) return;
   lplaying = true; lstarted = Date.now(); restartPart();
   paintListenBar(); paintBoxes();
 }
 function stopListen(){
-  lplaying = false; lgen++; clearTimeout(ltimer); clearTimeout(lwatch); if (synth && (synth.speaking || synth.pending)) synth.cancel();
+  lplaying = false; lgen++; clearTimeout(ltimer); clearTimeout(lwatch); if (!player.paused) player.pause(); if (synth && (synth.speaking || synth.pending)) synth.cancel();
   paintListenBar(); paintBoxes();
 }
 $("lPlay").addEventListener("click", () => lplaying ? stopListen() : playListen());
@@ -898,7 +941,7 @@ function paintListenBar(){
   else now.textContent = synth ? "Nothing selected" : "This browser can't speak. Try Safari or Chrome.";
   now.setAttribute("aria-expanded", String(lnowOpen));
   $("lPlay").textContent = lplaying ? "❚❚" : "▶"; $("lPlay").setAttribute("aria-label", lplaying ? "Pause" : "Play");
-  $("lPlay").disabled = !synth || !lq.length;
+  $("lPlay").disabled = !lq.length || (!synth && !recFor(lq[li]));
   $("lRepeat").setAttribute("aria-pressed", String(lp.repeat > 1)); $("lRepeatN").textContent = lp.repeat > 1 ? "×" + lp.repeat : "";
   const list = $("lNowList"); list.hidden = !lnowOpen;
   if (lnowOpen) {
@@ -929,8 +972,7 @@ document.addEventListener("keydown", e => {
   else if (e.key === "ArrowLeft") $("lPrev").click();
   else if (e.key.toLowerCase() === "r") $("lRepeat").click();
 });
-if (!synth) $("lHint").textContent = "This browser has no speech voices, so Listen can't play here. Try Safari or Chrome.";
-else $("lHint").textContent += " On iPhone, speech stops if you leave the page or lock the screen.";
+if (!synth) $("lHint").textContent += " This browser has no device voice, so only Summaries can play.";
 
 // ================= BOOT =================
 const startId = location.hash.slice(1);

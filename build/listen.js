@@ -105,7 +105,16 @@ const Listen = (() => {
       .sort((a, b) => q(a) - q(b) || langRank(a) - langRank(b) || Number(b.localService) - Number(a.localService) || a.name.localeCompare(b.name));
   }
 
+  /** A recorded span for one concept: {file, start, end} from the page's inlined marks, or null (no recording). */
+  function recSpan(rec, tid, ci) {
+    const r = rec && rec[tid], m = r && r.marks[ci];
+    return m ? { file: r.file, start: m[0], end: m[1] } : null;
+  }
+
+  /** While a recording plays straight on, does the next item start where the file already is (no seek needed)? */
+  const flowsOn = (cur, next, t, slack) => !!(cur && next && cur.file === next.file && next.start >= cur.end && t <= next.start + slack);
+
   const clampSpeed = (speeds, s, fallback) => (typeof s === "number" && speeds.includes(s) ? s : fallback);
 
-  return { textOf, chunks, conceptText, key, buildQueue, keysOf, tri, nextRepeat, prevIndex, following, rankVoices, clampSpeed };
+  return { textOf, chunks, conceptText, key, buildQueue, keysOf, tri, nextRepeat, prevIndex, following, rankVoices, clampSpeed, recSpan, flowsOn };
 })();

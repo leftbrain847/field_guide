@@ -1,0 +1,2 @@
+# Build time only (build/audio.py). The page never runs any of this.
+piper-tts==1.8.0

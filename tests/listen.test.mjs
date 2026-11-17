@@ -79,3 +79,19 @@ test("speed falls back when the saved value is not offered", () => {
   assert.equal(L.clampSpeed([1, 1.25], 3, 1), 1);
   assert.equal(L.clampSpeed([1, 1.25], "x", 1), 1);
 });
+
+test("recorded spans come from the inlined marks; missing topic or concept means no recording", () => {
+  const rec = { t: { file: "audio/summary/t.mp3", marks: [[0.3, 5], [6, 9.5]] } };
+  assert.deepEqual(L.recSpan(rec, "t", 1), { file: "audio/summary/t.mp3", start: 6, end: 9.5 });
+  assert.equal(L.recSpan(rec, "t", 2), null);
+  assert.equal(L.recSpan(rec, "x", 0), null);
+  assert.equal(L.recSpan({}, "t", 0), null);
+});
+
+test("playback flows on to the next concept in the same file, and seeks for repeats or other files", () => {
+  const a = { file: "f", start: 0.3, end: 5 }, b = { file: "f", start: 6, end: 9 };
+  assert.equal(L.flowsOn(a, b, 5.2, 1.5), true);
+  assert.equal(L.flowsOn(a, a, 5.2, 1.5), false);                  // repeat: back to the start
+  assert.equal(L.flowsOn(a, { ...b, file: "g" }, 5.2, 1.5), false); // another topic's file
+  assert.equal(L.flowsOn(b, a, 9.1, 1.5), false);                  // going backwards
+});
