@@ -65,6 +65,9 @@ def render(quiet=True):
     assert "</" not in listen, "listen.js must not contain '</' (it is inlined in a script tag)"
     html = open(os.path.join(HERE, "template.html")).read().replace("<!--TOPICS-->", "\n".join(blocks))
     html = html.replace("<!--LISTEN-->", "<script>\n" + listen.rstrip("\n") + "\n</script>")
+    recent = open(os.path.join(HERE, "recent.js")).read()
+    assert "</" not in recent, "recent.js must not contain '</' (it is inlined in a script tag)"
+    html = html.replace("<!--RECENT-->", "<script>\n" + recent.rstrip("\n") + "\n</script>")
     html = html.replace("<!--AUDIO-->", '<script type="application/json" id="audio-marks">' + json.dumps(audio_marks()) + "</script>")
     return SKELETON_HEAD + "\n" + html.rstrip("\n") + "\n\n" + SKELETON_TAIL
 
