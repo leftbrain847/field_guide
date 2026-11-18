@@ -13,7 +13,7 @@
     "workato": 8,
     "databricks": 12,
     "powerautomate": 4,
-    "agentic": 15,
+    "agentic": 14,
     "eq": 14,
     "gtm": 12,
     "venture": 11,
@@ -25,6 +25,7 @@
     "gtm",
     "venture",
     "fundamentals",
-    "git"
+    "git",
+    "agentic"
   ]
 }
