@@ -1,879 +1,491 @@
 {
  "id": "eq",
  "title": "Emotional intelligence",
- "updated": "2026-11-04",
+ "updated": "2026-11-18",
  "refreshDays": 365,
- "note": "Evidence-based coverage of EI models, measurement, scientific critiques and practical emotion skills for workplace conflict, advocacy and teams, as of 2026-11-04. Refresh yearly, since the core research moves slowly but new meta-analyses and replications can shift what the evidence supports.",
+ "note": "Evidence-graded emotional skills as one chain: notice, name, reframe, respond, team climate. Each concept is a rule, a model, its traps and one example, with study claims named so you can weigh them. Refresh yearly.",
  "groups": [
   {
-   "key": "models",
-   "label": "Models of EI"
+   "key": "map",
+   "label": "Map"
   },
   {
    "key": "evidence",
-   "label": "Measurement and evidence"
+   "label": "What EI is"
   },
   {
    "key": "self",
-   "label": "Self-awareness and regulation"
+   "label": "Regulate yourself"
   },
   {
    "key": "others",
-   "label": "Reading others"
+   "label": "Read others"
   },
   {
-   "key": "conflict",
-   "label": "Conflict and assertiveness"
+   "key": "hard",
+   "label": "Say hard things"
   },
   {
    "key": "teams",
-   "label": "Influence and teams"
+   "label": "Teams"
   }
  ],
  "concepts": [
   {
-   "n": "Three streams of EI",
-   "g": "models",
-   "s": "Emotional intelligence is three different constructs sharing one name: an ability measured by performance tests, a trait measured by self-report, and a mixed bundle of competencies.",
+   "n": "The EI map",
+   "g": "map",
+   "s": "Emotional skill is a chain you can train link by link: notice the signal, name it precisely, reframe it, then respond to people and teams.",
    "x": [
     {
-     "t": "The map",
-     "b": "<p>Researchers sort EI work into three streams. Ashkanasy and Daus (2005) proposed the stream labels, and Joseph and Newman (2010) used them to organize their meta-analysis.</p><ul><li><b>Stream 1, ability EI:</b> Mayer and Salovey's model, measured with maximum-performance tests that have right and wrong answers (MSCEIT).</li><li><b>Stream 2, self-reported ability:</b> self-report questionnaires built on the ability model's content.</li><li><b>Stream 3, mixed or trait EI:</b> self-report inventories that combine emotion items with motivation, optimism, social skill and well-being (Goleman, Bar-On's EQ-i, Petrides' TEIQue). Petrides argues trait EI is a distinct, coherent personality construct and should not be lumped in with the mixed models.</li></ul>"
-    },
-    {
-     "t": "Why the distinction matters",
-     "b": "<p>The streams correlate only modestly with each other. A finding about one stream does not transfer to another. When an article says \"EI predicts leadership\", the first question is which stream and which instrument produced the number.</p><div class=\"synth\"><b>Synthesis:</b> Treat \"EI\" in any claim as an underspecified variable. Ask which construct, which instrument, self-report or performance, and what was controlled for.</div>"
-    },
-    {
-     "t": "Misconceptions",
-     "b": "<div class=\"trap\"><b>Trap:</b> Assuming a high score on a workplace EQ self-assessment means you are good at reading emotions. Self-reported EI and tested emotion-perception ability correlate weakly, so people are poor judges of their own emotional skill.</div><div class=\"trap\"><b>Trap:</b> Thinking EI is one thing you either have or lack. Even within the ability model, perceiving, understanding and managing emotion are separable skills.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Pick the last EI claim you read at work or online. Classify it: which stream, what instrument, self-report or tested, outcome rated by whom. If you cannot answer those, discount the claim.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What are the three streams of EI research?",
-     "a": "Stream 1 is ability EI measured by performance tests, stream 2 is self-reported ability EI, and stream 3 is mixed or trait EI measured by broad self-report inventories."
-    },
-    {
-     "q": "Which EI stream uses tests with right and wrong answers?",
-     "a": "Stream 1, the ability model, measured with tests such as the MSCEIT."
-    },
-    {
-     "q": "Do self-reported EI and tested ability EI correlate strongly?",
-     "a": "No. They correlate only modestly, so a high self-rating says little about tested skill."
-    }
-   ]
-  },
-  {
-   "n": "Ability model (Mayer, Salovey, Caruso)",
-   "g": "models",
-   "s": "The ability model defines EI as a set of mental skills for perceiving, using, understanding and managing emotion, structured like a form of intelligence.",
-   "x": [
-    {
-     "t": "The four branches",
-     "b": "<p>Salovey and Mayer introduced the term in 1990; Mayer and Salovey refined it into four branches in 1997:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Perceiving emotion:</b> identifying emotion in faces, voices, images and yourself.</li><li><b>Using emotion to facilitate thought:</b> knowing which moods suit which tasks.</li><li><b>Understanding emotion:</b> knowing how emotions combine, escalate and change (annoyance becomes anger when the blocked goal persists).</li><li><b>Managing emotion:</b> choosing effective strategies to regulate your own and others' emotions.</li></ol><p>The branches are hierarchical in theory: management depends on the lower skills.</p>"
-    },
-    {
-     "t": "Evidence",
-     "b": "<p>MacCann and colleagues (2014) found ability EI fits as a second-stratum factor within the Cattell-Horn-Carroll model of intelligence, supporting its claim to be an intelligence. Ability EI correlates moderately with general cognitive ability and only weakly with Big Five traits, which gives it better discriminant validity than self-report EI. Its weak point is prediction: in Joseph and Newman's (2010) meta-analysis its link to job performance was inconsistent, positive in jobs high in emotional labor and negative in jobs low in it.</p>"
-    },
-    {
-     "t": "Senior nuance",
-     "b": "<p>The understanding branch is the most knowledge-like and tends to show the strongest psychometric properties. The managing branch measures knowledge of which strategy works best, which is different from doing it under pressure. Knowing that a calm, specific reply works best in a tense meeting is not the same as producing one.</p><div class=\"trap\"><b>Trap:</b> Equating the ability model with Goleman's popular EQ. Goleman's model adds motivation, social skills and character traits that Mayer and Salovey explicitly excluded.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>For one week, after any charged interaction, write one line per branch: what I perceived (theirs and mine), how it affected my thinking, what I understood about why it arose, what I did to manage it. The weakest line points at the branch to work on.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Name the four branches of the Mayer-Salovey model.",
-     "a": "Perceiving emotion, using emotion to facilitate thought, understanding emotion, and managing emotion."
-    },
-    {
-     "q": "Who introduced the term emotional intelligence in a scientific paper, and when?",
-     "a": "Peter Salovey and John Mayer, in 1990."
-    },
-    {
-     "q": "Where does ability EI sit in the CHC model according to MacCann et al. (2014)?",
-     "a": "As a second-stratum (broad) ability factor alongside others such as fluid and crystallized intelligence."
-    },
-    {
-     "q": "What is the main weakness of ability EI as a workplace predictor?",
-     "a": "Its relation to job performance is inconsistent: positive in high-emotional-labor jobs and negative in low-emotional-labor jobs (Joseph and Newman, 2010)."
-    }
-   ]
-  },
-  {
-   "n": "Mixed and trait models (Goleman, Bar-On, Petrides)",
-   "g": "models",
-   "s": "Mixed and trait models treat EI as a broad set of self-perceived emotional and social dispositions, which makes them popular in business and heavily overlapping with personality.",
-   "x": [
-    {
-     "t": "Goleman and Bar-On",
-     "b": "<p>Daniel Goleman's 1995 bestseller popularized EI and later framed it as competencies across self-awareness, self-management, social awareness and relationship management, measured with the ESCI (with Richard Boyatzis). Reuven Bar-On's EQ-i, now published as EQ-i 2.0 by MHS, covers self-perception, self-expression, interpersonal skills, decision making and stress management. Both include constructs such as optimism, initiative and assertiveness that sit outside emotion processing.</p>"
-    },
-    {
-     "t": "Trait EI (Petrides)",
-     "b": "<p>K. V. Petrides and Adrian Furnham (2001) investigated trait EI as a personality construct, and Petrides describes it as a constellation of emotional self-perceptions located at the lower levels of personality hierarchies. The TEIQue, from the London Psychometric Laboratory, has 15 facets grouped into four factors: well-being, self-control, emotionality and sociability. Petrides is explicit that trait EI is a personality construct and should not be called an intelligence. That candor makes the model easier to defend scientifically than the mixed models.</p>"
-    },
-    {
-     "t": "Critiques",
-     "b": "<p>Locke (2005) argued the concept is so broad it is invalid as an intelligence. Matthews, Zeidner and Roberts (2002) documented heavy overlap with the Big Five, especially neuroticism (reversed), extraversion and conscientiousness. Goleman's book subtitle, \"Why it can matter more than IQ\", has no meta-analytic support for job performance.</p><div class=\"trap\"><b>Trap:</b> Reading \"EQ matters more than IQ\" as an empirical finding. Cognitive ability remains among the strongest single predictors of job performance; EI measures add, at best, increments over it.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Take a free or employer-provided EI self-assessment, then list the Big Five trait each scale most resembles. You will usually match most scales to emotional stability, extraversion, agreeableness or conscientiousness. Use the results as a personality profile, not as a skill audit.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "How does Petrides define trait EI?",
-     "a": "A constellation of emotional self-perceptions located at the lower levels of personality hierarchies."
-    },
-    {
-     "q": "What are the four factors of the TEIQue?",
-     "a": "Well-being, self-control, emotionality and sociability."
-    },
-    {
-     "q": "Which Big Five trait does self-report EI overlap with most strongly?",
-     "a": "Emotional stability (low neuroticism), with substantial overlap also with extraversion and conscientiousness."
-    },
-    {
-     "q": "What instrument did Goleman and Boyatzis build for their competency model?",
-     "a": "The ESCI (Emotional and Social Competency Inventory)."
-    }
-   ]
-  },
-  {
-   "n": "Measuring EI: MSCEIT, EQ-i, TEIQue",
-   "g": "evidence",
-   "s": "The major EI instruments differ in format, scoring and what they capture, so scores from them are not interchangeable.",
-   "x": [
-    {
-     "t": "The instruments",
-     "b": "<ul><li><b>MSCEIT</b> (Mayer, Salovey, Caruso): performance test across the four branches. Answers are scored against consensus of a large norm sample or expert panels, which correlate highly.</li><li><b>EQ-i 2.0</b> (Bar-On, published by MHS): self-report, scales covering emotional, social and stress-management functioning.</li><li><b>TEIQue</b> (Petrides): self-report of trait EI, full and short forms.</li><li><b>Newer ability tests:</b> STEU and STEM (MacCann and Roberts, 2008) for understanding and management, and the Geneva Emotional Competence Test (Schlegel and Mortillaro, 2019) built for workplace situations.</li></ul>"
-    },
-    {
-     "t": "Psychometric issues",
-     "b": "<p>Consensus scoring means the \"right\" answer is the popular answer, which critics say measures conformity to social norms more than skill. Self-report inventories are fakeable in high-stakes settings, and they ask people to rate a skill they may not be able to observe in themselves. Branch reliability in ability tests varies, with management items typically weaker.</p><div class=\"trap\"><b>Trap:</b> Using an EQ self-report for hiring or promotion decisions. It is fakeable, overlaps with personality, and its predictive edge partly comes from item content that resembles self-rated performance.</div>"
-    },
-    {
-     "t": "Practitioner reading",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> If your org runs an EI assessment, ask whether it is ability or self-report, whether there are norms for your population, and whether anyone validated it against outcomes your org cares about. The answer usually reveals it is a development conversation starter, which is a legitimate but limited use.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Search the STEU or STEM items (published research versions exist) and work a few. Notice how different it feels from rating yourself on \"I am good at understanding others\".</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "How is the MSCEIT scored?",
-     "a": "Against consensus of a large norm sample or against expert panels; the two scoring methods agree closely."
-    },
-    {
-     "q": "Which EI instruments are self-report?",
-     "a": "The EQ-i 2.0, the TEIQue, and Goleman and Boyatzis's ESCI (which also has a 360 version)."
-    },
-    {
-     "q": "What is the main criticism of consensus scoring?",
-     "a": "It treats the popular answer as correct, which may reward conformity to social norms over genuine emotional skill."
-    },
-    {
-     "q": "Name two newer ability-EI tests beyond the MSCEIT.",
-     "a": "The STEU/STEM (MacCann and Roberts) and the Geneva Emotional Competence Test (GECo)."
-    }
-   ]
-  },
-  {
-   "n": "EI and job performance: the meta-analyses",
-   "g": "evidence",
-   "s": "Meta-analyses find EI relates to job performance, but most of the self-report effect is explained by personality, cognitive ability and self-efficacy, and ability EI matters most in jobs heavy on emotional labor.",
-   "x": [
-    {
-     "t": "What the research finds",
-     "b": "<p><b>Joseph and Newman (2010)</b> proposed a cascading model: emotion perception leads to emotion understanding, which leads to emotion regulation, which leads to performance. Conscientiousness, cognitive ability and emotional stability feed the cascade. Ability EI's link to performance depended on emotional labor: it predicted performance positively in high-emotional-labor jobs and negatively in low-emotional-labor jobs.</p><p><b>O'Boyle and colleagues (2011)</b> meta-analyzed all three streams and found each reliably predicted job performance.</p><p><b>Joseph, Jin, Newman and O'Boyle (2015)</b> then asked why mixed EI predicts so well. Its validity was largely explained by overlap with conscientiousness, extraversion, cognitive ability, self-efficacy and self-rated performance; mixed EI item content partly reads like performance itself.</p>"
-    },
-    {
-     "t": "Interpretation",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> For an analyst: tested emotion skill helps where the job is emotionally demanding, self-report EI is largely a proxy for known traits, and the residual predictive power is small. Emotion skills are still worth building because specific behaviors (listening, regulation, feedback) have their own evidence, independent of the EI label.</div>"
-    },
-    {
-     "t": "Misconceptions",
-     "b": "<div class=\"trap\"><b>Trap:</b> Citing correlations from vendor white papers (often from TalentSmart or similar). These are not independent, rarely control for personality or cognitive ability, and usually use the vendor's own instrument.</div><div class=\"trap\"><b>Trap:</b> Concluding EI is useless. The construct is messy, but the component skills in this tab have narrower, better-supported evidence.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Estimate the emotional labor of your role: how much of your output depends on managing your own or others' emotions (stakeholder conflict, defending your team's priorities, delivering bad news to executives). The higher it is, the more the ability evidence applies to you.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the order of Joseph and Newman's (2010) cascading model?",
-     "a": "Emotion perception, then emotion understanding, then emotion regulation, then job performance."
-    },
-    {
-     "q": "What moderates ability EI's link with job performance in Joseph and Newman (2010)?",
-     "a": "Emotional labor: the link is stronger in jobs high in emotional labor."
-    },
-    {
-     "q": "Why does mixed EI predict performance, per Joseph et al. (2015)?",
-     "a": "Largely through overlap with conscientiousness, extraversion, cognitive ability, self-efficacy and self-rated performance."
-    }
-   ]
-  },
-  {
-   "n": "Can EI be trained?",
-   "g": "evidence",
-   "s": "Training studies show moderate improvements in EI scores, but effects are smaller on ability tests, partly driven by self-report bias, and specific skills transfer better than a general EQ.",
-   "x": [
-    {
-     "t": "What research finds",
-     "b": "<p>Mattingly and Kraiger (2019) meta-analyzed EI training and found a moderate positive effect. Effects were larger on self-report measures than on ability measures, and designs without proper control groups inflated estimates. Self-report gains after training can partly reflect expectation and demand effects: people who just finished an EI workshop rate themselves higher.</p>"
-    },
-    {
-     "t": "What tends to work",
-     "b": "<ul><li>Skill-specific practice with feedback (listening, reappraisal, feedback delivery) over generic EQ content.</li><li>Repetition in real situations, plus a way to see outcomes (recordings, observer ratings, notes).</li><li>Implementation intentions: Gollwitzer and Sheeran's (2006) meta-analysis found if-then plans have a medium-to-large effect on goal attainment, which suits behaviors that need to fire in the moment.</li></ul>"
-    },
-    {
-     "t": "Misconceptions",
-     "b": "<div class=\"trap\"><b>Trap:</b> Measuring your progress with the same self-report you took before the training. Use behavior-based evidence: count interruptions in recorded meetings, ask a trusted peer to rate one specific behavior, or track outcomes.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Pick one behavior from this tab. Write an if-then plan: \"If I notice my jaw tighten in a meeting, then I will ask one clarifying question before responding.\" Track hits for two weeks in a phone note.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What did Mattingly and Kraiger (2019) find about EI training?",
-     "a": "A moderate positive effect overall, larger on self-report than ability measures, and inflated in designs without control groups."
-    },
-    {
-     "q": "What is an implementation intention?",
-     "a": "An if-then plan linking a specific cue to a specific response, shown by Gollwitzer and Sheeran (2006) to improve goal attainment."
-    },
-    {
-     "q": "Why are post-training self-report gains suspect?",
-     "a": "Participants expect to improve and know what the training valued, so expectation and demand effects inflate ratings."
-    }
-   ]
-  },
-  {
-   "n": "Overlap with personality and IQ",
-   "g": "evidence",
-   "s": "The central scientific critique of EI is discriminant validity: self-report EI substantially re-measures personality, and ability EI partly re-measures cognitive ability.",
-   "x": [
-    {
-     "t": "The critique",
-     "b": "<p>Matthews, Zeidner and Roberts, in <i>Emotional Intelligence: Science and Myth</i> (2002), argued that popular claims for EI outran the evidence. Self-report EI correlates strongly with emotional stability and extraversion; tests like the TEIQue load on a general factor of personality. Ability EI correlates moderately with cognitive ability, especially verbal comprehension, since understanding emotion relies on emotion vocabulary and reasoning.</p>"
-    },
-    {
-     "t": "Defenses",
-     "b": "<p>Petrides accepts the overlap and treats trait EI as a personality compound with incremental validity for well-being and clinical outcomes. Mayer and colleagues argue ability EI is a distinct broad intelligence that shares variance with general ability, as all intelligences do. Ability EI shows incremental prediction for some outcomes such as social relationship quality and emotional labor performance.</p>"
-    },
-    {
-     "t": "How to reason about it",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> Treat incremental validity as the test. A construct earns its name if it predicts something after you control for what you already measure. EI passes that test narrowly and inconsistently. That supports investing in specific trainable behaviors and discounting broad EQ branding.</div><div class=\"trap\"><b>Trap:</b> Taking a correlation between EI and leadership as proof that EI causes good leadership. Extraverted, emotionally stable, conscientious people score high on both.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Next time someone cites an EI study, ask: what was controlled? If the answer is \"nothing\", the finding may just be personality restated.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is discriminant validity, in the EI debate?",
-     "a": "Whether an EI measure captures something distinct from existing constructs like the Big Five and cognitive ability."
-    },
-    {
-     "q": "Which cognitive ability does ability EI overlap with most?",
-     "a": "Verbal and crystallized ability, since understanding emotion relies on emotion vocabulary and reasoning."
-    },
-    {
-     "q": "What test should a construct like EI pass to justify itself?",
-     "a": "Incremental validity: predicting outcomes beyond what personality and cognitive ability already predict."
-    }
-   ]
-  },
-  {
-   "n": "Affect labeling",
-   "g": "self",
-   "s": "Putting a feeling into words reduces its intensity, an effect shown in brain imaging and behavioral studies.",
-   "x": [
-    {
-     "t": "What research finds",
-     "b": "<p>Lieberman and colleagues (2007) showed participants angry or fearful faces. Choosing a word for the emotion reduced amygdala response compared with matching faces by gender, and increased activity in the right ventrolateral prefrontal cortex, which correlated negatively with amygdala activity. Torre and Lieberman (2018) reviewed affect labeling as implicit emotion regulation: labeling is linked to lower amygdala activity, lower autonomic arousal and less self-reported distress, even though people do not expect it to work as a regulation strategy.</p>"
-    },
-    {
-     "t": "How to do it",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Pause and name the emotion silently in one or two words (\"irritated, cornered\").</li><li>Add the target: \"irritated that the deadline moved without a conversation\".</li><li>In conversation, label the other person's apparent emotion tentatively: \"It sounds like this has been frustrating.\" Hostage negotiators and mediators use this tactic; former FBI negotiator Chris Voss popularized it in <i>Never Split the Difference</i>, a practitioner book.</li></ol>"
+     "t": "Model",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Notice</b>: body signals and the other person's cues.</li><li><b>Name</b>: a precise label lowers intensity.</li><li><b>Reframe</b>: change the meaning before the reaction sets.</li><li><b>Respond</b>: listen, assert, negotiate, give feedback.</li><li><b>Team climate</b>: psychological safety lets the whole team do the same.</li></ol><p>This mirrors Joseph and Newman's (2010) meta-analytic cascade: perceiving feeds understanding, which feeds regulation, which feeds performance.</p>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Venting is not labeling. Rumination and repeated retelling tend to sustain emotion; a brief label followed by a decision is the active ingredient.</div><div class=\"trap\"><b>Trap:</b> Labeling someone else's emotion as a diagnosis (\"You're being defensive\"). Labels for others need to be tentative and descriptive, or they escalate.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating \"EQ\" as one score you have or lack. The links are separate skills with separate evidence.</div>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>Before you respond to the next message that irritates you, type the emotion word in a draft or note first. Then write the reply. Compare tone against your usual first draft.</p>"
+     "t": "Example",
+     "b": "<p>A peer derails your roadmap in a meeting. Notice: jaw tight. Name: \"cornered\". Reframe: they are under budget pressure. Respond: loop their concern, then state your limit.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What did Lieberman et al. (2007) find when people labeled emotional faces?",
-     "a": "Reduced amygdala activity and increased right ventrolateral prefrontal activity, compared with non-emotional matching."
+     "q": "Your weekly reviews keep going badly and you can't say why. Which link do you train first?",
+     "a": "Notice and name: log the early body signal and a precise emotion word after each review."
     },
     {
-     "q": "Do people expect affect labeling to regulate emotion?",
-     "a": "No. Torre and Lieberman (2018) describe it as a less expected strategy, even though it reduces distress."
-    },
-    {
-     "q": "How should you label someone else's emotion in conversation?",
-     "a": "Tentatively and descriptively, such as \"It sounds like this has been frustrating\", not as an accusation."
+     "q": "Why treat EI as a chain of skills rather than one trait?",
+     "a": "The links (perceiving, understanding, regulating, responding) are separable, with separate evidence, so you can train the weakest one."
     }
    ]
   },
   {
-   "n": "Emotional granularity",
-   "g": "self",
-   "s": "Emotional granularity is the ability to make fine distinctions between feelings, and people high in it regulate negative emotion better.",
+   "n": "What the EI label measures",
+   "g": "evidence",
+   "s": "\"EI\" names three different constructs, and only specific, trainable skills hold up once personality and IQ are controlled for.",
    "x": [
     {
-     "t": "Definition",
-     "b": "<p>Lisa Feldman Barrett's term for how precisely you construct and describe emotional experience. Low granularity sounds like \"bad\" or \"stressed\"; high granularity distinguishes disappointed, resentful, anxious, embarrassed and overloaded. Researchers measure it as emotion differentiation from repeated experience sampling, by how much a person's ratings of different same-valence emotions co-vary.</p>"
-    },
-    {
-     "t": "Evidence",
-     "b": "<p>Kashdan, Barrett and McKnight (2015) reviewed findings that greater negative emotion differentiation goes with less binge drinking under stress, less aggression when angry, less self-injury and better regulation in several clinical groups. Most evidence is correlational, and causal training studies are fewer.</p>"
-    },
-    {
-     "t": "Why it matters at work",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> Different emotions point to different actions. \"Stressed\" leads nowhere. \"Resentful that my team's work was credited elsewhere\" points to a specific conversation, and \"anxious about the CIO review\" points to preparation. Granularity is the bridge between feeling and a useful next move.</div><div class=\"trap\"><b>Trap:</b> Thinking a bigger vocabulary alone is the goal. Granularity is about applying distinctions to your actual experience in the moment, not memorizing an emotion wheel.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Three times a day for two weeks, log one specific emotion word, intensity from 1 to 10, and the trigger. Ban \"stressed\", \"fine\" and \"bad\". Your log becomes your personal dataset; look for recurring triggers by the end.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is emotional granularity?",
-     "a": "The ability to make fine-grained distinctions between emotional experiences, a concept from Lisa Feldman Barrett."
-    },
-    {
-     "q": "How do researchers usually measure emotion differentiation?",
-     "a": "Through repeated experience sampling, scoring how little a person's ratings of different same-valence emotions co-vary."
-    },
-    {
-     "q": "What outcomes does high negative emotion differentiation predict, per Kashdan et al. (2015)?",
-     "a": "Better emotion regulation, including less binge drinking under stress and less aggression when angry."
-    }
-   ]
-  },
-  {
-   "n": "Interoception",
-   "g": "self",
-   "s": "Interoception is perception of internal bodily signals, and it gives early warning of emotional states, though the science is less settled than popular accounts suggest.",
-   "x": [
-    {
-     "t": "Three dimensions",
-     "b": "<p>Garfinkel and colleagues (2015) distinguished interoceptive <b>accuracy</b> (objective performance, like detecting heartbeats), <b>sensibility</b> (self-reported belief about your body awareness) and <b>awareness</b> (metacognitive insight: whether confidence tracks accuracy). These dissociate: people who report strong body awareness are often not more accurate.</p>"
-    },
-    {
-     "t": "Evidence and limits",
-     "b": "<p>Bodily signals such as heart rate, muscle tension and breath feed into how emotion is constructed and felt. The standard heartbeat counting task has been criticized because performance is influenced by beliefs about heart rate, so many accuracy findings are being re-examined. Links between interoceptive accuracy and EI or decision quality are mixed.</p><div class=\"trap\"><b>Trap:</b> Assuming your gut is a reliable signal because it feels vivid. Sensibility and accuracy dissociate. Use bodily signals as a cue to pause, not as evidence about the other person.</div>"
-    },
-    {
-     "t": "Practical use",
-     "b": "<p>Your body often signals arousal before you can name the emotion. Learning your personal early signals (tight jaw, faster speech, heat in the face) gives a few seconds to choose a response.</p>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Do a 60-second body scan before high-stakes meetings: jaw, shoulders, breath, hands. Note one word. After the meeting, note whether that early signal predicted how the meeting went for you.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What three interoceptive dimensions did Garfinkel et al. (2015) distinguish?",
-     "a": "Accuracy (objective performance), sensibility (self-reported belief) and awareness (whether confidence tracks accuracy)."
-    },
-    {
-     "q": "Why is the heartbeat counting task criticized?",
-     "a": "Performance can be driven by beliefs or knowledge about heart rate, not actual perception of heartbeats."
-    },
-    {
-     "q": "What is the practical value of interoception in conflict?",
-     "a": "Recognizing personal early arousal signals gives time to pause and choose a response before acting."
-    }
-   ]
-  },
-  {
-   "n": "Reappraisal vs suppression (Gross's process model)",
-   "g": "self",
-   "s": "Gross's process model places regulation strategies along the time course of an emotion, and changing how you interpret a situation generally beats hiding your reaction.",
-   "x": [
-    {
-     "t": "The model",
-     "b": "<p>James Gross's process model of emotion regulation names five families, in time order:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Situation selection:</b> choosing whether to enter a situation.</li><li><b>Situation modification:</b> changing it (asking for an agenda, moving a talk to 1:1).</li><li><b>Attentional deployment:</b> distraction or focusing.</li><li><b>Cognitive change:</b> reappraisal, changing the meaning.</li><li><b>Response modulation:</b> suppression and other changes to expression after the emotion arises.</li></ol>"
-    },
-    {
-     "t": "Evidence",
-     "b": "<p>Gross (2002) and Gross and John (2003) found habitual reappraisers report more positive emotion, better relationships and well-being; habitual suppressors report less positive emotion, more negative emotion and worse social functioning. Richards and Gross (2000) found that suppressing expression impaired memory for what was said during an emotional event, while reappraisal did not. Butler and colleagues (2003) found that suppression during conversation raised partners' blood pressure and reduced rapport. Webb, Miles and Sheeran (2012) meta-analyzed strategies: reappraisal had a small-to-medium effect on emotional outcomes, suppressing expression reduced expression but changed felt experience little, and concentrating on feelings in a ruminative way was counterproductive.</p>"
-    },
-    {
-     "t": "Nuance",
-     "b": "<p>Suppression is not always wrong. Short-term expressive suppression in a board meeting can be appropriate; the cost comes from chronic suppression. Cultural context matters too: suppression's social costs are smaller in cultures where it is normative. Reappraisal also requires cognitive resources that are scarce at peak arousal, so earlier strategies are easier.</p><div class=\"trap\"><b>Trap:</b> Reappraisal as forced positivity. It means finding an accurate alternative interpretation (\"this executive pushback is about budget pressure, not my competence\"), not lying to yourself.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Before a contentious meeting, write two interpretations of the other side's likely behavior: the threatening one you default to and the most plausible alternative. Then plan one situation-modification move, such as sending a pre-read so surprises are fewer.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "List the five families in Gross's process model, in order.",
-     "a": "Situation selection, situation modification, attentional deployment, cognitive change, and response modulation."
-    },
-    {
-     "q": "What did Gross and John (2003) find about habitual suppression?",
-     "a": "Habitual suppressors report less positive emotion, more negative emotion and poorer social functioning."
-    },
-    {
-     "q": "Per Webb et al. (2012), what does suppressing expression do?",
-     "a": "It reduces outward expression but has little effect on the emotion actually felt."
-    },
-    {
-     "q": "Why are earlier regulation strategies easier under high arousal?",
-     "a": "Late strategies like reappraisal in the moment need cognitive resources that are depleted at peak arousal."
-    }
-   ]
-  },
-  {
-   "n": "Self-regulation under stress",
-   "g": "self",
-   "s": "A short set of evidence-backed tools (paced breathing, self-distancing, anxiety reappraisal and pre-commitment) helps keep judgment intact during high-pressure moments.",
-   "x": [
-    {
-     "t": "Tools and evidence",
-     "b": "<ul><li><b>Cyclic sighing:</b> in a remote randomized trial of 108 people, Balban and colleagues (2023) found five minutes daily for 28 days of cyclic sighing (a slow inhale, a second short inhale, then a long full exhale) increased positive affect and reduced respiratory rate more than mindfulness meditation.</li><li><b>Self-distancing:</b> Kross and colleagues (2014) found that using your own name or third-person pronouns in place of \"I\" during self-talk reduced distress and improved objectively rated performance in first-impression and public-speaking tasks.</li><li><b>Anxiety as excitement:</b> Brooks (2014) found that saying \"I am excited\" before public speaking, singing or a math task improved performance relative to saying \"I am calm\". A replication by Poynter and Pasqualini (2025) found people felt more excited but showed no improvement in observer-rated speaking performance, so treat it as a cheap experiment.</li><li><b>Pre-commitment:</b> if-then plans set before the meeting (Gollwitzer and Sheeran, 2006).</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Ability EI</b> (Mayer-Salovey, MSCEIT): a test with right answers. Distinct from personality; predicts performance positively in emotionally demanding jobs and negatively in jobs with little emotional labor (Joseph and Newman 2010).</li><li><b>Trait EI</b> (Petrides, TEIQue) and <b>mixed EI</b> (Goleman, Bar-On's EQ-i): self-report. Its predictive power is mostly conscientiousness, extraversion, stability, IQ, self-efficacy and self-rated performance restated; controlling for them leaves almost nothing (Joseph et al. 2015).</li><li><b>Training</b> raises scores moderately on both ability and mixed measures; published studies report bigger effects than unpublished ones (Mattingly and Kraiger 2019).</li></ul>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Ego depletion as a fixed tank. Large preregistered replications (Hagger and colleagues, 2016) failed to find the classic effect, so do not plan your day around \"willpower reserves\". Fatigue, hunger and sleep loss still matter.</div><div class=\"trap\"><b>Trap:</b> Telling yourself to calm down. Moving from high arousal to calm is hard; relabeling arousal as readiness is often easier, as Brooks argues.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> \"EQ matters more than IQ.\" No meta-analysis supports it for job performance.</div><div class=\"trap\"><b>Trap:</b> Using a self-report EQ test for hiring. It is fakeable and mostly measures personality.</div>",
+     "c": []
     },
     {
-     "t": "Routine",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Before: two cyclic sighs, one if-then plan, one reappraisal sentence.</li><li>During: notice your early body signal, label silently, slow your speaking rate.</li><li>If flooded: ask a question or request a short break; avoid committing to decisions.</li><li>After: debrief in third person (\"What did J do well?\").</li></ol>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Run the routine for your next three high-stakes meetings and log one line each: arousal 1 to 10 before and after, and whether you said anything you regretted.</p>"
+     "t": "Example",
+     "b": "<p>A vendor says EQ predicts leadership. Ask: which stream, which instrument, and was personality controlled? Usually not, so discount it.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What did Kross et al. (2014) find about self-distancing?",
-     "a": "Using your own name or third-person pronouns instead of \"I\" in self-talk reduced distress and improved rated performance under stress."
+     "q": "In which jobs does tested (ability) EI predict performance best?",
+     "a": "Jobs high in emotional labor, where managing your own and others' emotions is the work."
     },
     {
-     "q": "What did Brooks (2014) compare in the anxiety reappraisal studies?",
-     "a": "Saying \"I am excited\" versus \"I am calm\" before a stressful task; excitement improved performance, though a 2025 replication did not reproduce the speaking-performance effect."
-    },
-    {
-     "q": "What is cyclic sighing?",
-     "a": "A slow inhale, a second short inhale to fill the lungs, then a long full exhale, studied by Balban et al. (2023)."
-    },
-    {
-     "q": "What happened to ego depletion in large replications?",
-     "a": "Large preregistered multi-lab replications (Hagger et al., 2016) found little or no effect."
+     "q": "A workshop raised everyone's EQ self-scores. Why is that weak evidence?",
+     "a": "Self-ratings right after training partly reflect expectation and demand effects; judge by behavior or outcomes instead."
     }
    ]
   },
   {
-   "n": "Empathy types",
+   "n": "Name it precisely",
+   "g": "self",
+   "s": "Putting a feeling into specific words lowers its intensity and points to the right next move.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p><b>Affect labeling:</b> naming an emotion reduced amygdala response and raised right ventrolateral prefrontal activity (Lieberman et al. 2007); labeling also lowers arousal and distress (Torre and Lieberman 2018).</p><p><b>Granularity</b> (Barrett): people who distinguish \"resentful\" from \"anxious\" regulate better (Kashdan, Barrett and McKnight 2015; mostly correlational).</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Venting is not labeling. Rumination sustains emotion; a brief label followed by a decision is the active ingredient.</div><div class=\"trap\"><b>Trap:</b> Labeling someone else as a verdict (\"you're defensive\"). Label others tentatively: \"sounds frustrating\".</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>\"Stressed\" leads nowhere. \"Resentful my team's work was credited elsewhere\" points to one conversation; \"anxious about the CIO review\" points to preparation.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Your log says \"stressed\" every day. What should replace it?",
+     "a": "A specific word plus its trigger, e.g. \"anxious about Thursday's review\", because each points to a different action."
+    },
+    {
+     "q": "How do you label another person's emotion without escalating?",
+     "a": "Tentatively and descriptively (\"it sounds frustrating\"), never as a diagnosis."
+    }
+   ]
+  },
+  {
+   "n": "Reappraise, don't suppress",
+   "g": "self",
+   "s": "Changing what a situation means beats hiding your reaction, because suppression keeps the feeling and taxes memory and rapport.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>Gross's process model orders strategies by timing: pick the situation, modify it, shift attention, reappraise, then suppress the response. Earlier is cheaper.</p><p>Habitual reappraisers report more positive emotion and better relationships (Gross and John 2003). Suppression impairs memory for what was said during the emotional event (Richards and Gross 2000) and raises partners' blood pressure (Butler et al. 2003). Meta-analysis: reappraisal has a small-to-medium effect; suppression changes expression, not feeling (Webb, Miles and Sheeran 2012).</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Reappraisal as forced positivity. It means an accurate alternative reading, not a comforting lie.</div><div class=\"trap\"><b>Trap:</b> Saving it for peak arousal. Reappraisal needs spare attention, so plan it before the meeting.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Default read: \"the exec is attacking my competence\". Plausible alternative: \"budget pressure; they need a cheaper option\". Situation move: send a pre-read so there are fewer surprises.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Before a tense review, which regulation family is cheapest to use?",
+     "a": "The early ones: situation selection or modification (pre-read, agenda, 1:1), before the emotion starts."
+    },
+    {
+     "q": "What makes a reappraisal valid?",
+     "a": "It is an accurate, plausible alternative interpretation, not forced positivity."
+    }
+   ]
+  },
+  {
+   "n": "Regulate under pressure",
+   "g": "self",
+   "s": "Under pressure, use your body's early signal as a cue and run a pre-set routine, because judgment degrades once you are flooded.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Early signal</b>: tight jaw, fast speech, heat. People's sense of their body awareness often isn't accurate (Garfinkel et al. 2015), so treat it as a cue to pause, not as evidence.</li><li><b>Breathwork</b>, 5 minutes a day, improved mood more than mindfulness in a 108-person trial, with cyclic sighing best (Balban et al. 2023).</li><li><b>Self-distancing</b>: self-talk in your own name reduced distress and improved performance (Kross et al. 2014).</li><li><b>If-then plans</b> have medium-to-large effects on goal attainment (Gollwitzer and Sheeran 2006).</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Planning around a willpower tank. Large preregistered replications failed to find ego depletion (Hagger et al. 2016).</div><div class=\"trap\"><b>Trap:</b> \"I'm excited\" reframing (Brooks 2014): a replication raised felt excitement but not rated performance (Poynter and Pasqualini 2025).</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Before: two sighs plus one if-then (\"if interrupted, I ask a question first\"). If flooded, ask for a break and decide nothing. After: debrief in third person.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "You feel flooded mid-meeting. What is the rule?",
+     "a": "Ask a question or request a break, and commit to no decisions until you are regulated."
+    },
+    {
+     "q": "Why not plan your day around ego depletion?",
+     "a": "Large preregistered replications failed to find the effect, though sleep and fatigue still matter."
+    }
+   ]
+  },
+  {
+   "n": "Empathy: model them, don't absorb them",
    "g": "others",
-   "s": "Empathy splits into cognitive empathy (understanding what someone thinks and feels), affective empathy (sharing it) and empathic concern (caring about it), and each has different payoffs and costs.",
+   "s": "Cognitive empathy (modeling what someone thinks and needs) wins negotiations and keeps judgment clear, while absorbing their distress burns you out.",
    "x": [
     {
-     "t": "Definitions",
-     "b": "<ul><li><b>Cognitive empathy</b> or perspective-taking: modeling another person's thoughts and feelings.</li><li><b>Affective empathy</b> or emotion sharing: feeling what they feel.</li><li><b>Empathic concern</b> or compassion: other-oriented care and motivation to help. C. Daniel Batson's work links empathic concern to altruistic helping.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Cognitive</b>: perspective-taking. Helped negotiators find deals more than emotional empathy did (Galinsky et al. 2008).</li><li><b>Affective</b>: feeling what they feel. Biased toward the near and similar.</li><li><b>Compassion</b>: caring and wanting to help. Compassion training raised positive affect; empathic-distress training raised negative affect (Singer and Klimecki 2014).</li></ul>",
+     "c": []
     },
     {
-     "t": "Evidence",
-     "b": "<p>Singer and Klimecki (2014) found that empathy training (sharing others' distress) increased negative affect, while compassion training increased positive affect and activated different brain networks. They argue empathic distress drives burnout and withdrawal, while compassion sustains helping. Galinsky and colleagues (2008) found perspective-taking helped negotiators find deals and gain value, while emotional empathy helped less. Paul Bloom's <i>Against Empathy</i> (2016) argues affective empathy is biased toward the near and similar.</p>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Equating empathy with agreement. You can model their position exactly and still push back.</div>",
+     "c": []
     },
     {
-     "t": "At work",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> In conflict and advocacy, cognitive empathy is the high-yield tool: understanding the CIO's or a peer team's incentives lets you frame requests that land. Empathic concern keeps relationships intact. Heavy affective empathy for an upset stakeholder can cloud judgment and wear you down.</div><div class=\"trap\"><b>Trap:</b> Equating empathy with agreement. You can accurately model someone's position and still push back on it.</div>"
+     "t": "Example",
+     "b": "<p>Before a cross-team ask, write their position in their words, their top two pressures, and what a win looks like for their boss. Frame the ask as their win.</p>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>Before your next cross-team negotiation, write the other side's position in their words, their top two pressures, and what a win looks like for their boss. Ask a colleague whether your summary is fair.</p>"
+     "t": "Ask",
+     "b": "<p>Could the other side read your summary of their position and call it fair?</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Distinguish cognitive empathy, affective empathy and empathic concern.",
-     "a": "Cognitive empathy is understanding another's perspective, affective empathy is sharing their emotion, and empathic concern is caring about their welfare."
+     "q": "A stakeholder is upset and you feel drained after every call. Which empathy mode should you shift to?",
+     "a": "From affective empathy (absorbing distress) to cognitive empathy plus compassion."
     },
     {
-     "q": "What did Singer and Klimecki (2014) find comparing empathy and compassion training?",
-     "a": "Empathy training increased negative affect, while compassion training increased positive affect and engaged different brain networks."
-    },
-    {
-     "q": "Which empathy type helped negotiators most in Galinsky et al. (2008)?",
-     "a": "Perspective-taking (cognitive), more than emotional empathy."
+     "q": "Why doesn't empathy require agreement?",
+     "a": "Modeling someone's view accurately is separate from accepting it; it makes your pushback land better."
     }
    ]
   },
   {
-   "n": "Active listening",
+   "n": "Listen by looping",
    "g": "others",
-   "s": "High-quality listening (attention, comprehension and visible goodwill) makes speakers less anxious and more open, and paraphrasing is its most testable behavior.",
+   "s": "Loop for understanding: paraphrase their point and check it before you add yours, because people who feel heard become less defensive and more open.",
    "x": [
     {
-     "t": "What research finds",
-     "b": "<p>Kluger and Itzchakov's (2022) review of listening at work reports that speakers who get high-quality listening show more psychological safety, less social anxiety, and more complex, less extreme attitudes. Weger and colleagues (2014) found active listening responses made speakers feel more understood than advice or simple acknowledgments, though advice-giving produced similar conversational satisfaction and liking.</p>"
-    },
-    {
-     "t": "Technique",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Remove distractions; phone out of view and face the speaker.</li><li>Ask an open question, then let silence work.</li><li>Paraphrase content (\"So the main risk you see is...\").</li><li>Reflect feeling tentatively (\"and that sounds frustrating\").</li><li>Check: \"Did I get that right?\" Mediator Gary Friedman calls this looping for understanding, and journalist Amanda Ripley popularized it in <i>High Conflict</i> (2021).</li><li>Only then add your view.</li></ol>"
+     "t": "Model",
+     "b": "<p>High-quality listening (attention, comprehension, goodwill) makes speakers less anxious and their attitudes less extreme (Kluger and Itzchakov 2022). Active-listening replies made speakers feel more understood than advice did (Weger et al. 2014).</p><p>Loop: open question, silence, paraphrase content, reflect feeling tentatively, ask \"did I get that right?\", and only then give your view (Gary Friedman's term).</p>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Formulaic paraphrasing (\"What I hear you saying is...\") with no real attention. People detect it; the goodwill component carries much of the effect.</div><div class=\"trap\"><b>Trap:</b> Listening as a stalling tactic before you rebut. If you are only waiting to talk, your next sentence will show it.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Formulaic paraphrase with no real attention. People detect it, and goodwill carries much of the effect.</div><div class=\"trap\"><b>Trap:</b> Listening only to reload your rebuttal.</div>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>In your next 1:1 with a direct report or peer, do not state your opinion until you have looped once and they said \"yes, exactly\". Note whether the conversation shifted after the loop.</p>"
+     "t": "Example",
+     "b": "<p>\"So the main risk you see is the migration date, and it sounds like you've been burned before. Is that it?\" \"Yes, exactly.\" Now propose.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What effects does high-quality listening have on speakers, per Kluger and Itzchakov (2022)?",
-     "a": "More psychological safety, less social anxiety, and more complex, less extreme attitudes."
+     "q": "Which listening component do people detect when it's missing from a paraphrase?",
+     "a": "Genuine attention (goodwill); without it the paraphrase reads as formula."
     },
     {
-     "q": "What is looping for understanding?",
-     "a": "Paraphrasing what someone said and asking if you got it right, repeating until they confirm, before you give your view."
-    },
-    {
-     "q": "What did Weger et al. (2014) find about active listening responses?",
-     "a": "They made speakers feel more understood than advice or simple acknowledgments, though satisfaction and liking were similar to advice-giving."
+     "q": "A stakeholder keeps repeating the same complaint. What does that usually signal?",
+     "a": "They don't feel heard yet: loop their point until they confirm it."
     }
    ]
   },
   {
-   "n": "Reading a room",
+   "n": "Read the room with baselines",
    "g": "others",
-   "s": "Reading a room means inferring group mood and individual reactions from context, behavior and baselines, and faces alone are a weaker signal than most people believe.",
+   "s": "Read people against their own baseline and clusters of cues, then test the read, because single facial expressions do not reliably reveal emotion.",
    "x": [
     {
-     "t": "What research finds",
-     "b": "<p>Barrett and colleagues (2019), in a large review in <i>Psychological Science in the Public Interest</i>, concluded that facial configurations do not reliably map to specific emotions across people and contexts; a scowl often accompanies anger but frequently does not. Barsade (2002) showed emotional contagion in groups: a confederate's mood spread to group members and affected cooperation and conflict. Ambady and Rosenthal's thin-slice work (1992) shows brief observations can predict some judgments, but accuracy depends on context and judge.</p>"
-    },
-    {
-     "t": "Practical method",
-     "b": "<ul><li><b>Baselines:</b> compare people to their normal behavior, not to a generic template. A quiet engineer going quiet means less than a talkative director going quiet.</li><li><b>Clusters:</b> look for several cues together (shorter replies, camera off, delayed responses).</li><li><b>Context:</b> what just happened, who holds power, what is at stake for each person.</li><li><b>Test:</b> check your read with a question (\"I'm sensing some hesitation; what am I missing?\").</li><li><b>Your own state:</b> your mood spreads too, especially if you lead the meeting.</li></ul>"
+     "t": "Model",
+     "b": "<p>A major review found facial configurations do not map reliably to specific emotions across people and contexts (Barrett et al. 2019). Mood spreads through groups and shifts cooperation (Barsade 2002), including yours when you lead.</p><ul><li><b>Baseline</b>: compare to their normal.</li><li><b>Cluster</b>: several cues together.</li><li><b>Context</b>: what just happened, who holds power.</li><li><b>Test</b>: \"I sense hesitation; what am I missing?\"</li></ul>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Body-language myths such as crossed arms meaning defensiveness. Single cues are unreliable; they may mean the room is cold.</div><div class=\"trap\"><b>Trap:</b> Treating your read as fact. It is a hypothesis to test.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Body-language myths (crossed arms = defensive). One cue means little; the room may be cold.</div>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>In the next meeting, pick two people and write your read of their stance at the halfway point. Afterward, check with one of them privately. Track your hit rate over a month.</p>"
+     "t": "Example",
+     "b": "<p>The talkative director goes quiet after the cost slide; the quiet engineer stays quiet. Only the director's silence is signal. Ask them privately.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What did Barrett et al. (2019) conclude about facial expressions?",
-     "a": "Facial configurations do not reliably and specifically indicate emotions across people and contexts."
+     "q": "Why is a single facial expression weak evidence of emotion?",
+     "a": "Barrett et al. (2019) found faces don't map reliably to specific emotions across people and contexts."
     },
     {
-     "q": "What did Barsade (2002) demonstrate in groups?",
-     "a": "Emotional contagion: a confederate's mood spread to group members and affected cooperation and conflict."
-    },
-    {
-     "q": "Why use baselines when reading people?",
-     "a": "Behavior is meaningful relative to that person's norm, not to a generic template."
+     "q": "Two people go silent in a meeting. Whose silence is a signal?",
+     "a": "The one for whom silence departs from their baseline."
     }
    ]
   },
   {
-   "n": "Assertiveness, aggression and passivity",
-   "g": "conflict",
-   "s": "Assertiveness is stating your needs and limits directly while respecting the other person, and both too little and too much harm effectiveness.",
+   "n": "Assert: calibrate, then script",
+   "g": "hard",
+   "s": "State needs and limits directly and specifically, and calibrate with outside feedback, because your own sense of \"too much\" is unreliable.",
    "x": [
     {
-     "t": "Definitions",
-     "b": "<ul><li><b>Passive:</b> withholding your view or needs to avoid friction.</li><li><b>Aggressive:</b> pursuing your goals at the expense of the other's dignity or rights.</li><li><b>Passive-aggressive:</b> indirect resistance (sarcasm, slow compliance).</li><li><b>Assertive:</b> direct, specific, respectful statement of view, need or limit.</li></ul>"
-    },
-    {
-     "t": "Evidence",
-     "b": "<p>Ames and Flynn (2007) found a curvilinear relation between assertiveness and perceived leadership effectiveness: low assertiveness cost instrumental outcomes (getting things done), high assertiveness cost social outcomes (relationships). Ames and Wazlawek (2014) found a \"line-crossing illusion\": many negotiators whom counterparts saw as appropriately assertive believed they had pushed too hard, and then made costly concessions to repair relationships that were not damaged. People who misjudged their assertiveness erred in both directions. Self-perception of assertiveness is poorly calibrated.</p>"
-    },
-    {
-     "t": "Implication",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> If you tend to under-assert, your internal sense of \"that was too much\" is probably miscalibrated toward softness. Get external calibration from a trusted colleague instead of trusting the feeling.</div><div class=\"trap\"><b>Trap:</b> Confusing assertiveness with volume or intensity. A calm, specific statement of what your team needs is assertive. Raising your voice is usually read as aggressive.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>After your next pushback, ask one trusted attendee: \"On a scale from too soft to too strong, where did I land?\" Compare to your own guess. Repeat over several meetings to calibrate.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What relation did Ames and Flynn (2007) find between assertiveness and leadership?",
-     "a": "Curvilinear: too little hurt instrumental outcomes, too much hurt social outcomes."
-    },
-    {
-     "q": "What is the line-crossing illusion (Ames and Wazlawek, 2014)?",
-     "a": "People seen as appropriately assertive often believe they pushed too hard, and may make costly repairs for damage that did not happen."
-    },
-    {
-     "q": "How does assertiveness differ from aggression?",
-     "a": "Assertiveness states needs directly while respecting the other person; aggression pursues goals at the other's expense."
-    }
-   ]
-  },
-  {
-   "n": "Assertive scripts: DESC and NVC",
-   "g": "conflict",
-   "s": "Scripts like DESC and Nonviolent Communication give assertive requests a structure that separates observable facts from interpretation, though their formal evidence base is thin.",
-   "x": [
-    {
-     "t": "DESC (Bower and Bower)",
-     "b": "<p>From Sharon and Gordon Bower's <i>Asserting Yourself</i> (1976):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Describe</b> the specific behavior or situation, objectively.</li><li><b>Express</b> your feelings or concerns, in I-statements.</li><li><b>Specify</b> the change you want.</li><li><b>Consequences:</b> state what follows, ideally positive.</li></ol><pre><code>D: Our sprint scope changed three times last week without a ticket.\nE: I'm concerned my team can't commit to dates we can hit.\nS: Can scope changes go through the intake form, with you and me agreeing on trade-offs?\nC: Then I can give you dates I'll stand behind.</code></pre>"
-    },
-    {
-     "t": "NVC (Rosenberg)",
-     "b": "<p>Marshall Rosenberg's Nonviolent Communication has four components: observations, feelings, needs and requests. The key moves are separating observation from evaluation (\"you missed two deadlines\" versus \"you're unreliable\") and making requests specific and doable. Research on NVC is mostly small and uncontrolled; an integrative review by Pereira and Durgante (2025) of 15 studies reported empathy gains but noted methodological flaws and mostly non-randomized designs, so treat it as a practitioner framework.</p>"
-    },
-    {
-     "t": "Nuance",
-     "b": "<p>Pure NVC phrasing (\"I feel sad because my need for respect is not met\") can sound therapeutic in corporate settings. Keep the structure and use business language: concern, priority, impact.</p><div class=\"trap\"><b>Trap:</b> Leaving out the specific request. A complaint without a doable ask forces the other person to guess and invites defensiveness.</div><div class=\"trap\"><b>Trap:</b> Disguised evaluations, such as \"I feel that you're ignoring us\". That is a judgment wearing a feeling word.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Write a DESC script for one recurring friction with another department. Keep each line under 25 words. Read it aloud once, then use it.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What does DESC stand for?",
-     "a": "Describe, Express, Specify, Consequences, from Bower and Bower's Asserting Yourself (1976)."
-    },
-    {
-     "q": "What are the four components of Rosenberg's NVC?",
-     "a": "Observations, feelings, needs and requests."
-    },
-    {
-     "q": "Why is \"I feel that you're ignoring us\" not a feeling statement?",
-     "a": "It is an evaluation of the other person's behavior disguised with the word feel."
-    },
-    {
-     "q": "How strong is the research evidence for NVC?",
-     "a": "Suggestive but weak: a 2025 integrative review found empathy gains in mostly non-randomized studies with methodological flaws."
-    }
-   ]
-  },
-  {
-   "n": "Conflict de-escalation",
-   "g": "conflict",
-   "s": "De-escalation lowers arousal and shifts a dispute from people and positions to interests and problems, which keeps task conflict from turning into relationship conflict.",
-   "x": [
-    {
-     "t": "What research finds",
-     "b": "<p>De Dreu and Weingart (2003) meta-analyzed team conflict and found both relationship and task conflict were negatively related to team performance. De Wit, Greer and Jehn (2012) refined this: task conflict related more positively to performance when it was only weakly tied to relationship conflict, in top management teams, and when performance meant decision quality or financial results. Keeping disagreements about the work from becoming disagreements about each other is the core goal. Fisher and Ury's <i>Getting to Yes</i> (1981) supplies the interest-based frame: separate the people from the problem and focus on interests over positions.</p>"
-    },
-    {
-     "t": "Steps",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Regulate yourself first:</b> slow speech, lower volume, breathe out.</li><li><b>Acknowledge:</b> label their concern and loop for understanding.</li><li><b>Find the interest:</b> \"What's driving the deadline for you?\"</li><li><b>Reframe to a shared problem:</b> \"We both need the dashboard trusted by the CIO; how do we get there?\"</li><li><b>Generate options before committing.</b></li><li><b>Move venue if needed:</b> take heated exchanges out of group threads into a call or 1:1.</li></ol>"
+     "t": "Model",
+     "b": "<p>Assertiveness relates to perceived leadership in an inverted U: too little costs results, too much costs relationships (Ames and Flynn 2007). In the line-crossing illusion, many negotiators seen as appropriately assertive believed they had overstepped, then made needless concessions (Ames and Wazlawek 2014).</p><p><b>DESC</b> script (Bower and Bower): Describe the behavior, Express the concern, Specify the change, state the Consequence. NVC follows the same shape (observation, feeling, need, request); both have thin formal evidence.</p>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Avoiding all conflict to keep the peace. Task disagreements unaired tend to resurface later as relationship conflict.</div><div class=\"trap\"><b>Trap:</b> Arguing facts while the other person is flooded. Emotion first, then content.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Confusing assertiveness with volume. Calm and specific reads as assertive; loud reads as aggressive.</div>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>Next time a Slack or email thread gets heated, stop replying in text. Send one line: \"Let's talk live for ten minutes; I want to understand your concern.\" Then run steps 2 to 4.</p>"
+     "t": "Example",
+     "b": "<p>D: \"Scope changed three times last week without a ticket.\" E: \"I'm concerned we'll miss the CIO date.\" S: \"Route changes through intake.\" C: \"Then we can commit to dates.\"</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What did De Dreu and Weingart (2003) find about task conflict?",
-     "a": "Both task and relationship conflict were negatively related to team performance in their meta-analysis."
+     "q": "You worry your pushback was too strong. What do you do instead of apologizing?",
+     "a": "Ask a trusted attendee where you landed from too soft to too strong; calibrate on their answer."
     },
     {
-     "q": "When is task conflict least harmful, per de Wit, Greer and Jehn (2012)?",
-     "a": "When it is weakly tied to relationship conflict, in top management teams, and for decision quality or financial performance."
-    },
-    {
-     "q": "What is the core principle of interest-based negotiation from Getting to Yes?",
-     "a": "Separate the people from the problem and focus on interests rather than positions."
+     "q": "Turn \"you always change scope\" into the D of DESC.",
+     "a": "\"Scope changed three times last week without a ticket\": specific, observable, no judgment."
     }
    ]
   },
   {
-   "n": "Emotions in negotiation",
-   "g": "conflict",
-   "s": "Expressed emotions act as strategic information in negotiations, so anger, anxiety and disappointment shape counterpart behavior in predictable but context-dependent ways.",
+   "n": "Conflict and negotiation",
+   "g": "hard",
+   "s": "Keep disagreements about the work from becoming disagreements about each other: regulate first, address emotion before facts, and negotiate on interests with calm, stated limits.",
    "x": [
     {
-     "t": "EASI model (Van Kleef)",
-     "b": "<p>Gerben Van Kleef's Emotions as Social Information model says observers respond to your emotion through two paths: <b>inferential</b> (what does their emotion tell me about their limits?) and <b>affective</b> (how does it make me feel?). Which path dominates depends on the observer's motivation and ability to process information and on whether the emotion seems appropriate.</p>"
-    },
-    {
-     "t": "What research finds",
-     "b": "<ul><li>Van Kleef, De Dreu and Manstead (2004) found negotiators conceded more to an angry opponent than a happy one, using the anger to infer the opponent's limits, and the effect was strongest when they were motivated and able to process it.</li><li>Van Kleef's EASI chapter (2008) notes anger can also reduce liking, provoke anger in return and lower willingness to negotiate again, especially toward a counterpart in a strong position. High power lowers motivation to read the emotion as information, and anger aimed at the person provokes more competition than anger aimed at the offer.</li><li>Anxiety hurts: Brooks and Schweitzer (2011) found anxious negotiators made low first offers, exited early and earned less profit.</li></ul>"
-    },
-    {
-     "t": "Nuance",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> For an internal negotiation with peers or executives, clear limits stated calmly and aimed at the offer usually beat anger. Expressions also have reputational effects that outlast the deal: you will negotiate with the same people again.</div><div class=\"trap\"><b>Trap:</b> Treating anger as a free tactic. Its relational costs (less liking, reciprocal anger, less willingness to deal again) compound with colleagues you negotiate with repeatedly.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>Before your next resource or scope negotiation, write your walk-away point and your first ask, set before you feel anxious. Rehearse the opening line twice. Note whether you held your first number.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What are the two paths in Van Kleef's EASI model?",
-     "a": "Inferential processes (reading the emotion as information) and affective reactions (emotions it evokes in the observer)."
-    },
-    {
-     "q": "When does expressed anger tend to elicit concessions?",
-     "a": "When the counterpart is motivated and able to read it as information about your limits, which is less likely for high-power counterparts or when the anger seems inappropriate."
-    },
-    {
-     "q": "What did Brooks and Schweitzer (2011) find about anxious negotiators?",
-     "a": "They made low first offers, exited early and earned less profit."
-    }
-   ]
-  },
-  {
-   "n": "Giving and receiving feedback",
-   "g": "teams",
-   "s": "Feedback often fails because it shifts attention to the self, so effective feedback targets the task, signals belief in the person and is received by separating the triggers it sets off.",
-   "x": [
-    {
-     "t": "What research finds",
-     "b": "<p>Kluger and DeNisi's (1996) meta-analysis of feedback interventions found an average positive effect, but over a third of interventions reduced performance. Feedback that directed attention to the self (praise or criticism of the person) tended to hurt, while feedback on the task and how to improve tended to help. Yeager and colleagues (2014) found that \"wise feedback\", a note reading \"I'm giving you these comments because I have very high expectations and I know that you can reach them\", increased essay revision rates, with the strongest effects among African American students who reported more mistrust of school.</p>"
-    },
-    {
-     "t": "Giving",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ask whether they want feedback now.</li><li>Describe the specific behavior and its impact.</li><li>State high standards plus belief: \"I'm flagging this because the bar for CIO decks is high and I know you can hit it.\"</li><li>Make the next step concrete and small.</li><li>Follow up.</li></ol>"
-    },
-    {
-     "t": "Receiving",
-     "b": "<p>Stone and Heen's <i>Thanks for the Feedback</i> (2014) describes three triggers: <b>truth</b> (the feedback seems wrong), <b>relationship</b> (who is saying it) and <b>identity</b> (it threatens who you think you are). Name which one fired, then ask a clarifying question before you respond: \"What would good have looked like?\"</p><div class=\"trap\"><b>Trap:</b> The feedback sandwich. Wrapping criticism in praise often dilutes the message and trains people to distrust praise.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>This week, ask one stakeholder: \"What's one thing I could do differently that would make my team's work more useful to you?\" Only say thanks and ask one clarifying question. Write down which trigger fired.</p>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What fraction of feedback interventions reduced performance in Kluger and DeNisi (1996)?",
-     "a": "Over a third."
-    },
-    {
-     "q": "What is wise feedback (Yeager et al., 2014)?",
-     "a": "Critical feedback paired with a statement of high standards and confidence that the recipient can meet them."
-    },
-    {
-     "q": "Name Stone and Heen's three feedback triggers.",
-     "a": "Truth triggers, relationship triggers and identity triggers."
-    },
-    {
-     "q": "Why does person-focused feedback tend to backfire?",
-     "a": "It shifts attention from the task to the self, per Kluger and DeNisi's feedback intervention theory."
-    }
-   ]
-  },
-  {
-   "n": "Managing up and advocating for your team",
-   "g": "teams",
-   "s": "Managing up means deliberately aligning with your boss's goals, pressures and style so you can raise issues, win resources and protect your team.",
-   "x": [
-    {
-     "t": "Frameworks",
-     "b": "<p>Gabarro and Kotter's HBR article \"Managing Your Boss\" (1980) frames the boss relationship as one of mutual dependence: understand your boss's goals, pressures, strengths and preferred working style, know your own, and build a relationship that fits both. Research on issue selling (Dutton and Ashford, 1993) and on voice (Detert and Burris, 2007; Detert and Edmondson, 2011) shows employees often stay silent because they expect futility or personal risk, and that leader openness increases voice.</p>"
-    },
-    {
-     "t": "Practical moves",
-     "b": "<ul><li><b>Frame in their currency:</b> tie your team's ask to the boss's or CIO's priorities (risk, cost, speed, credibility).</li><li><b>Bring data plus a recommendation:</b> not just a problem.</li><li><b>Pre-wire:</b> share contentious points 1:1 before group meetings.</li><li><b>Pick timing:</b> raise issues when there is bandwidth, not in a crisis.</li><li><b>Make the cost of inaction concrete.</b></li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>De-escalate</b>: slow down, loop their concern, find the interest behind the position (Fisher and Ury), reframe as a shared problem, move heated threads to a live call.</li><li><b>Emotions are information</b> (Van Kleef's EASI model): counterparts concede more to anger they read as signaling limits, but it works less on higher-power counterparts, and anger at the person costs liking and future deals.</li><li><b>Anxiety costs money</b>: anxious negotiators open low, exit early and earn less (Brooks and Schweitzer 2011).</li></ul>",
+     "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Waiting for the perfect moment. Implicit voice theories (Detert and Edmondson, 2011) lead people to overestimate risk; silence also has costs to your team.</div><div class=\"trap\"><b>Trap:</b> Escalating with emotion before alignment. Surprising a boss in public erodes trust even when you are right.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Arguing facts while the other person is flooded. Emotion first, then content.</div><div class=\"trap\"><b>Trap:</b> Anger as a free tactic with colleagues you'll deal with again.</div>",
+     "c": []
     },
     {
-     "t": "Try it",
-     "b": "<p>Write a one-page \"user manual\" for your boss: top three goals, biggest pressure, preferred format for bad news. Then reframe your team's current biggest ask in terms of one of those goals.</p>"
+     "t": "Example",
+     "b": "<p>Before a scope negotiation, write your first ask and walk-away point while calm. In the room: \"What's driving the date for you?\"</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the central idea of Gabarro and Kotter's \"Managing Your Boss\"?",
-     "a": "The boss relationship is mutually dependent, so you deliberately manage it by understanding both your boss's and your own goals, pressures and styles."
+     "q": "A Slack thread is getting heated. What is the first move?",
+     "a": "Stop replying in text and move to a short live call to understand their concern."
     },
     {
-     "q": "What are implicit voice theories (Detert and Edmondson, 2011)?",
-     "a": "Taken-for-granted beliefs about when speaking up is risky, which make people stay silent more than necessary."
-    },
-    {
-     "q": "What is pre-wiring?",
-     "a": "Sharing contentious points with key people 1:1 before a group meeting to avoid public surprise."
+     "q": "When does expressed anger backfire in negotiation?",
+     "a": "When aimed at the person, or with repeat counterparts: it lowers liking and willingness to deal again."
     }
    ]
   },
   {
-   "n": "Team psychological safety (Edmondson)",
-   "g": "teams",
-   "s": "Psychological safety is a shared belief that the team is safe for interpersonal risk-taking, and it predicts learning behavior and performance when paired with high standards.",
+   "n": "Feedback that lands",
+   "g": "hard",
+   "s": "Aim feedback at the task with high standards and stated belief in the person, and receive it by naming which trigger fired before you respond.",
    "x": [
     {
-     "t": "Definition and evidence",
-     "b": "<p>Amy Edmondson (1999) defined team psychological safety as \"a shared belief that the team is safe for interpersonal risk taking\". In her study of manufacturing teams, psychological safety predicted learning behavior (asking for help, admitting errors, seeking feedback), which in turn predicted performance. Frazier and colleagues (2017) meta-analyzed its antecedents and outcomes, including whether it predicts task performance and citizenship behavior beyond related constructs such as engagement. Google's Project Aristotle, reported on Google's re:Work site, found psychological safety was the most important of five factors in team effectiveness at Google.</p>"
+     "t": "Model",
+     "b": "<p>Across feedback interventions the average effect was positive, but over a third reduced performance; feedback drawing attention to the self hurt and task-focused feedback helped (Kluger and DeNisi 1996). \"Wise feedback\" (high standards plus belief you can meet them) raised revision rates (Yeager et al. 2014).</p><p><b>Receiving</b>: Stone and Heen's three triggers are truth, relationship and identity. Name the one that fired, then ask \"what would good look like?\"</p>",
+     "c": []
     },
     {
-     "t": "Leader behaviors",
-     "b": "<p>Edmondson recommends that leaders frame work as a learning problem with uncertainty, acknowledge their own fallibility (\"I may miss something; I need to hear from you\"), and model curiosity by asking questions. Respond productively to bad news: thank the messenger, then focus on next steps.</p>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> The feedback sandwich. Praise padding dilutes the message and teaches people to distrust praise.</div>",
+     "c": []
     },
     {
-     "t": "Nuance",
-     "b": "<p>Edmondson distinguishes psychological safety from accountability: high safety with low standards is a comfort zone, high standards with low safety is an anxiety zone, and both together form the learning zone.</p><div class=\"trap\"><b>Trap:</b> Equating psychological safety with niceness or avoiding disagreement. It makes candor and dissent safer; it does not lower standards.</div><div class=\"trap\"><b>Trap:</b> Treating it as an individual trait. It is a group-level climate, measured by aggregating team members' ratings.</div>"
-    },
-    {
-     "t": "Try it",
-     "b": "<p>At your next team meeting, ask \"What's one risk in this plan we haven't discussed?\" and wait through the silence. When someone raises a problem, thank them by name before discussing it. Over a quarter, count how many issues surface before deadlines versus after.</p>"
+     "t": "Example",
+     "b": "<p>\"I'm flagging the deck's missing cost slide because the bar for CIO reviews is high and I know you can hit it. Add one cost-versus-option table by Friday.\"</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "How did Edmondson (1999) define team psychological safety?",
-     "a": "A shared belief that the team is safe for interpersonal risk taking."
+     "q": "What share of feedback interventions reduced performance in Kluger and DeNisi (1996)?",
+     "a": "Over a third; feedback aimed at the self tended to hurt."
     },
     {
-     "q": "In Edmondson's 1999 model, what mediates between psychological safety and performance?",
-     "a": "Team learning behavior."
+     "q": "Feedback stings and you want to argue the facts. What do you do first?",
+     "a": "Name which trigger fired (truth, relationship, identity), then ask a clarifying question."
+    }
+   ]
+  },
+  {
+   "n": "Managing up",
+   "g": "teams",
+   "s": "Win resources for your team by framing asks in your boss's currency, bringing a recommendation with data, and pre-wiring contentious points one to one.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>The boss relationship is mutual dependence: know their goals, pressures and preferred style, and your own (Gabarro and Kotter 1980). People stay silent because they overestimate futility and risk; leader openness raises voice (Detert and Burris 2007; Detert and Edmondson 2011).</p><ul><li>Frame in their currency: risk, cost, speed, credibility.</li><li>Problem plus recommendation plus the cost of inaction.</li><li>Pre-wire 1:1 before group meetings; time it for bandwidth.</li></ul>",
+     "c": []
     },
     {
-     "q": "What is Edmondson's learning zone?",
-     "a": "High psychological safety combined with high accountability or standards."
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Surprising your boss in public, even when right. It spends trust you need for the next ask.</div>",
+     "c": []
     },
     {
-     "q": "What did Google's Project Aristotle find about psychological safety?",
-     "a": "It was the most important of five factors in team effectiveness at Google."
+     "t": "Example",
+     "b": "<p>Ask: two more engineers. In their currency: \"Without them the CIO dashboard slips a quarter and the audit finding stays open.\"</p>",
+     "c": []
+    },
+    {
+     "t": "Ask",
+     "b": "<p>Could you write your boss's top three goals and how they like bad news delivered?</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Reframe \"my team is overloaded\" in a boss's currency.",
+     "a": "State the business cost: e.g. \"the audit fix slips a quarter unless we add capacity or drop X\"."
+    },
+    {
+     "q": "Where should a contentious point first be raised?",
+     "a": "One to one with the decision-maker (pre-wiring), not by surprise in a group meeting."
+    }
+   ]
+  },
+  {
+   "n": "Psychological safety",
+   "g": "teams",
+   "s": "A team's shared belief that it is safe to take interpersonal risks is the best-supported team-level predictor of learning and performance; Edmondson pairs it with high standards.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>Edmondson (1999): safety predicted learning behavior (asking for help, admitting errors), which predicted performance. Frazier et al.'s (2017) meta-analysis of 136 samples links it to task performance and learning at the group level. Google's Project Aristotle named it the foundation of team effectiveness (observational, Google-only).</p><p>Edmondson's framework (a lens, not a tested result): safety plus high standards is the learning zone; safety alone, the comfort zone; standards alone, the anxiety zone.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Equating safety with niceness. It makes dissent safe; it does not lower the bar.</div><div class=\"trap\"><b>Trap:</b> Treating it as an individual trait. It is a team-level climate.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Leader moves: frame work as uncertain, admit fallibility (\"I'll miss things\"), ask \"what risk haven't we discussed?\", thank the bearer of bad news by name.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Through what behavior does psychological safety improve team performance (Edmondson 1999)?",
+     "a": "Learning behavior: asking for help, admitting errors, seeking feedback."
+    },
+    {
+     "q": "People speak up freely, but missed targets carry no consequence. Which of Edmondson's zones is this?",
+     "a": "The comfort zone: safety without high standards."
+    }
+   ]
+  },
+  {
+   "n": "Team health ladder",
+   "g": "teams",
+   "s": "Use Lencioni's five dysfunctions as diagnostic vocabulary on top of Project Aristotle's evidence, knowing the pyramid's ordering is untested.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>Lencioni's ladder maps onto Aristotle's dynamics: trust and constructive conflict to psychological safety, commitment to structure and clarity, accountability to dependability, results to impact; Aristotle's meaning has no rung. The model comes from a business fable. In a 40-team student study, only inattention to results correlated significantly with performance (Soares et al. 2026).</p><p>Durable residue: commitment needs debate first; accountability is peer to peer; a leader's first team is their peers.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Fixing \"trust\" with offsites while shared results are unclear. In the one quantitative test (a small student study), results was the only rung tied to performance.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Meetings end in nods, then nothing ships. Diagnosis: no real debate, so no commitment. Fix: ask each person for their objection before deciding.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Which of Lencioni's dysfunctions correlated with team performance in Soares et al. (2026)?",
+     "a": "Only inattention to results; absence of trust did not."
+    },
+    {
+     "q": "A team agrees in the room, then quietly doesn't follow through. Which rung failed?",
+     "a": "Commitment, usually because there was no real debate before the decision."
     }
    ]
   }
@@ -998,6 +610,18 @@
   {
    "title": "Yeager et al. (2014), Breaking the cycle of mistrust: wise interventions to provide critical feedback",
    "url": "https://sparq.stanford.edu/sites/g/files/sbiybj19021/files/media/file/yeager_et_al._2014_-_breaking_the_cycle_of_mistrust.pdf"
+  },
+  {
+   "title": "Soares, Lima and Ferrão (2026), Team dysfunctions and performance in capstone projects (arXiv)",
+   "url": "https://arxiv.org/pdf/2608.24634"
+  },
+  {
+   "title": "Frazier et al. (2017), Psychological safety: a meta-analytic review",
+   "url": "https://onlinelibrary.wiley.com/doi/10.1111/peps.12183"
+  },
+  {
+   "title": "The Table Group, The Five Dysfunctions of a Team summary",
+   "url": "https://files.tablegroup.com/wp-content/uploads/2020/12/11224029/FiveDysfunctions.pdf"
   }
  ]
 }
