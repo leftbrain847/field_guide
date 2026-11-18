@@ -56,6 +56,17 @@ button{font:inherit;color:inherit;cursor:pointer}
 .is-planned .toolbar{display:none}
 .topicnote p{margin:0;max-width:66ch}
 
+/* next view: every topic, the least recently used first */
+.nextlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.nextlist button{display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:10px 2px}
+.nextlist .rk{font:600 12px var(--f-mono);color:var(--accent);min-width:20px}
+.nextlist .nm{flex:1;font-weight:600}
+.nextlist .nm small{display:block;font:500 11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.nextlist .ag{font:500 12px var(--f-mono);color:var(--muted);white-space:nowrap}
+.nextlist .du{color:var(--accent)}
+.nexthead{margin:6px 0 0;font:600 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.nexthint{margin:0;color:var(--muted);font-size:13px}
+
 /* read view */
 .toolbar{display:flex;gap:8px;flex-wrap:wrap}
 .toolbar input{flex:1 1 220px;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
@@ -187,6 +198,7 @@ body.has-lbar{padding-bottom:130px}
       <button type="button" id="modeRead" aria-pressed="true">Read</button>
       <button type="button" id="modeStudy" aria-pressed="false">Study</button>
       <button type="button" id="modeListen" aria-pressed="false">Listen</button>
+      <button type="button" id="modeNext" aria-pressed="false">Next</button>
     </div>
   </div>
 
@@ -236,6 +248,14 @@ body.has-lbar{padding-bottom:130px}
         <button type="button" id="resetCancel" hidden>Cancel</button>
       </div>
     </details>
+  </section>
+
+  <section id="nextView" hidden style="flex-direction:column;gap:8px">
+    <p class="nexthint">Whole topics, the one you've gone longest without first. Opening a concept, grading a card or playing one counts as a use; this browser keeps the record.</p>
+    <p class="nexthead" id="nextHead">Review next</p>
+    <ol class="nextlist" id="nextList"></ol>
+    <p class="nexthead" id="freshHead">Not started</p>
+    <ol class="nextlist" id="freshList"></ol>
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
@@ -407,6 +427,55 @@ const Listen = (() => {
   return { textOf, chunks, conceptText, key, buildQueue, keysOf, tri, nextRepeat, prevIndex, following, rankVoices, clampSpeed, recSpan, flowsOn };
 })();
 </script>
+<script>
+// Next mode: rank whole topics by how long since you last used them, so daily study rotates across the guide.
+// Pure logic: build/build.py inlines it into the page; tests/recent.test.mjs covers it.
+const Recent = (() => {
+  const DAY = 864e5;
+  const dayStart = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+
+  // Newest use per topic: the stamps the page records (read, listen, study) or the topic's newest flashcard review.
+  function lastUsed(ids, stamps, srs){
+    const out = {};
+    ids.forEach(id => {
+      let t = Number(stamps && stamps[id]) || 0;
+      const cards = srs && srs[id] && srs[id].cards;
+      if (cards) Object.values(cards).forEach(c => { if (c && Number(c.last) > t) t = Number(c.last); });
+      out[id] = t;
+    });
+    return out;
+  }
+
+  // Started topics, longest-unused first (ties keep guide order), and never-used topics in guide order.
+  // Kept apart so topics you haven't begun don't crowd out the ones you're rotating through.
+  function order(ids, last){
+    const started = ids.map((id, i) => ({ id, i, t: last[id] || 0 })).filter(o => o.t)
+      .sort((a, b) => (a.t - b.t) || (a.i - b.i)).map(({ id, t }) => ({ id, t }));
+    return { started, fresh: ids.filter(id => !last[id]) };
+  }
+
+  // Calendar days since a use, in local time: 0 = today.
+  function daysSince(t, now){ return t ? Math.max(0, Math.round((dayStart(now) - dayStart(t)) / DAY)) : null; }
+
+  function label(t, now){
+    const d = daysSince(t, now);
+    if (d === null) return "new";
+    if (d === 0) return "today";
+    return d + "d ago";
+  }
+
+  // Which topics may be suggested: built topics, minus excluded topic ids or category keys.
+  function eligible(cats, topicById, exclude){
+    const skip = new Set(exclude || []);
+    return cats.filter(c => !skip.has(c.key)).flatMap(c => c.topics)
+      .filter(id => topicById[id] && !topicById[id].placeholder && !skip.has(id));
+  }
+
+  function touch(stamps, id, now){ return { ...(stamps || {}), [id]: now }; }
+
+  return { lastUsed, order, daysSince, label, eligible, touch };
+})();
+</script>
 
 <script>
 // ================= CONFIG (edit to reconfigure) =================
@@ -463,6 +532,13 @@ const CONFIG = {
     wildernessfa:      { title: "Wilderness first aid",    scope: "Care when help is hours away: patient assessment, improvised splints, hypothermia and heat, evacuation decisions." }
   },
   staleAfterDays: 90,          // default; a topic's refreshDays overrides. Show a "refresh recommended" chip after this many days
+  next: {                      // Next mode: every topic ranked by how long since you last used it, so study rotates
+    exclude: [],               // topic ids or category keys left out of the list (e.g. "medicine")
+    countsAs: ["read", "study", "listen"],   // uses that reset a topic's clock: opening a concept, grading a card, playing a concept
+    openIn: "read",            // mode a tapped topic opens in
+    showDue: true,             // show each topic's due flashcards
+    storageKey: "fieldguide-recent"          // this browser only
+  },
   defaultMode: "read",
   showNumbers: true,
   autoCardFromSummary: true,   // every concept also gets a "name -> one-line summary" card
@@ -656,6 +732,10 @@ function setMode(m){
   const sv = document.getElementById("studyView"); sv.hidden = m !== "study"; sv.style.display = m === "study" ? "flex" : "";
   document.getElementById("modeListen").setAttribute("aria-pressed", String(m === "listen"));
   const lv = document.getElementById("listenView"); lv.hidden = m !== "listen"; lv.style.display = m === "listen" ? "flex" : "";
+  document.getElementById("modeNext").setAttribute("aria-pressed", String(m === "next"));
+  const nv = document.getElementById("nextView"); nv.hidden = m !== "next"; nv.style.display = m === "next" ? "flex" : "";
+  document.getElementById("topicNote").hidden = m === "next";   // the list spans every topic, so one topic's note is noise
+  if (m === "next") renderNext();
   if (m === "study") startSession();
   if (m === "listen") renderListen();
   paintListenBar();
@@ -663,6 +743,7 @@ function setMode(m){
 document.getElementById("modeRead").addEventListener("click", () => setMode("read"));
 document.getElementById("modeStudy").addEventListener("click", () => setMode("study"));
 document.getElementById("modeListen").addEventListener("click", () => setMode("listen"));
+document.getElementById("modeNext").addEventListener("click", () => setMode("next"));
 
 // ================= SPACED REPETITION =================
 const S = CONFIG.srs, MIN = 6e4, DAY = 864e5;
@@ -784,7 +865,7 @@ function grade(g){
   srs[tid].cards[k.id] = ns;
   if (wasNew) { const nd = srs[tid].newDay; srs[tid].newDay = nd && nd.date === today() ? { date: nd.date, n: nd.n + 1 } : { date: today(), n: 1 }; }
   if (ns.ivl === 0) queue.push(k);  // learning: see it again this session
-  save(tid);
+  save(tid); markUsed(tid, "study");
   nextCard();
 }
 document.getElementById("readMore").addEventListener("click", () => {
@@ -824,7 +905,7 @@ function save(tid){
 function localSave(tid, body){ try { localStorage.setItem(CONFIG.storage.localPrefix + tid, JSON.stringify(body)); } catch (e) {} }
 function localLoad(tid){ try { const v = localStorage.getItem(CONFIG.storage.localPrefix + tid); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
 function finishLoad(note){
-  loaded = true; setNote(note);
+  loaded = true; setNote(note); if (ui.mode === "next") renderNext();
   if (ui.mode === "study") startSession(); else updateStats();
 }
 function useLocal(note){
@@ -1021,6 +1102,7 @@ const recFor = it => (it && lp.content === "summary" ? Listen.recSpan(REC, it.ti
 const sameFile = f => player.src && decodeURI(player.src).endsWith(f);
 function startItem(){
   const it = lq[li]; if (!it) { stopListen(); return; }
+  markUsed(it.tid, "listen");
   const r = recFor(it);
   if (r) playRec(r); else { if (!player.paused) player.pause(); speakPart(); }
 }
@@ -1115,6 +1197,42 @@ document.addEventListener("keydown", e => {
   else if (e.key.toLowerCase() === "r") $("lRepeat").click();
 });
 if (!synth) $("lHint").textContent += " This browser has no device voice, so only Summaries can play.";
+
+// ================= NEXT =================
+// Rank whole topics by their last use. A use is opening a concept (Read), grading a card (Study) or a concept
+// starting to play (Listen); just landing on a topic doesn't count. Stamps live in this browser only.
+const NX = CONFIG.next;
+let recent = (() => { try { return JSON.parse(localStorage.getItem(NX.storageKey) || "{}") || {}; } catch (e) { return {}; } })();
+const NX_IDS = Recent.eligible(CATS, TOPIC_BY_ID, NX.exclude);
+function markUsed(id, kind){
+  if (!NX.countsAs.includes(kind) || !NX_IDS.includes(id)) return;
+  recent = Recent.touch(recent, id, Date.now());
+  try { localStorage.setItem(NX.storageKey, JSON.stringify(recent)); } catch (e) {}
+  if (ui.mode === "next") renderNext();
+}
+function dueIn(id){ const now = Date.now(); return CARDS[id].reduce((n, k) => { const st = cardState(k); return n + (st && st.due <= now ? 1 : 0); }, 0); }
+function nextRow(id, rank, ageText){
+  const t = TOPIC_BY_ID[id], b = document.createElement("button"); b.type = "button"; b.dataset.id = id;
+  const rk = document.createElement("span"); rk.className = "rk"; rk.textContent = rank;
+  const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = t.title;
+  const cat = document.createElement("small"); cat.textContent = CATS.find(c => c.key === CAT_OF[id]).label; nm.appendChild(cat);
+  const ag = document.createElement("span"); ag.className = "ag"; ag.textContent = ageText;
+  const due = NX.showDue && loaded ? dueIn(id) : 0;
+  if (due) { const d = document.createElement("span"); d.className = "du"; d.textContent = " · " + due + " due"; ag.appendChild(d); }
+  b.append(rk, nm, ag);
+  b.addEventListener("click", () => { setTopic(id); setMode(NX.openIn); window.scrollTo(0, 0); });
+  const li = document.createElement("li"); li.appendChild(b); return li;
+}
+function renderNext(){
+  const now = Date.now(), { started, fresh } = Recent.order(NX_IDS, Recent.lastUsed(NX_IDS, recent, srs));
+  const nl = document.getElementById("nextList"), fl = document.getElementById("freshList");
+  nl.innerHTML = ""; fl.innerHTML = "";
+  started.forEach((o, i) => nl.appendChild(nextRow(o.id, i + 1, Recent.label(o.t, now))));
+  fresh.forEach(id => fl.appendChild(nextRow(id, "", "new")));
+  document.getElementById("nextHead").hidden = !started.length;
+  document.getElementById("freshHead").hidden = !fresh.length;
+}
+listEl.addEventListener("toggle", e => { if (e.target.open && e.target.classList.contains("concept")) markUsed(ui.topic, "read"); }, true);
 
 // ================= BOOT =================
 const startId = location.hash.slice(1);
