@@ -763,9 +763,12 @@ $("lSpeed").addEventListener("change", e => {
   if (lplaying && recCur && recGen === lgen) player.playbackRate = lp.speed; else if (lplaying) restartPart();
 });
 
+// The queue plays only what is ticked in the category on screen (ticks elsewhere are kept for when you go back).
+let lqCat = null;
 function requeue(){
   const was = lq[li];
-  lq = Listen.buildQueue(BUILT, lp.sel, { content: lp.content, chunkChars: LC.chunkChars, repeat: lp.repeat });
+  lqCat = ui.category;
+  lq = Listen.buildQueue(BUILT.filter(t => CAT_OF[t.id] === lqCat), lp.sel, { content: lp.content, chunkChars: LC.chunkChars, repeat: lp.repeat });
   let at = was ? lq.findIndex(it => it.key === was.key) : 0;
   if (at < 0) { at = 0; if (lplaying) { li = 0; lpart = 0; stopListen(); } }
   else if (was && at !== li) { li = at; }
@@ -773,9 +776,9 @@ function requeue(){
   paintTotal(); paintListenBar();
 }
 function paintTotal(){
-  const n = lp.sel.size, words = lq.filter(it => it.pass === 1).reduce((w, it) => w + it.parts.join(" ").split(/\s+/).length, 0) * lp.repeat;
+  const n = lq.filter(it => it.pass === 1).length, words = lq.filter(it => it.pass === 1).reduce((w, it) => w + it.parts.join(" ").split(/\s+/).length, 0) * lp.repeat;
   const min = Math.max(1, Math.round(words / LC.wordsPerMinute / lp.speed));
-  $("lTotal").textContent = n ? n + (n === 1 ? " concept" : " concepts") + " selected across the guide · about " + min + " min" : "Nothing selected";
+  $("lTotal").textContent = n ? n + (n === 1 ? " concept" : " concepts") + " selected in " + CATS.find(c => c.key === lqCat).label + " · about " + min + " min" : "Nothing selected in " + CATS.find(c => c.key === lqCat).label;
 }
 
 // tree
@@ -819,7 +822,9 @@ function renderListen(){
     });
     tree.appendChild(d);
   });
-  fillVoices(); paintContent(); requeue(); paintBoxes();
+  fillVoices(); paintContent();
+  if (!lplaying) requeue();   // while playing, the old queue finishes; play or a tick here switches to this category
+  paintBoxes();
 }
 function paintBoxes(){
   $("lTree").querySelectorAll("input[data-keys]").forEach(b => {
@@ -918,6 +923,7 @@ function goTo(i){
   paintListenBar(); paintBoxes();
 }
 function playListen(){
+  if (lqCat !== ui.category) { li = 0; lpart = 0; recCur = null; requeue(); }
   if (!lq.length || (!synth && !recFor(lq[li]))) return;
   lplaying = true; lstarted = Date.now(); restartPart();
   paintListenBar(); paintBoxes();
