@@ -361,13 +361,45 @@
    ]
   },
   {
+   "n": "Services first",
+   "g": "models",
+   "s": "Selling a service earns cash from the first customer and reveals the market, and productizing it (fixed scope, process and price) makes it repeatable without building software yet.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Sell an outcome to a niche you know, priced by value or project, not hours.</li><li>Standardize: same deliverable, same process, fixed price.</li><li>Template and then delegate or automate each repeated step.</li><li>Use client patterns to spot software opportunities and pre-sell before building.</li></ol><p>Fits a side launch: little capital, immediate revenue, and a list of named buyers for any product that follows.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Custom work for every client: a staffing business with founder hours as the cap.</div><div class=\"trap\"><b>Trap:</b> Assuming services convert neatly into software; many stay services, which can still be good outcomes.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Fixed-price \"dental payroll cleanup\" for 10 practices reveals the same three failures, which become the first product's scope.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What makes a service \"productized\"?",
+     "a": "Fixed scope, fixed process, fixed price for a standard deliverable."
+    },
+    {
+     "q": "Why start with services before software on a side launch?",
+     "a": "Low capital, immediate revenue, and direct evidence of what buyers will pay for."
+    }
+   ]
+  },
+  {
    "n": "Unit economics and price",
    "g": "economics",
    "s": "Price sets your rung, and the business works only when each customer's gross profit repays what it cost to win them, fast enough to fund growth.",
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>CAC = sales and marketing spend (including salaries) / new customers.</li><li>Payback months = CAC / (monthly revenue x gross margin).</li><li>LTV (simple) = monthly gross profit / monthly churn; 3:1 LTV:CAC is a common rule of thumb.</li><li>Physical goods: contribution margin per unit after cost of goods, freight, channel margin, trade spend, returns and acquisition.</li></ul><p>Price to value against the alternative, on a value metric that grows with the customer (seat, location, transaction).</p>",
+     "b": "<ul><li>CAC = sales and marketing spend (including salaries) / new customers.</li><li>Payback months = CAC / (monthly revenue x gross margin).</li><li>LTV (simple) = monthly gross profit / monthly churn; 3:1 LTV:CAC is a common rule of thumb.</li><li>Physical goods: contribution margin per unit after cost of goods, freight, channel margin, trade spend, returns and acquisition.</li></ul><p>Price to value against the alternative, on a value metric that grows with the customer (seat, location, transaction).</p><p>Revenue grows only three ways: more customers, more sold to each customer, or a higher price.</p>",
      "c": []
     },
     {
