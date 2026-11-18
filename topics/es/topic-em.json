@@ -12,8 +12,8 @@
   {
    "en": "Cardiac arrest and post-ROSC care (2025 AHA ACLS)",
    "src": "c4093f5b10f6",
-   "n": "Paro cardíaco y cuidados tras el retorno de la circulación (ACLS 2025 de la AHA)",
-   "s": "Compresiones de alta calidad con pausas mínimas, desfibrilación temprana en fibrilación ventricular o taquicardia ventricular sin pulso, epinefrina cada 3 a 5 minutos, y un paquete disciplinado de cuidados tras el retorno de la circulación son lo que mejora la supervivencia."
+   "n": "Paro cardíaco y cuidados tras el retorno de la circulación espontánea (ACLS 2025 de la AHA)",
+   "s": "Compresiones de alta calidad con pausas mínimas, desfibrilación temprana en fibrilación ventricular o taquicardia ventricular sin pulso, epinefrina cada 3 a 5 minutos, y un paquete disciplinado de cuidados tras el retorno de la circulación espontánea son lo que mejora la supervivencia."
   },
   {
    "en": "Shock types, septic shock, and vasopressors",
@@ -25,13 +25,13 @@
    "en": "Airway management and rapid sequence intubation",
    "src": "7d6ef50f265c",
    "n": "Manejo de la vía aérea e intubación de secuencia rápida",
-   "s": "Preoxigena, reanima antes de la inducción, da una dosis completa de paralizante con una dosis de inductor ajustada a la hemodinamia, y confirma el tubo con capnografía de onda."
+   "s": "Preoxigena, reanima antes de la inducción, da una dosis completa de paralizante con una dosis de inductor ajustada al estado hemodinámico, y confirma el tubo con capnografía con forma de onda."
   },
   {
    "en": "Bradycardia and tachycardia algorithms",
    "src": "d07f2caaaf5c",
    "n": "Algoritmos de bradicardia y taquicardia",
-   "s": "Decide primero si el ritmo está causando inestabilidad; la taquicardia inestable recibe cardioversión sincronizada, y la bradicardia inestable recibe atropina, luego marcapaso o una infusión cronotrópica."
+   "s": "Decide primero si el ritmo está causando inestabilidad; la taquicardia inestable recibe cardioversión sincronizada, y la bradicardia inestable recibe atropina, luego estimulación con marcapasos o una infusión cronotrópica."
   },
   {
    "en": "Acute coronary syndrome and STEMI (2025 ACC/AHA)",
@@ -43,13 +43,13 @@
    "en": "Acute aortic dissection",
    "src": "8e7e3c281a24",
    "n": "Disección aórtica aguda",
-   "s": "Sospecha disección ante un dolor súbito e intenso de pecho, espalda o abdomen con déficit de pulso, de presión o neurológico, confírmala con angiotomografía, y controla la frecuencia cardíaca con un betabloqueador intravenoso antes de bajar la presión sistólica a menos de 120."
+   "s": "Sospecha disección ante un dolor súbito e intenso de pecho, espalda o abdomen con déficit de pulso, diferencia de presión entre brazos o déficit neurológico, confírmala con angiotomografía, y controla la frecuencia cardíaca con un betabloqueador intravenoso antes de bajar la presión sistólica a menos de 120."
   },
   {
    "en": "Pulmonary embolism: decision rules, risk categories, and reperfusion",
    "src": "bea336fcae05",
    "n": "Embolia pulmonar: reglas de decisión, categorías de riesgo y reperfusión",
-   "s": "Usa el juicio clínico o la escala de Wells para fijar la probabilidad previa, la regla PERC y el dímero D ajustado por edad para evitar tomografías innecesarias, y luego clasifica la gravedad con las categorías de la A a la E de AHA y ACC 2026 para elegir entre anticoagulación sola o terapia avanzada."
+   "s": "Usa el juicio clínico o la escala de Wells para fijar la probabilidad previa, y la regla PERC y el dímero D ajustado por edad para evitar tomografías innecesarias, y luego clasifica la gravedad con las categorías de la A a la E de AHA y ACC 2026 para elegir entre anticoagulación sola o terapia avanzada."
   },
   {
    "en": "Hypertensive emergency",
@@ -73,7 +73,7 @@
    "en": "Severe asthma exacerbation",
    "src": "fd4aef15680f",
    "n": "Crisis asmática grave",
-   "s": "Trata el asma grave con broncodilatador de acción corta repetido o continuo más ipratropio, esteroides sistémicos tempranos, magnesio intravenoso y oxígeno controlado, y evita intubar salvo que el paciente se esté agotando."
+   "s": "Trata el asma grave con salbutamol repetido o continuo más ipratropio, esteroides sistémicos tempranos, magnesio intravenoso y oxígeno controlado, y evita intubar salvo que el paciente se esté agotando."
   },
   {
    "en": "COPD exacerbation",
@@ -85,7 +85,7 @@
    "en": "Anaphylaxis",
    "src": "8f5245f47fe2",
    "n": "Anafilaxia",
-   "s": "La anafilaxia es una reacción alérgica rápida de varios sistemas, y se trata primero y de inmediato con epinefrina intramuscular, 0,01 miligramos por kilo con un máximo de 0,5 miligramos en adultos, en la cara externa del muslo, repetida cada 5 a 15 minutos, con una infusión de epinefrina si es refractaria."
+   "s": "La anafilaxia es una reacción alérgica rápida de varios sistemas, y se trata primero y de inmediato con epinefrina intramuscular, 0.01 miligramos por kilo con un máximo de medio miligramo en adultos, en el tercio medio de la cara externa del muslo, repetida cada 5 a 15 minutos, con una infusión de epinefrina si es refractaria."
   },
   {
    "en": "Pneumothorax and tension pneumothorax",
@@ -97,7 +97,7 @@
    "en": "Acute ischemic stroke: thrombolysis and thrombectomy (2026 AHA/ASA)",
    "src": "f8badb4536d5",
    "n": "Accidente cerebrovascular isquémico agudo: trombólisis y trombectomía (AHA y ASA 2026)",
-   "s": "Ante un déficit discapacitante dentro de las 4,5 horas, da tenecteplasa o alteplasa sin esperar la imagen de los vasos, y evalúa a todos los pacientes dentro de las 24 horas en busca de una oclusión de vaso grande que la trombectomía pueda abrir."
+   "s": "Ante un déficit discapacitante dentro de las cuatro horas y media, da tenecteplasa o alteplasa sin esperar la imagen de los vasos, y evalúa a todos los pacientes dentro de las 24 horas en busca de una oclusión de vaso grande que la trombectomía pueda abrir."
   },
   {
    "en": "Intracerebral hemorrhage and anticoagulant reversal",
@@ -127,7 +127,7 @@
    "en": "Traumatic brain injury and head CT decision rules",
    "src": "579483351df3",
    "n": "Traumatismo craneoencefálico y reglas para la tomografía de cráneo",
-   "s": "Usa la regla canadiense de tomografía de cráneo en adultos con trauma craneal leve y PECARN en niños, y en el trauma grave previene la lesión secundaria evitando la hipotensión, la hipoxia y la hiperventilación."
+   "s": "Usa la regla canadiense de tomografía de cráneo en adultos con trauma craneal leve y PECARN en niños, y en el traumatismo craneoencefálico grave prevén la lesión secundaria evitando la hipotensión, la hipoxia y la hiperventilación."
   },
   {
    "en": "Cervical spine clearance",
@@ -139,7 +139,7 @@
    "en": "Burns: assessment, fluids, and transfer",
    "src": "9d501fe4f622",
    "n": "Quemaduras: evaluación, líquidos y traslado",
-   "s": "Calcula la superficie quemada contando solo las quemaduras de espesor parcial y total, protege la vía aérea temprano cuando es probable una lesión por inhalación, inicia Ringer lactato a 2 mililitros por kilo por cada punto de porcentaje de superficie quemada en adultos con más del 20 por ciento, ajustado al gasto urinario, y consulta temprano a un centro de quemados."
+   "s": "Calcula la superficie quemada contando solo las quemaduras de espesor parcial y total, protege la vía aérea temprano cuando es probable una lesión por inhalación, inicia Ringer lactato a 2 mililitros por kilo por cada uno por ciento de superficie corporal quemada en adultos con más del 20 por ciento, ajustado al gasto urinario, y consulta temprano a un centro de quemados."
   },
   {
    "en": "Accidental hypothermia and hypothermic cardiac arrest",
@@ -151,13 +151,13 @@
    "en": "Heat stroke",
    "src": "482a67c78e40",
    "n": "Golpe de calor",
-   "s": "La hipertermia con disfunción del sistema nervioso central es golpe de calor hasta que se demuestre lo contrario, y el tratamiento es la inmersión inmediata de todo el cuerpo en agua fría o con hielo hasta bajar de 39 grados en menos de 30 minutos."
+   "s": "La hipertermia con disfunción del sistema nervioso central es golpe de calor hasta que se demuestre lo contrario, y el tratamiento es la inmersión inmediata de todo el cuerpo en agua fría o con hielo hasta bajar de 39 grados centígrados en menos de 30 minutos."
   },
   {
    "en": "DKA and HHS (2024 ADA/EASD/JBDS consensus)",
    "src": "a54c455c7931",
-   "n": "Cetoacidosis diabética y estado hiperosmolar (consenso ADA, EASD y JBDS 2024)",
-   "s": "Diagnostica con glucosa elevada o diabetes conocida, cetonas y acidosis en la cetoacidosis, o con glucosa y osmolalidad extremas sin cetosis importante en el estado hiperosmolar; luego da líquidos, revisa el potasio antes de la insulina, usa insulina a dosis fija, y agrega dextrosa antes de que se eliminen las cetonas."
+   "n": "Cetoacidosis diabética y estado hiperglucémico hiperosmolar (consenso ADA, EASD y JBDS 2024)",
+   "s": "Diagnostica con glucosa elevada o diabetes conocida, cetonas y acidosis en la cetoacidosis, o con glucosa y osmolalidad extremas sin cetosis importante en el estado hiperglucémico hiperosmolar; luego da líquidos, revisa el potasio antes de la insulina, usa una infusión de insulina a velocidad fija, y agrega dextrosa antes de que se eliminen las cetonas."
   },
   {
    "en": "Hypoglycemia",
@@ -169,7 +169,7 @@
    "en": "Hyperkalemia",
    "src": "f05fc3b52a6b",
    "n": "Hiperpotasemia",
-   "s": "Protege el corazón con calcio intravenoso cuando el electrocardiograma muestra toxicidad, mete el potasio a las células con insulina y glucosa y con salbutamol, elimínalo con quelantes o diálisis, y vigila el rebote y la hipoglucemia."
+   "s": "Protege el corazón con calcio intravenoso cuando el electrocardiograma muestra toxicidad, desplaza el potasio al interior de las células con insulina y glucosa y con salbutamol, elimínalo con quelantes o diálisis, y vigila el rebote y la hipoglucemia."
   },
   {
    "en": "Hyponatremia and hypernatremia",
@@ -211,12 +211,12 @@
    "en": "Acute pancreatitis",
    "src": "207209cf3c1c",
    "n": "Pancreatitis aguda",
-   "s": "Diagnostica con dos de tres criterios, reanima de forma moderada con Ringer lactato en vez de líquidos agresivos, alimenta temprano, no des antibióticos profilácticos, y reserva la colangiopancreatografía urgente para la colangitis."
+   "s": "Diagnostica con dos de tres criterios, reanima de forma moderada con Ringer lactato en vez de líquidos agresivos, alimenta temprano, no des antibióticos profilácticos, y reserva la colangiopancreatografía retrógrada endoscópica urgente para la colangitis."
   },
   {
    "en": "Sepsis and septic shock (Surviving Sepsis Campaign 2026)",
    "src": "f28c22afa6c3",
-   "n": "Sepsis y choque séptico (Campaña Sobrevivir a la Sepsis 2026)",
+   "n": "Sepsis y choque séptico (Campaña para Sobrevivir a la Sepsis 2026)",
    "s": "Tamiza con una escala de alerta temprana, da antibióticos dentro de la primera hora ante sepsis probable o choque, reanima con al menos 30 mililitros por kilo de cristaloide balanceado si hay hipoperfusión, guiado por medidas dinámicas, e inicia norepinefrina hasta una presión arterial media de 65."
   },
   {
@@ -253,7 +253,7 @@
    "en": "Febrile infant 8 to 60 days (AAP 2021)",
    "src": "039972fe59f6",
    "n": "Lactante febril de 8 a 60 días (AAP 2021)",
-   "s": "Estratifica a los lactantes febriles de buen aspecto por grupo de edad y marcadores inflamatorios: estudio completo e ingreso de 8 a 21 días, decisión de punción lumbar según los marcadores de 22 a 28 días, y punción lumbar selectiva de 29 a 60 días."
+   "s": "Estratifica a los lactantes febriles de buen aspecto por grupo de edad y marcadores inflamatorios: estudio completo e ingreso en lactantes de 8 a 21 días de edad, decisión de punción lumbar según los marcadores de 22 a 28 días de edad, y punción lumbar selectiva de 29 a 60 días de edad."
   },
   {
    "en": "Pediatric resuscitation essentials (PALS 2025) and dehydration",

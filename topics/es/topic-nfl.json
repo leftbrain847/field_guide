@@ -37,7 +37,7 @@
    "en": "Two-minute warning and the 10-second runoff",
    "src": "06bccfc49988",
    "n": "Aviso de dos minutos y el descuento de 10 segundos",
-   "s": "El reloj se detiene solo a los dos minutos de cada mitad y del tiempo extra, y dentro de esos dos minutos ciertas faltas ofensivas y revocaciones por repetición provocan un descuento de 10 segundos que un tiempo fuera puede cancelar."
+   "s": "El reloj se detiene automáticamente a los dos minutos de cada mitad y del tiempo extra, y dentro de esos dos minutos ciertas faltas ofensivas y revocaciones por repetición provocan un descuento de 10 segundos que un tiempo fuera puede cancelar."
   },
   {
    "en": "Timeouts, injuries and end-of-half extensions",
@@ -55,7 +55,7 @@
    "en": "Kickoff outcomes and spots",
    "src": "10543f4af995",
    "n": "Resultados y ubicación en la patada de salida",
-   "s": "Una patada que cae antes de la zona de aterrizaje o sale del campo le da al receptor el balón en su yarda 40, una patada en la zona de aterrizaje debe regresarse, y un touchback en la zona de anotación sale a la 35."
+   "s": "Una patada que cae antes de la zona de aterrizaje o sale del campo le da al equipo receptor el balón en su yarda 40, una patada en la zona de aterrizaje debe regresarse, y un touchback en la zona de anotación sale a la 35."
   },
   {
    "en": "Onside kicks in 2026",
@@ -79,7 +79,7 @@
    "en": "The tush push and assisting the runner",
    "src": "cc3f24c169c6",
    "n": "El tush push y la ayuda al corredor",
-   "s": "El tush push sigue siendo legal en 2026, porque ningún equipo propuso prohibirlo después de que la votación de 2025 se quedó a dos votos."
+   "s": "El tush push sigue siendo legal en 2026, porque ningún equipo propuso prohibirlo después de que la votación de 2025 se quedó a dos votos de aprobarse."
   },
   {
    "en": "Fourth-down rule set for decision models",
@@ -91,13 +91,13 @@
    "en": "The catch process",
    "src": "5af2870854c9",
    "n": "El proceso de recepción",
-   "s": "Una recepción exige control del balón antes de que toque el suelo, ambos pies u otra parte del cuerpo dentro del campo, y un movimiento de fútbol o tiempo suficiente para hacerlo."
+   "s": "Una recepción exige control del balón antes de que toque el suelo, ambos pies u otra parte del cuerpo dentro del campo, y un movimiento propio del futbol americano o tiempo suficiente para hacerlo."
   },
   {
    "en": "Forward passes, backward passes and intentional grounding",
    "src": "36d60c848260",
-   "n": "Pases hacia adelante, pases hacia atrás y envío intencional al suelo",
-   "s": "Solo se permite un pase hacia adelante por jugada y solo desde detrás de la línea, los pases hacia atrás se pueden lanzar en cualquier momento, y un pase lanzado para evitar una captura sin receptor cerca es envío intencional al suelo."
+   "n": "Pases hacia adelante, pases hacia atrás y lanzamiento intencional al suelo",
+   "s": "Solo se permite un pase hacia adelante por jugada y solo desde detrás de la línea, los pases hacia atrás se pueden lanzar en cualquier momento, y un pase lanzado para evitar una captura sin receptor cerca es lanzamiento intencional al suelo."
   },
   {
    "en": "Pass interference and illegal contact",

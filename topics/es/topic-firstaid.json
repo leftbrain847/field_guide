@@ -30,7 +30,7 @@
   {
    "en": "Direct pressure and wound packing",
    "src": "b4192417538b",
-   "n": "Presión directa y relleno de la herida",
+   "n": "Presión directa y taponamiento de la herida",
    "s": "La presión firme y continua sobre el origen del sangrado controla la mayoría de las hemorragias, y las heridas profundas o grandes necesitan gasa metida en la cavidad con presión sostenida encima."
   },
   {
@@ -43,25 +43,25 @@
    "en": "Improvised tourniquets and tourniquet myths",
    "src": "ca3fd0f64b65",
    "n": "Torniquetes improvisados y mitos sobre torniquetes",
-   "s": "Los torniquetes improvisados casi nunca detienen un sangrado arterial, así que lleva un torniquete comercial con barra de torsión y usa la presión y el relleno como respaldo."
+   "s": "Los torniquetes improvisados por lo general no logran detener un sangrado arterial, así que lleva un torniquete comercial con varilla y usa la presión y el taponamiento como respaldo."
   },
   {
    "en": "Junctional wounds and bleeding control kits",
    "src": "8818cff2f2d3",
-   "n": "Heridas de unión y botiquines para controlar sangrados",
-   "s": "Las heridas en el cuello, la axila o la ingle no admiten un torniquete de extremidad y necesitan relleno con presión fuerte, y un botiquín público para controlar sangrados tiene lo necesario para ambas cosas."
+   "n": "Heridas en zonas de unión y botiquines para controlar sangrados",
+   "s": "Las heridas en el cuello, la axila o la ingle no admiten un torniquete de extremidad y necesitan taponamiento con presión fuerte, y un botiquín público para controlar sangrados tiene lo necesario para ambas cosas."
   },
   {
    "en": "Adult CPR and Hands-Only CPR",
    "src": "f27e258f1582",
    "n": "Reanimación cardiopulmonar en adultos y solo con las manos",
-   "s": "Ante un adulto que no responde y no respira con normalidad, llama al 911, consigue un desfibrilador y empuja fuerte y rápido en el centro del pecho, de 100 a 120 veces por minuto y al menos 5 centímetros de profundidad."
+   "s": "Ante un adulto que no responde y no respira con normalidad, llama al 911, consigue un desfibrilador y comprime fuerte y rápido en el centro del pecho, de 100 a 120 veces por minuto y al menos 5 centímetros, unas 2 pulgadas, de profundidad."
   },
   {
    "en": "Child and infant CPR",
    "src": "a224d93c1608",
    "n": "Reanimación en niños y lactantes",
-   "s": "Los niños y los lactantes reciben reanimación con respiraciones al mismo ritmo de 100 a 120 por minuto, comprimiendo al menos un tercio de la profundidad del pecho, y las guías 2025 de la AHA eliminaron la técnica de dos dedos en lactantes."
+   "s": "Los niños y los lactantes reciben reanimación con respiraciones, y compresiones al mismo ritmo de 100 a 120 por minuto, comprimiendo al menos un tercio de la profundidad del pecho, y las guías 2025 de la AHA eliminaron la técnica de dos dedos en lactantes."
   },
   {
    "en": "Using an AED",
@@ -109,13 +109,13 @@
    "en": "Poisoning and chemical exposure",
    "src": "308195dd2bb3",
    "n": "Intoxicaciones y exposición a químicos",
-   "s": "Ante una posible intoxicación en una persona despierta y que respira, llama a la línea de ayuda de envenenamientos al 1-800-222-1222, y llama al 911 si se desmaya, convulsiona o tiene dificultad para respirar."
+   "s": "Ante una posible intoxicación en una persona despierta y que respira, llama a la Línea de Ayuda por Envenenamiento, al uno, ochocientos, dos dos dos, uno dos dos dos, y llama al 911 si se desmaya, convulsiona o tiene dificultad para respirar."
   },
   {
    "en": "Shock",
    "src": "e8a9144c6e75",
-   "n": "Choque",
-   "s": "El choque es una falla circulatoria que amenaza la vida y se ve como piel pálida o grisácea, pulso rápido, respiración rápida y confusión; los primeros auxilios son llamar al 911, tratar la causa, acostar a la persona y mantenerla abrigada."
+   "n": "Estado de choque",
+   "s": "El estado de choque es una falla circulatoria que amenaza la vida y se ve como piel pálida o grisácea, pulso rápido, respiración rápida y confusión; los primeros auxilios son llamar al 911, tratar la causa, acostar a la persona y mantenerla abrigada."
   },
   {
    "en": "Burns",
@@ -132,7 +132,7 @@
   {
    "en": "Head injury and concussion",
    "src": "725f7fd9ef89",
-   "n": "Golpes en la cabeza y conmociones",
+   "n": "Golpes en la cabeza y conmoción cerebral",
    "s": "Después de un golpe en la cabeza, vigila las señales de peligro de los CDC, como un dolor de cabeza que empeora, vómitos repetidos, pupilas desiguales, convulsiones o una confusión creciente, que requieren atención de emergencia."
   },
   {

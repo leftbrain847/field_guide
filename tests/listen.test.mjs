@@ -105,3 +105,11 @@ test("Spanish uses a current translation and falls back to the English summary, 
   assert.equal(second.lang, "en"); assert.equal(second.title, "Second"); assert.deepEqual(second.parts, ["Second. Two."]);
   assert.ok(L.buildQueue([topic], sel, { ...opts, tr }).every(it => it.lang === "en"));   // English mode ignores translations
 });
+
+test("recordings play for English items in Summaries or Español, never for Full notes or Spanish text", () => {
+  assert.equal(L.useRecording({ lang: "en" }, "summary"), true);
+  assert.equal(L.useRecording({ lang: "en" }, "es"), true);
+  assert.equal(L.useRecording({ lang: "es" }, "es"), false);
+  assert.equal(L.useRecording({ lang: "en" }, "full"), false);
+  assert.equal(L.useRecording(null, "summary"), false);
+});

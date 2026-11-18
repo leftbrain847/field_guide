@@ -19,7 +19,7 @@
    "en": "Triggers and jobs",
    "src": "a4365fe59097",
    "n": "Disparadores y jobs",
-   "s": "Cada evento de un disparador se convierte en un job, así que elige disparadores en tiempo real por latencia o por sondeo por simplicidad, y filtra con condiciones de disparo para que los eventos no deseados nunca se vuelvan jobs."
+   "s": "Cada evento de un disparador se convierte en un job, así que elige disparadores en tiempo real si importa la latencia y de sondeo si importa la simplicidad, y filtra con condiciones de disparo para que los eventos no deseados nunca se vuelvan jobs."
   },
   {
    "en": "Failures, retries and reruns",
@@ -73,7 +73,7 @@
    "en": "Task metering",
    "src": "7db4cb0cbbcc",
    "n": "Medición por tareas",
-   "s": "Workato cobra sobre todo por tareas, una por cada acción exitosa, así que pasos por job multiplicado por volumen de jobs es tu modelo de costo, y los bucles son donde se dispara."
+   "s": "Workato cobra sobre todo por tareas, una por cada acción exitosa, así que pasos por job multiplicados por volumen de jobs es tu modelo de costo, y los bucles son donde se dispara."
   }
  ]
 }

@@ -13,7 +13,7 @@
    "en": "Grain and fan-out",
    "src": "1c51a8240c35",
    "n": "Granularidad y multiplicación de filas",
-   "s": "Di en una oración qué representa una fila, hazlo cumplir con una prueba de unicidad y nunca unas con una granularidad más fina antes de agregar."
+   "s": "Di en una oración qué representa una fila, hazlo cumplir con una prueba de unicidad y nunca hagas un join con una granularidad más fina antes de agregar."
   },
   {
    "en": "Facts, dimensions and additivity",
@@ -61,13 +61,13 @@
    "en": "Delivery guarantees and dedup",
    "src": "e4aa5f19369e",
    "n": "Garantías de entrega y deduplicación",
-   "s": "Exactamente una vez es entrega de al menos una vez más un destino idempotente o transaccional, con una clave creada en el origen."
+   "s": "Exactamente una vez es entrega de al menos una vez, sumada a un destino idempotente o transaccional, con una clave creada en el origen."
   },
   {
    "en": "Change data capture",
    "src": "f1d752277b91",
    "n": "Captura de cambios (CDC)",
-   "s": "Lee los cambios del registro de transacciones del origen, aplícalos en orden con MERGE, y trata el paso de la instantánea al flujo continuo como el momento más riesgoso."
+   "s": "Lee los cambios del registro de transacciones del origen, aplícalos con MERGE en el orden del registro, y trata el paso de la instantánea al flujo continuo como el momento más riesgoso."
   },
   {
    "en": "Contracts, schema change and quarantine",
@@ -79,13 +79,13 @@
    "en": "Layout: read less",
    "src": "f0686ce4a7a6",
    "n": "Organización física: leer menos",
-   "s": "Casi todo el costo de una consulta son los bytes leídos, así que guarda en formato columnar, filtra por las columnas con que están organizados los datos, y deja que las estadísticas salten archivos."
+   "s": "La mayor parte del costo de una consulta son los bytes leídos, así que guarda en formato columnar, filtra por las columnas con que están organizados los datos, y deja que las estadísticas salten archivos."
   },
   {
    "en": "Files and table formats",
    "src": "b15d887e1fa5",
    "n": "Archivos y formatos de tabla",
-   "s": "Mantén archivos grandes y pocos con compactación, y usa un formato de tabla como Delta o Iceberg para que cada escritura sea una instantánea atómica que puedes volver a consultar."
+   "s": "Mantén pocos archivos grandes con compactación, y usa un formato de tabla como Delta o Iceberg para que cada escritura sea una instantánea atómica que puedes volver a consultar."
   },
   {
    "en": "Concurrent writers",

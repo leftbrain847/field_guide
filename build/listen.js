@@ -118,7 +118,11 @@ const Listen = (() => {
   /** While a recording plays straight on, does the next item start where the file already is (no seek needed)? */
   const flowsOn = (cur, next, t, slack) => !!(cur && next && cur.file === next.file && next.start >= cur.end && t <= next.start + slack);
 
+  /** Whether an item plays from its recording: English items in Summaries or Español (untranslated concepts keep
+   * their English recording); never Full notes, never Spanish text. */
+  const useRecording = (it, content) => !!it && it.lang !== "es" && content !== "full";
+
   const clampSpeed = (speeds, s, fallback) => (typeof s === "number" && speeds.includes(s) ? s : fallback);
 
-  return { textOf, chunks, conceptText, key, buildQueue, keysOf, tri, nextRepeat, prevIndex, following, rankVoices, clampSpeed, recSpan, flowsOn };
+  return { textOf, chunks, conceptText, key, buildQueue, keysOf, tri, nextRepeat, prevIndex, following, rankVoices, clampSpeed, recSpan, flowsOn, useRecording };
 })();

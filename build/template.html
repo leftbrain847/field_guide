@@ -258,7 +258,7 @@ body.has-lbar{padding-bottom:130px}
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
-    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked. Full notes and Español use your device's voice: keep the screen on, and the Claude app may keep it silent.</p>
+    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and play with the screen locked. Full notes and Español use the device voice, which the Claude app may keep silent.</p>
     <div class="lopts">
       <div class="seg" role="group" aria-label="What to read">
         <button type="button" id="lSummary" aria-pressed="false">Summaries</button>
@@ -926,7 +926,7 @@ function advance(){
 const REC = (() => { try { return JSON.parse(document.getElementById("audio-marks").textContent); } catch (e) { return {}; } })();
 const player = new Audio(); player.preload = "auto";
 let recCur = null, recGen = -1;
-const recFor = it => (it && it.lang !== "es" && lp.content !== "full" ? Listen.recSpan(REC, it.tid, it.ci) : null);   // Español falls back to the English recording for untranslated concepts
+const recFor = it => (Listen.useRecording(it, lp.content) ? Listen.recSpan(REC, it.tid, it.ci) : null);
 const sameFile = f => player.src && decodeURI(player.src).endsWith(f);
 function startItem(){
   const it = lq[li]; if (!it) { stopListen(); return; }

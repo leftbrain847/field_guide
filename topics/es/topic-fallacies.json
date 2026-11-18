@@ -19,7 +19,7 @@
    "en": "Undistributed middle",
    "src": "321d2c343e21",
    "n": "Término medio no distribuido",
-   "s": "El término medio no distribuido concluye que dos grupos coinciden porque ambos comparten una tercera propiedad, aunque ninguna premisa abarca a todo ese tercer grupo."
+   "s": "El término medio no distribuido concluye que dos grupos se superponen porque ambos comparten una tercera propiedad, aunque ninguna premisa abarca a todo ese tercer grupo."
   },
   {
    "en": "Ad hominem and tu quoque",
@@ -54,8 +54,8 @@
   {
    "en": "Bandwagon (appeal to popularity)",
    "src": "2d53b3648aad",
-   "n": "Efecto arrastre (apelación a la popularidad)",
-   "s": "La falacia del efecto arrastre trata la popularidad de una creencia o práctica como prueba de que es verdadera o buena."
+   "n": "Falacia ad populum (efecto de arrastre)",
+   "s": "La falacia ad populum trata la popularidad de una creencia o práctica como prueba de que es verdadera o buena."
   },
   {
    "en": "Genetic fallacy",
@@ -84,8 +84,8 @@
   {
    "en": "No true Scotsman and special pleading",
    "src": "d773a8283336",
-   "n": "Ningún escocés verdadero y alegato especial",
-   "s": "El ningún escocés verdadero redefine un grupo para excluir un contraejemplo, y el alegato especial exime a un caso favorito de una regla sin una razón de principio."
+   "n": "El verdadero escocés y el alegato especial",
+   "s": "La falacia del verdadero escocés redefine un grupo para excluir un contraejemplo, y el alegato especial exime a un caso preferido de una regla sin una razón de principio."
   },
   {
    "en": "Moving the goalposts",
@@ -109,7 +109,7 @@
    "en": "Correlation is not causation: confounding and reverse causation",
    "src": "68019fae03ea",
    "n": "Correlación no es causalidad: confusión y causalidad inversa",
-   "s": "El razonamiento cum hoc concluye que, como dos cosas se mueven juntas, una causa la otra, ignorando los factores de confusión, la causalidad inversa y el azar."
+   "s": "El razonamiento cum hoc concluye que, como dos cosas se mueven juntas, una causa a la otra, ignorando los factores de confusión, la causalidad inversa y el azar."
   },
   {
    "en": "Base rate fallacy",

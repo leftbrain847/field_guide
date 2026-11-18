@@ -1,5 +1,5 @@
 // Listen in Español: Spanish summaries spoken by the best Spanish device voice; English stays as it was.
-// Run: PWMOD=/path/to/node_modules/playwright node tests/browser/smoke_listen_es.mjs "$PWD/web/mastery_field_guide.html"
+// Run: PWMOD=/path/to/node_modules/playwright [MAIN_PAGE=/tmp/main.html] node tests/browser/smoke_listen_es.mjs "$PWD/web/mastery_field_guide.html"
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PWMOD);
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' }).catch(() => chromium.launch());
@@ -21,7 +21,6 @@ await p.addInitScript(() => {
 });
 await p.goto('file://' + process.argv[2] + '#gtm'); await p.waitForTimeout(300);
 await p.click('#modeListen');
-const optsH = await p.evaluate(() => document.querySelector('.lopts').offsetHeight);
 await p.click('#lEs'); await p.waitForTimeout(100);
 const vs = await p.$$eval('#lVoice option', o => o.map(x => x.textContent));
 check(vs[0] === 'Paulina (Enhanced) (es-MX)' && vs.length === 2, 'Español lists Spanish voices, best first ' + JSON.stringify(vs));
@@ -31,6 +30,15 @@ check(sp.length > 0 && sp[0].t.startsWith('El mapa de los modelos de venta.') &&
 check(await p.evaluate(() => JSON.parse(localStorage.getItem('fieldguide-listen')).content === 'es'), 'Español is remembered');
 await p.click('#lSummary'); await p.waitForTimeout(100);
 check((await p.$$eval('#lVoice option', o => o.map(x => x.textContent)))[0] === 'Ava (Enhanced) (en-US)', 'back to Summaries lists English voices');
-console.log('lopts height', optsH);
+// The Listen view must not get taller than main's (hint plus options), at the owner's widths. MAIN_PAGE = main's build.
+if (process.env.MAIN_PAGE) for (const w of [320, 375, 390, 428]) {
+  const hs = [];
+  for (const f of [process.env.MAIN_PAGE, process.argv[2]]) {
+    const q = await b.newPage({ viewport: { width: w, height: 860 } });
+    await q.goto('file://' + f + '#gtm'); await q.waitForTimeout(200); await q.click('#modeListen');
+    hs.push(await q.evaluate(() => document.getElementById('lHint').offsetHeight + document.querySelector('.lopts').offsetHeight)); await q.close();
+  }
+  check(hs[1] <= hs[0], `${w}px: Listen hint and options ${hs[1]}px vs main ${hs[0]}px`);
+}
 check(errs.length === 0, 'no page errors ' + JSON.stringify(errs));
 await b.close();

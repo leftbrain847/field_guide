@@ -13,7 +13,7 @@
    "en": "Explore, plan, implement, commit",
    "src": "d232dd579416",
    "n": "Explorar, planear, implementar, hacer commit",
-   "s": "Separa la exploración y la planificación de solo lectura de la implementación, para que el agente no resuelva el problema equivocado, y termina cada unidad de trabajo en un commit que se pueda revisar."
+   "s": "Separa la exploración y la planificación, que son de solo lectura, de la implementación, para que el agente no resuelva el problema equivocado, y termina cada unidad de trabajo en un commit que se pueda revisar."
   },
   {
    "en": "Give the agent a verifier",
@@ -49,7 +49,7 @@
    "en": "Harness engineering",
    "src": "56e4f2839df1",
    "n": "Ingeniería del arnés",
-   "s": "Convierte cada error repetido del agente en infraestructura duradera, como una regla, una habilidad o comando, un script, un hook o una verificación de CI, y depúrala cuando los modelos mejoren."
+   "s": "Convierte cada error repetido del agente en infraestructura duradera, como una regla, una skill o un comando, un script, un hook o una verificación de CI, y depúrala cuando los modelos mejoren."
   },
   {
    "en": "Review and own the code",
@@ -67,7 +67,7 @@
    "en": "Permissions and sandboxing",
    "src": "4057fcab9c13",
    "n": "Permisos y aislamiento",
-   "s": "Casi toda la productividad de un agente viene de pedir menos aprobaciones, y la forma segura de lograrlo es aislamiento más mínimo privilegio, no aprobar más rápido."
+   "s": "La mayor parte de la productividad de un agente viene de pedir menos aprobaciones, y la forma segura de lograrlo es aislamiento más mínimo privilegio, no aprobar más rápido."
   },
   {
    "en": "Prompt injection",

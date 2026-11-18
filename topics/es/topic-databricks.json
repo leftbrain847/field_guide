@@ -73,7 +73,7 @@
    "en": "Serve BI",
    "src": "f7c2ea11d672",
    "n": "Servir BI",
-   "s": "Sirve BI desde SQL warehouses serverless, define los KPI una sola vez como vistas de métricas, y diagnostica las consultas lentas con el perfil de la consulta antes de aumentar el tamaño."
+   "s": "Sirve BI desde SQL warehouses serverless, define los KPI una sola vez como vistas de métricas, y diagnostica las consultas lentas con el perfil de la consulta antes de cambiar el tamaño."
   },
   {
    "en": "Power BI on Databricks",

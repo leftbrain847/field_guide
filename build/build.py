@@ -66,8 +66,9 @@ def es_text(quiet=True):
         if not (os.path.exists(p) and os.path.exists(tp)):
             continue
         by_name = {e["en"]: e for e in json.load(open(p))["concepts"]}
+        concepts = json.load(open(tp))["concepts"]
         row, stale = [], []
-        for c in json.load(open(tp))["concepts"]:
+        for c in concepts:
             e = by_name.get(c["n"])
             ok = e is not None and e.get("src") == es_source(c)
             row.append([e["n"], e["s"]] if ok else None)
@@ -75,8 +76,8 @@ def es_text(quiet=True):
                 stale.append(c["n"])
         if any(row):
             out[tid] = row
-        names = {c["n"] for c in json.load(open(tp))["concepts"]}
-        missing = sum(1 for c in json.load(open(tp))["concepts"] if c["n"] not in by_name)
+        names = {c["n"] for c in concepts}
+        missing = sum(1 for c in concepts if c["n"] not in by_name)
         orphans = [n for n in by_name if n not in names]
         if not quiet and (stale or missing or orphans):
             print(f"es: {tid}: {len(stale)} stale, {missing} missing, {len(orphans)} orphaned"
@@ -104,7 +105,7 @@ def render(quiet=True):
     recent = open(os.path.join(HERE, "recent.js")).read()
     assert "</" not in recent, "recent.js must not contain '</' (it is inlined in a script tag)"
     html = html.replace("<!--RECENT-->", "<script>\n" + recent.rstrip("\n") + "\n</script>")
-    es = json.dumps(es_text(quiet), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    es = json.dumps(es_text(quiet), ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")   # no "<" can end or open a tag
     html = html.replace("<!--ES-->", '<script type="application/json" id="es-text">' + es + "</script>")
     html = html.replace("<!--AUDIO-->", '<script type="application/json" id="audio-marks">' + json.dumps(audio_marks()) + "</script>")
     return SKELETON_HEAD + "\n" + html.rstrip("\n") + "\n\n" + SKELETON_TAIL
