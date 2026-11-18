@@ -1,0 +1,12 @@
+{
+  "_doc": "Compact standard (FORMAT.md). Topics in 'enforced' are held to these limits by tests/test_topics.py; add a topic here when it is rewritten to the standard. Medicine, reasoning and games are exempt by design.",
+  "max_words_per_concept": 250,
+  "cards_per_concept": [1, 5],
+  "first_group": "map",
+  "total_concept_cap": 150,
+  "topic_targets": {
+    "fundamentals": 24, "git": 14, "workato": 8, "databricks": 12, "powerautomate": 4,
+    "agentic": 15, "eq": 13, "gtm": 12, "venture": 10, "bookshelf": 12
+  },
+  "enforced": []
+}
