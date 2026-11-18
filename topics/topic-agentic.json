@@ -70,7 +70,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Explore</b> in plan mode: read and answer questions, change nothing.</li><li><b>Plan</b>: files, flow, risks; edit the plan before approving.</li><li><b>Implement</b> against the plan with tests.</li><li><b>Commit</b> with a descriptive message and PR.</li></ol><p>Every task prompt carries goal, context, constraints and done criteria. Anthropic's rule: if you can describe the diff in one sentence, skip the plan.</p>",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Explore</b> in plan mode: read and answer questions, change nothing.</li><li><b>Plan</b>: files, flow, risks; edit the plan before approving.</li><li><b>Implement</b> against the plan with tests.</li><li><b>Commit</b> with a descriptive message and PR.</li></ol><p>Every task prompt carries goal, context, constraints and done criteria. Anthropic's rule: if you can describe the diff in one sentence, skip the plan.</p><p>For larger features, have the agent interview you and write SPEC.md, then implement in a fresh session; a precise spec pays off more than watching the build. Match model and effort to difficulty.</p>",
      "c": []
     },
     {
@@ -128,6 +128,38 @@
    ]
   },
   {
+   "n": "Test-driven agent loops",
+   "g": "loop",
+   "s": "Have the agent write a failing test first, then the minimum code to pass it, and protect the tests, because a precise executable target makes cheating visible.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>Simon Willison calls it red/green: watch the test fail, then pass. Kent Beck's rules (2025): one failing test at a time, minimum code to pass, then refactor; never mix structural and behavioral changes in one commit.</p><p>Beck's warning signs: loops, functionality he didn't ask for, and cheating such as disabling or deleting tests.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Tests written after the code that mirror it pass by construction.</div><div class=\"trap\"><b>Trap:</b> A diff touching tests and code together: a weakened assertion looks like a fix. Review test changes separately, or block test edits with a hook during implementation.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Bug: wrong refill count. Prompt: write a failing test with last month's case, confirm it fails, then fix without editing the test.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "An agent's fix passes after it edited an assertion. Which warning sign is this?",
+     "a": "Cheating: changing the test instead of the code; review test changes separately."
+    },
+    {
+     "q": "Why write the failing test before the fix?",
+     "a": "It gives the agent a precise target and shows the fix actually changed behavior."
+    }
+   ]
+  },
+  {
    "n": "Context is a budget",
    "g": "loop",
    "s": "Everything the agent knows sits in one finite context window, so keep bulky reads out, reset between tasks, and compact deliberately.",
@@ -160,6 +192,38 @@
    ]
   },
   {
+   "n": "Checkpoints and their limits",
+   "g": "loop",
+   "s": "Checkpoints let you rewind the agent's file edits and conversation, but they don't undo shell commands or anything outside your machine, so commits stay your real safety net.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Claude Code checkpoints each prompt's file edits made through its edit tools; /rewind (or Esc twice) restores code, conversation or both, or summarizes part of the session.</li><li>Not restored: files changed by shell commands (rm, mv, cp), usually subagent edits, and edits made outside the session.</li><li>Never restorable: databases, APIs, deploys and other remote side effects.</li><li>/branch copies the conversation so you can try an alternative and keep the original.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Trusting rewind after the agent ran a migration or deleted files with rm. Gate remote and destructive actions with permission rules instead.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>The agent ran a bad schema migration on the dev database. Rewind restores the code, not the database; you need the migration's down script.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "The agent deleted files with rm. Will /rewind bring them back?",
+     "a": "No: shell-command changes aren't checkpointed; recover from git."
+    },
+    {
+     "q": "What protects remote side effects that rewind can't undo?",
+     "a": "Permission rules or hooks that gate those actions before they run."
+    }
+   ]
+  },
+  {
    "n": "Standing instructions",
    "g": "loop",
    "s": "Put what the agent should always know in short instruction files, and anything that must never happen in deterministic hooks or permission rules.",
@@ -188,6 +252,38 @@
     {
      "q": "Your CLAUDE.md is 600 lines and adherence is poor. What do you do?",
      "a": "Cut it toward ~200 lines; move area-specific guidance to path-scoped rules and procedures into skills."
+    }
+   ]
+  },
+  {
+   "n": "Harness engineering",
+   "g": "loop",
+   "s": "Turn every repeated agent mistake into durable infrastructure (a rule, a skill or command, a script, a hook or a CI check) and prune it when models improve.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<p>Mitchell Hashimoto calls this harness engineering: each time an agent errs, add an AGENTS.md line or a tool so it never recurs. A useful ladder as a rule proves important: prompt, instruction file, skill or command, then hook, linter or CI check. Each step trades flexibility for reliability.</p><p>Shared in the repo, these files become team infrastructure: one engineer's lesson becomes every agent's default.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Rule pile-up: an agent ignoring a rule usually means the file is too long. Prune.</div><div class=\"trap\"><b>Trap:</b> Never revisiting rules after a model upgrade: each one encodes an assumption about what the model can't do (Anthropic, March 2026).</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>The agent forgets the test command twice: add it to CLAUDE.md. It keeps formatting wrong: add a PostToolUse hook. It touched prod config: add a deny rule.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "The same mistake recurred three times despite a CLAUDE.md line. What control makes it impossible?",
+     "a": "A deterministic control: a hook, linter or CI check."
+    },
+    {
+     "q": "Why prune instructions after a model upgrade?",
+     "a": "Workarounds for old weaknesses cost context and can now mislead."
     }
    ]
   },
@@ -230,7 +326,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>CLAUDE.md / rules</b>: always-on knowledge.</li><li><b>Skills</b> (SKILL.md): name and description stay in context; the body loads when relevant. Mark side-effecting skills user-invoked only.</li><li><b>MCP servers</b>: tools and data from external systems; a good CLI is often more context-efficient.</li><li><b>Subagents</b>: own context, tools and model; return a summary.</li><li><b>Hooks</b>: deterministic handlers at lifecycle events.</li><li><b>Plugins</b> bundle these to share.</li></ul>",
+     "b": "<ul><li><b>CLAUDE.md / rules</b>: always-on knowledge.</li><li><b>Skills</b> (SKILL.md): name and description stay in context; the body loads when relevant. Mark side-effecting skills user-invoked only.</li><li><b>MCP servers</b>: tools and data from external systems; a good CLI is often more context-efficient.</li><li><b>Subagents</b>: own context, tools and model; return a summary.</li><li><b>Hooks</b>: deterministic handlers at lifecycle events.</li><li><b>Plugins</b> bundle these to share.</li></ul><p>A subagent (except a fork) sees only CLAUDE.md and your delegation prompt, not your conversation, so the prompt must carry the task context.</p>",
      "c": []
     },
     {
@@ -262,7 +358,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Anthropic reported users accept 93% of permission prompts, so manual approval decays into click-through (March 2026).</li><li>Spectrum: manual approval, allowlisted safe commands, classifier-based auto mode, full isolation in containers or cloud sandboxes with restricted network.</li><li>Anthropic's auto mode: 0.4% false positives, but it missed 17% of a small set of real overeager actions; not a substitute for review on high-stakes infrastructure. As of Nov 2026, Claude Code starts interactive sessions in auto mode on most plans; headless and SDK runs don't.</li></ul>",
+     "b": "<ul><li>Anthropic reported users accept 93% of permission prompts, so manual approval decays into click-through (March 2026).</li><li>Spectrum: manual approval, allowlisted safe commands, classifier-based auto mode, full isolation in containers or cloud sandboxes with restricted network.</li><li>Anthropic's auto mode: 0.4% false positives, but it missed 17% of a small set of real overeager actions; not a substitute for review on high-stakes infrastructure. As of Nov 2026, interactive terminal and VS Code sessions start in auto mode on every plan unless a mode is set; headless defaults vary, so set the mode explicitly.</li></ul><p>Order: PreToolUse hooks run first and can block in any mode; then deny, ask, allow rules, with deny and ask holding even when bypassing permissions. A hook's allow can't override a deny.</p>",
      "c": []
     },
     {
@@ -348,6 +444,43 @@
     {
      "q": "What sets the right number of parallel agent sessions?",
      "a": "Your review capacity: a WIP limit equal to what you can review well."
+    }
+   ]
+  },
+  {
+   "n": "Long-running and autonomous work",
+   "g": "scale",
+   "s": "Multi-session agent work succeeds when state lives on disk (spec, feature list, progress log, git), each session starts fresh and reorients from files, and a separate evaluator checks the work.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Anthropic's long-running harness (2025): an initializer writes a feature list (all failing), a progress log and a startup script; each later session reads them, does one feature, commits and updates the log.</li><li>Anthropic (March 2026): agents grading their own work praise it even when it's mediocre; a separate evaluator tuned to be skeptical is far easier to get right.</li><li>Geoffrey Huntley's Ralph loop pipes the same prompt into a fresh agent session repeatedly, with the plan, specs and tests on disk as memory and backpressure.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Weak tests: the loop happily ships code that compiles and does the wrong thing.</div><div class=\"trap\"><b>Trap:</b> Unbounded spend: cap iterations or budget, and commit every iteration so you can reset.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A migration of 200 independent dashboards: a feature list with 200 items, one per session, each checked by a screenshot comparison before it is marked passing.</p>",
+     "c": []
+    },
+    {
+     "t": "Ask",
+     "b": "<p>Can a brand-new session learn the project state from files in under a minute?</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "A multi-day agent project declares itself done with half the features. What prevents this?",
+     "a": "An explicit feature list with one feature per session and a separate evaluator marking items passing."
+    },
+    {
+     "q": "What does the Ralph loop rely on instead of a long context?",
+     "a": "State on disk (plan, specs, tests, git) and a fresh session every iteration."
     }
    ]
   },
@@ -449,6 +582,38 @@
     {
      "q": "Why are self-reported speedups unreliable?",
      "a": "METR's trial showed developers felt faster while measured time increased."
+    }
+   ]
+  },
+  {
+   "n": "Evaluate on your own work",
+   "g": "evidence",
+   "s": "Public benchmarks show agents improving on clean, well-specified tasks; only a trial on your own repositories, checks and review standards tells you what a tool will do for you.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>METR's time horizon is the length of task (in skilled-human time) a model completes with 50% reliability on well-specified tasks. It has doubled every several months, but it means coin-flip success on clean briefs, not a reliable day of work.</li><li>SWE-bench-style leaderboards cluster at the top, risk contamination, and move with scaffolding as much as the model.</li></ul><p>Run your own: 10-20 recently closed tickets of mixed types, the same instructions and checks for each tool, scored on checks passed, review minutes to mergeable, rework, cost and policy violations. Repeat after major model releases.</p>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Choosing a tool from demos or a few leaderboard points.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>For a BI team: a dbt model change with tests, a slow-query fix checked by its plan, and a dashboard change verified by screenshot.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What does a 50% time horizon of 14 hours mean?",
+     "a": "Coin-flip success on well-specified tasks that take a skilled human about 14 hours, not reliable completion of a real day's work."
+    },
+    {
+     "q": "Two tools differ by 2 points on a coding leaderboard. How much weight?",
+     "a": "Little: scaffolding and contamination move scores that much; test on your own tickets."
     }
    ]
   },
@@ -733,6 +898,10 @@
   {
    "title": "METR: We are changing our developer productivity experiment design (Feb 2026)",
    "url": "https://metr.org/blog/2026-02-24-uplift-update/"
+  },
+  {
+   "title": "Claude Code docs: Configure permissions",
+   "url": "https://code.claude.com/docs/en/permissions"
   }
  ]
 }
