@@ -76,3 +76,31 @@ def test_recorded_audio_is_well_formed():
         for k in m["marks"]:
             assert prev <= k["start"] < k["end"], (meta.stem, k)
             prev = k["end"]
+
+
+LIMITS = json.loads((ROOT / "build" / "limits.json").read_text())
+
+
+def concept_words(c):
+    text = c["s"] + " " + " ".join(s["b"] for s in sections(c["x"]))
+    return len(re.sub(r"<[^>]+>", " ", text).split())
+
+
+@pytest.mark.parametrize("tid", LIMITS["enforced"])
+def test_compact_standard(tid):
+    """Rewritten tabs keep to the compact standard in FORMAT.md (limits in build/limits.json)."""
+    t = json.loads((ROOT / "topics" / f"topic-{tid}.json").read_text())
+    lo, hi = LIMITS["cards_per_concept"]
+    assert t["groups"][0]["key"] == LIMITS["first_group"] and t["concepts"][0]["g"] == LIMITS["first_group"], "tab must open with its map concept"
+    assert len(t["concepts"]) <= LIMITS["topic_targets"][tid], f"{tid}: over its concept target"
+    for c in t["concepts"]:
+        assert concept_words(c) <= LIMITS["max_words_per_concept"], f"{c['n']}: {concept_words(c)} words"
+        assert lo <= len(c["cards"]) <= hi, f"{c['n']}: {len(c['cards'])} cards"
+
+
+def test_concept_cap():
+    total = sum(len(json.loads((ROOT / "topics" / f"topic-{t}.json").read_text())["concepts"]) for t in LIMITS["topic_targets"])
+    assert sum(LIMITS["topic_targets"].values()) <= LIMITS["total_concept_cap"]
+    assert set(LIMITS["enforced"]) <= set(LIMITS["topic_targets"])
+    if set(LIMITS["enforced"]) == set(LIMITS["topic_targets"]):
+        assert total <= LIMITS["total_concept_cap"]

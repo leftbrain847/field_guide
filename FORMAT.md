@@ -1,5 +1,34 @@
 # Topic file format (for encyclopedia tabs)
 
+## Compact standard (from 2026-11-18; applies to every tab except medicine, reasoning and games)
+
+The reader studies 2 concepts a day. Retrieval practice and spacing do the teaching; rereading long bodies is low value. So bodies stay short and cards carry the learning.
+
+**Concept = one model + one rule + one failure mode + one example, in at most 250 words** (summary plus section bodies; cards not counted). Sections, in order:
+1. `Model`: how it works, 2-4 lines.
+2. `Traps`: what breaks it, 2-3 lines (trap blocks).
+3. `Example`: one concrete case (for numbers, one worked example).
+4. `Ask` (optional): one design-review question.
+The summary `s` is the rule, one sentence.
+
+**Cards: 3 by default** (1-5 allowed): one rule/why card, one application or discrimination card (a scenario: which pattern applies?), one trap card. Up to 5 only for numeric concepts. No "list the five X" cards; ask which item explains a scenario instead. Questions focused and effortful, never yes/no.
+
+**Every tab opens with a map concept** in group `map`: the 1-3 organizing schemas of the topic. Every other concept fits under one of them.
+
+**Perishable facts** (vendor features, prices, limits, names) stay off cards unless the decision depends on them; date-stamp them in prose ("as of Nov 2026"). Syntax, menu paths and limits are reference material: point to the official docs in `sources` instead.
+
+**Admission test** for any new concept. It enters only if all six hold:
+1. Durable: still true in 5 years, or decision-relevant within 12 months (date-stamp if vendor-specific).
+2. Not look-up-able: needed in your head at decision time.
+3. Not derivable: if it follows from an existing concept, it becomes a card on that concept.
+4. Evidence graded: research, practitioner consensus, or opinion. Opinion-only enters as a reusable lens, one concept at most.
+5. Fits the template: 250 words, 3 cards.
+6. Worth about 10 minutes of future review, and at the cap (`build/limits.json`, 150 concepts) something of lower value leaves.
+
+`build/limits.json` holds the limits and per-topic targets; tests enforce them for every topic listed under `enforced`.
+
+## Schema
+
 Write ONE valid JSON file (UTF-8, no comments, no trailing commas). Validate it with `python3 -c "import json;json.load(open(PATH))"` before finishing.
 
 ```json
@@ -31,7 +60,7 @@ Write ONE valid JSON file (UTF-8, no comments, no trailing commas). Validate it 
 ## Body HTML allowed
 `<p> <ul> <ol style="padding-left:18px;margin:0 0 8px"> <li> <b> <i> <code> <pre><code> <div class="trap"><b>Trap:</b> ...</div>`. Escape `<` and `>` inside code as `&lt;` `&gt;`. No links, no images, no inline citation markers like [1].
 
-## Depth and voice
+## Depth and voice (medicine and older tabs; the compact standard above overrides depth for the rest)
 - Audience: a senior BI engineer (10 yrs data, 3 in healthcare / telepsychiatry) who wants to become a senior/staff-level master user. The org is moving off Azure Data Factory toward Workato, Microsoft Fabric, and possibly Databricks. Healthcare/HIPAA angles are welcome where real and verifiable.
 - Each concept: "How it works" (mechanics), then senior-level nuance / trade-offs, failure modes or traps, and where useful "Design review questions" or a code/config example.
 - Plain, direct sentences. Active voice. No em-dash asides, no "not X but Y", no "worth noting", no marketing language.
