@@ -256,13 +256,45 @@
    ]
   },
   {
+   "n": "Federation and sharing",
+   "g": "gov",
+   "s": "Query external databases in place with Lakehouse Federation, share live read-only data across organizations with OpenSharing, and use clean rooms when parties must combine data without seeing each other's rows.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Lakehouse Federation</b>: a connection plus foreign catalog exposes SQL Server, PostgreSQL, Snowflake, OneLake (read-only, Azure) and others under Unity Catalog grants, pushing queries down where possible. Best for exploration and migration.</li><li><b>OpenSharing</b> (Delta Sharing renamed and extended, June 2026; existing clients still work): live read-only tables, views, models and more, Databricks-to-Databricks without tokens or to other platforms with tokens or OIDC.</li><li><b>Clean rooms</b>: approved code runs on combined data; outputs go to output tables.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Dashboards pointed at federated operational databases: every refresh hits the source system. Ingest for heavy, repeated analytics.</div><div class=\"trap\"><b>Trap:</b> Tables with table-level row filters or masks can't be shared; share a dynamic view or a de-identified copy. ABAC-masked tables can be shared only if the share owner is exempt, so recipients see unmasked data.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>During migration, federate the on-prem SQL Server warehouse to validate new tables against it, then cut over to ingested tables.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "A dashboard over a federated SQL Server database slows the source. Fix?",
+     "a": "Ingest the data (Lakeflow Connect) instead of querying it in place on every refresh."
+    },
+    {
+     "q": "How do you share a table that has table-level column masks?",
+     "a": "Share a dynamic view or a de-identified copy; the masked table itself can't be shared."
+    }
+   ]
+  },
+  {
    "n": "Ingest incrementally",
    "g": "eng",
    "s": "Ingest with tools that track what they have processed: Lakeflow Connect for databases and SaaS apps, Auto Loader for files, each resuming from a checkpoint.",
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Lakeflow Connect</b>: managed connectors (SQL Server CDC, Salesforce, Workday and more) writing streaming tables; database connectors run an ingestion gateway.</li><li><b>Auto Loader</b> (cloudFiles): exactly-once file ingestion, schema inference and evolution, unexpected fields in _rescued_data; file events beat directory listing at scale.</li><li>Triggers: availableNow for cheap batch-like runs, processingTime for continuous micro-batches.</li><li>Change data feed exposes row-level changes downstream.</li></ul>",
+     "b": "<ul><li><b>Lakeflow Connect</b>: managed connectors (SQL Server CDC, Salesforce, Workday and more) writing streaming tables; CDC database connectors run an always-on ingestion gateway on classic compute, billed even when idle.</li><li><b>Auto Loader</b> (cloudFiles): exactly-once file ingestion, schema inference and evolution, unexpected fields in _rescued_data; file events beat directory listing at scale.</li><li>Triggers: availableNow for cheap batch-like runs, processingTime for continuous micro-batches.</li><li>Change data feed exposes row-level changes downstream.</li></ul>",
      "c": []
     },
     {
@@ -380,6 +412,43 @@
     {
      "q": "How do metric views keep KPI definitions consistent?",
      "a": "Each measure is defined once as a governed object and computed correctly at any grain with MEASURE()."
+    }
+   ]
+  },
+  {
+   "n": "Power BI on Databricks",
+   "g": "serve",
+   "s": "Choose Import or DirectQuery by freshness, cost and security: Import caches data under the refresh identity, so Unity Catalog row filters and masks stop protecting report viewers.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Power BI connects to a SQL warehouse; Databricks can publish Unity Catalog tables as a semantic model, and a Lakeflow Jobs Power BI task (preview) can refresh it after the tables build.</li><li><b>Import</b>: fastest visuals; refresh cost and latency follow the schedule; row-level security must be rebuilt in Power BI.</li><li><b>DirectQuery</b> with per-user SSO: fresh data, Unity Catalog filters and masks apply per query, but warehouse cost and latency scale with users.</li><li>Dual mode for dimensions; aggregation tables or materialized views to cut DirectQuery load.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Import over PHI tables with a service principal: everyone sees what the refresh identity saw. Use Power BI RLS or DirectQuery with SSO.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A clinic-scoped PHI report: DirectQuery with SSO so Unity Catalog row filters apply per viewer; the KPI dashboard: Import on de-identified aggregates.</p>",
+     "c": []
+    },
+    {
+     "t": "Ask",
+     "b": "<p>Which semantic layer is authoritative: Power BI DAX or Databricks metric views?</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "An Import-mode report over masked PHI shows unmasked data to viewers. Why?",
+     "a": "Import caches data as the refresh identity saw it; Unity Catalog masks apply only at refresh."
+    },
+    {
+     "q": "Why orchestrate the model refresh from the Lakeflow job?",
+     "a": "So refresh never runs on half-loaded tables."
     }
    ]
   },
@@ -521,6 +590,18 @@
   {
    "title": "Unity Catalog metric views",
    "url": "https://docs.databricks.com/aws/en/metric-views"
+  },
+  {
+   "title": "Databricks: Power BI task for jobs",
+   "url": "https://docs.databricks.com/aws/jobs/powerbi"
+  },
+  {
+   "title": "Databricks: Row filters and column masks (limitations)",
+   "url": "https://docs.databricks.com/aws/tables/row-and-column-filters"
+  },
+  {
+   "title": "Databricks: From Delta Sharing to OpenSharing",
+   "url": "https://databricks.com/blog/delta-sharing-opensharing-what-changed-whats-next"
   }
  ]
 }
