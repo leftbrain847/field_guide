@@ -157,13 +157,45 @@
    ]
   },
   {
+   "n": "Dimension patterns",
+   "g": "correct",
+   "s": "Kimball's dimension patterns solve recurring modeling problems: one dimension in several roles, IDs with no attributes, scattered flags, events with no measure, and history chosen per column.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Role-playing</b>: one date dimension joined as appointment, scheduled and signed date. In Power BI, load a copy per role or use inactive relationships with USERELATIONSHIP.</li><li><b>Degenerate</b>: an ID (order or encounter number) kept in the fact with no table.</li><li><b>Junk</b>: low-cardinality flags bundled into one small dimension.</li><li><b>Factless fact</b>: records that something happened or was eligible (attendance, coverage) with no measure.</li><li><b>SCD types</b>: 0 never changes, 1 overwrites, 2 versions rows, 3 keeps a previous-value column, 6 adds a current-value column to Type 2 rows. Mix types per column.</li><li>Reserve -1 Unknown and -2 Not applicable members.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> One big table for everything: fast scans, but a dimension change means rewriting fact rows, and Power BI models expect a star.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Report as-was and as-is clinic from one table: Type 6, with each Type 2 row also carrying current_clinic.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Visits need appointment, scheduled and signed dates. How many physical date tables in the warehouse?",
+     "a": "One, joined three times as role-playing dimensions."
+    },
+    {
+     "q": "You must track which patients were eligible for outreach, with no amount. What table shape?",
+     "a": "A factless fact table."
+    }
+   ]
+  },
+  {
    "n": "Idempotent writes and MERGE",
    "g": "correct",
    "s": "Every job must leave the same final state no matter how many times it runs on the same inputs, because orchestrators retry and people rerun.",
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Patterns: overwrite the partitions you own, MERGE on key, delete-then-insert in one transaction, or stage and swap.</li><li>MERGE: deduplicate the source to one row per key, guard updates with a version check (s.seq &gt; t.seq), skip no-op updates with a row hash.</li><li>Pass the run's logical date as a parameter; never use \"today\" in business logic.</li></ul>",
+     "b": "<ul><li>Patterns: overwrite the partitions you own, MERGE on key, delete-then-insert in one transaction, or stage and swap.</li><li>MERGE: deduplicate the source to one row per key, guard updates with a version check (s.seq &gt; t.seq), skip no-op updates with a row hash.</li><li>Pass the run's logical date as a parameter; never use \"today\" in business logic.</li><li>Without deletion vectors, MERGE rewrites every file holding a matched row: put the date range in the ON clause and cluster on the merge key.</li><li>Side effects (emails, API calls) need their own idempotency keys.</li></ul>",
      "c": []
     },
     {
@@ -232,7 +264,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Backfill</b>: chunk by partition with bounded parallelism, write to a shadow table, reconcile, swap, rebuild dependents in order, warn consumers.</li><li><b>Late facts</b>: reprocess a rolling lookback sized from measured lateness (p99 of ingest_ts - event_ts); deeper reconciliation for the rest.</li><li><b>Late dimensions</b>: insert an inferred member flagged is_inferred, then update it in place when the real row arrives.</li></ul>",
+     "b": "<ul><li><b>Backfill</b>: chunk by partition with bounded parallelism, write to a shadow table, reconcile, swap, rebuild dependents in order, warn consumers.</li><li><b>Late facts</b>: reprocess a rolling lookback sized from measured lateness (p99 of ingest_ts - event_ts); deeper reconciliation for the rest.</li><li><b>Late dimensions</b>: insert an inferred member flagged is_inferred, then update it in place when the real row arrives.</li><li>Record which code version built each partition, and pin the source snapshot a backfill reads.</li></ul>",
      "c": []
     },
     {
@@ -264,7 +296,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Keep event_ts, ingest_ts, processed_ts. Partition raw by ingest date; serve layers by event date.</li><li>Store UTC plus the source zone; convert to business days at the end (DST days have 23 or 25 hours).</li><li>A <b>streaming watermark</b> = max event time seen minus allowed lateness. Spark's append mode emits a window once the watermark passes its end and drops its state.</li></ul>",
+     "b": "<ul><li>Keep event_ts, ingest_ts, processed_ts. Partition raw by ingest date; serve layers by event date.</li><li>Store UTC plus the source zone; convert to business days at the end (DST days have 23 or 25 hours).</li><li>A <b>streaming watermark</b> = max event time seen minus allowed lateness. Spark's append mode emits a window once the watermark passes its end and drops its state.</li><li>Client clocks lie: bound-check event times and fall back to server receive time.</li></ul>",
      "c": []
     },
     {
@@ -296,7 +328,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>At-most-once loses data; at-least-once duplicates; exactly-once means each effect lands once.</li><li>Delta's streaming sink skips replayed batches natively; in foreachBatch pass txnAppId and txnVersion, or MERGE on key.</li><li>Dedup key: a producer-assigned event ID; otherwise business key + version; content hash as a last resort.</li></ul>",
+     "b": "<ul><li>At-most-once loses data; at-least-once duplicates; exactly-once means each effect lands once.</li><li>Delta's streaming sink skips replayed batches natively; in foreachBatch pass txnAppId and txnVersion, or MERGE on key.</li><li>Dedup key: a producer-assigned event ID; otherwise business key + version; content hash as a last resort.</li><li>Kafka: idempotent producers plus transactions, consumers reading with isolation.level=read_committed. This covers Kafka-to-Kafka only; external sinks still need idempotent writes.</li></ul>",
      "c": []
     },
     {
@@ -328,7 +360,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Log-based CDC (Debezium, SQL Server CDC) captures deletes and every intermediate change with low source load; timestamp polling is not CDC.</li><li>SQL Server Change Tracking records only which keys changed; CDC keeps before and after values.</li><li>Per batch: collapse to the last change per key by log position (LSN), then MERGE. Tables need a primary key. Decide how deletes land.</li></ul>",
+     "b": "<ul><li>Log-based CDC (Debezium, SQL Server CDC) captures deletes and every intermediate change with low source load; timestamp polling is not CDC.</li><li>SQL Server Change Tracking records only which keys changed; CDC keeps before and after values.</li><li>Per batch: collapse to the last change per key by log position (LSN), then MERGE. Tables need a primary key. Decide how deletes land.</li><li>Fabric mirroring is managed CDC replication into OneLake, with less control over these choices.</li></ul>",
      "c": []
     },
     {
@@ -424,7 +456,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Small files multiply metadata and task overhead; streaming and frequent appends create them.</li><li>Compaction (OPTIMIZE) rewrites them into large files; auto-compaction and optimized writes reduce the need.</li><li>Table formats add a transaction log: atomic commits, schema enforcement, time travel to a version, and concurrent writers.</li><li>VACUUM removes old files and with them the ability to time travel past retention.</li></ul>",
+     "b": "<ul><li>Small files multiply metadata and task overhead; streaming and frequent appends create them.</li><li>Compaction (OPTIMIZE) rewrites them into large files; auto-compaction and optimized writes reduce the need.</li><li>Table formats add a transaction log: atomic commits, schema enforcement, time travel to a version, and concurrent writers.</li><li>VACUUM removes old files and with them the ability to time travel past retention.</li><li>RESTORE rolls back to a version as a new commit (downstream streams may reprocess it); vacuumed versions can't be restored.</li></ul>",
      "c": []
     },
     {
@@ -446,6 +478,38 @@
     {
      "q": "What do you lose after VACUUM with a short retention?",
      "a": "Time travel to versions older than the retention, and safety for long-running readers."
+    }
+   ]
+  },
+  {
+   "n": "Concurrent writers",
+   "g": "cost",
+   "s": "Table formats use optimistic concurrency: writers commit independently and only collide when they touch overlapping data, so design jobs not to overlap and let format-level retries absorb the rest.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Delta and Iceberg writers build a new snapshot and atomically swap it in; if another writer committed first, the commit is retried or fails.</li><li>Databricks row-level concurrency (Runtime 14.3 LTS+) resolves updates to different rows in the same file. It needs an unpartitioned table (liquid clustering qualifies) with deletion vectors enabled.</li><li>With deletion vectors, OPTIMIZE without ZORDER BY doesn't conflict with other writes, even on partitioned tables.</li><li>Iceberg retries rejected commits per table properties (commit.retry.num-retries); tune them for contended tables.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Retrying overlapping overwrites: two jobs rewriting the same partition will keep conflicting. Change the design (one writer per partition, or MERGE on disjoint keys).</div><div class=\"trap\"><b>Trap:</b> SQL Server upserts under concurrency: MERGE ... WITH (HOLDLOCK), or UPDATE ... WITH (UPDLOCK, HOLDLOCK) then INSERT in one transaction.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Parallel MERGE jobs per clinic fail with ConcurrentAppendException on a partitioned table; switch to liquid clustering with deletion vectors so row-level concurrency resolves them.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Two jobs MERGE different clinics' rows into one unpartitioned Delta table and keep conflicting. First fix on Databricks?",
+     "a": "Row-level concurrency: keep the table unpartitioned (liquid clustering is fine) and turn deletion vectors on."
+    },
+    {
+     "q": "When does increasing commit retries not help?",
+     "a": "When writers genuinely overlap, such as two overwrites of the same partition; redesign so they don't."
     }
    ]
   },
@@ -831,6 +895,18 @@
   {
    "title": "Dynamic data masking in Fabric data warehousing (Microsoft Learn)",
    "url": "https://learn.microsoft.com/fabric/data-warehouse/dynamic-data-masking"
+  },
+  {
+   "title": "Databricks: Row-level concurrency and write conflicts",
+   "url": "https://docs.databricks.com/aws/en/optimizations/isolation/row-level-concurrency"
+  },
+  {
+   "title": "Apache Iceberg: Reliability and optimistic concurrency",
+   "url": "https://iceberg.apache.org/docs/latest/reliability/"
+  },
+  {
+   "title": "Kimball Group: Dimensional modeling techniques",
+   "url": "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/"
   }
  ]
 }

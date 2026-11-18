@@ -8,7 +8,7 @@
   "first_group": "map",
   "total_concept_cap": 150,
   "topic_targets": {
-    "fundamentals": 24,
+    "fundamentals": 26,
     "git": 14,
     "workato": 8,
     "databricks": 12,
