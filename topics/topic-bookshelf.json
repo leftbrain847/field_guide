@@ -34,7 +34,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Strategy</b> (Rumelt): diagnosis, guiding policy, coherent actions.</li><li><b>Output</b> (Grove): a manager's output is the output of the teams they run or influence, so pick high-leverage activities.</li><li><b>Effectiveness</b> (Drucker): time, then contribution, then concentration, then decisions.</li><li><b>Operating system</b> (Hughes Johnson, Lencioni): written founding documents, a cadence, structured hiring and honest performance management.</li></ul><p>None of these books rests on controlled studies; they earn their place on leverage per word.</p>",
+     "b": "<ul><li><b>Strategy</b> (Rumelt): diagnosis, guiding policy, coherent actions.</li><li><b>Output</b> (Grove): a manager's output is the output of the teams they run or influence, so pick high-leverage activities.</li><li><b>Effectiveness</b> (Drucker): time, contribution, strengths, concentration, decisions.</li><li><b>Operating system</b> (Hughes Johnson, Lencioni): written founding documents, a cadence, structured hiring and honest performance management.</li></ul><p>None of these books rests on controlled studies; they earn their place on leverage per word.</p>",
      "c": []
     },
     {
@@ -50,8 +50,8 @@
    ],
    "cards": [
     {
-     "q": "Your team is busy but results are flat. Which two loops do you check first?",
-     "a": "Strategy (is there a real diagnosis and focus?) and output (are your hours going to high-leverage activities?)."
+     "q": "A quarter was missed. Which loop do you check first, and what is the question?",
+     "a": "Strategy: was there a real diagnosis and a focused guiding policy?"
     },
     {
      "q": "What is the evidence base for these management books?",
@@ -87,7 +87,7 @@
    ],
    "cards": [
     {
-     "q": "A plan lists twelve objectives and a revenue target. Which hallmark of bad strategy is this?",
+     "q": "A plan lists twelve objectives and a revenue target. Which two hallmarks of bad strategy are these?",
      "a": "Mistaking goals for strategy, plus bad strategic objectives (a long, unfocused list)."
     },
     {
@@ -268,7 +268,7 @@
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Treating a generic problem as a string of unique events. You keep firefighting what a policy would end.</div><div class=\"trap\"><b>Trap:</b> Temporary decisions become permanent.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating a generic problem as a string of unique events. You keep firefighting what a policy would end.</div>",
      "c": []
     },
     {
@@ -295,7 +295,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Founding documents</b>: a specific mission, concrete long-term goals, values used in hiring and reviews, and a charter per team. Past about 50 people they become the touchstones; most is premature before product-market fit.</li><li><b>Operating system</b>: strategy as resource allocation (it should hurt), metrics at each level, clear owners, weekly team reviews, quarterly business reviews, a steady cadence.</li></ul>",
+     "b": "<ul><li><b>Founding documents</b>: a specific mission, concrete long-term goals, values used in hiring and reviews, and a charter per team. Write them once there is traction; past about 40-50 people they become the touchstones.</li><li><b>Operating system</b>: strategy as resource allocation (it should hurt), metrics at each level, clear owners, weekly team reviews, quarterly business reviews, a steady cadence.</li></ul>",
      "c": []
     },
     {
@@ -305,14 +305,14 @@
     },
     {
      "t": "Example",
-     "b": "<p>A 30-person startup writes its mission and three values now, and adds team charters and quarterly reviews at about 50 people.</p>",
+     "b": "<p>A 30-person startup with traction writes its mission and three values now, and adds team charters and quarterly reviews as it nears 50.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "At roughly what headcount do written founding documents become essential, per Hughes Johnson?",
-     "a": "Around 50 people, when they become the shared touchstones."
+     "q": "When should a startup write its founding documents, per Hughes Johnson?",
+     "a": "Once it has traction; past about 40-50 people they become the shared touchstones."
     },
     {
      "q": "A strategy funds every team's wish list. What is missing?",
@@ -364,7 +364,7 @@
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Saving feedback for the annual review. Surprises in a review mean the manager failed earlier.</div><div class=\"trap\"><b>Trap:</b> Keeping a misfit to avoid conflict. Lencioni notes they are usually the unhappiest person there.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Saving feedback for the annual review. Surprises in a review mean the manager failed earlier.</div>",
      "c": []
     },
     {
