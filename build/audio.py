@@ -1,6 +1,6 @@
 """Record Listen mode's audio at build time: one MP3 per topic with every concept's summary, plus its marks.
 
-    pip install -r build/requirements-audio.txt          # Piper (build time only; nothing ships in the page)
+    pip install -r build/requirements-audio.txt          # Kokoro (build time only; nothing ships in the page)
     python build/audio.py --models DIR [topic ...]       # DIR holds the voice in AUDIO["voice"] (see README)
 
 Writes audio/summary/<topic>.mp3 and audio/summary/<topic>.json ({"hash", "file", "marks": [{ci, start, end}]}).
@@ -15,11 +15,15 @@ sys.path.insert(0, HERE)
 from build import ORDER, TOPICS_DIR  # noqa: E402
 
 AUDIO = {
-    "voice": "en_US-ljspeech-high",   # Piper voice (rhasspy/piper-voices); LJ Speech dataset is public domain
+    "engine": "kokoro",               # Kokoro-82M (Apache-2.0) via kokoro-onnx, the engine behind comprehensible_input's Santa
+    "voice": "af_heart",              # Kokoro's top-graded English voice (A); see the voice samples in the PR
+    "lang": "en-us",
+    "model_files": ["kokoro-v1.0.onnx", "voices-v1.0.bin"],   # github.com/thewh1teagle/kokoro-onnx releases, model-files-v1.0
     "lead_in_s": 0.3,
     "gap_s": 1.0,                     # silence after each concept (the player stops inside it, so no clipped words)
-    "level_rms_dbfs": -20,            # Piper runs hot; level each concept's speech
-    "bitrate_kbps": 32, "sample_rate": 22050,
+    "level_rms_dbfs": -20,            # level each concept's speech (the engine can exceed full scale)
+    "fade_in_s": 0.03, "fade_out_s": 0.05,
+    "bitrate_kbps": 48, "sample_rate": 24000,   # Kokoro's native rate
     "out_dir": os.path.join(ROOT, "audio", "summary"),
 }
 
@@ -31,22 +35,25 @@ def summary_text(c):
 
 def topic_hash(t):
     spoken = [summary_text(c) for c in t["concepts"]]
-    return hashlib.sha256(json.dumps([spoken, AUDIO["voice"], AUDIO["lead_in_s"], AUDIO["gap_s"], AUDIO["level_rms_dbfs"],
-                                      AUDIO["bitrate_kbps"], AUDIO["sample_rate"]]).encode()).hexdigest()[:16]
+    return hashlib.sha256(json.dumps([spoken, AUDIO["engine"], AUDIO["voice"], AUDIO["lead_in_s"], AUDIO["gap_s"], AUDIO["level_rms_dbfs"],
+                                      AUDIO["fade_in_s"], AUDIO["fade_out_s"], AUDIO["bitrate_kbps"], AUDIO["sample_rate"]]).encode()).hexdigest()[:16]
 
 
-def record(t, voice):
+def record(t, k):
     import numpy as np
-    rate = voice.config.sample_rate
+    rate = 24000
     lead = np.zeros(int(AUDIO["lead_in_s"] * rate), np.float32)
     gap = np.zeros(int(AUDIO["gap_s"] * rate), np.float32)
     parts, marks, pos = [lead], [], len(lead)
     for ci, c in enumerate(t["concepts"]):
-        x = np.concatenate([np.frombuffer(ch.audio_int16_bytes, "<i2").astype(np.float32) / 32768
-                            for ch in voice.synthesize(summary_text(c))])
+        x, rate = k.create(summary_text(c), voice=AUDIO["voice"], speed=1.0, lang=AUDIO["lang"])
+        x = np.asarray(x, np.float32)
         act = x[np.abs(x) > 0.01]
         if len(act):
             x = np.clip(x * (10 ** (AUDIO["level_rms_dbfs"] / 20) / float(np.sqrt(np.mean(act ** 2)))), -1, 1)
+        fi, fo = min(len(x), int(AUDIO["fade_in_s"] * rate)), min(len(x), int(AUDIO["fade_out_s"] * rate))
+        if fi: x[:fi] *= np.linspace(0, 1, fi, dtype=np.float32)    # Kokoro's onset burst clicks if unfaded
+        if fo: x[-fo:] *= np.linspace(1, 0, fo, dtype=np.float32)
         marks.append({"ci": ci, "start": round(pos / rate, 3), "end": round((pos + len(x)) / rate, 3)})
         parts += [x, gap]; pos += len(x) + len(gap)
     pcm = (np.concatenate(parts) * 32767).astype("<i2").tobytes()
@@ -70,8 +77,8 @@ def main(argv):
         if not only and os.path.exists(meta_path) and json.load(open(meta_path)).get("hash") == h:
             continue
         if voice is None:
-            from piper import PiperVoice
-            voice = PiperVoice.load(os.path.join(models, AUDIO["voice"] + ".onnx"))
+            from kokoro_onnx import Kokoro
+            voice = Kokoro(*[os.path.join(models, f) for f in AUDIO["model_files"]])
         marks = record(t, voice)
         json.dump({"hash": h, "file": f"audio/summary/{tid}.mp3", "marks": marks}, open(meta_path, "w"), indent=0)
         print(tid, len(marks), "concepts", round(marks[-1]["end"] / 60, 1), "min")

@@ -22,16 +22,15 @@ node --test                         # snapshot script tests
 ## Listen
 A third mode beside Read and Study, modelled on comprehensible_input's player. Tick topics, groups or single concepts (the selection spans the whole guide), choose **Summaries** or **Full notes**, and press play. The bottom bar shows what is playing (tap it for the queue), then repeat (each concept ×2, ×3, off), previous, play/pause, next and speed (0.8–2×).
 
-**Summaries are recorded** at build time with Piper's `en_US-ljspeech-high` voice (LJ Speech, public domain): one MP3 per topic in `audio/summary/` with marks, played concept by concept, so they keep playing in other apps and on the lock screen. **Full notes** use the device's own voice (it stops when you leave the page on iPhone, and the Claude app may not allow it at all).
+**Summaries are recorded** at build time with Kokoro's `af_heart` voice (Kokoro-82M, Apache-2.0, via kokoro-onnx: the engine behind comprehensible_input's Santa voice): one MP3 per topic in `audio/summary/` with marks, played concept by concept, so they keep playing in other apps and on the lock screen. **Full notes** use the device's own voice (it stops when you leave the page on iPhone, and the Claude app may not allow it at all).
 
 Record after changing any concept's name or summary (a changed topic is left out of the page until re-recorded, so it falls back to the device voice):
 ```
 pip install -r build/requirements-audio.txt
-mkdir -p models && curl -L -o models/en_US-ljspeech-high.onnx https://huggingface.co/rhasspy/piper-voices/resolve/e9ab671f2a0e50a701b34361136ba3e6a3a9eb0c/en/en_US/ljspeech/high/en_US-ljspeech-high.onnx
-curl -L -o models/en_US-ljspeech-high.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/e9ab671f2a0e50a701b34361136ba3e6a3a9eb0c/en/en_US/ljspeech/high/en_US-ljspeech-high.onnx.json
+mkdir -p models && for f in kokoro-v1.0.onnx voices-v1.0.bin; do curl -L -o models/$f https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f; done
 python3 build/audio.py --models models && python3 build/build.py
 ```
-The page loads `audio/summary/<topic>.mp3` next to itself: the homepage copies `audio/` (showcase `assets: audio`); a claude.ai artifact needs those files published with it. Settings: `CONFIG.listen` (player) and `AUDIO` in `build/audio.py` (voice, gaps, bitrate). Voice credit: Piper (GPL, build time only) with the ljspeech voice from rhasspy/piper-voices (dataset: public domain).
+About 26 minutes on a laptop CPU for every topic; only changed topics are re-recorded. The page loads `audio/summary/<topic>.mp3` next to itself: the homepage copies `audio/` (showcase `assets: audio`); a claude.ai artifact needs those files published with it. Settings: `CONFIG.listen` (player) and `AUDIO` in `build/audio.py` (engine, voice, gaps, bitrate).
 
 ## Layout
 - `topics/topic-<id>.json`: one file per built tab. Schema and writing rules are in `FORMAT.md`.
