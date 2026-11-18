@@ -70,7 +70,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Ability EI</b> (Mayer-Salovey, MSCEIT): a test with right answers. Distinct from personality; predicts performance mainly in emotionally demanding jobs (Joseph and Newman 2010).</li><li><b>Trait EI</b> (Petrides, TEIQue) and <b>mixed EI</b> (Goleman, Bar-On's EQ-i): self-report. Most of its predictive power is conscientiousness, extraversion, stability, IQ and self-efficacy restated (Joseph et al. 2015).</li><li><b>Training</b> raises scores moderately, more on self-report than on ability tests (Mattingly and Kraiger 2019).</li></ul>",
+     "b": "<ul><li><b>Ability EI</b> (Mayer-Salovey, MSCEIT): a test with right answers. Distinct from personality; predicts performance positively in emotionally demanding jobs and negatively in jobs with little emotional labor (Joseph and Newman 2010).</li><li><b>Trait EI</b> (Petrides, TEIQue) and <b>mixed EI</b> (Goleman, Bar-On's EQ-i): self-report. Its predictive power is mostly conscientiousness, extraversion, stability, IQ, self-efficacy and self-rated performance restated; controlling for them leaves almost nothing (Joseph et al. 2015).</li><li><b>Training</b> raises scores moderately on both ability and mixed measures; published studies report bigger effects than unpublished ones (Mattingly and Kraiger 2019).</li></ul>",
      "c": []
     },
     {
@@ -91,7 +91,7 @@
     },
     {
      "q": "A workshop raised everyone's EQ self-scores. Why is that weak evidence?",
-     "a": "Self-report gains partly reflect expectation and demand effects; ability tests show smaller gains."
+     "a": "Self-ratings right after training partly reflect expectation and demand effects; judge by behavior or outcomes instead."
     }
    ]
   },
@@ -134,7 +134,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<p>Gross's process model orders strategies by timing: pick the situation, modify it, shift attention, reappraise, then suppress the response. Earlier is cheaper.</p><p>Habitual reappraisers report more positive emotion and better relationships (Gross and John 2003). Suppression impairs memory of the conversation (Richards and Gross 2000) and raises partners' blood pressure (Butler et al. 2003). Meta-analysis: reappraisal has a small-to-medium effect; suppression changes expression, not feeling (Webb, Miles and Sheeran 2012).</p>",
+     "b": "<p>Gross's process model orders strategies by timing: pick the situation, modify it, shift attention, reappraise, then suppress the response. Earlier is cheaper.</p><p>Habitual reappraisers report more positive emotion and better relationships (Gross and John 2003). Suppression impairs memory for what was said during the emotional event (Richards and Gross 2000) and raises partners' blood pressure (Butler et al. 2003). Meta-analysis: reappraisal has a small-to-medium effect; suppression changes expression, not feeling (Webb, Miles and Sheeran 2012).</p>",
      "c": []
     },
     {
@@ -166,12 +166,12 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>Early signal</b>: tight jaw, fast speech, heat. People's sense of their body awareness often isn't accurate (Garfinkel et al. 2015), so treat it as a cue to pause, not as evidence.</li><li><b>Cyclic sighing</b>, 5 minutes a day, improved mood more than mindfulness in a 108-person trial (Balban et al. 2023).</li><li><b>Self-distancing</b>: self-talk in your own name reduced distress and improved performance (Kross et al. 2014).</li><li><b>If-then plans</b> have medium-to-large effects on goal attainment (Gollwitzer and Sheeran 2006).</li></ul>",
+     "b": "<ul><li><b>Early signal</b>: tight jaw, fast speech, heat. People's sense of their body awareness often isn't accurate (Garfinkel et al. 2015), so treat it as a cue to pause, not as evidence.</li><li><b>Breathwork</b>, 5 minutes a day, improved mood more than mindfulness in a 108-person trial, with cyclic sighing best (Balban et al. 2023).</li><li><b>Self-distancing</b>: self-talk in your own name reduced distress and improved performance (Kross et al. 2014).</li><li><b>If-then plans</b> have medium-to-large effects on goal attainment (Gollwitzer and Sheeran 2006).</li></ul>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Planning around a willpower tank. Large preregistered replications failed to find ego depletion (Hagger et al. 2016).</div><div class=\"trap\"><b>Trap:</b> \"I'm excited\" reframing: one replication raised felt excitement but not rated performance (Poynter and Pasqualini 2025).</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Planning around a willpower tank. Large preregistered replications failed to find ego depletion (Hagger et al. 2016).</div><div class=\"trap\"><b>Trap:</b> \"I'm excited\" reframing (Brooks 2014): a replication raised felt excitement but not rated performance (Poynter and Pasqualini 2025).</div>",
      "c": []
     },
     {
@@ -252,7 +252,7 @@
    "cards": [
     {
      "q": "Which listening component do people detect when it's missing from a paraphrase?",
-     "a": "Goodwill or genuine attention; formulaic paraphrase without it backfires."
+     "a": "Genuine attention (goodwill); without it the paraphrase reads as formula."
     },
     {
      "q": "A stakeholder keeps repeating the same complaint. What does that usually signal?",
@@ -331,7 +331,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li><b>De-escalate</b>: slow down, loop their concern, find the interest behind the position (Fisher and Ury), reframe as a shared problem, move heated threads to a live call.</li><li><b>Emotions are information</b> (Van Kleef's EASI model): counterparts concede more to anger they read as signaling limits, but anger at the person costs liking and future deals.</li><li><b>Anxiety costs money</b>: anxious negotiators open low, exit early and earn less (Brooks and Schweitzer 2011).</li></ul>",
+     "b": "<ul><li><b>De-escalate</b>: slow down, loop their concern, find the interest behind the position (Fisher and Ury), reframe as a shared problem, move heated threads to a live call.</li><li><b>Emotions are information</b> (Van Kleef's EASI model): counterparts concede more to anger they read as signaling limits, but it works less on higher-power counterparts, and anger at the person costs liking and future deals.</li><li><b>Anxiety costs money</b>: anxious negotiators open low, exit early and earn less (Brooks and Schweitzer 2011).</li></ul>",
      "c": []
     },
     {
@@ -428,11 +428,11 @@
   {
    "n": "Psychological safety",
    "g": "teams",
-   "s": "A team's shared belief that it is safe to take interpersonal risks is the best-supported driver of team learning and performance, but only paired with high standards.",
+   "s": "A team's shared belief that it is safe to take interpersonal risks is the best-supported team-level predictor of learning and performance; Edmondson pairs it with high standards.",
    "x": [
     {
      "t": "Model",
-     "b": "<p>Edmondson (1999): safety predicted learning behavior (asking for help, admitting errors), which predicted performance. Frazier et al.'s (2017) meta-analysis of 136 samples links it to task performance and learning at the group level. Google's Project Aristotle named it the foundation of team effectiveness (observational, Google-only).</p><p>Safety plus high standards is the learning zone; safety alone is the comfort zone; standards alone is the anxiety zone.</p>",
+     "b": "<p>Edmondson (1999): safety predicted learning behavior (asking for help, admitting errors), which predicted performance. Frazier et al.'s (2017) meta-analysis of 136 samples links it to task performance and learning at the group level. Google's Project Aristotle named it the foundation of team effectiveness (observational, Google-only).</p><p>Edmondson's framework (a lens, not a tested result): safety plus high standards is the learning zone; safety alone, the comfort zone; standards alone, the anxiety zone.</p>",
      "c": []
     },
     {
@@ -452,7 +452,7 @@
      "a": "Learning behavior: asking for help, admitting errors, seeking feedback."
     },
     {
-     "q": "A team is friendly, never disagrees and misses targets. Which zone is it in?",
+     "q": "People speak up freely, but missed targets carry no consequence. Which of Edmondson's zones is this?",
      "a": "The comfort zone: safety without high standards."
     }
    ]
@@ -464,12 +464,12 @@
    "x": [
     {
      "t": "Model",
-     "b": "<p>Lencioni's ladder maps onto Aristotle's dynamics: trust to psychological safety, constructive conflict to candor, commitment to structure and clarity, accountability to dependability, results to impact. The model comes from a business fable. In a 40-team student study, only inattention to results correlated significantly with performance (Soares et al. 2026).</p><p>Durable residue: commitment needs debate first; accountability is peer to peer; a leader's first team is their peers.</p>",
+     "b": "<p>Lencioni's ladder maps onto Aristotle's dynamics: trust and constructive conflict to psychological safety, commitment to structure and clarity, accountability to dependability, results to impact; Aristotle's meaning has no rung. The model comes from a business fable. In a 40-team student study, only inattention to results correlated significantly with performance (Soares et al. 2026).</p><p>Durable residue: commitment needs debate first; accountability is peer to peer; a leader's first team is their peers.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Fixing \"trust\" with offsites while results are unclear. Clarity on shared results is the better-supported lever.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Fixing \"trust\" with offsites while shared results are unclear. In the one quantitative test (a small student study), results was the only rung tied to performance.</div>",
      "c": []
     },
     {
@@ -610,18 +610,6 @@
   {
    "title": "Yeager et al. (2014), Breaking the cycle of mistrust: wise interventions to provide critical feedback",
    "url": "https://sparq.stanford.edu/sites/g/files/sbiybj19021/files/media/file/yeager_et_al._2014_-_breaking_the_cycle_of_mistrust.pdf"
-  },
-  {
-   "title": "Soares, Lima and Ferrão (2026), Team dysfunctions and performance in capstone projects (arXiv)",
-   "url": "https://arxiv.org/pdf/2608.24634"
-  },
-  {
-   "title": "Frazier et al. (2017), Psychological safety: a meta-analytic review",
-   "url": "https://onlinelibrary.wiley.com/doi/10.1111/peps.12183"
-  },
-  {
-   "title": "The Table Group, The Five Dysfunctions of a Team summary",
-   "url": "https://files.tablegroup.com/wp-content/uploads/2020/12/11224029/FiveDysfunctions.pdf"
   },
   {
    "title": "Soares, Lima and Ferrão (2026), Team dysfunctions and performance in capstone projects (arXiv)",
