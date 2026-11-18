@@ -35,11 +35,15 @@ About 26 minutes on a laptop CPU for every topic; only changed topics are re-rec
 ## Layout
 - `topics/topic-<id>.json`: one file per built tab. Schema and writing rules are in `FORMAT.md`.
 - `build/template.html`: the page. `CONFIG` holds categories, planned-topic placeholders and spaced-repetition settings. On claude.ai it syncs progress through the artifact's private per-user storage; elsewhere it falls back to browser storage.
-- `build/build.py`: inlines the topics into the template. `build/merge_agentic.py` and `build/merge_em.py` rebuild those two topics from `drafts/`.
+- `build/build.py`: inlines the topics into the template. `build/merge_em.py` rebuilds the medicine topic from `drafts/`.
+- `build/limits.json`: the compact standard's limits (250 words and up to 4 written cards per concept, a 150-concept cap, per-topic targets), enforced by the tests for every rewritten topic.
 - `drafts/`: partial or retired content. `verification/`: independent dose-check reports for the medicine tab.
 
+## Study plan
+Two new concepts a day, one work topic and one operator/human topic, at 3 cards each (2 written plus the summary card). With FSRS-style scheduling at 90% retention that settles near 60 reviews, about 8 minutes, a day. The 124 compact concepts take about two months for a first pass. New material must pass the admission test in `FORMAT.md`; at the 150-concept cap, something of lower value leaves.
+
 ## Adding a topic
-1. Write `topics/topic-<id>.json` following `FORMAT.md`.
+1. Write `topics/topic-<id>.json` following `FORMAT.md` (compact standard), and add it to `build/limits.json`.
 2. Add the id to `ORDER` in `build/build.py`, put it in a category in `CONFIG.categories`, and remove its placeholder.
 3. `python3 build/build.py`, then commit the topic and `web/` together.
 
