@@ -47,7 +47,7 @@
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Pricing between rungs: about $1k-5k a year is too costly for zero-touch trust and too cheap to pay a salesperson. Janz found rabbits less straightforward to hunt than flies or elephants.</div><div class=\"trap\"><b>Trap:</b> B2B vs B2C as the main split. A $15 widget and a $9-a-month SMB tool share a motion; a $200k hospital deal shares little with either.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> The rabbit rung (about $1k a year per customer) is too costly for zero-touch trust and too cheap to pay a salesperson; Janz found rabbits less straightforward to hunt than flies or elephants.</div><div class=\"trap\"><b>Trap:</b> B2B vs B2C as the main split. A $15 widget and a $9-a-month SMB tool share a motion; a $200k hospital deal shares little with either.</div>",
      "c": []
     },
     {
@@ -59,7 +59,7 @@
    "cards": [
     {
      "q": "A product priced at $2,500 a year struggles with both ads and sales reps. Why?",
-     "a": "It sits between rungs: too expensive for self-serve trust, too cheap to fund a salesperson per deal."
+     "a": "It is on Janz's rabbit rung: too expensive for self-serve trust, too cheap to fund a salesperson per deal."
     },
     {
      "q": "In Janz's ladder, how many $10k-a-year customers make $100M?",
@@ -74,7 +74,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<p>Geoffrey Moore (<i>Crossing the Chasm</i>): early adopters buy the vision; the mainstream buys references. Dominate one niche, then use it to topple adjacent ones (the bowling pin).</p><p>A good beachhead: urgent, costly pain; buyers you can name and reach; buyers who talk to each other; a whole product you can deliver alone.</p>",
+     "b": "<p>Geoffrey Moore (<i>Crossing the Chasm</i>): early adopters buy the vision; the mainstream buys references. Dominate one niche, then use it to topple adjacent ones (the bowling pin).</p><p>A good beachhead: urgent, costly pain; buyers you can name and reach; buyers who talk to each other; a whole product you can deliver, with partners if needed.</p>",
      "c": []
     },
     {
@@ -175,7 +175,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ship narrow to one community; measure day 1, 7 and 30 retention by cohort.</li><li>Fix retention before buying traffic; a flattening curve means a core stays.</li><li>Build a loop: invites, sharing, content that ranks.</li><li>Monetize to fit the use: subscriptions for utility, purchases or ads for games.</li><li>Buy installs only when revenue per user beats cost per install.</li></ol><p>Freemium converts in the low single digits; trials convert higher.</p>",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ship narrow to one community; measure day 1, 7 and 30 retention by cohort.</li><li>Fix retention before buying traffic; a flattening curve means a core stays.</li><li>Build a loop: invites, sharing, content that ranks; a viral coefficient above 1 means growth sustains itself.</li><li>Monetize to fit the use: subscriptions for utility, purchases or ads for games.</li><li>Buy installs only when revenue per user beats cost per install.</li></ol><p>Freemium converts in the low single digits; trials convert higher.</p>",
      "c": []
     },
     {
@@ -323,8 +323,8 @@
      "a": "A business associate agreement (BAA) for handling PHI."
     },
     {
-     "q": "What is the fastest legitimate route into federal buying for a small vendor?",
-     "a": "Subcontracting through a prime or using an existing contract vehicle, or a non-dilutive SBIR/STTR award."
+     "q": "Name two routes into federal buying for a small vendor.",
+     "a": "Subcontract through a prime contractor, or sell through an existing contract vehicle; SBIR/STTR awards are a third, non-dilutive route."
     }
    ]
   },
