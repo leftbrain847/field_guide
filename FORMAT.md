@@ -11,7 +11,7 @@ The reader studies 2 concepts a day. Retrieval practice and spacing do the teach
 4. `Ask` (optional): one design-review question.
 The summary `s` is the rule, one sentence.
 
-**Cards: 3 by default** (1-5 allowed): one rule/why card, one application or discrimination card (a scenario: which pattern applies?), one trap card. Up to 5 only for numeric concepts. No "list the five X" cards; ask which item explains a scenario instead. Questions focused and effortful, never yes/no.
+**Cards: 3 per concept by default.** The page already adds a rule card from the summary (`CONFIG.autoCardFromSummary`), so write 2: one application or discrimination card (a scenario: which pattern applies?) and one trap card. Write up to 4 only for numeric concepts, and as few as 1 for a small residue concept. No "list the five X" cards; ask which item explains a scenario instead. Questions focused and effortful, never yes/no.
 
 **Every tab opens with a map concept** in group `map`: the 1-3 organizing schemas of the topic. Every other concept fits under one of them.
 
