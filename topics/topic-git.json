@@ -231,7 +231,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>Small PRs get faster, better review; stack dependent changes instead of one giant PR.</li><li>CODEOWNERS auto-requests owners by path; rulesets can require their approval.</li><li>A <b>merge queue</b> tests each PR combined with those ahead of it before merging. Workflows must run on merge_group or required checks never report.</li><li>Commit messages: a summary line plus why; trailers (Co-authored-by) record people and agents.</li></ul>",
+     "b": "<ul><li>Small PRs get faster, better review; stack dependent changes instead of one giant PR.</li><li>CODEOWNERS auto-requests owners by path; rulesets can require their approval.</li><li>A <b>merge queue</b> tests each PR combined with those ahead of it before merging. Workflows must run on merge_group or required checks never report.</li><li>Commit messages: a summary line plus why; trailers (Co-authored-by) record people and agents.</li><li>Stacks: git rebase --update-refs moves every branch in a chain at once.</li><li>Conventional Commits (feat:, fix:) make messages machine-readable for changelogs and versions.</li></ul>",
      "c": []
     },
     {
@@ -423,7 +423,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<ul><li>.gitignore for generated files and local config; .gitattributes for line endings, diff and merge drivers.</li><li>Large or binary files bloat every clone forever; use Git LFS or object storage.</li><li>Monorepo: atomic cross-project changes, one toolchain, needs path-based CI. Many repos: clear ownership, harder cross-cutting changes. Submodules pin another repo's commit and confuse most users.</li><li>Hooks automate local checks; CI enforces them for real.</li></ul>",
+     "b": "<ul><li>.gitignore for generated files and local config; .gitattributes for line endings, diff and merge drivers.</li><li>Large or binary files bloat every clone forever; use Git LFS or object storage.</li><li>Monorepo: atomic cross-project changes, one toolchain, needs path-based CI. Many repos: clear ownership, harder cross-cutting changes. Submodules pin another repo's commit and confuse most users.</li><li>Hooks automate local checks; CI enforces them for real.</li><li>Sparse checkout and partial clone keep huge monorepos workable on a laptop.</li></ul>",
      "c": []
     },
     {
@@ -445,6 +445,70 @@
     {
      "q": "When does a monorepo pay off?",
      "a": "When changes routinely span projects and you can run path-based CI."
+    }
+   ]
+  },
+  {
+   "n": "Git in Fabric and Databricks",
+   "g": "pipeline",
+   "s": "Treat Fabric and Databricks workspaces as checkouts of a Git branch, promote through PRs and deployment tooling, and keep query output and PHI out of commits.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Fabric</b>: Git integration works per workspace, syncing supported items with cloud-hosted Azure DevOps or GitHub (including Enterprise Cloud); GitLab and self-hosted servers aren't supported. Unsupported item types are ignored. Branch out gives a developer a workspace for a feature branch.</li><li><b>Power BI</b>: PBIP projects with TMDL give readable text diffs; PBIX files don't.</li><li><b>Databricks</b>: Git folders clone repos into the workspace; bundles (Declarative Automation Bundles) deploy jobs and pipelines from CI; Databricks Connect runs local IDE code on remote compute; Terraform manages account and workspace infrastructure.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Committing .ipynb output (local Jupyter, or a Databricks admin allowing output commits): query results, possibly PHI, land in history. Strip outputs in a pre-commit hook and CI.</div><div class=\"trap\"><b>Trap:</b> Editing production workspaces directly: they drift from main.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A developer branches out a Fabric workspace, edits a semantic model as TMDL and opens a PR; after merge the Dev workspace updates from main and a deployment pipeline promotes it to Test and Prod.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "A team wants to connect its Fabric workspace to GitLab. What do you tell them?",
+     "a": "Not supported: Fabric connects only to cloud-hosted Azure DevOps or GitHub."
+    },
+    {
+     "q": "Why store Power BI models as PBIP/TMDL instead of PBIX?",
+     "a": "TMDL is text, so reviewers get readable diffs in PRs."
+    }
+   ]
+  },
+  {
+   "n": "Azure DevOps next to GitHub",
+   "g": "pipeline",
+   "s": "Microsoft shops often run Azure DevOps; most of its repo and pipeline concepts have close GitHub equivalents, and migration is about pipelines and identities more than code.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Branch policies map to rulesets; build validation to required status checks.</li><li>Pipeline templates map to reusable workflows or composite actions.</li><li>Variable groups and Key Vault links map to environment secrets or OIDC to Azure.</li><li>Service connections map to OIDC federated credentials on an Entra app registration.</li><li>Environments with approvals map to GitHub environments with required reviewers.</li><li>Work items stay in Boards, linked with AB#123 once the Azure Boards app is connected.</li><li>GitHub Enterprise Importer moves history, PRs and branch policies; Actions Importer drafts workflows; secrets, service connections and permissions are manual.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Migrating repos and forgetting pipeline identities: each Azure service connection needs a federated credential, whose subject must match the token's exactly, before the first deploy from GitHub.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>An ADO build-validation policy on main becomes a ruleset requiring the \"test\" check on GitHub; the deploy service connection becomes OIDC to an Entra app.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is the GitHub equivalent of an Azure DevOps branch policy with build validation?",
+     "a": "A ruleset that requires a pull request and a status check."
+    },
+    {
+     "q": "What must you rebuild by hand before the first GitHub deploy to Azure?",
+     "a": "The deploy identity: each service connection becomes an OIDC federated credential; Actions Importer doesn't migrate it."
     }
    ]
   },
@@ -601,6 +665,10 @@
   {
    "title": "Databricks Git folders (Databricks Docs)",
    "url": "https://docs.databricks.com/aws/en/repos/"
+  },
+  {
+   "title": "Microsoft Learn: Get started with Fabric Git integration",
+   "url": "https://learn.microsoft.com/en-us/fabric/cicd/git-integration/git-get-started"
   }
  ]
 }
