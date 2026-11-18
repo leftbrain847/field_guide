@@ -239,11 +239,11 @@ body.has-lbar{padding-bottom:130px}
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
-    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked; Full notes use your device's voice.</p>
+    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked. Full notes use your device's voice, which the Claude app may keep silent.</p>
     <div class="lopts">
       <div class="seg" role="group" aria-label="What to read">
         <button type="button" id="lSummary" aria-pressed="false">Summaries</button>
-        <button type="button" id="lFull" aria-pressed="false">Full notes</button>
+        <button type="button" id="lFull" aria-pressed="false">Full notes (device voice)</button>
       </div>
       <button type="button" id="lAll">All</button>
       <button type="button" id="lNone">None</button>
@@ -480,7 +480,8 @@ const CONFIG = {
   listen: {                    // Listen mode: the device's own English voice reads the selected concepts
     speeds: [0.8, 1, 1.2, 1.4, 1.6, 1.8, 2], defaultSpeed: 1,
     repeatCounts: [1, 2, 3],   // repeat button: each concept plays once (off), x2, x3
-    defaultContent: "full",    // "summary" = name + one-line summary; "full" = every section too
+    defaultContent: "summary", // "summary" = recorded name + summary (plays everywhere); "full" = every section, device voice only
+    prefsVersion: 2,           // raise to reset saved content to defaultContent once (2: recordings became the default)
     chunkChars: 220,           // longest single utterance (long ones get cut off on some browsers)
     gapMs: 900,                // pause between concepts at 1x
     prevGraceMs: 2500,         // previous within this long of an item's start goes to the item before
@@ -865,14 +866,14 @@ const lp = (() => {
   return {
     sel: new Set(Array.isArray(raw.sel) ? raw.sel.filter(k => valid.has(k)) : []),
     fresh: !Array.isArray(raw.sel),
-    content: raw.content === "summary" || raw.content === "full" ? raw.content : LC.defaultContent,
+    content: raw.v === LC.prefsVersion && (raw.content === "summary" || raw.content === "full") ? raw.content : LC.defaultContent,
     repeat: LC.repeatCounts.includes(raw.repeat) ? raw.repeat : 1,
     speed: Listen.clampSpeed(LC.speeds, raw.speed, LC.defaultSpeed),
     voice: typeof raw.voice === "string" ? raw.voice : ""
   };
 })();
 function saveListen(){
-  try { localStorage.setItem(LC.storageKey, JSON.stringify({ sel: [...lp.sel], content: lp.content, repeat: lp.repeat, speed: lp.speed, voice: lp.voice })); } catch (e) {}
+  try { localStorage.setItem(LC.storageKey, JSON.stringify({ v: LC.prefsVersion, sel: [...lp.sel], content: lp.content, repeat: lp.repeat, speed: lp.speed, voice: lp.voice })); } catch (e) {}
 }
 const $ = id => document.getElementById(id);
 let lq = [], li = 0, lpart = 0, lplaying = false, lstarted = 0, lgen = 0, ltimer = null, lnowOpen = false;
