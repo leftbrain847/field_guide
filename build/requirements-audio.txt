@@ -1,0 +1,2 @@
+# Build time only (build/audio.py). The page never runs any of this.
+kokoro-onnx==0.6.1

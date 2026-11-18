@@ -63,3 +63,16 @@ def test_committed_page_is_current():
     spec.loader.exec_module(build)
     assert (ROOT / "web" / "mastery_field_guide.html").read_text() == build.render(), \
         "page is stale: run python build/build.py and commit web/"
+
+
+def test_recorded_audio_is_well_formed():
+    """Each recorded topic has its MP3 and one mark per concept, in order (build/audio.py)."""
+    for meta in sorted((ROOT / "audio" / "summary").glob("*.json")):
+        m = json.loads(meta.read_text())
+        assert (ROOT / m["file"]).exists(), m["file"]
+        t = json.loads((ROOT / "topics" / f"topic-{meta.stem}.json").read_text())
+        assert len(m["marks"]) == len(t["concepts"]), f"{meta.stem}: re-record with python build/audio.py"
+        prev = 0
+        for k in m["marks"]:
+            assert prev <= k["start"] < k["end"], (meta.stem, k)
+            prev = k["end"]

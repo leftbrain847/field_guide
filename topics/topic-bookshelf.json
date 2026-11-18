@@ -3,7 +3,7 @@
  "title": "Founder's bookshelf",
  "updated": "2026-11-17",
  "refreshDays": 365,
- "note": "The best ideas of four books, merged by theme, each credited to its author: Ready, Fire, Aim (Michael Masterson), The Effective Executive (Peter F. Drucker), The Ideal Team Player (Patrick Lencioni) and Scaling People (Claire Hughes Johnson). Paraphrased from reviews and summaries, never the books' text. Refresh yearly to add titles.",
+ "note": "Four books distilled by theme, each idea credited: Ready, Fire, Aim (Michael Masterson), The Effective Executive (Peter F. Drucker), The Ideal Team Player (Patrick Lencioni), Scaling People (Claire Hughes Johnson). Built from the chapter summaries listed below, not the books' text; stories and outside commentary left out.",
  "groups": [
   {
    "key": "grow",
@@ -11,527 +11,814 @@
   },
   {
    "key": "focus",
-   "label": "Focus and decide"
+   "label": "Personal effectiveness"
+  },
+  {
+   "key": "company",
+   "label": "Run the company"
   },
   {
    "key": "people",
-   "label": "Hire and lead people"
+   "label": "People"
   }
  ],
  "concepts": [
   {
+   "n": "The four stages",
+   "g": "grow",
+   "s": "Masterson: every business passes four revenue stages, each with its own problem, challenge and opportunity, and you only need the skills of the stage you are in.",
+   "x": [
+    {
+     "t": "The stages",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Infancy, $0–1M (1–8 people):</b> problem: you don't know what you're doing. Challenge: the first profitable sale. Opportunity: a critical mass of customers.</li><li><b>Fast growth, $1–10M (9–50):</b> problem: breaking even or losing money. Challenge: more profitable products. Opportunity: profit through constant innovation.</li><li><b>Adolescence, $10–50M (51–350):</b> problem: systems break and customers notice. Challenge: chaos to order. Opportunity: protocols and systems that work.</li><li><b>Maturity, $50M+ (350+):</b> problem: sales slow or plateau. Challenge: become entrepreneurial again. Opportunity: a business that runs itself.</li></ol>"
+    },
+    {
+     "t": "Skills stack",
+     "b": "<ul><li>Stage 1: get going and sell.</li><li>Stage 2: + create new products.</li><li>Stage 3: + manage well.</li><li>Stage 4: + hire superstars.</li><li>No natural talent needed: know which problem to work on now.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Masterson's four stages and revenue bands?",
+     "a": "Infancy $0–1M, fast growth $1–10M, adolescence $10–50M, maturity $50M+."
+    },
+    {
+     "q": "Stage 2's challenge?",
+     "a": "Create more profitable products."
+    },
+    {
+     "q": "Stage 3's problem?",
+     "a": "Systems strain and customers notice; turn chaos into order."
+    },
+    {
+     "q": "Stage 4's challenge?",
+     "a": "Become entrepreneurial again as growth plateaus."
+    }
+   ]
+  },
+  {
+   "n": "Stage 1: the first profitable sale",
+   "g": "grow",
+   "s": "Masterson: in infancy selling is everything, so spend 80% of your time finding an Optimal Selling Strategy and defer everything else.",
+   "x": [
+    {
+     "t": "Optimal Selling Strategy",
+     "b": "<p>The best way to acquire customers: usually your competitors' mix of media, price and positioning plus one unique element. Answer four questions:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Where are the customers?</b> Copy how established players acquire them. A mediocre ad in the best place beats a brilliant one nobody sees.</li><li><b>What product first?</b> Something that already sells, or a better me-too of what is hot. Don't expect the market to change for you.</li><li><b>What price?</b> About the competitor's. Undercutting signals inferiority; raise prices later; make money on the back end.</li><li><b>How to persuade?</b> Test 2–3 copy versions, 2–3 prices, 2 platforms. Hire an experienced copywriter.</li></ol>"
+    },
+    {
+     "t": "Build the pitch",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>List features, then every benefit.</li><li>Tie a benefit to a rising trend.</li><li>Write several USPs; test them on prospects.</li><li>Turn the best USP into a Big Idea with a Big Promise and proof for each claim.</li><li>Test two or more ads, roll out the winner, repeat.</li></ol>"
+    },
+    {
+     "t": "The other 20%",
+     "b": "<ul><li>Defer logos, brochures, offices, hiring and paperwork.</li><li>Get a mentor; keep a small team of generalists who think like marketers.</li><li>Write revenue and profit targets and share them.</li><li>Direct marketing only: watch what people buy, not what they say in surveys.</li><li>Listen to people who have done it, not consultants.</li><li>Critical mass: know what a customer is worth over their lifetime, spend up to that to acquire them, and use a cheap lead product.</li></ul><div class=\"trap\"><b>Trap:</b> Thinking you know more than the market. Test before you commit.</div>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Share of founder time on selling in stage 1?",
+     "a": "80%."
+    },
+    {
+     "q": "Masterson's four OSS questions?",
+     "a": "Where are the customers, what product first, what price, how to persuade."
+    },
+    {
+     "q": "How should a stage-1 product be priced?",
+     "a": "About what competitors charge; undercutting signals an inferior product."
+    },
+    {
+     "q": "Why direct marketing over surveys?",
+     "a": "It shows what people do, not what they say."
+    }
+   ]
+  },
+  {
+   "n": "Stage 2: innovate at speed",
+   "g": "grow",
+   "s": "Masterson: past $1M, escape the one-product trap by launching many profitable variations quickly; growth is innovation times speed squared.",
+   "x": [
+    {
+     "t": "The idea",
+     "b": "<ul><li>Most stage-1 firms live on one product; a one-shot company stalls.</li><li>Grow the <b>front end</b> (new customers) and the <b>back end</b> (more products for existing customers) at once.</li><li>Innovate by variation: improve what sells or out-do the hottest product; ride fast-growing trends. Breakthroughs are not required.</li><li>Rule of thumb: 80% of stage-2 growth = Innovation × Speed².</li></ul>"
+    },
+    {
+     "t": "Idea tools",
+     "b": "<ul><li><b>One step removed:</b> build on what you already do well.</li><li><b>Product cube:</b> price (cheap, moderate, expensive) × service (self-help, assisted, managed) × type (product, service, add-on).</li><li>A rotating executive brainstorming team; beta-test with existing customers; fail faster.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Masterson's stage-2 growth formula?",
+     "a": "80% of growth = Innovation × Speed²."
+    },
+    {
+     "q": "Front end vs back end?",
+     "a": "Front: selling to new customers. Back: more products to existing ones."
+    },
+    {
+     "q": "What are the three axes of the product cube?",
+     "a": "Price, service level, and type (product, service, add-on)."
+    }
+   ]
+  },
+  {
    "n": "Ready, fire, aim",
    "g": "grow",
-   "s": "Launch an imperfect product to paying customers fast, then refine it from what they do.",
+   "s": "Masterson: answer seven questions, launch within days, then improve what sells; perfectionism kills more ideas than speed.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Masterson:</b> <b>ready</b>: just enough preparation to deliver; <b>fire</b>: sell before it's polished; <b>aim</b>: improve from real customer response.</li><li><b>Masterson:</b> speed is a weapon: ship new products before rivals can copy or substitute.</li></ul>"
+     "t": "Ready: seven questions",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Is it a good idea?</li><li>Does my gut say it will work?</li><li>Are targets realistic, and does it still pay at double the cost and half the sales?</li><li>Can we afford a small test?</li><li>Is it within our capabilities?</li><li>Do we have the people: a champion, sellers, fulfilment?</li><li>Is there a Plan B with a written stop-loss?</li></ol><p>Write it as a 1–4 page proposal in under 24 hours: rough numbers, critical tasks, champion and team, timeline, Plan B. Brevity is the soul of velocity.</p>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Set the launch date before it feels finished.</li><li>Treat first sales as the test; fix what buyers complain about, ignore what only you care about.</li></ul>"
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Reading it as \"skip preparation.\" It cuts excess planning, not the minimum readiness to deliver.</div><div class=\"trap\"><b>Trap:</b> Using it where a failed launch is costly or irreversible: regulated or safety-critical products.</div><div class=\"synth\"><b>Synthesis:</b> Same instinct as the lean-startup minimum viable product; it works best where a launch is cheap to run and to undo.</div>"
+     "t": "Fire and aim",
+     "b": "<ul><li><b>Fire:</b> start while enthusiastic; launch imperfect; don't let chores or perfectionism stall it.</li><li>Speed raises quality: less money goes into features customers don't care about, more into aim.</li><li><b>Aim:</b> drop what doesn't sell; improve in small steps, not relaunches; offer past buyers an upgrade; then fine-tune the marketing.</li></ul><div class=\"trap\"><b>Trap:</b> Fire-at-will: launching without the seven ready questions.</div>"
     }
    ],
    "cards": [
     {
-     "q": "What do \"fire\" and \"aim\" mean in Masterson's rule?",
-     "a": "Fire: sell before the product is polished. Aim: refine it from real customer response."
+     "q": "What test must a Masterson project pass on numbers?",
+     "a": "It still makes money at double the costs and half the sales."
     },
     {
-     "q": "Does ready, fire, aim mean skipping preparation?",
-     "a": "No. It cuts excess planning, not the minimum readiness to deliver."
+     "q": "How long and how big is a ready-fire-aim proposal?",
+     "a": "Under 24 hours to write, 1–4 pages."
     },
     {
-     "q": "Where is ready, fire, aim a poor fit?",
-     "a": "Where a failed launch is costly or hard to undo, such as regulated or safety-critical products."
+     "q": "Why does speed improve quality, per Masterson?",
+     "a": "Less money goes into features customers don't value, leaving more to improve what sells."
+    },
+    {
+     "q": "What must every launch have before firing?",
+     "a": "A champion and a Plan B with a written stop-loss."
     }
    ]
   },
   {
-   "n": "The four stages of growth",
+   "n": "Three ways to grow revenue",
    "g": "grow",
-   "s": "Each revenue stage has one main problem and needs a different founder, so solve the current stage's problem, not the next one's.",
+   "s": "Masterson: you can only sell to more people, sell more to the people you have, or charge more, so organize marketing around all three.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<p><b>Masterson:</b> rough bands as summaries give them (names vary: infancy, childhood, adolescence, adulthood):</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>About $0 to $1M:</b> get the first profitable sale. Skill: selling.</li><li><b>About $1M to $10M:</b> launch many profitable products fast.</li><li><b>About $10M to $50M:</b> build systems, structure, real middle management.</li><li><b>About $50M+:</b> sustain growth as the company matures (summaries disagree on details).</li></ol>"
+     "t": "The three ways",
+     "b": "<ul><li><b>More people:</b> new lead products and niches; best marketers on the front end.</li><li><b>More per customer:</b> a second team on the back end.</li><li><b>Higher price:</b> premium positioning.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Name your stage, then its one main problem.</li><li>Change your own role at each boundary.</li><li>Don't install later-stage systems before a reliable first sale.</li></ul>"
+     "t": "Back end",
+     "b": "<ul><li>Find the big spenders: 20% of customers make 80% of profit.</li><li>Make the add-on offer right after the first purchase, while the buying frenzy lasts.</li><li>Appeal to desires, not needs; make repeat purchases automatic (bill till forbid); treat the best customers as VIPs; never leave a dead end.</li></ul>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Treating the dollar bands as precise; they are rough markers.</div><div class=\"synth\"><b>Synthesis:</b> Fits fast-cash product businesses best. A venture-funded company can skip ahead on investor money, so use it as an order of problems, not a revenue rule.</div>"
+     "t": "Marketing rules",
+     "b": "<ul><li>Customers care about themselves, not you; learn why they buy and what they fear and want.</li><li>A USP for every product and an identity for every line.</li><li>Big Idea + Big Benefit + Big Promise + proof.</li><li>Track every initiative separately; learn from complaints.</li><li>Give before you ask; pre-qualify; never push or bribe; sell with confidence and real value.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "Main problem of Masterson's first stage?",
-     "a": "Getting the first profitable sale; the skill is selling."
+     "q": "Masterson's three ways to grow revenue?",
+     "a": "Sell to more people, sell more to existing customers, charge more."
     },
     {
-     "q": "Main problem of stage two (roughly $1M to $10M)?",
-     "a": "Launching several profitable products quickly."
+     "q": "When to make the back-end offer?",
+     "a": "Right after the first purchase."
     },
     {
-     "q": "What does stage three (roughly $10M to $50M) demand?",
-     "a": "Systems, structure and capable middle management."
-    },
-    {
-     "q": "What must the founder change at each stage boundary?",
-     "a": "Their own role and leadership style."
+     "q": "What makes repeat sales automatic?",
+     "a": "Bill till forbid: continuity until the customer cancels."
     }
    ]
   },
   {
-   "n": "Sell first, then build the system",
+   "n": "Stage 3: professionalize",
    "g": "grow",
-   "s": "Until one channel reliably makes profitable sales, selling is the job; add structure only as fast as growth demands.",
+   "s": "Masterson: past $10M the business outgrows you, so hire professionals, build stars and superstars, and stop being the bottleneck.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Masterson:</b> stage one is about selling. Find the Optimal Selling Strategy: the right product, price, channel and way of selling. Get first sales, then sharpen the offer from what worked. One summary puts about 80% of founder time on customer acquisition.</li><li><b>Hughes Johnson:</b> write down goals, principles and an operating rhythm as complexity grows; some of it can wait until you have traction.</li></ul>"
+     "t": "Structure",
+     "b": "<ul><li>CEO over a COO for operations and a manager per product-line profit center; each hires marketing, sales and product-development leads.</li><li>CEO: six or fewer direct reports; most time on marketing and product development.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Log which offer, price and channel produced each sale.</li><li>Cut product work no buyer asked for.</li><li>Add a process only when its absence is costing you now.</li></ul>"
+     "t": "The founder's two changes",
+     "b": "<ul><li>Become a corporate leader: work through others, communicate the vision, network for joint ventures, negotiate.</li><li>Hire and keep stars (do what you ask) and superstars (also create growth); mentor a few very good people into superstars.</li></ul>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Building branding, infrastructure or org charts before the first repeatable sale.</div>"
+     "t": "Management rules",
+     "b": "<ul><li>Don't be the bottleneck: hire great people and get out of their way.</li><li>Add a legal function for compliance.</li><li>Cut procedures that slow you; build efficiency.</li><li>Kill fiefdoms; best idea wins.</li><li>Put almost no limits on product development and marketing.</li><li>The road to $100M: joint ventures and superstars who become intrapreneurs.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "What is Masterson's Optimal Selling Strategy?",
-     "a": "The combination of product, price, channel and selling approach that works."
+     "q": "Star vs superstar?",
+     "a": "A star does what you ask; a superstar also creates growth."
     },
     {
-     "q": "Sales or selling proposition first?",
-     "a": "First sales, then refine the proposition from what worked."
+     "q": "CEO's span and focus in stage 3?",
+     "a": "Six or fewer reports; most time on marketing and product development."
     },
     {
-     "q": "When should you add a process?",
-     "a": "When its absence is costing you now."
+     "q": "Masterson's path to $100M+?",
+     "a": "Joint ventures and superstars turned intrapreneurs."
     }
    ]
   },
   {
-   "n": "Become an idea factory",
+   "n": "Stage 4: let it run itself",
    "g": "grow",
-   "s": "Past the first million, grow by launching many improved products fast, each owned by a champion.",
+   "s": "Masterson: at maturity the founder's best role is wealth builder: step back to adviser, let managers run it, and reinvest the profits.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Masterson:</b> improve existing products rather than invent from scratch; test fast and accept quick failures.</li><li><b>Masterson:</b> every idea needs a champion with belief, authority and experience. No champion, postpone it.</li></ul>"
+     "t": "Pick your role",
+     "b": "<ul><li>Employee: you become a bottleneck.</li><li>Manager: you distract the profit-center heads.</li><li>Business builder: your ideas get harder to apply.</li><li><b>Wealth builder:</b> grow the company's value as an asset. The right role.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Keep a pipeline of product tests, one named owner each.</li><li>Kill tests that don't sell, fast.</li><li>Start hiring the people who will run next stage's systems.</li></ul>"
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"synth\"><b>Synthesis:</b> Stage two (speed, many launches) and stage three (systems, control) pull against each other; the founder's hard job is timing the switch.</div>"
+     "t": "Moves",
+     "b": "<ul><li>Step down as CEO; advise, and accept managers may ignore you. You add value by doing less (Buffett at Berkshire).</li><li>Keep growing through joint ventures and acquisitions; buy only what you know, with a Plan B.</li><li>Selling privately: you'd be bored in six months; keep ownership instead.</li><li>Go public only if there is no other way to fund growth.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "What should the stage-two company become?",
-     "a": "An idea factory launching many profitable products quickly."
+     "q": "Masterson's best role for a stage-4 founder?",
+     "a": "Wealth builder: adviser and investor, not operator."
     },
     {
-     "q": "Invention or improvement in stage two?",
-     "a": "Improvement on existing products."
+     "q": "When does Masterson say to go public?",
+     "a": "Only if there is no other way to fund growth."
     },
     {
-     "q": "What does an idea's champion need?",
-     "a": "Belief in it, authority to execute, experience to steer. No champion: postpone."
+     "q": "Why keep the business rather than sell it?",
+     "a": "You'd likely be bored in six months; stay as owner-adviser."
     }
    ]
   },
   {
-   "n": "Know where your time goes",
+   "n": "Effectiveness can be learned",
    "g": "focus",
-   "s": "Measure your time as it's spent, cut and delegate the waste, and pool what's left into long blocks.",
+   "s": "Drucker: effectiveness, getting the right things done, is a set of five learnable habits, not a personality or talent.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Drucker:</b> <b>record</b> time in real time for three to four weeks, about twice a year; memory misreports it.</li><li><b>Manage:</b> drop what produces nothing, delegate what others can do as well, stop wasting others' time.</li><li><b>Consolidate:</b> knowledge work needs long uninterrupted blocks; scattered minutes produce little.</li></ol>"
+     "t": "Who and why",
+     "b": "<ul><li>An executive is any knowledge worker responsible for a contribution that materially affects results and who must make decisions, managing people or not.</li><li>Intelligence, imagination and knowledge are only resources; effectiveness turns them into results.</li><li>Four realities pull you toward non-results: your time belongs to everyone; you keep operating unless you act; you are effective only if others use your output; results exist only outside the organization.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Run the log now; mark each block keep, delegate or drop.</li><li>Protect one long block a day before meetings refill it.</li></ul>"
+     "t": "The five habits",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Know where your time goes.</li><li>Focus on outward contribution.</li><li>Build on strengths.</li><li>Concentrate on the few areas where superior performance yields outstanding results.</li><li>Make few, fundamental decisions based on dissent.</li></ol>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Reconstructing the week from memory. It flatters you.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Drucker's three time steps?",
-     "a": "Record, manage (cut and delegate), consolidate into large blocks."
-    },
-    {
-     "q": "How long and how often should the time log run?",
-     "a": "Three to four weeks, about twice a year."
-    },
-    {
-     "q": "Why log in real time?",
-     "a": "Memory misreports how time was spent."
-    }
-   ]
-  },
-  {
-   "n": "Contribution over effort",
-   "g": "focus",
-   "s": "Judge your work by what it changes in results outside your own team, never by hours or activity.",
-   "x": [
-    {
-     "t": "The rule",
-     "b": "<ul><li><b>Drucker:</b> an executive is any knowledge worker whose decisions affect results, whatever the title.</li><li><b>Drucker:</b> effectiveness is getting the right things done; efficiency is doing things right.</li><li><b>Drucker:</b> contribute in three areas: direct results, values, and developing people for tomorrow.</li><li><b>Drucker:</b> people grow to the demands they make on themselves.</li></ul>"
-    },
-    {
-     "t": "Do this",
-     "b": "<ul><li>Write one line: what outside result changes if I do my job very well?</li><li>Check goals cover all three areas, not just this quarter's numbers.</li></ul>"
+     "t": "The eight practices",
+     "b": "<p>Drucker's later introduction adds:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ask what needs to be done.</li><li>Ask what is right for the enterprise.</li><li>Write action plans (intentions, revised often).</li><li>Take responsibility for decisions.</li><li>Take responsibility for communicating.</li><li>Focus on opportunities, not problems.</li><li>Run productive meetings.</li><li>Think and say we, not I.</li></ol><p>Plus: listen first, speak last.</p>"
     }
    ],
    "cards": [
     {
      "q": "Drucker's definition of an executive?",
-     "a": "Any knowledge worker whose decisions materially affect results, whatever the title."
+     "a": "A knowledge worker responsible for a contribution that materially affects results, who must make decisions."
     },
     {
-     "q": "Effectiveness vs efficiency?",
-     "a": "Effectiveness: the right things done. Efficiency: doing things right."
+     "q": "Drucker's five habits?",
+     "a": "Know your time, focus on contribution, build on strengths, concentrate, decide effectively."
     },
     {
-     "q": "Drucker's three areas of contribution?",
-     "a": "Direct results, values, and developing people for the future."
+     "q": "Can effectiveness be taught?",
+     "a": "Learned, not taught: it is a self-discipline built by practice."
+    },
+    {
+     "q": "What is the last of the eight practices?",
+     "a": "Think and say we, not I."
     }
    ]
   },
   {
-   "n": "Concentrate: few goals, kill the rest",
+   "n": "Know thy time",
    "g": "focus",
-   "s": "Pick very few priorities, repeat them constantly, and deliberately stop everything else.",
+   "s": "Drucker: start with time, not tasks; record it as it is spent, cut what wastes it, and consolidate the rest into large blocks.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Drucker:</b> first things first, one at a time. Set <i>posteriorities</i> (what you stop or never start); that takes courage more than analysis.</li><li><b>Masterson:</b> kill product tests that don't sell, fast.</li><li><b>Hughes Johnson:</b> the goal framework matters less than few clear goals repeated again and again and reviewed publicly on one predictable cadence. Track input metrics your team controls, not only outputs.</li></ul>"
+     "t": "Three steps",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Record</b> in real time, never from memory: 3–4 weeks, twice a year.</li><li><b>Manage:</b> ask of each item: what if this were not done at all? (cut about a quarter); who else could do it as well or better?; ask others what of yours wastes their time.</li><li><b>Consolidate</b> discretionary time: a quarter of a day in large blocks beats three quarters in fragments. Use fixed meeting days or home mornings, and keep pruning.</li></ol>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Keep a stop-doing list beside the to-do list.</li><li>Drop any project you wouldn't start today.</li><li>Review metrics weekly; hold strategy reviews on a separate calendar.</li></ul>"
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Prioritizing by adding: a ranked list with nothing removed just reorders the overload.</div><div class=\"trap\"><b>Trap:</b> Frequent metrics reviews, rare strategy reviews: strategy shrinks to this week's numbers.</div>"
+     "t": "Four time-wasters",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>No system or foresight:</b> a recurring crisis should be foreseen and made routine.</li><li><b>Overstaffing:</b> seniors spend real time on people friction.</li><li><b>Malorganization:</b> too many meetings; over a quarter of time in meetings is the sign.</li><li><b>Malfunctioning information.</b></li></ol><p>Important work (people decisions, reports, time with knowledge workers) needs large uninterrupted blocks; minutes with people are unproductive.</p>"
     }
    ],
    "cards": [
+    {
+     "q": "Drucker's three time steps?",
+     "a": "Record, manage, consolidate."
+    },
+    {
+     "q": "First diagnostic question for each activity?",
+     "a": "What would happen if this were not done at all?"
+    },
+    {
+     "q": "What do recurring crises signal?",
+     "a": "Lack of system or foresight."
+    },
+    {
+     "q": "How much of the time log can usually go?",
+     "a": "About a quarter."
+    }
+   ]
+  },
+  {
+   "n": "What can I contribute?",
+   "g": "focus",
+   "s": "Drucker: ask what you can contribute that significantly changes the organization's results, and judge yourself by output, not effort or authority.",
+   "x": [
+    {
+     "t": "The idea",
+     "b": "<ul><li>Whoever takes responsibility for results is top management, whatever the rank.</li><li>Three performance areas, all required: direct results; building and reaffirming values; developing people for tomorrow.</li><li>Redefine your contribution in every new job.</li><li>Specialists must make themselves understood and ask who uses their output.</li></ul>"
+    },
+    {
+     "t": "What it produces",
+     "b": "<ul><li>The four requirements of good human relations: communication, teamwork, self-development, developing others.</li><li>People grow to the demands made on them.</li><li>State the purpose and expected contribution at the start of every meeting and report.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Drucker's key question?",
+     "a": "What can I contribute that will significantly affect results?"
+    },
+    {
+     "q": "Three performance areas?",
+     "a": "Direct results, values, developing people."
+    },
+    {
+     "q": "The four requirements of good human relations?",
+     "a": "Communication, teamwork, self-development, developing others."
+    }
+   ]
+  },
+  {
+   "n": "First things first",
+   "g": "focus",
+   "s": "Drucker: concentration is the one secret of effectiveness: first things first, one at a time, second things not at all.",
+   "x": [
+    {
+     "t": "Rules",
+     "b": "<ul><li>Commit to nothing beyond the current task, then reassess.</li><li>Slough off yesterday: if we weren't already doing this, would we start? Drop an old activity before adding a new one.</li><li>Give new tasks to proven people.</li><li>Posteriorities, what not to tackle, are the hard part; what you postpone you abandon.</li><li>Ask who sets priorities: you or the pressures.</li></ul>"
+    },
+    {
+     "t": "Courage over analysis",
+     "b": "<ul><li>Future over past.</li><li>Opportunity over problem.</li><li>Your own direction over the bandwagon.</li><li>Aim high for what makes a difference.</li></ul>"
+    },
+    {
+     "t": "Opportunities",
+     "b": "<ul><li>Treat change as opportunity; put opportunities on page one of reports.</li><li>Every six months list opportunities and your best people, and match them.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Drucker's secret of effectiveness?",
+     "a": "Concentration: first things first, one at a time."
+    },
     {
      "q": "What are posteriorities?",
-     "a": "Tasks you decide to stop or never start."
+     "a": "What you decide not to tackle."
     },
     {
-     "q": "What matters more than the goal framework, per Hughes Johnson?",
-     "a": "Few clear goals, communicated again and again."
+     "q": "The sloughing-off question?",
+     "a": "If we weren't already doing this, would we start now?"
     },
     {
-     "q": "Why track input metrics?",
-     "a": "They lead results and the team controls them."
-    },
-    {
-     "q": "Why does Drucker call priority-setting a matter of character?",
-     "a": "The analysis is easy; dropping things takes courage."
+     "q": "Who should get new tasks?",
+     "a": "Proven performers, not new hires."
     }
    ]
   },
   {
-   "n": "Decide once, then write the rule",
+   "n": "The elements of a decision",
    "g": "focus",
-   "s": "Decide recurring problems once as written principles, and make one-off decisions by a clear process with dissent.",
+   "s": "Drucker: make few, important decisions at the level of principle by five steps: classify, specify, find what's right, build in action, get feedback.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Drucker:</b> <b>classify:</b> generic problems get a rule; true exceptions are handled one at a time.</li><li><b>Boundary conditions:</b> the minimum the decision must achieve.</li><li><b>What's right</b> before what's acceptable, or you can't tell good compromises from bad.</li><li><b>Build in action:</b> who must know, who acts, with what resources.</li><li><b>Feedback:</b> test against what actually happens. Distrust decisions with no dissent.</li></ol><ul><li><b>Hughes Johnson:</b> write a mission, long-term goals and principles that settle real trade-offs; each team writes a charter.</li></ul>"
-    },
-    {
-     "t": "Do this",
-     "b": "<ul><li>The second time a question reaches you, write the rule.</li><li>Delete any principle that has never decided anything.</li><li>Ask for the strongest objection before deciding.</li></ul>"
+     "t": "Five elements",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Classify:</b> generic problems get a rule or policy; true exceptions are handled on their merits. A seeming one-off may be the first sign of a new generic problem.</li><li><b>Boundary conditions:</b> what the decision must achieve. Drop the decision when they change.</li><li><b>What's right</b> before what's acceptable: half a loaf is a fair compromise, half a baby is not.</li><li><b>Build in action:</b> who must know, what action, by whom; rewards must not contradict it. A decision is a good intention until it degenerates into work.</li><li><b>Feedback:</b> test against events; go and look yourself.</li></ol>"
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Patching a recurring problem case by case.</div><div class=\"trap\"><b>Trap:</b> Values as slogans that settle no trade-off.</div>"
+     "b": "<div class=\"trap\"><b>Trap:</b> Treating a generic situation as a string of unique events, or a new event as an old one.</div><div class=\"trap\"><b>Trap:</b> Temporary decisions tend to become permanent.</div>"
     }
    ],
    "cards": [
     {
-     "q": "Drucker's first question about any problem?",
-     "a": "Generic or exceptional? Generic gets a rule."
+     "q": "Drucker's first step in deciding?",
+     "a": "Classify: generic or exceptional."
     },
     {
-     "q": "Why decide what is right before what is acceptable?",
-     "a": "Otherwise you can't tell a good compromise from a bad one."
+     "q": "Half a loaf vs half a baby?",
+     "a": "A partial win that still works vs a compromise that destroys the purpose."
     },
     {
-     "q": "How did Drucker view a decision with no disagreement?",
-     "a": "With suspicion: nobody examined the alternatives."
-    },
-    {
-     "q": "Hughes Johnson's founding documents?",
-     "a": "Mission, long-term goals, principles; plus team charters."
+     "q": "When is a decision really made?",
+     "a": "When it has been built into action: who acts, by when, and who must know."
     }
    ]
   },
   {
-   "n": "Build on strengths",
-   "g": "people",
-   "s": "Staff and work around what people do uncommonly well, and accept the weaknesses that come with it.",
+   "n": "Effective decisions",
+   "g": "focus",
+   "s": "Drucker: a decision is a judgment between alternatives, so start from opinions, demand dissent, and decide only when acting beats not acting.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Drucker:</b> make productive the strengths of your colleagues, your boss and yourself.</li><li><b>Drucker:</b> absence of weakness is no qualification.</li><li><b>Drucker:</b> manage up by helping your boss do what they do well, not by changing them.</li></ul>"
+     "t": "Method",
+     "b": "<ul><li>Start with opinions as untested hypotheses; ask each holder what the test against reality must show.</li><li>Find the right measurement; assume the traditional one is wrong.</li><li>No decision without disagreement. Dissent frees you from the organization, provides alternatives and stimulates imagination.</li><li>Find out why people disagree, not who is right.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Name each report's standout strength; is their role built around it?</li><li>In hiring, ask \"what will they do exceptionally well?\" before \"what are their gaps?\"</li></ul>"
+     "t": "Is it necessary?",
+     "b": "<ul><li>Act if things will degenerate or an opportunity will be lost; don't if it will take care of itself.</li><li>Act or don't; never hedge or half-act.</li><li>Refuse \"let's study it again\"; wait only briefly if uneasy.</li></ul>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Hiring the well-rounded candidate with no standout strength.</div><div class=\"trap\"><b>Trap:</b> Using strength to excuse a weakness that blocks the job, such as integrity.</div>"
+     "t": "People decisions",
+     "b": "<ul><li>Review them at a pre-agreed time. If one failed, the decider erred.</li><li>Don't keep non-performers in important jobs; offer a return to the old job.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "Whose strengths should an executive make productive?",
-     "a": "Colleagues', the boss's and one's own."
+     "q": "What should a decision start from?",
+     "a": "Opinions treated as hypotheses to test."
     },
     {
-     "q": "What should you staff for?",
-     "a": "What a person does uncommonly well."
+     "q": "Three uses of dissent?",
+     "a": "Keeps you from being captive, provides alternatives, stimulates imagination."
     },
     {
-     "q": "How does Drucker say to manage your boss?",
-     "a": "Help them do what they do well."
+     "q": "Drucker's rule on half-measures?",
+     "a": "Act or don't; never hedge."
+    },
+    {
+     "q": "Who erred when a promotion fails?",
+     "a": "The person who made the decision."
+    }
+   ]
+  },
+  {
+   "n": "Operating principles",
+   "g": "company",
+   "s": "Hughes Johnson: managers run on four principles that build trust: self-awareness, candor, knowing managing from leading, and returning to the operating system.",
+   "x": [
+    {
+     "t": "The four",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Build self-awareness to build mutual awareness (values, work style, skills).</li><li>Say the thing you think you cannot say.</li><li>Distinguish management (execution, stability) from leadership (vision, change).</li><li>Come back to the operating system: consistency lets people predict you.</li></ol>"
+    },
+    {
+     "t": "Trust",
+     "b": "<ul><li>Each principle protects trust; be the honest broker for your team.</li><li>Vulnerability builds trust but needs a relationship first; show it yourself.</li><li>Openness is negotiable, honesty is not: share what people need to do their best work, and set expectations for what is shared.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Hughes Johnson's four operating principles?",
+     "a": "Self-awareness, say the unsayable, management vs leadership, return to the operating system."
+    },
+    {
+     "q": "Openness vs honesty?",
+     "a": "Openness is negotiable; honesty is not."
+    },
+    {
+     "q": "Management vs leadership?",
+     "a": "Management is execution and stability; leadership is vision and change."
+    }
+   ]
+  },
+  {
+   "n": "Founding documents",
+   "g": "company",
+   "s": "Hughes Johnson: write down the mission, long-term goals and values, plus a charter per team, because past about 50 people they become the touchstones.",
+   "x": [
+    {
+     "t": "The documents",
+     "b": "<ul><li><b>Mission:</b> specific enough that no other company could use it, ambitious enough that it may never be finished; often discovered, not forced.</li><li><b>Long-term goals:</b> concrete; annual and quarterly goals ladder up to them.</li><li><b>Values:</b> authentic, tested with employees, used in hiring, reviews and daily work.</li><li><b>Team charters:</b> purpose, goals, responsibilities, metrics, accountability.</li><li>An honest culture guide that includes the hard parts.</li></ul>"
+    },
+    {
+     "t": "Timing",
+     "b": "<ul><li>Most of this is premature before product-market fit, but state the mission early for recruits and investors.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "When do founding documents become touchstones?",
+     "a": "Past roughly 40–50 people."
+    },
+    {
+     "q": "Test of a good mission?",
+     "a": "No other company could use it, and it may never be fully achieved."
+    },
+    {
+     "q": "What does a team charter contain?",
+     "a": "Purpose, long-term goals, responsibilities, metrics, accountability."
+    }
+   ]
+  },
+  {
+   "n": "The operating system",
+   "g": "company",
+   "s": "Hughes Johnson: run the company on visible norms for strategy, goals, metrics, accountability and a steady cadence.",
+   "x": [
+    {
+     "t": "Parts",
+     "b": "<ul><li><b>Strategy</b> is resource allocation across bets, balancing new against the proven core. A strategy should hurt.</li><li><b>Metrics</b> at every level, short and long term, tied to goals.</li><li><b>Accountability:</b> clear owners, weekly team reviews, quarterly business reviews.</li><li><b>Communication:</b> documented, accessible, candid.</li><li><b>Cadence:</b> a standard rhythm for reporting and decisions. Have a cadence but don't get stuck in it.</li></ul>"
+    },
+    {
+     "t": "Rules",
+     "b": "<ul><li>Keep the rules, score and constraints visible, especially when the plan changes.</li><li>Align structure to strategy; never restructure reactively or around individuals.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What is strategy, per Hughes Johnson?",
+     "a": "Allocating people and money across growth bets."
+    },
+    {
+     "q": "A good strategy should what?",
+     "a": "Hurt: it says no to things."
+    },
+    {
+     "q": "Rule for restructuring?",
+     "a": "Align it to strategy; never react or build around individuals."
+    }
+   ]
+  },
+  {
+   "n": "Building teams",
+   "g": "company",
+   "s": "Hughes Johnson: most teams are only groups, so build habits, structure and safety deliberately, and delegate by how reversible a decision is.",
+   "x": [
+    {
+     "t": "Build",
+     "b": "<ul><li>Teams have an ongoing mission; projects and working groups are temporary.</li><li>Diagnose each member's history, aspirations and skills.</li><li>Structure teams to fit short- and long-term strategy; manage dependencies with shared planning.</li><li>Multi-product firms need hinge roles (product marketing, specialist sales) or they ship their org chart.</li><li>Meetings need agendas, goals and roles; offsites build strategy and trust; psychological safety comes first.</li></ul>"
+    },
+    {
+     "t": "Skill-will",
+     "b": "<ul><li>Low skill: train or hire.</li><li>Too much skill: raise the challenge.</li><li>Low will: reconnect to the mission.</li><li>Too much will: set explicit expectations.</li></ul>"
+    },
+    {
+     "t": "Delegate",
+     "b": "<ul><li>Keep only high-stakes, irreversible calls; delegate the rest. Over- and under-delegating both hurt.</li><li>Founders must give away their Legos as they scale.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Team vs group?",
+     "a": "A team has habits and processes that make the whole exceed the parts; a group just shares a manager."
+    },
+    {
+     "q": "Skill-will: what to do with low will?",
+     "a": "Reconnect the person to the mission."
+    },
+    {
+     "q": "What should a leader keep rather than delegate?",
+     "a": "High-stakes, irreversible decisions."
+    }
+   ]
+  },
+  {
+   "n": "Make strength productive",
+   "g": "people",
+   "s": "Drucker: staff for what people do uncommonly well and make their weaknesses irrelevant; staffing to avoid weakness yields mediocrity.",
+   "x": [
+    {
+     "t": "Rules",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>A job that defeats two or three good people in a row is badly designed: redesign it.</li><li>Make every job big and demanding.</li><li>Start from what a person can do; appraise performance and strengths, not potential.</li><li>Accept weaknesses to get strengths, but never a lack of integrity.</li></ol>"
+    },
+    {
+     "t": "Applied",
+     "b": "<ul><li>Ask \"what can they do uncommonly well?\", not \"how do they get along with me?\"</li><li>Design jobs by task, not personality.</li><li>Remove people who consistently fail.</li><li>Make your boss's strengths productive; don't try to reform the boss.</li><li>Know your own strengths and way of working.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Drucker's test for an impossible job?",
+     "a": "It defeated two or three good people in a row."
+    },
+    {
+     "q": "What does staffing to avoid weakness produce?",
+     "a": "Mediocrity at best."
+    },
+    {
+     "q": "What weakness should never be accepted?",
+     "a": "Lack of character or integrity."
+    },
+    {
+     "q": "How to manage your boss?",
+     "a": "Make their strengths productive."
     }
    ]
   },
   {
    "n": "Humble, hungry, smart",
    "g": "people",
-   "s": "An ideal team player has all three: little ego, self-driven effort for the team, and sense about people.",
+   "s": "Lencioni: the ideal team player has all three virtues; missing one makes teamwork hard, and humility matters most.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Lencioni:</b> <b>humble</b> (shares credit, team first; the most important), <b>hungry</b> (self-motivated, does what's needed), <b>smart</b> (people sense, not IQ).</li><li><b>Lencioni:</b> two of three gives predictable failures:<ul><li><b>Accidental mess-maker:</b> humble and hungry, not smart.</li><li><b>Lovable slacker:</b> humble and smart, not hungry.</li><li><b>Skillful politician:</b> hungry and smart, not humble; the most dangerous because they fake humility.</li></ul></li><li><b>Lencioni:</b> one of three: pawn (humble), bulldozer (hungry), charmer (smart).</li></ul>"
+     "t": "The virtues",
+     "b": "<ul><li><b>Humble:</b> little ego, shares credit, admits mistakes. The deepest virtue. Beware both the arrogant and the insecure who undervalue themselves.</li><li><b>Hungry:</b> self-motivated, always wants more work, learning and responsibility; rarely needs pushing.</li><li><b>Smart:</b> people sense, not intellect: reads others, listens, knows the effect of their words.</li><li>Adequate levels of all three are enough; the virtues can be learned.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Rate yourself and your team on all three; discuss in one-to-ones.</li><li>Coach one virtue at a time with observed behavior.</li><li>Use the same words in hiring, reviews and recognition.</li></ul>"
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Reading \"smart\" as intellect.</div><div class=\"trap\"><b>Trap:</b> Labeling colleagues casually or using the model to rank or fire; it is a coaching language.</div><div class=\"synth\"><b>Synthesis:</b> It screens team behavior, not job ability; pair it with a skills check.</div>"
+     "t": "Archetypes",
+     "b": "<ul><li>Humble only: pawn. Hungry only: bulldozer. Smart only: charmer.</li><li>Humble + hungry: accidental mess-maker.</li><li>Humble + smart: lovable slacker.</li><li>Hungry + smart: skillful politician, the most dangerous because hardest to spot.</li><li>Anyone missing a virtue takes far more of a manager's time.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "Lencioni's three virtues?",
-     "a": "Humble, hungry, smart."
-    },
-    {
-     "q": "Which virtue matters most?",
+     "q": "Most important virtue?",
      "a": "Humble."
     },
     {
      "q": "Hungry and smart, not humble?",
-     "a": "The skillful politician: most dangerous, fakes humility."
+     "a": "Skillful politician."
     },
     {
      "q": "Humble and hungry, not smart?",
-     "a": "The accidental mess-maker."
+     "a": "Accidental mess-maker."
     },
     {
      "q": "Humble and smart, not hungry?",
-     "a": "The lovable slacker."
+     "a": "Lovable slacker."
+    },
+    {
+     "q": "What does smart mean here?",
+     "a": "People sense, not intellect."
     }
    ]
   },
   {
-   "n": "Hire by rubric",
+   "n": "Hiring",
    "g": "people",
-   "s": "Hire from a standing pipeline with honest job descriptions, scoring every candidate on one rubric for strength and humble, hungry, smart.",
+   "s": "Lencioni and Hughes Johnson: treat hiring as a structured, data-driven process aimed at specific virtues, and never lower the bar to fill a seat.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Hughes Johnson:</b> build the pipeline before a seat opens; describe the real work, not a warm picture; one simple rubric for every interviewer.</li><li><b>Lencioni:</b> interview as a team, debrief right after each interview on the three virtues, probe lingering doubts, check references against them, and tell candidates what you hire for so some self-select out.</li><li><b>Drucker:</b> score the role's key strength first.</li></ul>"
+     "t": "Lencioni",
+     "b": "<ul><li>Generic interviews reveal little; target each virtue.</li><li>Debrief as a team right after each interview; use group interviews and non-traditional settings such as an errand.</li><li>Ask questions more than once, and ask what others would say about the candidate.</li><li>Have them do real work; ask junior staff how they were treated; check references on attitude.</li><li>Investigate every doubt; tell candidates plainly you hire for humble, hungry, smart.</li><li>Three who fit beat four with one who doesn't.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Rubric: key strength, then humble, hungry, smart.</li><li>Ask about wins and listen for \"we\" over \"I\"; ask for the biggest failure in specifics.</li></ul>"
+     "t": "Hughes Johnson",
+     "b": "<ul><li>Treat recruiting like sales: brand, funnel, conversion; build the pipeline ahead of need.</li><li>Honest job descriptions; one rubric; several trained interviewers; the hiring manager decides.</li><li>Founders interview and act as bar raiser as long as possible.</li><li>Onboard on mission, values and people; measure ramp time.</li><li>Fix hiring mistakes fast, then run a retrospective.</li></ul>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Panic hiring when a seat opens; the bar drops.</div><div class=\"trap\"><b>Trap:</b> Letting a strong résumé override a doubt on humility.</div><div class=\"synth\"><b>Synthesis:</b> Unstructured interviews predict poorly in hiring research; a fixed rubric is where Hughes Johnson's process and Lencioni's criteria meet.</div>"
+     "t": "Listen for",
+     "b": "<ul><li>Humble: we over I; owning a mistake.</li><li>Hungry: the hardest they've worked.</li><li>Smart: how they treat everyone, all day.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "Hughes Johnson's first step to hiring well?",
-     "a": "Build a recruiting pipeline."
+     "q": "When to debrief interviews?",
+     "a": "Right after each one, as a team."
     },
     {
-     "q": "What to listen for when candidates describe wins?",
-     "a": "\"We\" more than \"I\"."
+     "q": "Why ask what others would say about the candidate?",
+     "a": "It gets past rehearsed self-descriptions."
     },
     {
-     "q": "Why tell candidates you hire for the three virtues?",
-     "a": "Some who lack them self-select out."
+     "q": "Who makes the hire, per Hughes Johnson?",
+     "a": "The hiring manager, after hearing the committee."
     },
     {
-     "q": "Job-description mistake to avoid?",
-     "a": "Selling a warm picture instead of stating the real work."
+     "q": "What to do with a hiring mistake?",
+     "a": "Fix it fast, then run a retrospective."
     }
    ]
   },
   {
-   "n": "Know yourself, give real feedback",
+   "n": "Assess, develop, embed",
    "g": "people",
-   "s": "Write down how you work, share it, and give direct feedback built on observed examples.",
+   "s": "Lencioni: assess everyone on the three virtues, coach the gaps week after week, and make teamwork the explicit, enforced culture.",
    "x": [
     {
-     "t": "The rule",
-     "b": "<ul><li><b>Hughes Johnson:</b> leadership starts with self-awareness: write a <i>working with me</i> guide (how you like to work; how you handle work emotionally), share it and ask what's wrong.</li><li><b>Hughes Johnson:</b> say the thing you think you can't; observe someone across several situations before giving feedback.</li><li><b>Lencioni:</b> \"smart\" (reading people) starts with reading yourself.</li></ul>"
+     "t": "Assess",
+     "b": "<ul><li>Qualitative, virtue by virtue: manager questions, self-ratings, peer discussion.</li><li>Three outcomes: confirm, develop, or move out. Keeping misfits is cruel; they are the unhappiest people there.</li><li>If nobody leaves or is asked to leave, you're not living the values.</li></ul>"
     },
     {
-     "t": "Do this",
-     "b": "<ul><li>Draft your guide in 30 minutes and share it.</li><li>Ask new hires to write theirs.</li><li>Bring two or three observed examples to any hard conversation.</li></ul>"
+     "t": "Develop",
+     "b": "<ul><li>Name the gap; manager and employee work on it together; remind and coach weekly. They break through or opt out.</li><li>Humble: practice it before it feels natural.</li><li>Hungry: tie them to the mission; set and hold expectations.</li><li>Smart: blunt, kind, repeated feedback on specific behaviors.</li></ul>"
     },
     {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Treating your guide as a rulebook others must adapt to; it starts a mutual adjustment.</div>"
+     "t": "Embed",
+     "b": "<ul><li>Leaders must commit first and live it.</li><li>Say it explicitly to staff, partners and customers.</li><li>Catch and revere: praise teamwork on the spot; address violations promptly and kindly.</li><li>Build it into recruiting and reviews.</li><li>Team exercise: each names their strongest and weakest virtue, leader first.</li><li>Lack of humility kills the trust the Five Dysfunctions model depends on.</li></ul>"
     }
    ],
    "cards": [
     {
-     "q": "Two parts of a working-with-me guide?",
-     "a": "How you like to work, and how you handle work emotionally."
+     "q": "Three outcomes of assessment?",
+     "a": "Confirm, develop, or move out."
     },
     {
-     "q": "What should precede feedback?",
-     "a": "Observing performance across several situations."
+     "q": "How to develop smarts?",
+     "a": "Blunt, kind, repeated feedback on specific behaviors."
     },
     {
-     "q": "What does \"say the thing you can't say\" guard against?",
-     "a": "Over-filtering important feedback."
+     "q": "Sign you aren't living the values?",
+     "a": "No one leaves or is asked to leave."
+    },
+    {
+     "q": "Catch and revere?",
+     "a": "Praise teamwork on the spot so everyone sees it."
+    }
+   ]
+  },
+  {
+   "n": "Feedback and performance",
+   "g": "people",
+   "s": "Hughes Johnson: give feedback continuously by hypothesis, run fair formal reviews too, and act decisively on high and low performers.",
+   "x": [
+    {
+     "t": "Coaching",
+     "b": "<ul><li>Avoid both the extreme coach and the forgot-to coach; don't save feedback for reviews.</li><li>Hypothesis-based: observe across situations, form a hypothesis, test it in conversation, say it before you feel ready.</li><li>Open with questions; describe behavior and impact, not the person; solve jointly.</li><li>Praise in public, criticize in private; ask for feedback on yourself.</li></ul>"
+    },
+    {
+     "t": "Reviews",
+     "b": "<ul><li>Announce process and criteria in advance; inputs: self-assessment, selected peers, manager.</li><li>Five-point scale from does not meet to greatly exceeds; calibrate across managers and groups for bias.</li><li>Pay by a written compensation philosophy.</li><li>High performers: stretch and recognize. Low performers: documented conversations, then a plan or exit, handled respectfully.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "Hypothesis-based coaching steps?",
+     "a": "Observe, form a hypothesis, test it in conversation, say it before you feel ready."
+    },
+    {
+     "q": "Three review inputs?",
+     "a": "Self-assessment, peers, manager."
+    },
+    {
+     "q": "Why calibrate ratings?",
+     "a": "To catch bias and leniency across managers and groups."
+    }
+   ]
+  },
+  {
+   "n": "Manage yourself",
+   "g": "people",
+   "s": "Hughes Johnson and Drucker: your own self-management sets your team's ceiling, so know your strengths, guard your energy and time, and grow with your role.",
+   "x": [
+    {
+     "t": "Rules",
+     "b": "<ul><li><b>Hughes Johnson:</b> track what gives and drains energy; work in peak hours; set boundaries.</li><li>Protect important-but-not-urgent work (Eisenhower matrix).</li><li>Your strengths are also sources of weakness.</li><li>Be your own career coach: hard skills, then soft skills, then how you show up emotionally.</li><li>Ask for help; keep mistakes in perspective; build ties with your manager, peers and mentors.</li><li>Scale to the call: grow as fast as your role.</li><li><b>Drucker:</b> know your strengths and the way you work best, and let others work their way.</li></ul>"
+    }
+   ],
+   "cards": [
+    {
+     "q": "What sets your team's ceiling?",
+     "a": "Your own self-management."
+    },
+    {
+     "q": "Hughes Johnson's career progression?",
+     "a": "Hard skills, then soft skills, then how you show up emotionally."
+    },
+    {
+     "q": "Scale to the call?",
+     "a": "Grow as fast as your role grows."
     }
    ]
   }
  ],
  "sources": [
   {
-   "title": "Business Book Club: Ready, Fire, Aim summary, the four stages of growth",
-   "url": "https://businessbookclub.substack.com/p/ready-fire-aim-summary"
+   "title": "Ready, Fire, Aim: 8-page summary (Summaries.com)",
+   "url": "https://public.summaries.com/files/8-page-summary/ready-fire-aim.pdf"
   },
   {
-   "title": "Actionable Books: Ready, Fire, Aim summary",
-   "url": "https://actionablebooks.com/summaries/ready-fire-aim/"
+   "title": "Ready, Fire, Aim summary (Bookey)",
+   "url": "https://cdn.bookey.app/files/pdf/book/en/ready,-fire,-aim.pdf"
   },
   {
-   "title": "Shortform: Ready, Fire, Aim, Michael Masterson's 4-step business strategy",
-   "url": "https://www.shortform.com/blog/ready-fire-aim-michael-masterson/"
+   "title": "Ready, Fire, Aim (1 Hour Guide)",
+   "url": "https://www.1hourguide.co.za/ready-fire-aim/"
   },
   {
-   "title": "O'Reilly: Ready, Fire, Aim (Wiley) chapter listing",
-   "url": "https://www.oreilly.com/library/view/ready-fire-aim/9780470182024/ch12.html"
+   "title": "The Effective Executive: reading notes (joel.is)",
+   "url": "https://joel.is/notes/The_Effective_Executive/"
   },
   {
-   "title": "Wikipedia: Mark M. Ford",
-   "url": "https://en.wikipedia.org/wiki/Mark_M._Ford"
+   "title": "Book summary: The Effective Executive (Steven Rouk)",
+   "url": "https://stevenrouk-com.pages.dev/book-summary-the-effective-executive"
   },
   {
-   "title": "Open Library: The Effective Executive",
-   "url": "https://openlibrary.org/books/OL5534723M"
+   "title": "The Effective Executive summary (Bookey)",
+   "url": "https://cdn.bookey.app/files/pdf/book/en/the-effective-executive.pdf"
   },
   {
-   "title": "Right Attitudes: The Effective Executive summary",
-   "url": "https://www.rightattitudes.com/2017/05/30/the-effective-executive/"
+   "title": "The Ideal Team Player summary (Bookey)",
+   "url": "https://cdn.bookey.app/files/pdf/book/en/the-ideal-team-player.pdf"
   },
   {
-   "title": "Right Attitudes: Peter Drucker on focusing on contribution",
-   "url": "https://www.rightattitudes.com/2020/06/22/peter-drucker-focus-on-contribution/"
+   "title": "Book Summary: The Ideal Team Player (Readingraphics)",
+   "url": "https://readingraphics.com/book-summary-the-ideal-team-player/"
   },
   {
-   "title": "Mind Tools: The Effective Executive",
-   "url": "https://www.mindtools.com/ahdfo9b/the-effective-executive/"
+   "title": "Scaling People summary (Bookey)",
+   "url": "https://cdn.bookey.app/files/pdf/book/en/scaling-people.pdf"
   },
   {
-   "title": "Ispat Guru: Elements of decision making",
-   "url": "https://www.ispatguru.com/elements-of-decision-making/"
+   "title": "Scaling People: Book Overview (Shortform)",
+   "url": "https://www.shortform.com/blog/scaling-people-book/"
   },
   {
-   "title": "Jim Collins: Ten lessons I learned from Peter Drucker",
-   "url": "https://www.jimcollins.com/article_topics/articles/Ten-Lessons-I-Learned-from-Peter-Drucker.html"
+   "title": "Claire Hughes Johnson: Scaling People (Software Synthesis)",
+   "url": "https://www.akashbajwa.co/p/claire-hughes-johnson-scaling-people"
   },
   {
-   "title": "The Table Group: The Ideal Team Player",
-   "url": "https://www.tablegroup.com/product/ideal-team-player/"
-  },
-  {
-   "title": "The Table Group: Ideal Team Player overview (PDF)",
-   "url": "https://files.tablegroup.com/wp-content/uploads/2025/05/20061141/Ideal-Team-Player-Overview-V2.pdf"
-  },
-  {
-   "title": "SuperSummary: The Ideal Team Player, the model",
-   "url": "https://www.supersummary.com/the-ideal-team-player/the-model-summary"
-  },
-  {
-   "title": "Global Leadership Network: Author Q&A, Patrick Lencioni on humble, hungry, smart",
-   "url": "https://www.globalleadership.org/article/author-q-patrick-lencioni-humble-hungry-smart"
-  },
-  {
-   "title": "Shortform: Patrick Lencioni, the 3 key qualities of a team player",
-   "url": "https://www.shortform.com/blog/qualities-of-a-team-player/"
-  },
-  {
-   "title": "SHRM: 3 essential virtues of the ideal team player",
-   "url": "https://shrm.org/topics-tools/news/hr-magazine/3-essential-virtues-ideal-team-player"
-  },
-  {
-   "title": "Stripe Press: Out today, Scaling People by Claire Hughes Johnson",
-   "url": "https://stripepress.substack.com/p/out-today-scaling-people-by-claire"
-  },
-  {
-   "title": "TD Magazine: How to build organizational success",
-   "url": "https://td.org/content/td-magazine/how-to-build-organizational-success"
-  },
-  {
-   "title": "McKinsey Author Talks: Scale your people, not just your company",
-   "url": "https://www.mckinsey.com/featured-insights/mckinsey-on-books/author-talks-scale-your-people-not-just-your-company"
-  },
-  {
-   "title": "Tomasz Tunguz: Claire Hughes Johnson notes",
-   "url": "https://tomtunguz.com/claire-hughes-johnson-notes/"
-  },
-  {
-   "title": "Lenny's Newsletter: Lessons from scaling Stripe",
-   "url": "https://www.lennysnewsletter.com/p/lessons-from-scaling-stripe-tactics"
-  },
-  {
-   "title": "Fortune: The how-to-work-with-me guide managers and new hires need to write",
-   "url": "https://fortune.com/2023/02/07/how-to-work-with-me-guide-user-manual-managers-new-hires-need-to-write-claire-hughes-johnson/"
-  },
-  {
-   "title": "Akash Bajwa: Claire Hughes Johnson, Scaling People",
-   "url": "https://akashbajwa.substack.com/p/claire-hughes-johnson-scaling-people"
+   "title": "Scaling People with Claire Hughes Johnson (Permanent Equity)",
+   "url": "https://www.permanentequity.com/content/scaling-people-with-claire-hughes-johnson"
   }
  ]
 }

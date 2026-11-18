@@ -28,3 +28,4 @@ Thumbs.db
 
 # Local builds (the committed page is web/mastery_field_guide.html)
 dist/
+models/

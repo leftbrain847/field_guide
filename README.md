@@ -20,7 +20,17 @@ node --test                         # snapshot script tests
 - Live: https://leftbrain847.github.io/mastery_field_guide/ (once the index points at this repo)
 
 ## Listen
-A third mode beside Read and Study, modelled on comprehensible_input's player. Tick topics, groups or single concepts in a tree (this category; the selection spans the whole guide), choose **Summaries** (name + one-line summary) or **Full notes** (every section), and press play. The bottom bar shows what is playing (tap it for the queue; tap an item to jump), then repeat (each concept ×2, ×3, off), previous, play/pause, next and speed (0.8–2×). Selection and settings are remembered on the device. The voice is the device's own English voice (best quality first, with a picker), so it works offline with nothing to download; on iPhone it stops when you leave the page or lock the screen. Settings: `CONFIG.listen` in `build/template.html`; pure logic: `build/listen.js`, inlined by `build.py`. Desktop keys: Space, ←/→, R.
+A third mode beside Read and Study, modelled on comprehensible_input's player. Tick topics, groups or single concepts (the selection spans the whole guide), choose **Summaries** or **Full notes**, and press play. The bottom bar shows what is playing (tap it for the queue), then repeat (each concept ×2, ×3, off), previous, play/pause, next and speed (0.8–2×).
+
+**Summaries are recorded** at build time with Kokoro's `af_heart` voice (Kokoro-82M, Apache-2.0, via kokoro-onnx: the engine behind comprehensible_input's Santa voice): one MP3 per topic in `audio/summary/` with marks, played concept by concept, so they keep playing in other apps and on the lock screen. **Full notes** use the device's own voice (it stops when you leave the page on iPhone, and the Claude app may not allow it at all).
+
+Record after changing any concept's name or summary (a changed topic is left out of the page until re-recorded, so it falls back to the device voice):
+```
+pip install -r build/requirements-audio.txt
+mkdir -p models && for f in kokoro-v1.0.onnx voices-v1.0.bin; do curl -L -o models/$f https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f; done
+python3 build/audio.py --models models && python3 build/build.py
+```
+About 26 minutes on a laptop CPU for every topic; only changed topics are re-recorded. The page loads `audio/summary/<topic>.mp3` next to itself: the homepage copies `audio/` (showcase `assets: audio`); a claude.ai artifact needs those files published with it. Settings: `CONFIG.listen` (player) and `AUDIO` in `build/audio.py` (engine, voice, gaps, bitrate).
 
 ## Layout
 - `topics/topic-<id>.json`: one file per built tab. Schema and writing rules are in `FORMAT.md`.
