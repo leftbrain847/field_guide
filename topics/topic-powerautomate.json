@@ -142,6 +142,38 @@
      "a": "Each triggering user needs Premium, or the flow gets a Process license."
     }
    ]
+  },
+  {
+   "n": "Reliable flows",
+   "g": "gov",
+   "s": "Filter at the trigger, guard against self-retriggering, wrap work in Try and Catch scopes that end Failed, and make every write safe to rerun.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Trigger conditions</b> (@expressions) stop unwanted runs before they start; add a loop guard (or, on Dataverse, Select columns) so the flow's own writes don't retrigger it.</li><li><b>Try / Catch / Finally</b> scopes via configure run after; Catch sets a flag, and a Terminate (Failed) after Finally fires on it, since Terminate skips everything after it.</li><li><b>Idempotency</b>: upsert on a key, mark processed rows, build idempotency keys from stable fields (never guid()).</li><li><b>Child flows</b> split big flows; put irreversible trigger concurrency on a small child.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Retrying a non-idempotent POST with the default retry policy: a timeout after commit creates duplicates.</div><div class=\"trap\"><b>Trap:</b> Turning on trigger concurrency casually: it can't be turned off; you rebuild the flow.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A Dataverse flow syncs contacts to the EHR and writes back a sync timestamp. Its trigger's Select columns lists only fields users edit, so the write-back can't retrigger it.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "A flow updates the row that triggers it and runs until throttled. Fix?",
+     "a": "Stop its own writes firing it: a trigger-condition loop guard or, on Dataverse, Select columns."
+    },
+    {
+     "q": "A Catch scope sends an email and the run shows Succeeded. What's missing?",
+     "a": "A Terminate with status Failed, placed after Finally and run only when Catch ran."
+    }
+   ]
   }
  ],
  "sources": [
