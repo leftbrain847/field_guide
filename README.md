@@ -27,6 +27,8 @@ A third mode beside Read and Study, modelled on comprehensible_input's player. T
 
 **Summaries are recorded** at build time with Kokoro's `af_heart` voice (Kokoro-82M, Apache-2.0, via kokoro-onnx: the engine behind comprehensible_input's Santa voice): one MP3 per topic in `audio/summary/` with marks, played concept by concept, so they keep playing in other apps and on the lock screen. **Full notes** use the device's own voice (it stops when you leave the page on iPhone, and the Claude app may not allow it at all).
 
+**Español** reads Spanish translations of every concept's name and summary (`topics/es/topic-<id>.json`, about 60 KB in the page) with the best Spanish voice on the device (Enhanced or Premium voices rank first; `CONFIG.listen.voiceEs`). No recordings, so keep the screen on. Each line stores a fingerprint of the English it came from: change a concept's name or summary and that line goes stale, the page reads the English summary for it, and `python3 build/build.py` lists what is stale, missing or orphaned. `tests/listen.test.mjs` and `tests/browser/smoke_listen_es.mjs` cover it.
+
 Record after changing any concept's name or summary (a changed topic is left out of the page until re-recorded, so it falls back to the device voice):
 ```
 pip install -r build/requirements-audio.txt

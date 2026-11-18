@@ -1,0 +1,265 @@
+{
+ "topic": "em",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "Primary survey and the undifferentiated sick patient",
+   "src": "d2b726ce7e5d",
+   "n": "Evaluación primaria y el paciente grave sin diagnóstico",
+   "s": "Estabiliza antes de diagnosticar: detén la hemorragia exanguinante, asegura la vía aérea y la respiración, restablece la perfusión, revisa la glucosa, y busca en paralelo las causas mortales reversibles."
+  },
+  {
+   "en": "Cardiac arrest and post-ROSC care (2025 AHA ACLS)",
+   "src": "c4093f5b10f6",
+   "n": "Paro cardíaco y cuidados tras el retorno de la circulación (ACLS 2025 de la AHA)",
+   "s": "Compresiones de alta calidad con pausas mínimas, desfibrilación temprana en fibrilación ventricular o taquicardia ventricular sin pulso, epinefrina cada 3 a 5 minutos, y un paquete disciplinado de cuidados tras el retorno de la circulación son lo que mejora la supervivencia."
+  },
+  {
+   "en": "Shock types, septic shock, and vasopressors",
+   "src": "3e21c582a34e",
+   "n": "Tipos de choque, choque séptico y vasopresores",
+   "s": "Clasifica el choque como hipovolémico, distributivo, cardiogénico u obstructivo, y trata la causa mientras restableces la presión arterial media, con norepinefrina como primera opción en el choque séptico."
+  },
+  {
+   "en": "Airway management and rapid sequence intubation",
+   "src": "7d6ef50f265c",
+   "n": "Manejo de la vía aérea e intubación de secuencia rápida",
+   "s": "Preoxigena, reanima antes de la inducción, da una dosis completa de paralizante con una dosis de inductor ajustada a la hemodinamia, y confirma el tubo con capnografía de onda."
+  },
+  {
+   "en": "Bradycardia and tachycardia algorithms",
+   "src": "d07f2caaaf5c",
+   "n": "Algoritmos de bradicardia y taquicardia",
+   "s": "Decide primero si el ritmo está causando inestabilidad; la taquicardia inestable recibe cardioversión sincronizada, y la bradicardia inestable recibe atropina, luego marcapaso o una infusión cronotrópica."
+  },
+  {
+   "en": "Acute coronary syndrome and STEMI (2025 ACC/AHA)",
+   "src": "8ceb973467a6",
+   "n": "Síndrome coronario agudo e infarto con elevación del ST (ACC y AHA 2025)",
+   "s": "Obtén un electrocardiograma en menos de 10 minutos, reconoce el infarto con elevación del ST y sus equivalentes, da aspirina y anticoagulación, y reperfunde dentro de las metas de 90 o 120 minutos de la guía 2025 de ACC, AHA, ACEP, NAEMSP y SCAI."
+  },
+  {
+   "en": "Acute aortic dissection",
+   "src": "8e7e3c281a24",
+   "n": "Disección aórtica aguda",
+   "s": "Sospecha disección ante un dolor súbito e intenso de pecho, espalda o abdomen con déficit de pulso, de presión o neurológico, confírmala con angiotomografía, y controla la frecuencia cardíaca con un betabloqueador intravenoso antes de bajar la presión sistólica a menos de 120."
+  },
+  {
+   "en": "Pulmonary embolism: decision rules, risk categories, and reperfusion",
+   "src": "bea336fcae05",
+   "n": "Embolia pulmonar: reglas de decisión, categorías de riesgo y reperfusión",
+   "s": "Usa el juicio clínico o la escala de Wells para fijar la probabilidad previa, la regla PERC y el dímero D ajustado por edad para evitar tomografías innecesarias, y luego clasifica la gravedad con las categorías de la A a la E de AHA y ACC 2026 para elegir entre anticoagulación sola o terapia avanzada."
+  },
+  {
+   "en": "Hypertensive emergency",
+   "src": "bcdde322b9a1",
+   "n": "Emergencia hipertensiva",
+   "s": "La emergencia hipertensiva es hipertensión grave con daño nuevo o progresivo de un órgano blanco, y se trata con fármacos intravenosos titulables hasta una meta propia de cada lesión, mientras que la hipertensión grave asintomática no necesita tratamiento intravenoso."
+  },
+  {
+   "en": "Acute decompensated heart failure and flash pulmonary edema",
+   "src": "edd51263e8e2",
+   "n": "Insuficiencia cardíaca aguda descompensada y edema pulmonar súbito",
+   "s": "Distingue el edema pulmonar agudo simpático, que necesita ventilación no invasiva y nitratos a dosis altas, de la sobrecarga de volumen, que necesita diuréticos de asa intravenosos a dosis adecuadas, y del choque cardiogénico."
+  },
+  {
+   "en": "Syncope: red flags and risk stratification",
+   "src": "b8bc79688207",
+   "n": "Síncope: señales de alarma y estratificación del riesgo",
+   "s": "Todo paciente con síncope necesita una historia clínica cuidadosa, examen físico y electrocardiograma, y la escala canadiense de riesgo de síncope después del estudio identifica quién puede irse a casa con seguridad."
+  },
+  {
+   "en": "Severe asthma exacerbation",
+   "src": "fd4aef15680f",
+   "n": "Crisis asmática grave",
+   "s": "Trata el asma grave con broncodilatador de acción corta repetido o continuo más ipratropio, esteroides sistémicos tempranos, magnesio intravenoso y oxígeno controlado, y evita intubar salvo que el paciente se esté agotando."
+  },
+  {
+   "en": "COPD exacerbation",
+   "src": "d74cec670b22",
+   "n": "Exacerbación de EPOC",
+   "s": "Trata la exacerbación de EPOC con oxígeno controlado a una saturación de 88 a 92 por ciento, broncodilatadores de acción corta, un ciclo corto de esteroides sistémicos, antibióticos cuando el esputo es purulento, y ventilación no invasiva temprana si hay acidosis hipercápnica."
+  },
+  {
+   "en": "Anaphylaxis",
+   "src": "8f5245f47fe2",
+   "n": "Anafilaxia",
+   "s": "La anafilaxia es una reacción alérgica rápida de varios sistemas, y se trata primero y de inmediato con epinefrina intramuscular, 0,01 miligramos por kilo con un máximo de 0,5 miligramos en adultos, en la cara externa del muslo, repetida cada 5 a 15 minutos, con una infusión de epinefrina si es refractaria."
+  },
+  {
+   "en": "Pneumothorax and tension pneumothorax",
+   "src": "69f4657813df",
+   "n": "Neumotórax y neumotórax a tensión",
+   "s": "El neumotórax a tensión es un diagnóstico clínico que se trata con descompresión inmediata, mientras que el neumotórax espontáneo estable se maneja según los síntomas y los factores de riesgo, desde la observación hasta un drenaje de calibre pequeño."
+  },
+  {
+   "en": "Acute ischemic stroke: thrombolysis and thrombectomy (2026 AHA/ASA)",
+   "src": "f8badb4536d5",
+   "n": "Accidente cerebrovascular isquémico agudo: trombólisis y trombectomía (AHA y ASA 2026)",
+   "s": "Ante un déficit discapacitante dentro de las 4,5 horas, da tenecteplasa o alteplasa sin esperar la imagen de los vasos, y evalúa a todos los pacientes dentro de las 24 horas en busca de una oclusión de vaso grande que la trombectomía pueda abrir."
+  },
+  {
+   "en": "Intracerebral hemorrhage and anticoagulant reversal",
+   "src": "39a6476155d1",
+   "n": "Hemorragia intracerebral y reversión de anticoagulantes",
+   "s": "En la hemorragia intracerebral espontánea, baja la presión sistólica a cerca de 140 en las primeras horas, revierte de inmediato cualquier anticoagulante con su antídoto específico o con concentrado de complejo protrombínico de cuatro factores, y busca temprano hidrocefalia y lesiones quirúrgicas."
+  },
+  {
+   "en": "Status epilepticus",
+   "src": "a923d6592b51",
+   "n": "Estado epiléptico",
+   "s": "Trata toda convulsión que dure 5 minutos como estado epiléptico con una dosis completa de benzodiacepina, luego una carga de segunda línea de levetiracetam, fosfenitoína o valproato antes de los 20 minutos, y después infusiones anestésicas para las crisis refractarias."
+  },
+  {
+   "en": "Subarachnoid hemorrhage and headache red flags",
+   "src": "79fc397a6622",
+   "n": "Hemorragia subaracnoidea y señales de alarma en la cefalea",
+   "s": "Una cefalea súbita que alcanza su máximo en menos de una hora requiere la regla de Ottawa para hemorragia subaracnoidea, y una tomografía sin contraste normal dentro de las 6 horas del inicio, en un paciente neurológicamente intacto, la descarta."
+  },
+  {
+   "en": "Trauma primary survey and hemorrhagic shock",
+   "src": "df6b407623d4",
+   "n": "Evaluación primaria del trauma y choque hemorrágico",
+   "s": "Detén primero el sangrado, reanima con sangre total o componentes balanceados en vez de cristaloides, da ácido tranexámico dentro de las 3 horas, y lleva al paciente al control definitivo de la hemorragia."
+  },
+  {
+   "en": "Traumatic brain injury and head CT decision rules",
+   "src": "579483351df3",
+   "n": "Traumatismo craneoencefálico y reglas para la tomografía de cráneo",
+   "s": "Usa la regla canadiense de tomografía de cráneo en adultos con trauma craneal leve y PECARN en niños, y en el trauma grave previene la lesión secundaria evitando la hipotensión, la hipoxia y la hiperventilación."
+  },
+  {
+   "en": "Cervical spine clearance",
+   "src": "970243504de0",
+   "n": "Liberación de la columna cervical",
+   "s": "Libera clínicamente la columna cervical con NEXUS o con la regla canadiense, que es más sensible, en adultos alertas y estables, haz tomografía cuando las reglas no la liberan, y restringe el movimiento espinal de forma selectiva."
+  },
+  {
+   "en": "Burns: assessment, fluids, and transfer",
+   "src": "9d501fe4f622",
+   "n": "Quemaduras: evaluación, líquidos y traslado",
+   "s": "Calcula la superficie quemada contando solo las quemaduras de espesor parcial y total, protege la vía aérea temprano cuando es probable una lesión por inhalación, inicia Ringer lactato a 2 mililitros por kilo por cada punto de porcentaje de superficie quemada en adultos con más del 20 por ciento, ajustado al gasto urinario, y consulta temprano a un centro de quemados."
+  },
+  {
+   "en": "Accidental hypothermia and hypothermic cardiac arrest",
+   "src": "894f70605a6a",
+   "n": "Hipotermia accidental y paro cardíaco por hipotermia",
+   "s": "Clasifica por temperatura central y estado de conciencia, manipula con suavidad, recalienta según la etapa, y envía a los pacientes inestables o en paro a un centro con soporte vital extracorpóreo, porque es posible recuperarse por completo neurológicamente tras horas de reanimación."
+  },
+  {
+   "en": "Heat stroke",
+   "src": "482a67c78e40",
+   "n": "Golpe de calor",
+   "s": "La hipertermia con disfunción del sistema nervioso central es golpe de calor hasta que se demuestre lo contrario, y el tratamiento es la inmersión inmediata de todo el cuerpo en agua fría o con hielo hasta bajar de 39 grados en menos de 30 minutos."
+  },
+  {
+   "en": "DKA and HHS (2024 ADA/EASD/JBDS consensus)",
+   "src": "a54c455c7931",
+   "n": "Cetoacidosis diabética y estado hiperosmolar (consenso ADA, EASD y JBDS 2024)",
+   "s": "Diagnostica con glucosa elevada o diabetes conocida, cetonas y acidosis en la cetoacidosis, o con glucosa y osmolalidad extremas sin cetosis importante en el estado hiperosmolar; luego da líquidos, revisa el potasio antes de la insulina, usa insulina a dosis fija, y agrega dextrosa antes de que se eliminen las cetonas."
+  },
+  {
+   "en": "Hypoglycemia",
+   "src": "72fff8ca2315",
+   "n": "Hipoglucemia",
+   "s": "Mide la glucosa en todo paciente con alteración de la conciencia, trátala de inmediato con carbohidratos orales si puede tragar, o con dextrosa intravenosa o glucagón si no, y luego busca la causa y decide cuánto tiempo puede repetirse."
+  },
+  {
+   "en": "Hyperkalemia",
+   "src": "f05fc3b52a6b",
+   "n": "Hiperpotasemia",
+   "s": "Protege el corazón con calcio intravenoso cuando el electrocardiograma muestra toxicidad, mete el potasio a las células con insulina y glucosa y con salbutamol, elimínalo con quelantes o diálisis, y vigila el rebote y la hipoglucemia."
+  },
+  {
+   "en": "Hyponatremia and hypernatremia",
+   "src": "f619020490de",
+   "n": "Hiponatremia e hipernatremia",
+   "s": "Trata la hiponatremia grave y sintomática con bolos de 150 mililitros de solución salina al 3 por ciento para subir el sodio unos 5 milimoles por litro, luego limita la corrección para proteger contra la desmielinización osmótica, y baja la hipernatremia crónica de forma gradual con agua libre."
+  },
+  {
+   "en": "Adrenal crisis",
+   "src": "9a50e1d2db2a",
+   "n": "Crisis suprarrenal",
+   "s": "Da 100 miligramos de hidrocortisona intravenosa o intramuscular de inmediato a todo paciente con insuficiencia suprarrenal conocida o sospechada que esté en choque o vomitando, sin esperar el resultado del cortisol."
+  },
+  {
+   "en": "Thyroid storm and myxedema coma",
+   "src": "ff1314bb2a0c",
+   "n": "Tormenta tiroidea y coma mixedematoso",
+   "s": "La tormenta tiroidea se trata con betabloqueo, una tionamida, yodo dado al menos una hora después de la tionamida, y esteroides; el coma mixedematoso se trata con levotiroxina intravenosa, hidrocortisona a dosis de estrés, y soporte de la temperatura, la ventilación y el sodio."
+  },
+  {
+   "en": "Upper GI bleeding, including variceal hemorrhage",
+   "src": "5464d3796de4",
+   "n": "Hemorragia digestiva alta, incluida la variceal",
+   "s": "Reanima con un umbral de transfusión restrictivo, estratifica el riesgo con la escala de Glasgow-Blatchford, haz endoscopia dentro de las 24 horas, y trata la sospecha de várices con un fármaco vasoactivo, ceftriaxona y endoscopia dentro de las 12 horas."
+  },
+  {
+   "en": "Lower GI bleeding",
+   "src": "3065aad86d70",
+   "n": "Hemorragia digestiva baja",
+   "s": "La mayoría de las hemorragias digestivas bajas se detienen solas, así que reanima, descarta un origen alto cuando el paciente está inestable, pide angiotomografía si el sangrado es hemodinámicamente importante, y programa la colonoscopia en vez de apresurarla."
+  },
+  {
+   "en": "Acute abdomen: appendicitis, bowel obstruction, mesenteric ischemia, AAA",
+   "src": "1437681b9c66",
+   "n": "Abdomen agudo: apendicitis, obstrucción intestinal, isquemia mesentérica y aneurisma de aorta abdominal",
+   "s": "El dolor desproporcionado, la peritonitis, el choque, o el dolor abdominal en mayores de 50 años exigen imagen y cirugía tempranas, porque la isquemia mesentérica, el aneurisma roto, la perforación y la obstrucción estrangulada matan rápido."
+  },
+  {
+   "en": "Acute pancreatitis",
+   "src": "207209cf3c1c",
+   "n": "Pancreatitis aguda",
+   "s": "Diagnostica con dos de tres criterios, reanima de forma moderada con Ringer lactato en vez de líquidos agresivos, alimenta temprano, no des antibióticos profilácticos, y reserva la colangiopancreatografía urgente para la colangitis."
+  },
+  {
+   "en": "Sepsis and septic shock (Surviving Sepsis Campaign 2026)",
+   "src": "f28c22afa6c3",
+   "n": "Sepsis y choque séptico (Campaña Sobrevivir a la Sepsis 2026)",
+   "s": "Tamiza con una escala de alerta temprana, da antibióticos dentro de la primera hora ante sepsis probable o choque, reanima con al menos 30 mililitros por kilo de cristaloide balanceado si hay hipoperfusión, guiado por medidas dinámicas, e inicia norepinefrina hasta una presión arterial media de 65."
+  },
+  {
+   "en": "Bacterial meningitis",
+   "src": "8d94cb4965f1",
+   "n": "Meningitis bacteriana",
+   "s": "Da dexametasona y antibióticos empíricos de inmediato, sin retrasarlos nunca por la tomografía o la punción lumbar, con vancomicina más ceftriaxona en adultos, y agrega ampicilina si hay riesgo de Listeria."
+  },
+  {
+   "en": "Necrotizing soft tissue infection",
+   "src": "b62f2617fb04",
+   "n": "Infección necrotizante de tejidos blandos",
+   "s": "Dolor desproporcionado, avance rápido, toxicidad sistémica o crepitación significan infección necrotizante hasta que la cirugía demuestre lo contrario, y el tratamiento es el desbridamiento inmediato con antibióticos de amplio espectro que incluyan clindamicina."
+  },
+  {
+   "en": "Ectopic pregnancy",
+   "src": "297e60244b80",
+   "n": "Embarazo ectópico",
+   "s": "Toda persona en edad reproductiva con dolor abdominal, sangrado o síncope necesita una prueba de embarazo, y una prueba positiva sin embarazo intrauterino confirmado es un posible ectópico hasta que se demuestre lo contrario."
+  },
+  {
+   "en": "Preeclampsia, eclampsia and severe hypertension in pregnancy",
+   "src": "13a2caffd434",
+   "n": "Preeclampsia, eclampsia e hipertensión grave en el embarazo",
+   "s": "Trata la presión en rango grave, de 160 sobre 110 o más, dentro de una hora con labetalol intravenoso, hidralazina intravenosa o nifedipino oral de liberación inmediata, y da sulfato de magnesio para prevenir y tratar las convulsiones eclámpticas, incluso hasta 6 semanas después del parto."
+  },
+  {
+   "en": "Postpartum hemorrhage",
+   "src": "df6d70c94f90",
+   "n": "Hemorragia posparto",
+   "s": "La hemorragia posparto es una pérdida acumulada de sangre de 1000 mililitros, o hipovolemia, dentro de las 24 horas del parto, y se trata con masaje uterino, oxitocina, ácido tranexámico dentro de las 3 horas, uterotónicos de segunda línea y sangre."
+  },
+  {
+   "en": "Febrile infant 8 to 60 days (AAP 2021)",
+   "src": "039972fe59f6",
+   "n": "Lactante febril de 8 a 60 días (AAP 2021)",
+   "s": "Estratifica a los lactantes febriles de buen aspecto por grupo de edad y marcadores inflamatorios: estudio completo e ingreso de 8 a 21 días, decisión de punción lumbar según los marcadores de 22 a 28 días, y punción lumbar selectiva de 29 a 60 días."
+  },
+  {
+   "en": "Pediatric resuscitation essentials (PALS 2025) and dehydration",
+   "src": "9dc1bffb2959",
+   "n": "Lo esencial de la reanimación pediátrica (PALS 2025) y la deshidratación",
+   "s": "El paro pediátrico suele ser respiratorio, así que prioriza la oxigenación y la ventilación, da epinefrina y descargas según el peso como indica PALS 2025, da bolos de líquido de 10 a 20 mililitros por kilo con reevaluación en el choque, y rehidrata por vía oral la mayoría de las gastroenteritis, con ondansetrón."
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "topic": "powerautomate",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "Which automation tool",
+   "src": "eed8f27d7345",
+   "n": "Qué herramienta de automatización usar",
+   "s": "Usa Power Automate para flujos de trabajo, aprobaciones e integración ligera en Microsoft 365, una iPaaS empresarial como Workato para integrar aplicaciones SaaS y APIs, y Fabric o Databricks para mover datos."
+  },
+  {
+   "en": "Environments and data policies",
+   "src": "8ac03c4eeae9",
+   "n": "Entornos y políticas de datos",
+   "s": "Los entornos son el límite de seguridad y de despliegue, y las políticas de datos deciden qué conectores, acciones y destinos pueden usar los flujos, así que los flujos con datos PHI viven en entornos gobernados con políticas que niegan por defecto."
+  },
+  {
+   "en": "ALM and ownership",
+   "src": "30d87e67a6ae",
+   "n": "ALM y propiedad",
+   "s": "Construye dentro de soluciones, saca la configuración a variables de entorno y referencias de conexión, promueve soluciones administradas con pipelines, y deja que una entidad de servicio o un grupo sea dueño de los flujos de producción."
+  },
+  {
+   "en": "Licensing and throttling",
+   "src": "4a5d78faa087",
+   "n": "Licencias y limitación",
+   "s": "Cada disparador y cada acción es una solicitud medida, así que la licencia detrás de un flujo fija su cupo diario y sus límites de ráfaga, y el diseño de los bucles determina el costo y la limitación."
+  },
+  {
+   "en": "Reliable flows",
+   "src": "a167a320f625",
+   "n": "Flujos confiables",
+   "s": "Filtra en el disparador, evita que el flujo se vuelva a disparar a sí mismo, envuelve el trabajo en ámbitos Try y Catch que terminen en Failed, y haz que cada escritura se pueda repetir sin daño."
+  }
+ ]
+}

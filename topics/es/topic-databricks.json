@@ -1,0 +1,91 @@
+{
+ "topic": "databricks",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The Databricks map",
+   "src": "a455bd8cf265",
+   "n": "El mapa de Databricks",
+   "s": "Databricks son tres ideas y un medidor: un plano de control que gobierna el cómputo sobre tus datos, tablas que son archivos más un registro de transacciones bajo Unity Catalog, y pipelines declarativos y jobs definidos como código; los DBU miden todo."
+  },
+  {
+   "en": "Planes and compute choices",
+   "src": "8a7ba0f2219b",
+   "n": "Planos y opciones de cómputo",
+   "s": "Elige el cómputo según la carga: serverless por defecto para jobs, notebooks y SQL, clústeres de job clásicos cuando necesitas redes o imágenes propias, y nunca clústeres interactivos para producción."
+  },
+  {
+   "en": "Cost: DBUs and attribution",
+   "src": "00d826cb47a3",
+   "n": "Costo: DBU y asignación",
+   "s": "El gasto son DBU por SKU, más las máquinas virtuales de la nube en el cómputo clásico, así que etiqueta todo, consulta las tablas de sistema de facturación, y corrige la organización y el cómputo antes de comprar más."
+  },
+  {
+   "en": "Tables and layout",
+   "src": "bb49a699dde6",
+   "n": "Tablas y organización física",
+   "s": "Usa tablas administradas de Unity Catalog para que la plataforma se encargue de la organización y el mantenimiento, agrupa con liquid clustering en vez de particiones, y deja que la optimización predictiva compacte y limpie."
+  },
+  {
+   "en": "Unity Catalog privileges",
+   "src": "9114962975e6",
+   "n": "Privilegios en Unity Catalog",
+   "s": "Unity Catalog es una jerarquía de catálogo, esquema y objeto donde los permisos de un padre se heredan hacia abajo, así que otorga a grupos en el nivel más alto que siga siendo de mínimo privilegio."
+  },
+  {
+   "en": "Row filters, masks and ABAC",
+   "src": "bf2db4bdf4cd",
+   "n": "Filtros de filas, máscaras y ABAC",
+   "s": "Protege filas y columnas sensibles con funciones SQL aplicadas como filtros de filas y máscaras de columna, y a escala con políticas ABAC basadas en etiquetas que las aplican a cada tabla que coincida."
+  },
+  {
+   "en": "Compliance and audit",
+   "src": "22e1aad269c8",
+   "n": "Cumplimiento y auditoría",
+   "s": "Para datos sujetos a HIPAA, activa el perfil de seguridad de cumplimiento en el espacio de trabajo, y usa las tablas de sistema para auditoría, linaje y revisión de accesos."
+  },
+  {
+   "en": "Federation and sharing",
+   "src": "c1708b3c65fe",
+   "n": "Federación y compartición",
+   "s": "Consulta bases de datos externas donde están con Lakehouse Federation, comparte datos en vivo y de solo lectura entre organizaciones con OpenSharing, y usa clean rooms cuando las partes deben combinar datos sin ver las filas de las otras."
+  },
+  {
+   "en": "Ingest incrementally",
+   "src": "c58d2a651d4b",
+   "n": "Ingesta incremental",
+   "s": "Ingiere con herramientas que recuerdan lo que ya procesaron: Lakeflow Connect para bases de datos y aplicaciones SaaS, Auto Loader para archivos, y cada una retoma desde un punto de control."
+  },
+  {
+   "en": "Declarative pipelines",
+   "src": "988df0317a5f",
+   "n": "Pipelines declarativos",
+   "s": "Declara tablas de streaming y vistas materializadas y deja que el motor deduzca las dependencias, maneje los puntos de control, haga cumplir las expectativas y aplique CDC."
+  },
+  {
+   "en": "Jobs and bundles",
+   "src": "211503b6fca1",
+   "n": "Jobs y bundles",
+   "s": "Orquesta con Lakeflow Jobs y define jobs, pipelines y tableros en bundles, para que el mismo YAML revisado se despliegue en todos los entornos."
+  },
+  {
+   "en": "Serve BI",
+   "src": "f7c2ea11d672",
+   "n": "Servir BI",
+   "s": "Sirve BI desde SQL warehouses serverless, define los KPI una sola vez como vistas de métricas, y diagnostica las consultas lentas con el perfil de la consulta antes de aumentar el tamaño."
+  },
+  {
+   "en": "Power BI on Databricks",
+   "src": "1ecc91c5ec1c",
+   "n": "Power BI sobre Databricks",
+   "s": "Elige Import o DirectQuery por frescura, costo y seguridad: Import guarda los datos con la identidad de actualización, así que los filtros y máscaras de Unity Catalog dejan de proteger a quienes ven el reporte."
+  },
+  {
+   "en": "Databricks or Fabric",
+   "src": "cdef9f0d7336",
+   "n": "¿Databricks o Fabric?",
+   "s": "Ambos guardan datos Delta abiertos y sirven a Power BI; elige por modelo de precios, gobierno, profundidad de ingeniería y modelo operativo, y espera integrarlos en vez de reemplazar uno por otro."
+  }
+ ]
+}

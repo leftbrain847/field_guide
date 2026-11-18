@@ -1,0 +1,121 @@
+{
+ "topic": "agentic",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The agentic engineering map",
+   "src": "db0c93571faf",
+   "n": "El mapa de la ingeniería con agentes",
+   "s": "Un agente de programación repite un ciclo: reunir contexto, planear, actuar y verificar; su resultado está limitado por el verificador que le das, amplifica la disciplina que ya tienes, y sus permisos definen el alcance del daño."
+  },
+  {
+   "en": "Explore, plan, implement, commit",
+   "src": "d232dd579416",
+   "n": "Explorar, planear, implementar, hacer commit",
+   "s": "Separa la exploración y la planificación de solo lectura de la implementación, para que el agente no resuelva el problema equivocado, y termina cada unidad de trabajo en un commit que se pueda revisar."
+  },
+  {
+   "en": "Give the agent a verifier",
+   "src": "610c05cae6c3",
+   "n": "Dale al agente un verificador",
+   "s": "La práctica de mayor impacto es una verificación que el agente pueda correr por su cuenta, como pruebas, compilación, linter, conciliación o captura de pantalla, porque sin ella tú te conviertes en el ciclo de verificación."
+  },
+  {
+   "en": "Test-driven agent loops",
+   "src": "f28fa50eaaba",
+   "n": "Ciclos de agente guiados por pruebas",
+   "s": "Haz que el agente escriba primero una prueba que falle, luego el código mínimo para pasarla, y protege las pruebas, porque un objetivo ejecutable y preciso deja ver las trampas."
+  },
+  {
+   "en": "Context is a budget",
+   "src": "19690a0127b1",
+   "n": "El contexto es un presupuesto",
+   "s": "Todo lo que el agente sabe cabe en una sola ventana de contexto finita, así que deja fuera las lecturas voluminosas, reinicia entre tareas y compacta a propósito."
+  },
+  {
+   "en": "Checkpoints and their limits",
+   "src": "d3cb82f985a8",
+   "n": "Puntos de control y sus límites",
+   "s": "Los puntos de control te dejan rebobinar las ediciones de archivos y la conversación del agente, pero no deshacen comandos de terminal ni nada fuera de tu máquina, así que los commits siguen siendo tu verdadera red de seguridad."
+  },
+  {
+   "en": "Standing instructions",
+   "src": "d10197a134cd",
+   "n": "Instrucciones permanentes",
+   "s": "Pon lo que el agente siempre debe saber en archivos de instrucciones cortos, y lo que nunca debe pasar en hooks deterministas o reglas de permisos."
+  },
+  {
+   "en": "Harness engineering",
+   "src": "56e4f2839df1",
+   "n": "Ingeniería del arnés",
+   "s": "Convierte cada error repetido del agente en infraestructura duradera, como una regla, una habilidad o comando, un script, un hook o una verificación de CI, y depúrala cuando los modelos mejoren."
+  },
+  {
+   "en": "Review and own the code",
+   "src": "47fc978f3c67",
+   "n": "Revisar y hacerse cargo del código",
+   "s": "La revisión es el cuello de botella, así que mantén pequeños los cambios del agente, revísalos con contexto fresco, e integra solo código que una persona pueda explicar y del que se haga cargo."
+  },
+  {
+   "en": "Pick the right extension",
+   "src": "b02b47da9694",
+   "n": "Elige la extensión adecuada",
+   "s": "Usa CLAUDE.md para lo que hay que saber, skills para los procedimientos que se cargan cuando hacen falta, MCP para herramientas hacia sistemas externos, subagentes para trabajo aislado, y hooks para lo que siempre debe ocurrir."
+  },
+  {
+   "en": "Permissions and sandboxing",
+   "src": "4057fcab9c13",
+   "n": "Permisos y aislamiento",
+   "s": "Casi toda la productividad de un agente viene de pedir menos aprobaciones, y la forma segura de lograrlo es aislamiento más mínimo privilegio, no aprobar más rápido."
+  },
+  {
+   "en": "Prompt injection",
+   "src": "10d8cf2a3ac2",
+   "n": "Inyección de prompts",
+   "s": "Cualquier cosa que el agente lea puede actuar como instrucción, así que nunca combines en un mismo agente datos privados, contenido no confiable y un canal de salida."
+  },
+  {
+   "en": "Parallel agents",
+   "src": "db55c04c2d55",
+   "n": "Agentes en paralelo",
+   "s": "Los agentes en paralelo multiplican el rendimiento solo cuando las tareas son independientes, cada agente tiene su propia copia del repositorio, y no lanzas más de los que puedes revisar."
+  },
+  {
+   "en": "Long-running and autonomous work",
+   "src": "00a171f7e6cf",
+   "n": "Trabajo largo y autónomo",
+   "s": "El trabajo de varias sesiones funciona cuando el estado vive en disco, en la especificación, la lista de funciones, el registro de avance y git; cada sesión empieza de cero y se reorienta con esos archivos, y un evaluador aparte revisa el trabajo."
+  },
+  {
+   "en": "Headless and CI agents",
+   "src": "9a836501dc60",
+   "n": "Agentes sin interfaz y en CI",
+   "s": "Ejecuta agentes de forma no interactiva en scripts y en CI para trabajos repetibles, con herramientas y permisos muy acotados, porque ninguna persona aprueba cada paso."
+  },
+  {
+   "en": "What the productivity evidence shows",
+   "src": "edf4bac70388",
+   "n": "Lo que muestra la evidencia de productividad",
+   "s": "La evidencia controlada sobre la productividad de los agentes de programación es escasa y mixta: lo que la gente reporta y el volumen de trabajo suben, pero el mejor ensayo encontró una desaceleración que los expertos no percibieron, y la estabilidad tiende a bajar."
+  },
+  {
+   "en": "Measure your own gains",
+   "src": "2e9633c66932",
+   "n": "Mide tus propias ganancias",
+   "s": "Juzga la productividad de los agentes con métricas de resultado que incluyan el retrabajo, no con lo que la gente reporta ni con el número de pull requests."
+  },
+  {
+   "en": "Evaluate on your own work",
+   "src": "24f231d18e7f",
+   "n": "Evalúa con tu propio trabajo",
+   "s": "Los benchmarks públicos muestran que los agentes mejoran en tareas limpias y bien especificadas; solo una prueba con tus propios repositorios, verificaciones y estándares de revisión te dice qué hará una herramienta por ti."
+  },
+  {
+   "en": "Skill formation and the changing role",
+   "src": "ef1cf00ade08",
+   "n": "Formación de habilidades y el rol que cambia",
+   "s": "Delegar mucho puede erosionar las habilidades que necesitas para supervisar a los agentes, así que usa formas de trabajar que mantengan tu comprensión dentro del ciclo mientras el rol se mueve hacia la especificación, el diseño y la revisión."
+  }
+ ]
+}

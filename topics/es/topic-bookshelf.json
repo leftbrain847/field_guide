@@ -1,0 +1,79 @@
+{
+ "topic": "bookshelf",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The operator's shelf",
+   "src": "a7440ada9ce7",
+   "n": "La biblioteca del operador",
+   "s": "Cinco libros se reducen a cuatro ciclos que corre un operador: fijar la estrategia, multiplicar el resultado a través de otros, gestionar tu propia efectividad, y dirigir la empresa con normas escritas."
+  },
+  {
+   "en": "Strategy kernel",
+   "src": "8c334911efa5",
+   "n": "El núcleo de la estrategia",
+   "s": "Rumelt: una estrategia es un diagnóstico del desafío crítico, una política guía para enfrentarlo, y acciones coherentes que la llevan a cabo; todo lo demás son metas o relleno."
+  },
+  {
+   "en": "Managerial output and leverage",
+   "src": "b91efc62b997",
+   "n": "Resultado gerencial y apalancamiento",
+   "s": "Grove: el resultado de un gerente es el resultado de los equipos que dirige o influye, así que dedica tus horas a las actividades con más apalancamiento sobre ese resultado."
+  },
+  {
+   "en": "Indicators and production thinking",
+   "src": "27bdfb9a6c61",
+   "n": "Indicadores y pensamiento de producción",
+   "s": "Grove: maneja el trabajo como una línea de producción: vigila los indicadores adelantados, acompaña cada medida con su contramedida, y detecta los problemas en la etapa de menor valor."
+  },
+  {
+   "en": "Task-relevant maturity",
+   "src": "0522f9df66a2",
+   "n": "Madurez relativa a la tarea",
+   "s": "Grove: ajusta qué tan de cerca supervisas a la madurez de la persona en esa tarea específica, desde instrucciones estructuradas cuando es nueva hasta un seguimiento ligero cuando la domina."
+  },
+  {
+   "en": "Time and concentration",
+   "src": "6b63dd89b486",
+   "n": "Tiempo y concentración",
+   "s": "Drucker: registra a dónde se va realmente tu tiempo, elimina lo que lo desperdicia, junta el resto en bloques grandes, y haz primero lo primero, una cosa a la vez."
+  },
+  {
+   "en": "Contribution and strength",
+   "src": "dcbd1f83a7a3",
+   "n": "Contribución y fortalezas",
+   "s": "Drucker: pregunta qué puedes aportar que cambie los resultados, júzgate por lo que produces, y arma los equipos según lo que la gente hace excepcionalmente bien, haciendo irrelevantes sus debilidades."
+  },
+  {
+   "en": "Effective decisions",
+   "src": "7555d3278f98",
+   "n": "Decisiones efectivas",
+   "s": "Drucker: toma pocas decisiones, y que sean fundamentales: clasifica el problema, define lo que la decisión debe lograr, parte de opiniones, exige disenso, e incorpora la acción y la retroalimentación."
+  },
+  {
+   "en": "Run on written norms",
+   "src": "806a50e97a62",
+   "n": "Dirigir con normas escritas",
+   "s": "Hughes Johnson: escribe la misión, las metas y los valores, y luego dirige la empresa con un sistema operativo visible de estrategia, métricas, responsables y ritmo."
+  },
+  {
+   "en": "Lead the team",
+   "src": "106ef69bd69c",
+   "n": "Dirigir al equipo",
+   "s": "Hughes Johnson: construye confianza con autoconocimiento y franqueza, gestiona a cada persona según su habilidad y su voluntad, y guárdate solo las decisiones de alto impacto e irreversibles."
+  },
+  {
+   "en": "Hiring for humble, hungry, smart",
+   "src": "78ebcfae8768",
+   "n": "Contratar gente humilde, con hambre e inteligente",
+   "s": "Contrata con un proceso estructurado que busque rasgos específicos, donde humilde, con hambre e inteligente con la gente de Lencioni es un lente útil, y nunca bajes la vara para llenar un puesto."
+  },
+  {
+   "en": "Feedback and performance",
+   "src": "f9aabde44fe6",
+   "n": "Retroalimentación y desempeño",
+   "s": "Hughes Johnson: da retroalimentación de forma continua como hipótesis puestas a prueba, haz evaluaciones justas y calibradas, y actúa con decisión tanto con quienes rinden mucho como con quienes rinden poco."
+  }
+ ]
+}

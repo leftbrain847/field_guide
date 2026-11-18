@@ -1,0 +1,91 @@
+{
+ "topic": "eq",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The EI map",
+   "src": "8deb2d599cdb",
+   "n": "El mapa de la inteligencia emocional",
+   "s": "La habilidad emocional es una cadena que puedes entrenar eslabón por eslabón: notar la señal, nombrarla con precisión, replantearla, y luego responder a las personas y a los equipos."
+  },
+  {
+   "en": "What the EI label measures",
+   "src": "c8e0e8ec3cda",
+   "n": "Qué mide la etiqueta IE",
+   "s": "La inteligencia emocional nombra tres constructos distintos, y solo las habilidades específicas y entrenables se sostienen una vez que se controlan la personalidad y el coeficiente intelectual."
+  },
+  {
+   "en": "Name it precisely",
+   "src": "9e846a73420f",
+   "n": "Nómbralo con precisión",
+   "s": "Poner un sentimiento en palabras específicas baja su intensidad y señala el siguiente paso correcto."
+  },
+  {
+   "en": "Reappraise, don't suppress",
+   "src": "a554b9afa9ef",
+   "n": "Reinterpreta, no reprimas",
+   "s": "Cambiar lo que significa una situación funciona mejor que esconder tu reacción, porque reprimirla mantiene el sentimiento y le cuesta a tu memoria y a la conexión con los demás."
+  },
+  {
+   "en": "Regulate under pressure",
+   "src": "e63475722759",
+   "n": "Regúlate bajo presión",
+   "s": "Bajo presión, usa la primera señal de tu cuerpo como aviso y sigue una rutina preparada, porque el juicio se deteriora una vez que te desbordas."
+  },
+  {
+   "en": "Empathy: model them, don't absorb them",
+   "src": "2a821fcb6e15",
+   "n": "Empatía: entiende al otro, no absorbas",
+   "s": "La empatía cognitiva, entender lo que alguien piensa y necesita, gana negociaciones y mantiene claro el juicio, mientras que absorber su angustia te agota."
+  },
+  {
+   "en": "Listen by looping",
+   "src": "6b15d531a81f",
+   "n": "Escucha en bucle",
+   "s": "Escucha para comprender: parafrasea su punto y confírmalo antes de agregar el tuyo, porque quien se siente escuchado se pone menos a la defensiva y se abre más."
+  },
+  {
+   "en": "Read the room with baselines",
+   "src": "91d85f26dff9",
+   "n": "Lee el ambiente con líneas base",
+   "s": "Lee a las personas contra su propia línea base y contra grupos de señales, y luego pon a prueba tu lectura, porque una sola expresión facial no revela de forma confiable una emoción."
+  },
+  {
+   "en": "Assert: calibrate, then script",
+   "src": "0cd3449b689f",
+   "n": "Afírmate: calibra y luego prepara el guion",
+   "s": "Di tus necesidades y límites de forma directa y específica, y calibra con opiniones externas, porque tu propia idea de qué es demasiado no es confiable."
+  },
+  {
+   "en": "Conflict and negotiation",
+   "src": "8460819f7cc5",
+   "n": "Conflicto y negociación",
+   "s": "Evita que los desacuerdos sobre el trabajo se vuelvan desacuerdos personales: regúlate primero, atiende la emoción antes que los hechos, y negocia por intereses con límites claros y dichos con calma."
+  },
+  {
+   "en": "Feedback that lands",
+   "src": "1fb9b26d00d5",
+   "n": "Retroalimentación que llega",
+   "s": "Dirige la retroalimentación a la tarea, con estándares altos y confianza expresa en la persona, y recíbela nombrando qué detonante se activó antes de responder."
+  },
+  {
+   "en": "Managing up",
+   "src": "bca44b0eadeb",
+   "n": "Gestionar hacia arriba",
+   "s": "Consigue recursos para tu equipo planteando los pedidos en la moneda de tu jefe, llevando una recomendación con datos, y acordando de antemano, uno a uno, los puntos polémicos."
+  },
+  {
+   "en": "Psychological safety",
+   "src": "420f7c66bbff",
+   "n": "Seguridad psicológica",
+   "s": "La creencia compartida de un equipo de que es seguro asumir riesgos interpersonales es el predictor a nivel de equipo con más respaldo del aprendizaje y el desempeño; Edmondson la combina con estándares altos."
+  },
+  {
+   "en": "Team health ladder",
+   "src": "bdff55432a9e",
+   "n": "La escalera de salud del equipo",
+   "s": "Usa las cinco disfunciones de Lencioni como vocabulario de diagnóstico sobre la evidencia del Proyecto Aristóteles, sabiendo que el orden de la pirámide no está probado."
+  }
+ ]
+}

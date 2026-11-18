@@ -1,6 +1,7 @@
 // Listen mode: pure logic (no DOM, no speech). build.py inlines this file into the page; tests/listen.test.mjs
 // loads it in Node. Mirrors comprehensible_input's player: pick sections in a tree, play the selection as one
-// queue, repeat each item x2/x3, previous/next, speed. Here the voice is the device's own English voice.
+// queue, repeat each item x2/x3, previous/next, speed. Summaries play from recordings; full notes and Spanish
+// summaries use the device's own voice.
 const Listen = (() => {
   const ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'", apos: "'", nbsp: " " };
 
@@ -61,9 +62,12 @@ const Listen = (() => {
       for (const g of t.groups || []) {
         t.concepts.forEach((c, ci) => {
           if (c.g !== g.key || !selected.has(key(t.id, ci))) return;
-          const parts = chunks(conceptText(c, opts.content), opts.chunkChars);
+          // Spanish: the concept's translated name and summary when one is current, else its English summary.
+          const alt = opts.lang === "es" && opts.tr && opts.tr[t.id] && opts.tr[t.id][ci];
+          const text = alt ? conceptText({ n: alt[0], s: alt[1] }, "summary") : conceptText(c, opts.content);
+          const parts = chunks(text, opts.chunkChars);
           for (let r = 1; r <= opts.repeat; r++)
-            q.push({ key: key(t.id, ci), tid: t.id, ci, title: c.n, topic: t.title, pass: r, parts });
+            q.push({ key: key(t.id, ci), tid: t.id, ci, title: alt ? alt[0] : c.n, topic: t.title, pass: r, parts, lang: alt ? "es" : "en" });
         });
       }
     }
@@ -94,7 +98,7 @@ const Listen = (() => {
   /** Next item when one finishes, or null at the end. */
   const following = (i, length) => (i + 1 < length ? i + 1 : null);
 
-  /** English device voices, best first: preferred languages in order, then quality words (premium, enhanced),
+  /** Device voices for one language (cfg.langPrefix), best first: preferred languages in order, then quality words (premium, enhanced),
    * then on-device voices, then by name. */
   function rankVoices(all, cfg) {
     const norm = l => String(l || "").replace("_", "-").toLowerCase();

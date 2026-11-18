@@ -6,6 +6,7 @@ The index's homepage copies web/mastery_field_guide.html from main, so rebuild a
 template change; tests/test_topics.py fails when it is out of date.
 ORDER lists the built topics; a topic also needs its id in CONFIG.categories in build/template.html.
 """
+import hashlib
 import json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -48,6 +49,41 @@ def audio_marks():
     return out
 
 
+ES_DIR = os.path.join(os.path.dirname(HERE), "topics", "es")
+
+
+def es_source(c):
+    """Fingerprint of the English a translation was made from: a changed name or summary marks it stale."""
+    return hashlib.sha1((c["n"] + "\n" + c["s"]).encode()).hexdigest()[:12]
+
+
+def es_text(quiet=True):
+    """Spanish name and summary per concept, for Listen's Español option: {topic: [[name, summary] | None, ...]}.
+    Missing or stale translations are None, and the page reads that concept's English summary instead."""
+    out = {}
+    for tid in ORDER:
+        p, tp = os.path.join(ES_DIR, f"topic-{tid}.json"), os.path.join(TOPICS_DIR, f"topic-{tid}.json")
+        if not (os.path.exists(p) and os.path.exists(tp)):
+            continue
+        by_name = {e["en"]: e for e in json.load(open(p))["concepts"]}
+        row, stale = [], []
+        for c in json.load(open(tp))["concepts"]:
+            e = by_name.get(c["n"])
+            ok = e is not None and e.get("src") == es_source(c)
+            row.append([e["n"], e["s"]] if ok else None)
+            if e is not None and not ok:
+                stale.append(c["n"])
+        if any(row):
+            out[tid] = row
+        names = {c["n"] for c in json.load(open(tp))["concepts"]}
+        missing = sum(1 for c in json.load(open(tp))["concepts"] if c["n"] not in by_name)
+        orphans = [n for n in by_name if n not in names]
+        if not quiet and (stale or missing or orphans):
+            print(f"es: {tid}: {len(stale)} stale, {missing} missing, {len(orphans)} orphaned"
+                  + (" | stale: " + "; ".join(stale) if stale else "") + (" | orphaned: " + "; ".join(orphans) if orphans else ""))
+    return out
+
+
 def render(quiet=True):
     """The whole page as one string (the committed page must equal this)."""
     blocks = []
@@ -68,6 +104,8 @@ def render(quiet=True):
     recent = open(os.path.join(HERE, "recent.js")).read()
     assert "</" not in recent, "recent.js must not contain '</' (it is inlined in a script tag)"
     html = html.replace("<!--RECENT-->", "<script>\n" + recent.rstrip("\n") + "\n</script>")
+    es = json.dumps(es_text(quiet), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    html = html.replace("<!--ES-->", '<script type="application/json" id="es-text">' + es + "</script>")
     html = html.replace("<!--AUDIO-->", '<script type="application/json" id="audio-marks">' + json.dumps(audio_marks()) + "</script>")
     return SKELETON_HEAD + "\n" + html.rstrip("\n") + "\n\n" + SKELETON_TAIL
 

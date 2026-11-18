@@ -118,3 +118,19 @@ def test_every_topic_has_a_current_recording():
         assert meta.exists(), f"{tid}: no recording; run python3 build/audio.py {tid}"
         t = json.loads((ROOT / "topics" / f"topic-{tid}.json").read_text())
         assert json.loads(meta.read_text())["hash"] == audio.topic_hash(t), f"{tid}: recording is stale; run python3 build/audio.py {tid}"
+
+
+def test_es_translations():
+    """topics/es/: Listen's Spanish summaries. Well formed, one entry per concept name, plain text, no strays."""
+    for f in sorted((ROOT / "topics" / "es").glob("*.json")):
+        tp = ROOT / "topics" / f.name
+        assert f.name.startswith("topic-") and tp.exists(), f"{f.name}: no matching topic"
+        names = {c["n"] for c in json.loads(tp.read_text())["concepts"]}
+        seen = set()
+        for e in json.loads(f.read_text())["concepts"]:
+            assert set(e) == {"en", "src", "n", "s"}, f"{f.name}: {e.get('en')}: fields"
+            assert all(isinstance(e[k], str) and e[k].strip() for k in e), f"{f.name}: {e['en']}: empty field"
+            assert "<" not in e["n"] + e["s"], f"{f.name}: {e['en']}: Spanish text must be plain (it is spoken)"
+            assert e["en"] in names, f"{f.name}: '{e['en']}' is not a concept (renamed? update or remove it)"
+            assert e["en"] not in seen, f"{f.name}: duplicate '{e['en']}'"
+            seen.add(e["en"])

@@ -1,0 +1,211 @@
+{
+ "topic": "fallacies",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "Affirming the consequent",
+   "src": "d5c8edce7843",
+   "n": "Afirmación del consecuente",
+   "s": "La afirmación del consecuente concluye que P es verdad porque Q es verdad, cuando la premisa solo dice que P lleva a Q."
+  },
+  {
+   "en": "Denying the antecedent",
+   "src": "6eb4fb6da68f",
+   "n": "Negación del antecedente",
+   "s": "La negación del antecedente concluye que Q es falso porque P es falso, cuando la premisa solo dice que P lleva a Q."
+  },
+  {
+   "en": "Undistributed middle",
+   "src": "321d2c343e21",
+   "n": "Término medio no distribuido",
+   "s": "El término medio no distribuido concluye que dos grupos coinciden porque ambos comparten una tercera propiedad, aunque ninguna premisa abarca a todo ese tercer grupo."
+  },
+  {
+   "en": "Ad hominem and tu quoque",
+   "src": "5cf40be8f198",
+   "n": "Ad hominem y tu quoque",
+   "s": "El ad hominem rechaza una afirmación atacando a la persona que la hizo, y el tu quoque la rechaza señalando que esa persona tampoco la cumple."
+  },
+  {
+   "en": "Straw man",
+   "src": "e23d0ba5bbd4",
+   "n": "Hombre de paja",
+   "s": "El hombre de paja reemplaza la posición real del oponente por una versión más débil o más extrema, y luego refuta el sustituto."
+  },
+  {
+   "en": "Red herring",
+   "src": "94ae21a0e215",
+   "n": "Pista falsa",
+   "s": "La pista falsa desvía la discusión hacia otro tema para que la pregunta original nunca se responda."
+  },
+  {
+   "en": "Appeal to authority vs legitimate expertise",
+   "src": "c006f9208e4a",
+   "n": "Apelación a la autoridad frente a pericia legítima",
+   "s": "La apelación a la autoridad falla cuando trata la palabra de alguien como decisiva fuera de su especialidad, en contra del consenso de expertos, o en lugar de la evidencia disponible."
+  },
+  {
+   "en": "Appeal to emotion",
+   "src": "07957ea39dbf",
+   "n": "Apelación a la emoción",
+   "s": "La apelación a la emoción usa el miedo, la lástima, el orgullo o la indignación para lograr acuerdo en lugar de razones que tengan que ver con si la afirmación es verdadera."
+  },
+  {
+   "en": "Bandwagon (appeal to popularity)",
+   "src": "2d53b3648aad",
+   "n": "Efecto arrastre (apelación a la popularidad)",
+   "s": "La falacia del efecto arrastre trata la popularidad de una creencia o práctica como prueba de que es verdadera o buena."
+  },
+  {
+   "en": "Genetic fallacy",
+   "src": "e233a63a8dce",
+   "n": "Falacia genética",
+   "s": "La falacia genética juzga una afirmación por su origen en lugar de por la evidencia a su favor."
+  },
+  {
+   "en": "Begging the question and loaded questions",
+   "src": "96a181f37073",
+   "n": "Petición de principio y preguntas capciosas",
+   "s": "La petición de principio da por supuesta la conclusión en una premisa, y una pregunta capciosa mete un supuesto discutible dentro de lo que se pregunta."
+  },
+  {
+   "en": "False dilemma",
+   "src": "b4bf31f6a612",
+   "n": "Falso dilema",
+   "s": "Un falso dilema presenta dos opciones como las únicas cuando existen otras."
+  },
+  {
+   "en": "Slippery slope",
+   "src": "e1c46ec21f7e",
+   "n": "Pendiente resbaladiza",
+   "s": "La falacia de la pendiente resbaladiza afirma que un primer paso llevará, por una cadena de pasos, a un resultado extremo, sin mostrar que cada eslabón sea probable."
+  },
+  {
+   "en": "No true Scotsman and special pleading",
+   "src": "d773a8283336",
+   "n": "Ningún escocés verdadero y alegato especial",
+   "s": "El ningún escocés verdadero redefine un grupo para excluir un contraejemplo, y el alegato especial exime a un caso favorito de una regla sin una razón de principio."
+  },
+  {
+   "en": "Moving the goalposts",
+   "src": "5eee75b73730",
+   "n": "Mover la portería",
+   "s": "Mover la portería es subir el nivel de evidencia exigido después de que ya se cumplió el nivel original."
+  },
+  {
+   "en": "Shifting the burden of proof",
+   "src": "eb5fb70cec49",
+   "n": "Invertir la carga de la prueba",
+   "s": "Invertir la carga de la prueba es exigir que otros refuten una afirmación cuando quien la hace debería sustentarla."
+  },
+  {
+   "en": "Post hoc ergo propter hoc",
+   "src": "a788f5489444",
+   "n": "Post hoc ergo propter hoc",
+   "s": "El razonamiento post hoc concluye que, como B ocurrió después de A, A causó B."
+  },
+  {
+   "en": "Correlation is not causation: confounding and reverse causation",
+   "src": "68019fae03ea",
+   "n": "Correlación no es causalidad: confusión y causalidad inversa",
+   "s": "El razonamiento cum hoc concluye que, como dos cosas se mueven juntas, una causa la otra, ignorando los factores de confusión, la causalidad inversa y el azar."
+  },
+  {
+   "en": "Base rate fallacy",
+   "src": "fd377ca39916",
+   "n": "Falacia de la tasa base",
+   "s": "La falacia de la tasa base ignora qué tan común es algo en la población al interpretar la evidencia específica de un caso."
+  },
+  {
+   "en": "Gambler's fallacy",
+   "src": "67eef54468fc",
+   "n": "Falacia del jugador",
+   "s": "La falacia del jugador espera que un proceso aleatorio e independiente se corrija solo, de modo que una racha haría más probable el resultado contrario."
+  },
+  {
+   "en": "Texas sharpshooter fallacy",
+   "src": "d13d51b74dcb",
+   "n": "Falacia del francotirador de Texas",
+   "s": "El francotirador de Texas dibuja el blanco alrededor de donde cayeron las balas: encuentra un patrón en los datos y luego lo trata como una hipótesis confirmada."
+  },
+  {
+   "en": "Survivorship bias",
+   "src": "0d940dec9675",
+   "n": "Sesgo de supervivencia",
+   "s": "El sesgo de supervivencia saca conclusiones de los casos que pasaron un filtro de selección, ignorando los que no lo pasaron."
+  },
+  {
+   "en": "Regression to the mean",
+   "src": "1509254cc54d",
+   "n": "Regresión a la media",
+   "s": "La regresión a la media es la tendencia de las mediciones extremas a ser seguidas por otras menos extremas, y la falacia es atribuir ese movimiento a una intervención."
+  },
+  {
+   "en": "Ecological fallacy",
+   "src": "d6b469b8e455",
+   "n": "Falacia ecológica",
+   "s": "La falacia ecológica concluye algo sobre los individuos a partir de relaciones observadas solo en datos agregados por grupo."
+  },
+  {
+   "en": "Simpson's paradox",
+   "src": "539359a5e316",
+   "n": "Paradoja de Simpson",
+   "s": "La paradoja de Simpson ocurre cuando una tendencia que aparece en cada subgrupo se invierte o desaparece al combinar los subgrupos."
+  },
+  {
+   "en": "Cherry-picking",
+   "src": "3038028a0dbf",
+   "n": "Selección a conveniencia",
+   "s": "La selección a conveniencia presenta la evidencia que apoya una conclusión y deja fuera la que va en su contra."
+  },
+  {
+   "en": "McNamara fallacy",
+   "src": "95e36af31529",
+   "n": "Falacia de McNamara",
+   "s": "La falacia de McNamara trata lo que es fácil de medir como lo que importa, y descarta lo que no se puede medir."
+  },
+  {
+   "en": "Equivocation",
+   "src": "6266c86773c6",
+   "n": "Equívoco",
+   "s": "El equívoco usa una misma palabra con dos sentidos distintos dentro de un argumento para que la conclusión parezca seguirse."
+  },
+  {
+   "en": "Motte-and-bailey",
+   "src": "41f61df04c3b",
+   "n": "Motte-and-bailey",
+   "s": "El motte-and-bailey defiende una afirmación audaz y discutida retirándose a una modesta y fácil de defender cuando se le cuestiona, y luego vuelve a la afirmación audaz."
+  },
+  {
+   "en": "Weasel words",
+   "src": "56563e095a8e",
+   "n": "Palabras comadreja",
+   "s": "Las palabras comadreja son calificativos vagos y fuentes sin atribuir que hacen sonar una afirmación más fuerte de lo que permite la evidencia, mientras la mantienen difícil de refutar."
+  },
+  {
+   "en": "The fallacy fallacy",
+   "src": "a0de395b4eae",
+   "n": "La falacia de la falacia",
+   "s": "La falacia de la falacia concluye que una afirmación es falsa porque el argumento que se dio a su favor era falaz."
+  },
+  {
+   "en": "Charitable interpretation and steelmanning",
+   "src": "7158547fa844",
+   "n": "Interpretación caritativa y hombre de acero",
+   "s": "El principio de caridad lee un argumento en su forma más razonable antes de criticarlo, y el hombre de acero va más allá al construir la versión más fuerte de la postura contraria."
+  },
+  {
+   "en": "Calling out a fallacy in a meeting",
+   "src": "434e9acfc306",
+   "n": "Señalar una falacia en una reunión",
+   "s": "Para señalar una falacia sin sonar pedante, omite el nombre en latín y haz la pregunta concreta que la falacia no responde."
+  },
+  {
+   "en": "Checking yourself for motivated reasoning",
+   "src": "15d72362d590",
+   "n": "Revisarte por razonamiento motivado",
+   "s": "El razonamiento motivado es la tendencia a evaluar la evidencia según si apoya la conclusión que quieres, mientras te sientes objetivo."
+  }
+ ]
+}

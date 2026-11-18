@@ -258,11 +258,12 @@ body.has-lbar{padding-bottom:130px}
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
-    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked. Full notes use your device's voice, which the Claude app may keep silent.</p>
+    <p class="lhint" id="lHint">Tick what to hear, then press play. Summaries are recorded and keep playing with the screen locked. Full notes and Español use your device's voice: keep the screen on, and the Claude app may keep it silent.</p>
     <div class="lopts">
       <div class="seg" role="group" aria-label="What to read">
         <button type="button" id="lSummary" aria-pressed="false">Summaries</button>
-        <button type="button" id="lFull" aria-pressed="false">Full notes (device voice)</button>
+        <button type="button" id="lFull" aria-pressed="false">Full notes</button>
+        <button type="button" id="lEs" aria-pressed="false" lang="es">Español</button>
       </div>
       <button type="button" id="lAll">All</button>
       <button type="button" id="lNone">None</button>
@@ -291,6 +292,7 @@ body.has-lbar{padding-bottom:130px}
 <!--TOPICS-->
 
 <!--AUDIO-->
+<!--ES-->
 <!--LISTEN-->
 <!--RECENT-->
 
@@ -382,6 +384,7 @@ const CONFIG = {
     prevGraceMs: 2500,         // previous within this long of an item's start goes to the item before
     wordsPerMinute: 165,       // for the length estimate at 1x
     voice: { langPrefix: "en", preferredLangs: ["en-US", "en-GB", "en-AU", "en-IE", "en-CA"], quality: ["premium", "enhanced", "natural", "neural"] },
+    voiceEs: { langPrefix: "es", preferredLangs: ["es-MX", "es-US", "es-419", "es-CO", "es-ES"], quality: ["premium", "enhanced", "natural", "neural"] },   // Español: translated summaries (topics/es/), device voice only
     storageKey: "fieldguide-listen",
     audioBase: "",             // recordings load from <audioBase>audio/summary/<topic>.mp3 (next to the page)
     flowSlackS: 1.5,           // play straight on into the next concept when the file is already this close to it
@@ -766,20 +769,24 @@ const lp = (() => {
   return {
     sel: new Set(Array.isArray(raw.sel) ? raw.sel.filter(k => valid.has(k)) : []),
     fresh: !Array.isArray(raw.sel),
-    content: raw.v === LC.prefsVersion && (raw.content === "summary" || raw.content === "full") ? raw.content : LC.defaultContent,
+    content: raw.v === LC.prefsVersion && ["summary", "full", "es"].includes(raw.content) ? raw.content : LC.defaultContent,
     repeat: LC.repeatCounts.includes(raw.repeat) ? raw.repeat : 1,
     speed: Listen.clampSpeed(LC.speeds, raw.speed, LC.defaultSpeed),
-    voice: typeof raw.voice === "string" ? raw.voice : ""
+    voice: typeof raw.voice === "string" ? raw.voice : "",
+    voiceEs: typeof raw.voiceEs === "string" ? raw.voiceEs : ""
   };
 })();
 function saveListen(){
-  try { localStorage.setItem(LC.storageKey, JSON.stringify({ v: LC.prefsVersion, sel: [...lp.sel], content: lp.content, repeat: lp.repeat, speed: lp.speed, voice: lp.voice })); } catch (e) {}
+  try { localStorage.setItem(LC.storageKey, JSON.stringify({ v: LC.prefsVersion, sel: [...lp.sel], content: lp.content, repeat: lp.repeat, speed: lp.speed, voice: lp.voice, voiceEs: lp.voiceEs })); } catch (e) {}
 }
 const $ = id => document.getElementById(id);
 let lq = [], li = 0, lpart = 0, lplaying = false, lstarted = 0, lgen = 0, ltimer = null, lnowOpen = false;
 
-function voices(){ return synth ? Listen.rankVoices(synth.getVoices(), LC.voice) : []; }
-function chosenVoice(){ const vs = voices(); return vs.find(v => v.voiceURI === lp.voice) || vs[0] || null; }
+const ES_TEXT = (() => { try { return JSON.parse(document.getElementById("es-text").textContent); } catch (e) { return {}; } })();
+const lang = () => (lp.content === "es" ? "es" : "en");
+const voiceCfg = l => (l === "es" ? LC.voiceEs : LC.voice);
+function voices(l = lang()){ return synth ? Listen.rankVoices(synth.getVoices(), voiceCfg(l)) : []; }
+function chosenVoice(l = lang()){ const vs = voices(l), want = l === "es" ? lp.voiceEs : lp.voice; return vs.find(v => v.voiceURI === want) || vs[0] || null; }
 function fillVoices(){
   const sel = $("lVoice"), vs = voices();
   sel.innerHTML = "";
@@ -789,7 +796,7 @@ function fillVoices(){
   const c = chosenVoice(); if (c) sel.value = c.voiceURI;
 }
 if (synth && "onvoiceschanged" in synth) synth.addEventListener("voiceschanged", fillVoices);
-$("lVoice").addEventListener("change", e => { lp.voice = e.target.value; saveListen(); if (lplaying) restartPart(); });
+$("lVoice").addEventListener("change", e => { if (lang() === "es") lp.voiceEs = e.target.value; else lp.voice = e.target.value; saveListen(); if (lplaying) restartPart(); });
 
 LC.speeds.forEach(sp => { const o = document.createElement("option"); o.value = sp; o.textContent = sp + "×"; $("lSpeed").appendChild(o); });
 $("lSpeed").value = String(lp.speed);
@@ -803,7 +810,7 @@ let lqCat = null;
 function requeue(){
   const was = lq[li];
   lqCat = ui.category;
-  lq = Listen.buildQueue(BUILT.filter(t => CAT_OF[t.id] === lqCat), lp.sel, { content: lp.content, chunkChars: LC.chunkChars, repeat: lp.repeat });
+  lq = Listen.buildQueue(BUILT.filter(t => CAT_OF[t.id] === lqCat), lp.sel, { content: lp.content, chunkChars: LC.chunkChars, repeat: lp.repeat, lang: lang(), tr: ES_TEXT });
   let at = was ? lq.findIndex(it => it.key === was.key) : 0;
   if (at < 0) { at = 0; if (lplaying) { li = 0; lpart = 0; stopListen(); } }
   else if (was && at !== li) { li = at; }
@@ -872,10 +879,12 @@ function paintBoxes(){
 function paintContent(){
   $("lSummary").setAttribute("aria-pressed", String(lp.content === "summary"));
   $("lFull").setAttribute("aria-pressed", String(lp.content === "full"));
+  $("lEs").setAttribute("aria-pressed", String(lp.content === "es"));
 }
-const setContent = c => { lp.content = c; saveListen(); paintContent(); const was = lplaying; requeue(); if (was && lplaying) { lpart = 0; restartPart(); } };
+const setContent = c => { const relang = (c === "es") !== (lp.content === "es"); lp.content = c; saveListen(); paintContent(); if (relang) fillVoices(); const was = lplaying; requeue(); if (was && lplaying) { lpart = 0; restartPart(); } };
 $("lSummary").addEventListener("click", () => setContent("summary"));
 $("lFull").addEventListener("click", () => setContent("full"));
+$("lEs").addEventListener("click", () => setContent("es"));
 const catKeys = () => CATS.find(c => c.key === ui.category).topics.map(id => TOPIC_BY_ID[id]).filter(t => !t.placeholder).flatMap(t => Listen.keysOf(t));
 $("lAll").addEventListener("click", () => { catKeys().forEach(k => lp.sel.add(k)); saveListen(); requeue(); paintBoxes(); });
 $("lNone").addEventListener("click", () => { catKeys().forEach(k => lp.sel.delete(k)); saveListen(); requeue(); paintBoxes(); });
@@ -888,7 +897,7 @@ function speakPart(){
   if (!it) { stopListen(); return; }
   if (!synth) { stopListen(); setStatus("This part has no recording and this browser has no voice. Choose Summaries."); return; }
   const u = new SpeechSynthesisUtterance(it.parts[lpart]);
-  const v = chosenVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LC.voice.preferredLangs[0];
+  const l = it.lang || "en", v = chosenVoice(l); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = voiceCfg(l).preferredLangs[0];
   u.rate = lp.speed;
   const my = ++lgen;
   u.onstart = () => { if (my === lgen) { clearTimeout(lwatch); setStatus(""); markUsed(it.tid, "listen"); } };
@@ -917,7 +926,7 @@ function advance(){
 const REC = (() => { try { return JSON.parse(document.getElementById("audio-marks").textContent); } catch (e) { return {}; } })();
 const player = new Audio(); player.preload = "auto";
 let recCur = null, recGen = -1;
-const recFor = it => (it && lp.content === "summary" ? Listen.recSpan(REC, it.tid, it.ci) : null);
+const recFor = it => (it && it.lang !== "es" && lp.content !== "full" ? Listen.recSpan(REC, it.tid, it.ci) : null);   // Español falls back to the English recording for untranslated concepts
 const sameFile = f => player.src && decodeURI(player.src).endsWith(f);
 function startItem(){
   const it = lq[li]; if (!it) { stopListen(); return; }
