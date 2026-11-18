@@ -1,951 +1,281 @@
 {
  "id": "workato",
  "title": "Workato",
- "updated": "2026-11-03",
- "note": "Covers Workato recipes, data handling, reliability, APIs and events, data pipelines, governance for PHI, AI agents and MCP, and pricing as documented on 2026-11-03. Refresh quarterly, because Workato ships monthly Product Scoop releases and renames or re-tiers features often.",
+ "updated": "2026-11-18",
+ "refreshDays": 90,
+ "note": "Workato's durable design concepts: triggers and jobs, failure and rerun safety, concurrency, promotion and access, PHI controls, governed agent tools and task metering. Plan limits and features are as of Nov 2026; connector specifics, formulas and AI features live in Workato's docs. Refresh quarterly.",
  "groups": [
   {
-   "key": "foundations",
-   "label": "Foundations"
+   "key": "map",
+   "label": "Map"
   },
   {
-   "key": "logic",
-   "label": "Logic and data handling"
+   "key": "core",
+   "label": "Recipes and jobs"
   },
   {
-   "key": "reliability",
-   "label": "Reliability and operations"
-  },
-  {
-   "key": "scale",
-   "label": "Building at scale"
-  },
-  {
-   "key": "governance",
-   "label": "Lifecycle and governance"
-  },
-  {
-   "key": "ai",
-   "label": "AI and agents"
-  },
-  {
-   "key": "strategy",
-   "label": "Cost and platform strategy"
+   "key": "gov",
+   "label": "Governance and cost"
   }
  ],
  "concepts": [
   {
-   "n": "Workspaces, projects and connections",
-   "g": "foundations",
-   "s": "A workspace holds environments and projects, and each project holds the recipes, connections and other assets that share access control and deploy together.",
+   "n": "The Workato map",
+   "g": "map",
+   "s": "Workato is event-driven application integration: a trigger creates a job, actions transform and deliver, reruns replay the stored event, and environments, roles and task metering govern it; heavy batch ELT belongs in the warehouse.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<p>A <b>project</b> is a container for integration assets. Folders subdivide a project. Assets that live in projects include recipes, connections, pages, genies, skills, knowledge bases, MCP servers, decision models and event streams.</p><ul><li>Collaborators get a <b>project role</b> per project (Project admin, Advanced builder, Builder, Project operator, or a custom role).</li><li>Moving an asset between projects (drag, <b>Move</b>, or the Developer API) updates its dependencies automatically.</li><li>Deleting a project deletes its connections. Deleting a shared connection removes it from every project that uses it.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Pattern</b>: trigger (poll, webhook, schedule) to job to actions; each job stores its inputs and outputs.</li><li><b>Reliability</b>: retries, idempotent writes, safe reruns, concurrency set deliberately.</li><li><b>Governance</b>: DEV to TEST to PROD deployments, project roles, PHI masking and retention.</li><li><b>Cost</b>: tasks, roughly one per successful action.</li><li><b>Fit</b>: coming from Azure Data Factory, move app integration, APIs and agent tools here; keep heavy transforms in Fabric, Databricks or the warehouse (Workato Data Pipelines can replicate objects, billed per row).</li></ul>",
+     "c": []
     },
     {
-     "t": "Connections",
-     "b": "<ul><li>Connections are project assets with status Connected or Disconnected. A recipe step references a connection; many recipes can share one.</li><li>Connections are deployable assets, but after the first deployment to an environment you must reconnect them there. Recipes in the target cannot run until you do.</li><li>Connections can reach private systems through an on-prem agent instead of directly from Workato's cloud.</li><li>Credentials can come from an external secrets manager instead of being typed into the connection (see the PHI protection concept).</li></ul><ul><li>Use service accounts for system-to-system recipes so jobs do not break when an employee leaves. Use runtime user connections when the action must respect the end user's own permissions in the target app (for example in an EHR or ticketing system).</li><li>Name connections by system, environment and identity, for example <code>SQL-ClinicalDW-PROD-svc_workato</code>, so audits and swaps are unambiguous.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Porting ADF data flows into recipes: row-by-row loops burn tasks and time.</div>",
+     "c": []
     },
     {
-     "t": "Runtime user connections",
-     "b": "<p><b>Runtime user connections</b> let a user run a recipe with their own app credentials instead of the recipe's default connection. Supported for recipe functions, Workbot recipes with a New command trigger, skills, and eligible Workflow apps recipes. It is configured per action in the recipe editor. The workspace quota is 100,000 combined runtime and verified-user-access connections.</p><p>For skills called by genies or MCP clients the same idea is called <b>Verified user access</b>.</p>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Putting shared connections in a project that later gets deleted. Deleting the project deletes its connections and breaks every recipe elsewhere that depended on them.</div><div class=\"trap\"><b>Trap:</b> One giant project. Access control and deployments are per project, so a monolith forces everyone to get the same role and every deploy to carry unrelated changes.</div><div class=\"trap\"><b>Trap:</b> Deploying a project to PROD and starting recipes before reconnecting. Recipes cannot run until each deployed connection is re-established in the target environment.</div><div class=\"trap\"><b>Trap:</b> Connecting with a personal OAuth login. When that person's account is disabled, every dependent recipe fails.</div>"
-    },
-    {
-     "t": "Senior-level nuance and review questions",
-     "b": "<ul><li>Projects are the deployable unit when Environments are enabled, so the project boundary is also your release boundary. Group assets that ship together.</li><li>Organize by department, use case or product line. A good default for a BI team: one project per source-system domain (EHR, scheduling, billing) plus one shared project for utilities such as error-alert recipe functions.</li><li>When importing a package across workspaces, create the target project with the same name first. Importing into <b>All projects</b> turns each folder into a separate project.</li><li>Recipes per workspace are capped at 5,000 and steps per recipe at 1,000 per the platform limits page.</li></ul><ul><li>Which team owns this project, and who holds Project admin?</li><li>Does anything in another project depend on connections or recipe functions stored here?</li><li>Will these assets always be deployed together? If not, split the project.</li></ul>"
+     "t": "Example",
+     "b": "<p>New patient in the EHR triggers a recipe that creates the billing account and posts to Teams. The nightly 40M-row claims load stays in the data platform.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the unit Workato uses for deployment between environments?",
-     "a": "The project. Deployments run one project at a time from Development."
+     "q": "An ADF pipeline copies 40M rows nightly. Should it move to a Workato recipe?",
+     "a": "No: bulk data movement belongs in Fabric, Databricks or the warehouse; Workato fits event-driven app integration."
     },
     {
-     "q": "What happens to connections when you delete a project?",
-     "a": "They are deleted with it, which breaks any recipe in other projects that used them."
-    },
-    {
-     "q": "After the first deployment of a connection to TEST or PROD, what must you do?",
-     "a": "Reconnect it in the target environment; recipes cannot run until you do."
-    },
-    {
-     "q": "Which feature lets a Workbot or Workflow apps user act with their own credentials?",
-     "a": "Runtime user connections."
-    },
-    {
-     "q": "Where do you assign who can edit a given project?",
-     "a": "In the project's Settings > Project access, by assigning project roles to collaborators or collaborator groups."
+     "q": "What roughly drives Workato cost?",
+     "a": "Tasks: about one per successfully executed action step."
     }
    ]
   },
   {
-   "n": "Recipes, triggers and actions",
-   "g": "foundations",
-   "s": "A recipe is one trigger followed by a sequence of actions, and every trigger event becomes a job that runs those actions.",
+   "n": "Triggers and jobs",
+   "g": "core",
+   "s": "Every trigger event becomes a job, so choose real-time triggers for latency, polling for simplicity, and filter with trigger conditions so unwanted events never become jobs.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<p>Trigger mechanisms:</p><ul><li><b>Polling</b>: checks the app on an interval. One poll can create many jobs. Default poll interval is 5 minutes on Professional-and-above plans and 10 minutes on Base/Community plans; the field hint shows your plan minimum.</li><li><b>Real-time</b>: the app pushes events (usually webhooks). Most real-time connector triggers also run a backup poll, roughly hourly. Plain HTTP webhook triggers do not.</li><li><b>Scheduled</b>: runs at set times and returns events in batches up to a configured size. Scheduler by Workato has a 5-minute minimum interval.</li><li><b>CDC</b>: captures inserts, updates and deletes on database tables.</li></ul><p>Dispatch types: <b>single</b> (one event per job), <b>batch</b> (events grouped into a configured batch size) and <b>bulk</b> (CSV streaming with no per-job record limit; cannot run in test mode).</p>"
+     "t": "Model",
+     "b": "<ul><li><b>Polling</b>: checks on an interval (as of Nov 2026, default 5 minutes on Professional plans and up, 10 on Base); one poll can create many jobs.</li><li><b>Real-time</b>: webhooks push events; many connector triggers add a periodic backup poll; plain HTTP webhooks don't.</li><li><b>Scheduled</b>: run at set times, events in batches.</li><li>Trigger conditions filter before a job exists; batch triggers suit volume.</li></ul>",
+     "c": []
     },
     {
-     "t": "Since/from and trigger conditions",
-     "b": "<ul><li><b>When first started, this recipe should pick up events from</b> sets the starting point on first start. It can be set once and cannot be changed after the recipe has run or been tested.</li><li><b>Trigger conditions</b> are evaluated after Workato fetches events, against the record state at fetch time. They do not detect that a field changed. Multiple conditions combine with a single AND or OR, and string matches are case-sensitive.</li><li>On batch or bulk triggers, a trigger condition evaluates only the first record of each batch. Use the app's own filter (for example a SOQL WHERE clause) instead.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Filtering with an IF step after the trigger: the job still runs and clutters history.</div><div class=\"trap\"><b>Trap:</b> Relying on a plain webhook with no backup poll: a missed delivery is lost.</div><div class=\"trap\"><b>Trap:</b> A trigger condition on a batch trigger checks only the first record.</div>",
+     "c": []
     },
     {
-     "t": "Ordering, dedupe and restarts",
-     "b": "<ul><li>Workato keeps a record of seen events to avoid processing the same trigger event twice, and delivers events oldest first.</li><li>A stopped recipe resumes where it left off and processes events that occurred while stopped. Webhook-based triggers may miss events that arrive while the recipe is stopped.</li><li>Events picked up in test mode are not reprocessed when the recipe starts.</li><li>Workato stops a recipe after 60 consecutive errors fetching trigger events and emails a notification.</li><li>You must stop a recipe to edit or rename it.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Testing a recipe with the since/from date set to today, then discovering you needed a backfill. The value is locked after the first test or run; you must clone the recipe to change it.</div><div class=\"trap\"><b>Trap:</b> Writing a trigger condition like <code>status == 'Closed'</code> and expecting it to fire only on the transition to Closed. It fires for any fetched event whose current status is Closed, including later unrelated edits.</div><div class=\"trap\"><b>Trap:</b> Relying on a raw HTTP webhook trigger for a source that cannot replay events. There is no backup poll, and events sent while the recipe is stopped can be lost.</div>"
+     "t": "Example",
+     "b": "<p>Only appointments with status Confirmed should sync: put that in the trigger condition, not a first-step IF.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Can you change the 'pick up events from' value after testing a recipe?",
-     "a": "No. It can be set once and is locked after the recipe has been tested or run."
+     "q": "Only 5% of trigger events matter. Where should the filter go?",
+     "a": "In a trigger condition, so unwanted events never become jobs."
     },
     {
-     "q": "Why are trigger conditions risky on batch triggers?",
-     "a": "They evaluate only the first record of each batch, so filter in the source query instead."
-    },
-    {
-     "q": "Do HTTP webhook triggers have a backup poll?",
-     "a": "No. Most real-time connector triggers run a roughly hourly backup poll, but plain HTTP webhook triggers do not."
-    },
-    {
-     "q": "After how many consecutive trigger-fetch errors does Workato stop a recipe?",
-     "a": "60 consecutive errors, followed by a notification email."
-    },
-    {
-     "q": "What is the timeout for a single polling trigger execution?",
-     "a": "5 minutes per the platform limits page."
+     "q": "Which real-time trigger type lacks a backup poll?",
+     "a": "A plain HTTP webhook trigger."
     }
    ]
   },
   {
-   "n": "Data pills, datatree and formula mode",
-   "g": "foundations",
-   "s": "Data pills are references to earlier step outputs, and formula mode lets you transform them with an allowlisted subset of Ruby methods.",
+   "n": "Failures, retries and reruns",
+   "g": "core",
+   "s": "Wrap risky steps in a Monitor block with short retries, end failed paths with Stop job so failures stay visible, and design writes to survive reruns that replay the stored event.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<p>Each step's output schema appears in the <b>datatree</b>. Dragging a field into an input creates a <b>data pill</b>. Inputs run in text mode by default, where only pills are evaluated and anything typed is literal. Clicking <b>Formula</b> switches a field to formula mode (an <code>fx</code> icon), where the field is evaluated as an expression.</p><p>Formulas are an allowlist of Ruby methods. Methods outside the documented list are unsupported; new ones are requested through your Customer Success Manager. Ruby string interpolation such as <code>#{now + 1.day}</code> is no longer evaluated in text mode.</p>"
+     "t": "Model",
+     "b": "<ul><li>Handle errors: Monitor plus On error; up to 3 retries, 1-10 seconds apart, optionally only when a condition holds (e.g. 429 or 5xx).</li><li>Branch on structured fields (error type, HTTP status), never the message text.</li><li>Rerun replays the stored trigger event with the latest recipe version; it does not re-read the source.</li><li>So writes must be idempotent: upsert on a key, check before create.</li></ul>",
+     "c": []
     },
     {
-     "t": "Formulas a practitioner uses daily",
-     "b": "<pre><code># null-safety\nnil.presence            # =&gt; nil\n\"\".blank?               # =&gt; true\n[].present?             # =&gt; false\n\n# lists\ncontacts.where('state': 'CA', 'revenue &gt;=': 10000)\ncontacts.pluck(\"email\")\n[{name: 'Alex'}].format_map('Name: %{name}')\n[nil, \"\", \"Hello\", \" \", \"World\"].smart_join(\" \")\n[\"foo\", nil].compact\n\n# conditional (formula mode)\nstatus == \"Closed\" ? \"done\" : \"open\"</code></pre>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> An On error branch that ends without Stop job can leave the job looking successful; failures hide in green lists.</div><div class=\"trap\"><b>Trap:</b> Seconds-long retries for hour-long outages; fail and reconcile later instead.</div>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li><code>where</code> + <code>pluck</code> + <code>format_map</code> replace most loops that only reshape lists. Fewer action steps also means fewer billed tasks, because formulas run inside a step.</li><li>Formula mode requires explicit string quoting; text mode does not. Mixed literal text and pills belong in text mode.</li><li>Datatree schemas come from the connector or from a sample you supply. When an upstream schema changes, refresh it; schema refreshes create a new recipe version.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Calling a method on a pill that can be nil (for example <code>email.downcase</code>). The job fails with a nil error. Guard with <code>email.present? ? email.downcase : nil</code> or <code>.presence</code>.</div><div class=\"trap\"><b>Trap:</b> Copying Ruby from Stack Overflow. If the method is not in Workato's formula docs it is not allowlisted, and the recipe will error.</div>"
+     "t": "Example",
+     "b": "<p>Upsert appointment on external ID; On error: notify ops through one recipe function, then Stop job as failed.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What language are Workato formulas based on?",
-     "a": "An allowlisted subset of Ruby methods; undocumented Ruby methods are not supported."
+     "q": "A rerun created duplicate records in the target. What design fixes it?",
+     "a": "Idempotent writes: upsert on a stable key instead of create."
     },
     {
-     "q": "Does text mode evaluate Ruby interpolation like #{now}?",
-     "a": "No. Text mode evaluates only data pills; use formula mode for expressions."
-    },
-    {
-     "q": "Which list formula filters a list of hashes by field values?",
-     "a": "where, for example contacts.where('state': 'CA')."
-    },
-    {
-     "q": "Which formula joins list items while skipping nil and blank values?",
-     "a": "smart_join, for example list.smart_join(\" \")."
+     "q": "Failures don't show in the job list even though On error ran. Why?",
+     "a": "The On error branch ended without Stop job; end it with Stop job so the job is marked failed."
     }
    ]
   },
   {
-   "n": "Control flow, loops, lists and variables",
-   "g": "logic",
-   "s": "IF/ELSE branches, Repeat loops and Variables by Workato provide the control flow and job-scoped state inside a recipe.",
+   "n": "Concurrency and limits",
+   "g": "core",
+   "s": "Set recipe concurrency deliberately: 1 preserves event order, more raises throughput but needs order-independent, idempotent steps, and every job runs inside timeouts and plan limits.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>IF / ELSE IF / ELSE</b> branch on conditions. Skipped steps are not billed as tasks.</li><li><b>Repeat for each</b> runs nested steps once per list item. Set <b>Repeat mode</b> to <code>Batch of items</code> to process in batches; <b>Batch size</b> defaults to 100 and accepts a data pill.</li><li><b>Repeat while</b> loops with an Index pill for fixed-count or condition-driven loops.</li><li><b>Clear step output</b> set to Yes keeps each iteration independent, which matters when IF steps inside the loop may be skipped.</li><li><b>Variables by Workato</b> creates job-scoped variables and lists with custom schemas. The older <b>List by Workato</b> accumulator is deprecated: existing recipes run, new recipes cannot use it.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Recipe concurrency defaults to 1: jobs run one at a time, roughly in event order (Workato warns order isn't strictly guaranteed).</li><li>Plan-level concurrency caps the total across recipes.</li><li>Standard job timeout is 90 minutes; API Platform jobs time out much sooner.</li><li>Use batch triggers and bulk actions for volume; split long work into recipe functions.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Every action inside a loop is billed as a task per iteration. A 10,000-row loop with 3 actions costs about 30,000 tasks. Prefer batch actions, bulk triggers, SQL Transformations or a single bulk insert step.</li><li>When a downstream action accepts a list, build the list with formulas (<code>where</code>, <code>pluck</code>) or a list variable and make one call.</li><li>Variables live only for the job. For state across jobs, use a data table or lookup table.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Raising concurrency on a recipe whose updates must apply in order: later events can land before earlier ones.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Leaving Clear step output off when an IF inside the loop can be skipped. The skipped step's pills can carry the previous iteration's values and write wrong data.</div><div class=\"trap\"><b>Trap:</b> Building new recipes with the deprecated List by Workato accumulator from an old tutorial. Use Variables by Workato.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>How many items will this loop see at peak, and what is the task cost per run?</li><li>Can the target app take a batch or bulk call instead of row-by-row actions?</li><li>Does any value need to survive beyond the job? If so, where is it stored?</li></ul>"
+     "t": "Example",
+     "b": "<p>Status updates to one patient record must apply in order: keep concurrency 1, or partition by patient and guard with a version check.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the default batch size for Repeat for each in batch mode?",
-     "a": "100; blank or values below 1 fall back to 100."
-    },
-    {
-     "q": "Which connector replaces the deprecated List by Workato accumulator?",
-     "a": "Variables by Workato."
-    },
-    {
-     "q": "Are steps skipped by an IF branch billed as tasks?",
-     "a": "No. Only successfully executed action steps count."
-    },
-    {
-     "q": "What does Clear step output do in a loop?",
-     "a": "Resets step outputs each iteration so values from a previous iteration do not leak into the next."
-    }
-   ]
-  },
-  {
-   "n": "Lookup tables, data tables and decision models",
-   "g": "logic",
-   "s": "Lookup tables hold small reference mappings, data tables hold larger mutable records for recipes and Workflow apps, and decision models centralize reusable rule logic.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Lookup tables</b>: up to 100 per workspace, 10 columns, 100,000 rows each. Typical use: code mappings such as payer IDs to names, or clinic codes to regions. Formula-mode lookups read them inline.</li><li><b>Data tables</b>: up to 100 per workspace, 100 columns, 1,000,000 rows, 100,000-byte records. Records have a Record ID; columns have a Column ID so renames do not break recipes. Supports link-to-table columns and is the primary store for <b>Workflow apps</b>. Read and write with the Data table connector or formula lookup; a <code>data_table_query</code> formula was added in 2026.</li><li><b>Decision models</b>: reusable decision tables with Model Inputs and Model Outputs nodes, called through the Decision Models connector from any recipe, including skill recipes.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Workato positions data tables for caching slow or chargeable API data and for app data, and advises against them for large relational workloads, large single cells, or PCI data.</li><li>Data tables and Workflow apps data are outside the job-data retention policy. You must delete them manually or via API, which matters for PHI.</li><li>Deleting a table, row or column is permanent. Workato recommends regular export to FileStorage as a backup.</li><li>Custom roles created before April 1, 2026 lack decision model permissions until an admin updates them.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Using a data table as a mini data warehouse. Quotas (1M rows, 1 GB per table) and the lack of retention-policy coverage make it a poor fit; land that data in Fabric or a database instead.</div><div class=\"trap\"><b>Trap:</b> Storing PHI in a data table and assuming the 90-day job retention purge covers it. It does not.</div>"
-    },
-    {
-     "t": "When to use which",
-     "b": "<ul><li>Static mapping with fewer than 10 columns: lookup table.</li><li>Mutable state across jobs, idempotency keys, watermarks, app data: data table.</li><li>Business rules that non-engineers will change and many recipes share: decision model.</li><li>Analytical history or joins at scale: an external database or warehouse.</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the maximum number of columns in a Workato lookup table?",
-     "a": "10 columns, with up to 100,000 rows."
-    },
-    {
-     "q": "What is the row limit for a Workato data table?",
-     "a": "1,000,000 rows per table, with up to 100 tables per workspace."
-    },
-    {
-     "q": "Does the workspace job-data retention policy delete data table records?",
-     "a": "No. Data tables and Workflow apps data must be deleted manually or through the API."
-    },
-    {
-     "q": "Which asset centralizes reusable conditional business rules callable from many recipes?",
-     "a": "Decision models, called via the Decision Models connector."
-    }
-   ]
-  },
-  {
-   "n": "Recipe functions",
-   "g": "logic",
-   "s": "Recipe functions are reusable recipes started by a New function call trigger that other recipes call synchronously or asynchronously and that return data with a Return step.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Connector: <b>Recipe Functions by Workato</b>. Trigger: <b>New function call</b>. Return step: <b>Return data from a recipe function</b>.</li><li>Callers use <b>Call recipe function synchronously</b>, <b>Call recipe function asynchronously</b>, and <b>Wait for async calls</b> to fan out and join.</li><li>Recipe functions replace the older Callable recipes; Workato publishes a migration guide to Recipe Functions and API recipes.</li><li>The recipe function queue holds up to 10,000 pending calls.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Use them as your shared library: error notification, PHI-safe logging, token refresh, lookups against the clinical DW. One fix then applies everywhere.</li><li>Async calls plus Wait for async calls give you parallel fan-out within one job, bounded by the function recipe's concurrency.</li><li>A function can run with its own connection or with the calling recipe's connection, which helps when the same logic serves different tenants or environments.</li><li>To expose logic over HTTP to outside callers, use an API recipe in the API Platform instead.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Function recipe left at concurrency 1 while many callers fan out async. Calls queue behind each other and the 10,000-deep queue can fill.</div><div class=\"trap\"><b>Trap:</b> Changing a function's input schema without checking callers. Use the recipe's dependency view before deploying.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Is this logic used by more than one recipe? If not, does it need to be a function?</li><li>What concurrency does the function need given its callers' peak fan-out?</li><li>Should the function's errors propagate to the caller or be handled inside?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What trigger starts a recipe function?",
-     "a": "New function call, from the Recipe Functions by Workato connector."
-    },
-    {
-     "q": "Which action lets a recipe join the results of parallel async function calls?",
-     "a": "Wait for async calls."
-    },
-    {
-     "q": "What older feature do recipe functions replace?",
-     "a": "Callable recipes."
-    },
-    {
-     "q": "What is the recipe function queue limit?",
-     "a": "10,000 queued calls."
-    }
-   ]
-  },
-  {
-   "n": "Error handling and monitoring",
-   "g": "reliability",
-   "s": "The Handle errors step pairs a Monitor block with an On error block, adds up to three retries, and combines with Stop job and RecipeOps for alerting.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Monitor actions for error</b> wraps steps; <b>On error</b> runs only if a monitored step fails.</li><li><b>Retry actions in Monitor block?</b> allows up to 3 retries, with <b>Time interval between retries</b> of 1 to 10 seconds, and an optional <b>Retry IF</b> condition. Default is no retries.</li><li>On error datapills include error type, message, retry count, errored step, app and action, error UUID and structured fields such as <code>error_type_id</code> and <code>http_response</code>. The inner message is unstable; do not branch on it.</li><li><b>Stop job</b> ends the job early, usually from an IF branch, with a custom message shown in the job report.</li><li><b>RecipeOps</b> triggers such as <b>Job failed</b> and <b>Recipe stopped by Workato</b> monitor failures across recipes.</li></ul>"
-    },
-    {
-     "t": "Pattern",
-     "b": "<pre><code>Handle errors\n  Monitor:\n    Upsert patient appointment in target\n  On error (retries: 3, interval 10s, Retry IF http_response.status in 429/5xx)\n    Call recipe function: notify_ops(error_type, job_url, recipe_url)\n    Stop job (\"Upsert failed after retries\")</code></pre><p>Re-raise with Stop job at the end of On error so the job shows as failed. If On error completes normally, the job is marked successful and failures hide in green job lists.</p>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Retries are short (seconds). For longer outages, fail the job and let a RecipeOps or scheduled recipe rerun or reconcile later.</li><li>Centralize alerting in one recipe function so channel, format and PHI scrubbing are consistent.</li><li>For API recipes, a request timeout does not trigger the Monitor block and On error does not run.</li><li>Job debug tracing shows HTTP request and response details for diagnosis.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Catching every error in On error and not stopping the job. The job reports success, so dashboards and RecipeOps never see the failure.</div><div class=\"trap\"><b>Trap:</b> Putting a non-idempotent create inside a retried Monitor block. A timeout after the server committed the write produces a duplicate on retry.</div><div class=\"trap\"><b>Trap:</b> Emailing raw error payloads that contain PHI. Scrub or reference the job URL only.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the maximum number of retries in a Monitor block?",
-     "a": "3 retries, with a 1 to 10 second interval."
-    },
-    {
-     "q": "If On error finishes without Stop job, what status does the job get?",
-     "a": "Completed, so the failure is hidden unless you re-raise with Stop job."
-    },
-    {
-     "q": "Which RecipeOps triggers watch for failures across recipes?",
-     "a": "Job failed and Recipe stopped by Workato."
-    },
-    {
-     "q": "Does an API recipe request timeout trigger On error?",
-     "a": "No. The Monitor block is not triggered and On error does not run."
-    }
-   ]
-  },
-  {
-   "n": "Jobs, reruns and idempotency",
-   "g": "reliability",
-   "s": "Every trigger event produces a job with stored inputs and outputs, and reruns replay the stored trigger data, so recipes must be written to tolerate duplicates.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Job statuses: Completed, Failed, Processing, Paused, Aborted. Job details show each step's input, output, error, recipe version, duration and tasks used.</li><li><b>Customize job report</b> maps up to 10 data pills to custom columns. You must stop the recipe to change it, and changes apply only to new jobs.</li><li><b>Repeat this job</b> reruns using the stored trigger event and the latest recipe version. It does not re-read the source record.</li><li>Repeat jobs via API is limited to 25 jobs per request at 1 request per second.</li></ul>"
-    },
-    {
-     "t": "Idempotency patterns",
-     "b": "<ul><li>Prefer upsert actions keyed on a natural or external ID over create.</li><li>Store a processed-key set (event ID plus version or updated timestamp) in a data table and check it first.</li><li>Pass an idempotency key header on HTTP calls when the target API supports it.</li><li>Make side-effect steps (emails, tickets) conditional on a state check in the target.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Workato's docs warn that reruns may create duplicate records and offer no built-in duplicate prevention. Design for at-least-once processing.</li><li>Use custom job report columns for business keys (encounter ID, MRN hash) so operators can search jobs without opening details. Avoid raw PHI in columns.</li><li>When retention expires, trigger data is deleted and Repeat this job is disabled.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Rerunning failed jobs to pick up a corrected source record. Reruns replay the cached trigger data; update the source to generate a new event instead.</div><div class=\"trap\"><b>Trap:</b> Bulk-rerunning failed jobs on a create-only recipe after a partial outage. Steps that succeeded before the failure run again.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Does a rerun fetch the latest data from the source app?",
-     "a": "No. It reuses the stored trigger event data, run through the latest recipe version."
-    },
-    {
-     "q": "How many custom job report columns can you define?",
-     "a": "Up to 10, and the recipe must be stopped to change them."
-    },
-    {
-     "q": "Why should Workato recipes be idempotent?",
-     "a": "Reruns and retries replay work and Workato warns reruns can create duplicates, so writes must tolerate repeats."
-    },
-    {
-     "q": "What happens to Repeat this job when job data retention expires?",
-     "a": "Trigger event data is deleted and the rerun option is disabled."
-    }
-   ]
-  },
-  {
-   "n": "Concurrency, limits and timeouts",
-   "g": "reliability",
-   "s": "Recipe concurrency, plan-level concurrency, job timeouts and per-feature quotas bound throughput, and you design around them up front.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Recipe concurrency</b> defaults to 1. The maximum you can set depends on your contract and plan, and Customer Success can raise it. At 1, jobs run in event order one at a time.</li><li>Plan-level concurrency totals differ by edition; Workato's pricing page lists 1 for Standard and Business MCP, 15 for Enterprise MCP and 30 for Workato ONE, with more available as an add-on.</li><li>Standard job timeout is 90 minutes, adjustable by workspace admins. Polling trigger timeout is 5 minutes. API Platform jobs default to 30 seconds and max at 240 seconds. The HTTP action waits up to 1 hour for a response.</li><li>Webhook intake: 20 events per second steady with a 9,000-event burst, and 30 MB per minute. Trigger event payload: 50 MB. Webhook event queue: 20,000.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Raising concurrency trades away ordering. If updates to the same record must apply in order, keep concurrency at 1 or partition by key upstream.</li><li>Downstream rate limits often bind before Workato's. Match concurrency to the target API's limits.</li><li>Long-running work belongs in bulk or batch triggers, data pipelines or the warehouse. A 90-minute job is a design smell.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Setting high concurrency on a recipe that updates the same patient record from multiple events. Parallel jobs race and the last writer wins out of order.</div><div class=\"trap\"><b>Trap:</b> A burst webhook source (bulk import in the EHR) exceeding 20 events per second. Plan for queueing and backpressure, or use batch publish into event streams.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>What is the peak events per second and the p95 job duration?</li><li>Does correctness depend on ordering?</li><li>Which limit binds first: Workato concurrency, target API rate limit, or job timeout?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What are the default and maximum recipe concurrency values?",
-     "a": "Default 1; the maximum depends on your contract and plan."
-    },
-    {
-     "q": "What is Workato's standard job timeout?",
-     "a": "90 minutes, adjustable by workspace admins."
-    },
-    {
-     "q": "What is the default and maximum timeout for an API Platform job?",
-     "a": "30 seconds default, 240 seconds maximum."
-    },
-    {
-     "q": "What is the steady-state webhook intake limit?",
-     "a": "20 events per second with a 9,000-event burst allowance."
+     "q": "Throughput is too low but update order matters. What do you weigh?",
+     "a": "Higher concurrency only if steps are order-independent and idempotent; otherwise keep 1 or add version checks."
     },
     {
      "q": "What do you give up by raising recipe concurrency above 1?",
-     "a": "Guaranteed in-order processing of events."
+     "a": "Ordering: later events can finish before earlier ones, so steps must be order-independent and idempotent."
     }
    ]
   },
   {
-   "n": "Connector SDK and HTTP connector",
-   "g": "scale",
-   "s": "The HTTP connector calls any REST API without code, and the Connector SDK packages an API as a reusable custom connector written in a Ruby DSL.",
+   "n": "Promotion and access",
+   "g": "gov",
+   "s": "Edit only in DEV, deploy projects to TEST and PROD, and grant access through project roles to groups, because deployments overwrite target edits and never delete removed assets.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>HTTP connector</b>: configure auth on the connection, then build requests with method, path, headers and body. Generate the response schema from a sample. Fastest route for a one-off endpoint.</li><li><b>Connector SDK</b>: a connector is a Ruby hash with keys such as <code>connection</code>, <code>test</code>, <code>actions</code>, <code>triggers</code>, <code>object_definitions</code>, <code>pick_lists</code> and <code>methods</code>.</li><li>The <b>SDK gem/CLI</b> emulates Workato's runtime locally so you can develop in an IDE, unit test with RSpec, and record API interactions with VCR, then push to a workspace.</li><li>Polling SDK triggers return up to 1,000 events per poll.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Environments-enabled workspaces deploy one project at a time from DEV to TEST or PROD; every save creates a version; test cases mock steps and check outputs.</li><li>Environment roles govern settings; project roles (admin, advanced builder, builder, operator) govern content; collaborator groups assign them.</li><li>Platform APIs let CI run tests and deploy on merge.</li></ul>",
+     "c": []
     },
     {
-     "t": "Example skeleton",
-     "b": "<pre><code>{\n  title: 'Clinic Scheduler',\n  connection: {\n    fields: [{ name: 'api_key', control_type: 'password' }],\n    authorization: {\n      type: 'custom_auth',\n      apply: lambda do |connection|\n        headers('Authorization' =&gt; \"Bearer #{connection['api_key']}\")\n      end\n    },\n    base_uri: lambda { |_c| 'https://api.example.com' }\n  },\n  test: lambda { |_c| get('/v1/ping') },\n  actions: {\n    get_appointment: {\n      input_fields: lambda { [{ name: 'id', optional: false }] },\n      execute: lambda { |_c, input| get(\"/v1/appointments/#{input['id']}\") },\n      output_fields: lambda { |od| od['appointment'] }\n    }\n  },\n  object_definitions: { appointment: { fields: lambda { [{ name: 'id' }, { name: 'start' }] } } }\n}</code></pre>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Deleting a recipe in DEV and expecting the deploy to remove it from PROD. Stop and delete it there.</div><div class=\"trap\"><b>Trap:</b> Hotfixing in PROD: the next deploy overwrites it.</div>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Move from HTTP to SDK once the same API is used in three or more recipes, needs pagination or token refresh, or should be usable by citizen builders.</li><li>Keep connector code in Git and use the CLI workflow: develop locally, test, push to DEV, then promote through environments.</li><li>In 2026 Workato also promotes <b>AIRO Connector Builder</b> for generating connectors; review generated code as you would any SDK connector.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Copy-pasting the same HTTP request into many recipes. Auth changes and pagination fixes must then be applied everywhere.</div><div class=\"trap\"><b>Trap:</b> SDK polling triggers without a durable cursor. Duplicates or gaps follow on restarts; persist the since/updated-at watermark in the trigger's closure.</div>"
+     "t": "Example",
+     "b": "<p>Builders submit deployment requests; advanced builders or project admins deploy to PROD after test cases pass.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What language is the Workato Connector SDK DSL written in?",
-     "a": "Ruby."
+     "q": "A recipe deleted in DEV keeps running in PROD after deployment. Why?",
+     "a": "Deployments don't delete assets removed from the source; stop and delete it in PROD."
     },
     {
-     "q": "Which tools does the SDK CLI workflow use for unit tests and recorded HTTP?",
-     "a": "RSpec for tests and VCR for recorded API interactions."
-    },
-    {
-     "q": "When should you graduate from the HTTP connector to a custom SDK connector?",
-     "a": "When the API is reused across several recipes or needs shared auth, pagination or token refresh logic."
-    },
-    {
-     "q": "Which SDK key defines reusable output schemas?",
-     "a": "object_definitions."
+     "q": "A fix was made directly in PROD last week and vanished. Why?",
+     "a": "The next deploy from DEV overwrote it."
     }
    ]
   },
   {
-   "n": "API Platform",
-   "g": "scale",
-   "s": "API Platform publishes recipe-based or proxy endpoints in API collections and controls who calls them through API clients, API keys and access policies.",
+   "n": "PHI controls",
+   "g": "gov",
+   "s": "For PHI: sign the BAA, mask sensitive steps, shorten job-data retention, source credentials from a secrets manager, and stream audit logs to your SIEM.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>API collection</b>: a group of endpoints managed together, either recipe-based or proxy-based.</li><li><b>Recipe-based endpoint</b>: starts an API recipe with the <b>New API request</b> trigger and returns a response.</li><li><b>API proxy</b>: forwards calls to a target URL defined by an HTTP connection.</li><li><b>API clients</b> get access to collections and authenticate with <b>API keys</b> (up to 20 per client). <b>Access profiles</b> are legacy and replaced by API keys.</li><li><b>Access policies</b> apply rate limits and quotas to clients. Auth options include tokens, OAuth 2.0, JWT and OpenID Connect.</li><li>Limits: 5 MB payload; job timeout 30 seconds default, 240 seconds max.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Workato states it can sign BAAs as a business associate; confirm your plan covers it.</li><li>Mask data per step keeps inputs and outputs out of job history; masked triggers still store the event for reruns until retention expires.</li><li>Retention (as of Nov 2026): 30 days on Standard and Business, 90 on Enterprise, which can set 1 hour to 90 days. After expiry, reruns are disabled.</li><li>Secrets from AWS, Azure Key Vault, HashiCorp Vault and others; audit log streaming to S3, Splunk, Datadog and more.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>API recipes must respond quickly. Do heavy work asynchronously: accept, publish to an event stream or call an async recipe function, and return 202 with a tracking ID.</li><li>API collections can also back Workato MCP servers, so a well-designed collection serves both REST consumers and AI agents.</li><li>Billing for Managed API is per successful call, and slow responses can count as more than one call.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> PHI in data tables or FileStorage: job retention settings don't cover them.</div><div class=\"trap\"><b>Trap:</b> PHI in alert messages sent to chat.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Long synchronous work in an API recipe. Past the timeout the caller gets an error, the Monitor block does not fire, and On error does not run.</div><div class=\"trap\"><b>Trap:</b> Building new integrations on access profiles. They are legacy; issue API keys to clients.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Who are the clients, and what quota and rate limit does each get?</li><li>What is the p95 latency of the recipe behind the endpoint versus the 30-second default?</li><li>Does the response ever contain PHI, and is the client covered by the right agreements?</li></ul>"
+     "t": "Example",
+     "b": "<p>Recipe moving lab results: mask the trigger and transform steps, 7-day retention, Key Vault credentials, audit stream to the SIEM.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What trigger does a recipe-based API endpoint use?",
-     "a": "New API request."
+     "q": "You shortened job retention, but PHI still sits in Workato. Where?",
+     "a": "Data tables, Workflow apps data or FileStorage, which retention doesn't cover."
     },
     {
-     "q": "What replaced access profiles in API Platform?",
-     "a": "API keys issued to API clients."
-    },
-    {
-     "q": "What applies rate limits and quotas to API clients?",
-     "a": "Access policies."
-    },
-    {
-     "q": "What is the maximum API Platform payload size?",
-     "a": "5 MB."
+     "q": "What do you lose when job data retention expires?",
+     "a": "Job details and trigger data, and with them the ability to rerun those jobs."
     }
    ]
   },
   {
-   "n": "Event streams",
-   "g": "scale",
-   "s": "Workato Event Streams is a managed pub/sub service of topics with schemas that decouples publisher recipes from any number of subscriber recipes.",
+   "n": "Agents need a governed gateway",
+   "g": "gov",
+   "s": "Expose internal systems to AI agents through narrow, governed tools with per-user identity, role-based tool access and audit, rather than broad credentials.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>A <b>topic</b> has a schema and a retention period. Default retention is 604,800 seconds (7 days).</li><li>Recipes publish with the Event Streams connector or external systems publish through the Event streams public API, including a batch publish endpoint.</li><li>Subscriber recipes use the <b>New message</b> trigger (one job per message) or <b>New batch of messages</b>, with the usual since/from setting and trigger conditions.</li><li>Topics can be purged, which erases message history but keeps the definition.</li><li>2026 additions: cross-workspace sharing of topics (August 2026) and large payload support up to 10 MB (September 2026). The Developer API documents a 1 MB payload limit for its own endpoints.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Workato's Enterprise MCP publishes tools from API collections, skills (recipe-based workflows) or proxied third-party MCP servers.</li><li>OAuth, verified user access (calls run with each user's credentials), tool-level RBAC and audit sit in one place.</li><li>Tool descriptions decide when an agent calls a tool; mark read-only tools and gate destructive ones.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Use a topic when one source event fans out to several consumers (for example, a new intake feeds scheduling, billing and the BI landing zone). Each consumer evolves and fails independently.</li><li>Treat consumers as at-least-once and idempotent; the docs do not promise exactly-once delivery.</li><li>Event publishes are billed per message on top of the host recipe's tasks; consumed messages are not billed.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Publishing a broad tool like \"run arbitrary SQL\": agents use it in ways you never tested.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Using event streams as a long-term store. Messages expire with the topic retention; land durable history in a database or lakehouse.</div><div class=\"trap\"><b>Trap:</b> Changing a topic schema without coordinating subscribers. Version the topic or add optional fields only.</div>"
+     "t": "Example",
+     "b": "<p>Instead of database credentials for the assistant, publish get_patient_appointments(patient_id, date_range), read-only, callable only by the scheduling group.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the default message retention on a Workato event topic?",
-     "a": "7 days (604,800 seconds)."
+     "q": "Why prefer verified user access for agent tools?",
+     "a": "Each call runs with the end user's own permissions, so the agent can't exceed what that user may see."
     },
     {
-     "q": "Which trigger subscribes a recipe to a topic one message at a time?",
-     "a": "Workato Event Streams New message trigger."
-    },
-    {
-     "q": "Are consumed event stream messages billed?",
-     "a": "No. Published messages are billed as events; consumption is not."
+     "q": "An agent keeps calling the wrong tool. First fix?",
+     "a": "Sharpen the tool descriptions, which drive tool selection."
     }
    ]
   },
   {
-   "n": "On-prem agent (OPA)",
-   "g": "scale",
-   "s": "The on-prem agent runs inside your network and lets Workato connections reach private databases, file shares and other systems without opening inbound firewall ports.",
+   "n": "Task metering",
+   "g": "gov",
+   "s": "Workato meters chiefly by tasks, one per successful action, so step count per job times job volume is your cost model, and loops are where it explodes.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>Install the agent on a server in the private network. Connections that use it originate requests from that environment.</li><li>Group agents into an <b>on-prem group</b>; workload is distributed across agents, and Workato recommends multiple agents for high availability.</li><li>Configure targets with <b>connection profiles</b> in <code>&lt;INSTALL_HOME&gt;/conf/config.yml</code> or with <b>cloud profiles</b> managed from Workato (introduced in OPA 2.15.0). <code>autoReload: true</code> applies config changes without restart, except for server profiles.</li><li>Supported targets include JDBC databases (SQL Server, MySQL, Oracle, PostgreSQL), Redshift, file systems, SAP, JMS providers including Azure Service Bus, Kafka, Active Directory and command-line scripts. On-prem Agent 32.2 shipped in August 2026.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Skipped, failed and canceled steps don't count; reruns do.</li><li>Other meters: API calls, data pipeline rows, genie actions, MCP proxy calls, events, seats.</li><li>Levers: trigger conditions, batch and bulk actions instead of per-row loops, fewer steps per job, lookups in formulas instead of extra actions.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>OPA counts are plan quotas (the pricing page lists 3 on Business MCP, 10 on Enterprise MCP, 30 on Workato ONE). Budget at least two per group for HA.</li><li>Use cloud profiles so credentials and endpoints are managed centrally and propagated to every agent in the group.</li><li>Data pipelines can also read private sources through an on-prem agent.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> A loop that updates 10,000 rows one action at a time: 10,000 tasks per job.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> A single agent on one VM. Patching the VM takes down every recipe that depends on that database.</div><div class=\"trap\"><b>Trap:</b> JDBC triggers returning huge result sets. The JDBC trigger caps at 20,000 rows per poll; use incremental keys.</div>"
+     "t": "Example",
+     "b": "<p>Monthly tasks of about 3 actions x 20,000 jobs = 60,000. Adding a trigger condition that skips 70% of events cuts it to about 18,000.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Does the on-prem agent require opening inbound firewall ports?",
-     "a": "No. It provides access without opening ports in the corporate firewall."
+     "q": "A recipe's tasks spiked after a backlog was rerun. Why?",
+     "a": "Reruns count as tasks again."
     },
     {
-     "q": "Where are classic connection profiles stored on the agent host?",
-     "a": "In <INSTALL_HOME>/conf/config.yml."
-    },
-    {
-     "q": "How do you get HA for on-prem connectivity?",
-     "a": "Put multiple agents, ideally on separate servers, in one on-prem group."
-    },
-    {
-     "q": "What is the maximum rows per JDBC trigger poll?",
-     "a": "20,000 rows."
-    }
-   ]
-  },
-  {
-   "n": "Data Pipelines, replication and SQL Transformations",
-   "g": "scale",
-   "s": "Data Pipelines replicates source objects into warehouses on a schedule, and SQL Transformations, SQL Collection and FileStorage handle set-based transforms inside Workato.",
-   "x": [
-    {
-     "t": "Data Pipelines: how it works",
-     "b": "<ul><li>A pipeline extracts one or more objects from a source (for example Salesforce or a database) and syncs them to a destination. Destinations listed include Snowflake, Databricks, BigQuery, Redshift, SQL Server, Amazon S3 and Azure Blob Storage.</li><li>Sync types: <b>full sync</b>, <b>incremental sync</b> on the object's cursor, and manual <b>re-sync</b> of a single object. Deletes sync only where the source supports delete tracking.</li><li>Frequency defaults to every 15 minutes; 5 minutes is the minimum and is enabled per customer on request. Time- or cron-based schedules. If a sync overruns, the next scheduled one is skipped.</li><li>Schema drift: <b>Auto-sync new fields</b> or <b>Block new fields</b>. New fields are not backfilled; deleted fields keep their destination column.</li><li>Field-level protection: <b>Replicate as is</b> or <b>Hash</b> (SHA-256 with per-destination salt; consistent within a destination, so joinable).</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Billed in <b>rows</b> extracted per sync, not tasks.</li><li>Hashing PHI identifiers at ingest lets analysts join on patient keys without seeing them. Switching a field between Hash and Replicate clears its existing destination values.</li><li>Historical start date, destination schema and Snowflake prefixes cannot be changed after the first run. The destination schema must be new and empty.</li><li>Separately, recipe-based <b>replication pipelines</b> use CDC triggers and Replicate schema actions (Snowflake, BigQuery, SQL Server) when you need more control.</li></ul>"
-    },
-    {
-     "t": "SQL Transformations, SQL Collection and FileStorage",
-     "b": "<ul><li><b>SQL Transformations</b>: streams data from one or more sources and runs your SQL through the <b>Query data</b> action, with joins and SQL functions, at volumes of millions of records from bulk sources. Output can be written to <b>FileStorage</b> for reuse.</li><li><b>SQL Collection by Workato</b>: loads small lists into a temporary in-job table and queries them. Lists and results exist only for the job. The limits page recommends about 50,000 records.</li><li><b>FileStorage</b>: Workato-hosted file store for intermediate files shared across jobs or recipes.</li><li>Workato frames two patterns: ELT pushes SQL down to the warehouse via database connectors; ETL uses SQL Transformations or SQL Collection inside Workato.</li></ul><ul><li>For an org moving to Fabric, push heavy transforms to the warehouse or lakehouse and keep Workato transforms to reshaping payloads for operational APIs.</li><li>SQL Transformations data is purged automatically within 4 days, independent of job retention. FileStorage data is not covered by the retention policy and must be deleted with the FileStorage delete action.</li><li>One SQL step over a bulk file replaces thousands of looped task-billed actions.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Pointing a pipeline at an existing populated schema. It must be new and empty before the first run.</div><div class=\"trap\"><b>Trap:</b> Assuming deletes replicate. They only do for objects with delete tracking; plan soft-delete reconciliation otherwise.</div><div class=\"trap\"><b>Trap:</b> Using SQL Collection for large datasets. It is job-scoped and intended for low-volume lists; use SQL Transformations or the warehouse.</div><div class=\"trap\"><b>Trap:</b> Leaving PHI extracts in FileStorage indefinitely. Add an explicit delete step and a periodic cleanup recipe.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Does Fabric or Databricks already offer a native connector for this source? Compare cost per row and latency.</li><li>Which fields are PHI and should be hashed at ingest?</li><li>What freshness does the consumer need, and does 15 minutes meet it?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the default and minimum Data Pipelines sync frequency?",
-     "a": "Default every 15 minutes; 5 minutes minimum, enabled per customer on request."
-    },
-    {
-     "q": "How are Data Pipelines billed?",
-     "a": "By rows extracted from the source per sync."
-    },
-    {
-     "q": "What hashing does Data Pipelines use for field protection?",
-     "a": "SHA-256 with a per-destination salt, so hashes join within a destination but differ across destinations."
-    },
-    {
-     "q": "Can SQL Collection lists be reused across jobs?",
-     "a": "No. They exist only for the duration of the job."
-    },
-    {
-     "q": "Is FileStorage data deleted by the job-data retention policy?",
-     "a": "No. You must delete it with the FileStorage delete action."
-    }
-   ]
-  },
-  {
-   "n": "Environments, deployments, versions and testing",
-   "g": "governance",
-   "s": "Environments give a workspace DEV, TEST and PROD, deployments promote projects from DEV, every save creates a recipe version, and test cases with mocks and checks guard changes.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Environments-enabled workspaces have <b>Development</b>, <b>Test</b> and <b>Production</b>. Deployments originate only from DEV, to TEST or PROD, one project at a time.</li><li>Deployable assets include recipes, connections, folders, lookup tables, data tables, Workflow apps, pages, genies, skills, knowledge bases and app events. Deploying requires the deployment privilege in source and target.</li><li>Deployment history lives in DEV's Deployments tab and the Activity audit. Workato does not delete assets removed from the source.</li><li>Builders can submit deployment requests when approval is enabled; Advanced builders and Project admins deploy.</li><li><b>Versions</b>: every save (and schema refresh) creates a version; restore any version; compare with <b>Recipe diff</b>.</li><li><b>Test automation</b>: per-recipe <b>test cases</b> with mocked steps and <b>checks</b> on step outputs, tracked by last run result and recipe version.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Treat DEV as the only place anyone edits. Editing in TEST is possible but discouraged; edits there are overwritten on the next deploy.</li><li>Moving an asset to a different folder before deploying creates a second copy in the target. Clean up deliberately.</li><li>Platform APIs support CI/CD, so a pipeline can run test cases and deploy on merge.</li><li>Environments are plan-dependent; customers signed up after December 22, 2021 get them automatically.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Deleting an obsolete recipe in DEV and expecting the deploy to remove it from PROD. Workato does not delete removed assets in the target; stop and delete them there.</div><div class=\"trap\"><b>Trap:</b> Hotfixing in PROD. The next deploy from DEV overwrites the fix, and DEV is no longer the source of truth.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>What test cases cover this recipe, and do they mock every external write?</li><li>Who approves deploys to PROD, and is that enforced with roles?</li><li>Which connections need reconnecting in the target on first deploy?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "From which environment can deployments originate?",
-     "a": "Only Development."
-    },
-    {
-     "q": "Does deploying remove assets from PROD that were deleted in DEV?",
-     "a": "No. Workato does not delete assets removed from the source environment."
-    },
-    {
-     "q": "When is a new recipe version created?",
-     "a": "On every save, and on schema refreshes."
-    },
-    {
-     "q": "What are assertions called in Workato test cases?",
-     "a": "Checks, defined on step outputs alongside mocked steps."
-    }
-   ]
-  },
-  {
-   "n": "Roles and access control",
-   "g": "governance",
-   "s": "Workato's current RBAC model separates environment roles for settings from per-project roles for content, with custom roles and collaborator groups.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Environment roles</b> (one per environment per collaborator): Environment admin, Environment manager, Member. They grant settings access, not project content.</li><li><b>Project roles</b> (per project): Project admin, Advanced builder, Builder (builds and submits deployment requests, cannot deploy), Project operator (views and starts or stops recipes).</li><li><b>Custom roles</b> at both levels under Workspace admin.</li><li><b>Collaborator groups</b> grant project roles to members; they cannot grant environment roles and cannot nest. Roles from multiple groups combine.</li><li>Legacy system roles Admin, Analyst and Operator were scheduled for deprecation at the end of August 2026.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Map groups to your IdP groups and assign by group so joiners and leavers flow from identity management.</li><li>Set the project's <b>Everyone else</b> default to No access for projects that touch PHI.</li><li>Use Builder in PROD-bound projects for most developers and reserve deploy rights to a small set; this gives you separation of duties for audits.</li><li>Job history visibility is a privilege; restrict it where job data may contain PHI, in addition to masking.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Granting Environment admin to developers so they can see everything. That role controls workspace-wide settings including retention and secrets configuration.</div><div class=\"trap\"><b>Trap:</b> Custom roles created before a new asset type ships may lack its privileges (for example decision models before April 1, 2026). Review custom roles after major releases.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Which project role can build and request deployments but cannot deploy?",
-     "a": "Builder."
-    },
-    {
-     "q": "Can collaborator groups grant environment roles?",
-     "a": "No. They grant project roles only, and groups cannot be nested."
-    },
-    {
-     "q": "Name the three built-in environment roles.",
-     "a": "Environment admin, Environment manager and Member."
-    },
-    {
-     "q": "Which legacy system roles is Workato retiring?",
-     "a": "Admin, Analyst and Operator."
-    }
-   ]
-  },
-  {
-   "n": "PHI protection: masking, retention, secrets, audit and HIPAA",
-   "g": "governance",
-   "s": "Protect PHI in Workato by signing a BAA, masking sensitive steps, shortening job-data retention, sourcing credentials from a secrets manager, and streaming audit logs to your SIEM.",
-   "x": [
-    {
-     "t": "Compliance posture",
-     "b": "<p>Workato's security compliance page lists HIPAA among its frameworks, states it is compliant as a Business Associate, can sign BAAs, and undergoes an annual independent HIPAA attestation. It also lists SOC 1 and SOC 2 Type II, SOC 3, ISO 27001, 27701 and 42001, PCI-DSS v4.0.1 Level 1, IRAP and NIST 800-171A r2. The page does not say which plans include a BAA; confirm in your contract.</p>"
-    },
-    {
-     "t": "Masking and retention",
-     "b": "<ul><li><b>Mask data</b> toggle per trigger or step: input and output are not stored or shown in job history, and audit logs show a <code>masked</code> placeholder. Trigger event data is still stored so reruns work.</li><li><b>Retention</b>: 30 days on Standard and Business, 90 days on Enterprise. Enterprise can set 1 hour to 90 days at workspace level. Per recipe: Default policy, Do not store trigger event only, or Do not store any data.</li><li>After expiry, job details, trigger data and custom report columns are deleted; summaries remain and reruns are disabled.</li><li>Not covered by retention: data tables, Workflow apps data, FileStorage. SQL Transformations data purges within 4 days. Genie conversations move to a fixed 90-day policy.</li></ul>"
-    },
-    {
-     "t": "Secrets and audit",
-     "b": "<ul><li><b>Secrets management</b> supports AWS Secrets Manager, Azure Key Vault, CyberArk Conjur, Google Secret Manager and HashiCorp Vault, at workspace or project level (not mixed). After rotating, clear the secrets cache via API.</li><li><b>Audit log streaming</b> sends activity to S3, Datadog, Splunk, Sumo Logic or any HTTP endpoint, from the time it is configured.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Masking steps but leaving default retention. Trigger event data is still stored for reruns; set recipe retention to Do not store trigger event where reruns are not needed.</div><div class=\"trap\"><b>Trap:</b> Putting PHI in custom job report columns, alert emails or genie chat logs. Those surfaces have their own retention.</div><div class=\"trap\"><b>Trap:</b> Assuming a signed BAA covers every feature. Confirm in writing whether AI features, Agent Studio and third-party model calls are in scope.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which steps carry PHI, and are they masked?</li><li>Does this recipe need reruns? If not, store no trigger data.</li><li>Where do credentials live, and who can rotate them?</li><li>Is audit streaming enabled to the SIEM before go-live?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Does Workato sign HIPAA BAAs?",
-     "a": "Yes. Its compliance page says it can sign BAAs and is attested annually; plan eligibility is not stated, so confirm in contract."
-    },
-    {
-     "q": "What is the configurable job-data retention range on Enterprise?",
-     "a": "1 hour to 90 days."
-    },
-    {
-     "q": "Does masking a step stop reruns from working?",
-     "a": "No. Trigger event data is still stored separately, so reruns still work."
-    },
-    {
-     "q": "Name three secrets managers Workato supports for connection credentials.",
-     "a": "Any three of AWS Secrets Manager, Azure Key Vault, CyberArk Conjur, Google Secret Manager and HashiCorp Vault."
-    },
-    {
-     "q": "Which stores are outside the job-data retention policy?",
-     "a": "Data tables, Workflow apps data and FileStorage."
-    }
-   ]
-  },
-  {
-   "n": "Agent Studio: genies, skills and knowledge bases",
-   "g": "ai",
-   "s": "Agent Studio builds AI agents called genies from a model and job description, a chat interface, knowledge bases and skills, where skills are recipe-based workflows the genie can invoke.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Genie</b> components: AI model and job description (persona, tone, constraints), chat interface (Slack, Microsoft Teams, Workato GO), knowledge base, and skills.</li><li><b>Skills</b> (also called Enterprise skills): workflows with a <b>Start workflow</b> trigger and a <b>Return response</b> step. A <b>skill prompt</b> tells the model when to use it, when not to, and what inputs and outputs look like. Skills can be shared across genies and MCP servers and can consume MCP servers.</li><li><b>Knowledge bases</b>: documents and structured data the genie answers from.</li><li>Approvals let genies ask consent before privileged actions. Verified user access runs skills with each user's own credentials.</li><li>Packaged <b>Workato Genies</b> (IT Support Genie and EDI Genie are GA as of July 2026) are starting points to customize.</li><li>2026 additions include multiple clients per genie, end-user feedback, and testing a skill without the genie.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>The skill prompt is the routing logic. A vague prompt causes missed or wrong invocations; a strong prompt on a fragile recipe fails at execution. Test both.</li><li>Keep skills narrow and idempotent, with explicit input validation, because the model chooses arguments.</li><li>Billing: one Genie action per prompt; skills invoked by a genie are included. Skills invoked over MCP bill as tasks.</li><li>Genie conversation data is on a fixed 90-day retention, which matters if users paste PHI.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Giving a genie a write skill with a service account. Every user then acts with the service account's permissions. Use verified user access and approvals for writes.</div><div class=\"trap\"><b>Trap:</b> Exposing PHI-bearing skills before confirming the BAA and model hosting region cover Agent Studio.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>What can this genie write, and who approves it?</li><li>Does each skill prompt include When NOT to use?</li><li>What is the evaluation set of real questions, and who reviews feedback?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What are the four components of a genie?",
-     "a": "AI model with job description, chat interface, knowledge base, and skills."
-    },
-    {
-     "q": "What trigger and final step does a skill recipe use?",
-     "a": "Start workflow trigger and Return response step."
-    },
-    {
-     "q": "How is genie usage billed?",
-     "a": "One Genie action per prompt; skills the genie invokes are included."
-    },
-    {
-     "q": "Which chat interfaces can host a genie?",
-     "a": "Slack, Microsoft Teams and Workato GO."
-    }
-   ]
-  },
-  {
-   "n": "Enterprise MCP and the MCP Gateway",
-   "g": "ai",
-   "s": "Workato hosts MCP servers whose tools come from API collections, project assets such as skills, or proxied third-party MCP servers, with OAuth, per-user identity, tool-level RBAC and audit.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Create servers under <b>AI Hub &gt; Enterprise MCP &gt; Custom servers</b>. Each tool has an input schema, an output schema and a description the agent uses to decide when to call it.</li><li><b>Prebuilt MCP servers</b> cover common apps (Slack, HubSpot, BigQuery, Snowflake Data Explorer, ServiceNow ITSM and others), released steadily through 2026.</li><li>Authentication is OAuth-based. <b>Verified user access</b> calls downstream APIs with each end user's credentials. <b>Multi-Token Auth</b> allows up to 100 named tokens per server.</li><li>September 2026: <b>MCP Proxy with OAuth</b> for third-party servers and <b>Tool-Level RBAC</b> per user group. July 2026: <b>MCP Registry</b> and tool annotations such as readonlyHint and destructiveHint.</li><li>Clients: Claude, ChatGPT, Cursor and any MCP-compatible client; genies can also act as MCP clients. Not available in the CN data center.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>This is a governed way to give Copilot-, Claude- or ChatGPT-style assistants access to internal systems. You keep RBAC, audit and per-user identity in one place.</li><li>Mark read-only tools with readonlyHint and gate destructive ones with tool-level RBAC.</li><li>MCP usage bills as the underlying asset (tasks, API calls); proxied third-party calls bill as MCP Proxy Calls.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Publishing a broad tool such as run arbitrary SQL. Agents will use it in ways you did not test; expose narrow, parameterized tools.</div><div class=\"trap\"><b>Trap:</b> Weak tool descriptions. The model selects tools from descriptions, so ambiguous ones cause wrong calls.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Where do you create custom MCP servers in Workato?",
-     "a": "AI Hub > Enterprise MCP > Custom servers."
-    },
-    {
-     "q": "What three sources can supply tools to a Workato MCP server?",
-     "a": "API collections, project assets such as skills, and proxied external MCP servers."
-    },
-    {
-     "q": "How many named tokens can one Workato MCP server have under Multi-Token Auth?",
-     "a": "Up to 100."
-    },
-    {
-     "q": "Which 2026 feature restricts which tools each user group may call?",
-     "a": "Tool-Level RBAC for MCP servers."
-    }
-   ]
-  },
-  {
-   "n": "AIRO, AI by Workato, Workato GO and Workbot",
-   "g": "ai",
-   "s": "AIRO is Workato's multi-agent AI builder and operator, AI by Workato adds LLM steps to recipes, Workato GO is the end-user search-and-action assistant, and Workbot is the older Slack and Teams bot framework.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>AIRO</b> (GA worldwide since July 2026) plans and builds recipes, genies, skills, APIs, recipe functions and MCP servers from a description, answers questions grounded in docs, and troubleshoots failed jobs from logs. <b>Acumen</b> surfaces incidents and forecasts usage. The <b>AIRO MCP server</b> lets Claude Code, Claude Desktop, Cursor or ChatGPT drive it. Admins enable it under Workspace admin &gt; Settings &gt; Workato AI.</li><li><b>AI by Workato</b> connector: actions such as Analyze text and Summarize text for in-recipe LLM steps.</li><li><b>Workato GO</b>: knowledge search across connected sources plus genie actions and approvals in one interface.</li><li><b>Workbot</b>: bot platform for Slack and Teams with command triggers, notifications and approvals.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>AIRO respects RBAC and supports undo in the recipe editor (September 2026). Review its output as you would a junior engineer's pull request.</li><li>For new conversational use cases, genies are the strategic path; keep Workbot for existing command-style bots.</li><li>Before sending PHI through any AI feature, confirm data handling under the BAA and Workato's AI feature terms.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Letting AIRO build and deploy without test cases. Generated recipes still need idempotency, error handling and masking reviews.</div><div class=\"trap\"><b>Trap:</b> Treating AI by Workato output as deterministic in branching logic. Validate and constrain outputs before acting on them.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is AIRO?",
-     "a": "Workato's multi-agent AI automation engineer that plans, builds, troubleshoots and monitors Workato assets; GA since July 2026."
-    },
-    {
-     "q": "What is AIRO Acumen for?",
-     "a": "Proactive incident detection, root-cause tracing and usage forecasting."
-    },
-    {
-     "q": "Which connector adds LLM text analysis steps inside a recipe?",
-     "a": "AI by Workato."
-    },
-    {
-     "q": "How can an external coding agent drive AIRO?",
-     "a": "Through the AIRO MCP server from clients like Claude Code, Cursor or ChatGPT."
-    }
-   ]
-  },
-  {
-   "n": "Usage-based pricing and the usage dashboard",
-   "g": "strategy",
-   "s": "Workato's current plans meter usage by capability, chiefly tasks for workflow recipes, with separate metrics for API calls, data pipeline rows, genie actions, events and seats.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Editions on the pricing page: <b>Standard</b>, <b>Business MCP</b>, <b>Enterprise MCP</b> and <b>Workato ONE</b>. No public prices; unlimited workspaces and users; 1,200+ connectors included.</li><li><b>Tasks</b>: one per successfully executed action step. Skipped, failed and canceled steps do not count; reruns do.</li><li>Other metrics: API Calls (Managed API), API Proxy Calls, Rows (data pipelines), Genie actions, MCP Proxy Calls, Pages (IDP, additive), Events (published messages, additive), Seats (Workato GO, Workflow apps).</li><li>The <b>Usage dashboard</b> tracks consumption, on-prem agents and concurrency usage.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Task cost scales with steps times iterations. Formulas, batch actions and bulk transforms cut tasks sharply.</li><li>Polling that finds nothing creates no jobs and no action steps, so frequent polling is not task cost by itself.</li><li>Legacy contracts may meter differently; read your own agreement before modeling cost.</li><li>Report tasks per recipe per month alongside business outcomes; this is the stat a CIO will ask for.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Row-by-row loops over large extracts. A nightly 50,000-row sync with 4 actions per row burns about 200,000 tasks; use Data Pipelines (rows) or a bulk insert.</div><div class=\"trap\"><b>Trap:</b> Mass reruns after an outage. Reruns count as usage.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What counts as one task?",
-     "a": "One successfully executed action step in a workflow recipe job."
-    },
-    {
-     "q": "Are reruns billed?",
-     "a": "Yes. Reruns count as usage."
-    },
-    {
-     "q": "What metric bills Data Pipelines?",
-     "a": "Rows extracted from the source per sync."
-    },
-    {
-     "q": "Name the four Workato editions on the 2026 pricing page.",
-     "a": "Standard, Business MCP, Enterprise MCP and Workato ONE."
-    }
-   ]
-  },
-  {
-   "n": "Moving from Azure Data Factory: where Workato fits",
-   "g": "strategy",
-   "s": "Use Workato for event-driven application integration, APIs and agent tooling, and keep heavy batch ELT and transformation in Fabric, Databricks or the warehouse.",
-   "x": [
-    {
-     "t": "Mapping ADF concepts",
-     "b": "<ul><li>ADF pipeline and activities: Workato recipe and actions.</li><li>ADF triggers (schedule, tumbling window, storage event): scheduled, polling, webhook and CDC triggers.</li><li>Linked services: connections. Self-hosted integration runtime: on-prem agent group.</li><li>Parameters and global parameters: recipe function inputs, lookup tables and environment-specific connections.</li><li>Copy activity for bulk loads: Data Pipelines, bulk triggers, or the warehouse's own ingestion.</li><li>Data flows (Spark transforms): not a Workato strength; move to Fabric notebooks, dbt or Databricks.</li></ul>"
-    },
-    {
-     "t": "Where Workato wins",
-     "b": "<ul><li>Near-real-time operational sync between SaaS apps and systems of record.</li><li>Workflow with humans in the loop: approvals, Slack or Teams, genies.</li><li>Publishing governed APIs and MCP tools over internal data.</li><li>Reverse ETL: pushing small modeled outputs from the warehouse back into operational apps.</li></ul>"
-    },
-    {
-     "t": "When not to use it",
-     "b": "<ul><li>Large historical backfills and wide-table transforms. Task billing and 90-minute job limits punish row-by-row work.</li><li>Complex dependency graphs of analytical jobs. Use an orchestrator native to the lakehouse.</li><li>Long-term data storage. Data tables and event streams are not warehouses.</li></ul>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Is this workload event-driven and operational, or batch and analytical?</li><li>What is the monthly task or row cost at projected volume, versus Fabric capacity cost?</li><li>Where does PHI land, and which retention and masking settings apply on each hop?</li><li>Who will operate it at 2 a.m., and which alerting path do they see?</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Lifting ADF copy pipelines into Workato recipe loops one-for-one. The cost and timeouts will hurt; re-platform bulk movement onto Data Pipelines or Fabric.</div><div class=\"trap\"><b>Trap:</b> Two tools syncing the same target. Pick one system of record per data flow and document it.</div>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the Workato equivalent of an ADF self-hosted integration runtime?",
-     "a": "An on-prem agent (in an on-prem group)."
-    },
-    {
-     "q": "Which Workato product best replaces bulk ADF copy activities into a warehouse?",
-     "a": "Data Pipelines, billed by rows."
-    },
-    {
-     "q": "Name one workload to keep out of Workato recipes during an ADF migration.",
-     "a": "Heavy batch transforms or large backfills, which belong in Fabric, Databricks or the warehouse."
-    },
-    {
-     "q": "What is a strong Workato use case that ADF handles poorly?",
-     "a": "Event-driven operational workflows with approvals, APIs or agent tools, such as genies and MCP servers."
+     "q": "Cheapest way to cut tasks on a high-volume recipe?",
+     "a": "Filter events with trigger conditions and replace per-row loops with batch or bulk actions."
     }
    ]
   }
  ],
- "refreshDays": 90,
  "sources": [
   {
    "title": "Platform limits",
