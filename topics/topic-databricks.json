@@ -1,1261 +1,422 @@
 {
  "id": "databricks",
  "title": "Databricks",
- "updated": "2026-11-03",
+ "updated": "2026-11-18",
  "refreshDays": 90,
- "note": "This tab covers what a senior BI or data engineer needs to master Databricks on Azure: platform, Unity Catalog governance, Lakeflow engineering, DevOps, SQL and BI, AI and apps, cost, and how it sits next to Microsoft Fabric, reflecting product names and GA or preview status as of November 3, 2026. Refresh it quarterly at minimum, because Databricks ships dozens of release-note items per month and renamed several major products in 2026 (Delta Sharing, Vector Search, Asset Bundles, Genie spaces, Databricks Assistant).",
+ "note": "Databricks as durable design concepts: planes and cost, tables and layout, governance, incremental engineering, serving, and the Fabric decision. Product names and feature status are as of Nov 2026; menus, limits and new AI features live in the official docs. Refresh quarterly.",
  "groups": [
   {
-   "key": "foundations",
-   "label": "Platform foundations"
+   "key": "map",
+   "label": "Map"
   },
   {
-   "key": "storage",
-   "label": "Tables and storage"
+   "key": "platform",
+   "label": "Platform and cost"
   },
   {
-   "key": "governance",
-   "label": "Governance, sharing and compliance"
+   "key": "tables",
+   "label": "Tables"
   },
   {
-   "key": "engineering",
-   "label": "Data engineering (Lakeflow)"
+   "key": "gov",
+   "label": "Governance"
   },
   {
-   "key": "devops",
-   "label": "DevOps and developer tools"
+   "key": "eng",
+   "label": "Engineering"
   },
   {
-   "key": "analytics",
-   "label": "SQL, BI and Genie"
-  },
-  {
-   "key": "ai",
-   "label": "AI, apps and Lakebase"
+   "key": "serve",
+   "label": "Serving and strategy"
   }
  ],
  "concepts": [
   {
-   "n": "Account, workspaces, and the control and compute planes",
-   "g": "foundations",
-   "s": "A Databricks account holds identities, Unity Catalog metastores and billing, while each workspace is a deployment where the Databricks-run control plane orchestrates compute that runs either in your cloud subscription (classic) or in Databricks' serverless fleet.",
+   "n": "The Databricks map",
+   "g": "map",
+   "s": "Databricks is three ideas plus a meter: a control plane governing compute over your data, tables that are files plus a transaction log under Unity Catalog, and declarative pipelines and jobs defined as code; DBUs meter all of it.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Account</b>: the top-level tenant. Account admins manage users, groups and service principals (identity federation pushes them into workspaces), Unity Catalog metastores, network and security settings, budgets and system tables.</li><li><b>Workspace</b>: the environment where notebooks, jobs, pipelines, dashboards, Genie Agents and apps live. A workspace attaches to exactly one Unity Catalog metastore, and a metastore serves one region.</li><li><b>Control plane</b>: Databricks-managed backend services (web app, job scheduler, cluster manager, Unity Catalog service, notebooks storage).</li><li><b>Classic compute plane</b>: VMs for all-purpose clusters, jobs clusters, and classic or pro SQL warehouses run in your Azure subscription and VNet. You pay the cloud provider for VMs plus Databricks for DBUs.</li><li><b>Serverless compute plane</b>: compute for serverless notebooks, jobs, pipelines, SQL warehouses, model serving and apps runs in Databricks' account in the same region. One DBU bill covers it.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Planes and governance</b>: Databricks runs the control plane; compute runs in your cloud (classic) or Databricks' fleet (serverless). Unity Catalog governs every table, file, model and function.</li><li><b>Tables</b>: Parquet files plus a Delta (or Iceberg) log give ACID writes, time travel and layout management.</li><li><b>Pipelines as code</b>: declarative pipelines, Lakeflow Jobs and bundles deploy the same definitions to dev, test and prod.</li><li><b>Meter</b>: DBUs per SKU, queryable in system tables.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Identity federation is enabled by default for new workspaces (June 2026 release notes). Manage groups at the account level and sync from Entra ID with SCIM or automatic identity management; workspace-local groups are a legacy pattern.</li><li>Serverless shifts network design: data reaches serverless compute through network connectivity configurations and private endpoints that Databricks manages on your behalf, so firewall-protected storage needs serverless private connectivity set up before you flip workloads to serverless.</li><li>Release rollouts are staged, so a feature listed in release notes can take a week or more to reach your workspace. Check the workspace Previews page before planning around a preview.</li><li>Use separate workspaces for environment isolation (dev, test, prod) and separate catalogs for data isolation; one metastore per region spans them all.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Learning product names instead of the three ideas. Names change yearly (DLT became Lakeflow pipelines; Asset Bundles became Declarative Automation Bundles in 2026).</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Treating the workspace as the security boundary for data. With Unity Catalog, grants live in the metastore and follow the data across workspaces. Use workspace-catalog bindings when a catalog (for example prod PHI) must only be reachable from specific workspaces.</div><div class=\"trap\"><b>Trap:</b> Putting PHI or other sensitive values in workspace names, cluster names, job names or tags. Those customer-defined fields can be processed outside the compliance boundary.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which workspaces exist per environment, and which catalogs are bound to each?</li><li>Are all principals account-level and synced from Entra ID, and do production jobs run as service principals?</li><li>Does serverless compute have a private path to every storage account it must read?</li></ul>"
+     "t": "Example",
+     "b": "<p>\"Why did spend jump?\" is a meter question (system.billing), \"who can read PHI?\" a governance question (Unity Catalog), \"why did prod drift from dev?\" a pipelines-as-code question.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "How many Unity Catalog metastores can a workspace attach to?",
-     "a": "Exactly one; a metastore is regional and can serve many workspaces in that region."
+     "q": "A job in prod behaves differently from dev. Which of the three ideas do you check?",
+     "a": "Pipelines as code: is prod deployed from the same bundle definition, with only target settings differing?"
     },
     {
-     "q": "Where does classic compute run versus serverless compute?",
-     "a": "Classic compute runs in your own cloud subscription and network; serverless compute runs in Databricks' account in the same region."
-    },
-    {
-     "q": "What feature restricts a catalog so it is only accessible from specific workspaces?",
-     "a": "Workspace-catalog binding in Unity Catalog."
-    },
-    {
-     "q": "Why should you avoid sensitive data in job names or tags in a regulated workspace?",
-     "a": "Customer-defined fields like names and tags may be processed or stored outside the compliance boundary."
+     "q": "Where do you answer \"which team drove last month's DBU spike\"?",
+     "a": "The billing system tables (system.billing.usage) joined to tags."
     }
    ]
   },
   {
-   "n": "Compute types, access modes, runtimes and Photon",
-   "g": "foundations",
-   "s": "Databricks offers serverless compute for notebooks, jobs and pipelines, classic all-purpose and jobs clusters, and SQL warehouses, and the choice of access mode, runtime and Photon determines what code can run, how it is governed and what it costs.",
+   "n": "Planes and compute choices",
+   "g": "platform",
+   "s": "Pick compute by workload: serverless by default for jobs, notebooks and SQL, classic job clusters when you need custom networking or images, and never interactive clusters for production.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Serverless (notebooks, jobs, pipelines)</b>: Databricks' recommended default for new workloads. No cluster config; dependencies come from an <b>environment</b> (versioned base environment plus your packages). Jobs offer two performance modes: <b>standard</b> (fewer DBUs, about 4 to 6 minutes startup) and <b>performance optimized</b> (faster start and run).</li><li><b>Classic all-purpose clusters</b>: interactive, shared by users, billed at the all-purpose rate. <b>Jobs clusters</b>: created per job run, billed at the cheaper jobs rate.</li><li><b>Access modes</b>: <b>standard</b> (multi-user, Unity Catalog isolation; formerly shared) is recommended for most workloads. <b>Dedicated</b> (single user or group; formerly single user) is for ML runtime on GPU, RDD APIs or R.</li><li><b>SQL warehouses</b>: serverless, pro and classic (see the SQL warehouses concept).</li><li><b>Databricks Runtime</b>: DBR 18 is the current LTS; DBR 19 (Spark 4.2) went GA on July 23, 2026. Use the latest LTS for production unless you need a newer feature.</li><li><b>Photon</b>: the native vectorized engine. It accelerates SQL and DataFrame work on large tables and is always on for SQL warehouses.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Account: identities, metastores, billing. Workspace: where notebooks, jobs and dashboards live, attached to one metastore per region.</li><li>Serverless: no cluster config, fast start, Databricks-managed; the recommended default (as of Nov 2026).</li><li>Classic all-purpose clusters are for interactive work and bill at a higher rate than job clusters.</li><li>Access mode standard (multi-user, Unity Catalog isolation) suits most workloads; dedicated is for single users or groups.</li><li>Photon is the vectorized engine for SQL and DataFrame work.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Serverless requires Unity Catalog and code compatible with standard access mode (no RDDs, no arbitrary JVM access, no init scripts).</li><li>DBR 19 removed JDK 17, unbundled many Python packages (for example plotly, openai, pyodbc) and blocks some Spark configs such as <code>spark.jars</code> on standard access mode. Test upgrades in a non-prod workspace.</li><li>Environments mode (Beta, DBR 19+) brings serverless-style Python dependency management to classic standard-mode compute and disables init scripts and cluster libraries.</li><li>Photon on classic compute bills at a higher DBU rate; it pays off on scan-, join- and aggregation-heavy work and helps less with small, simple batch ETL.</li><li>Fewer, larger workers reduce shuffle for complex ETL; compute policies enforce node types, auto-termination and tags.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Running scheduled jobs on an all-purpose cluster: higher rate, and it idles between runs.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Running scheduled production jobs on an all-purpose cluster. You pay the higher all-purpose rate and couple jobs to an interactive cluster's lifecycle.</div><div class=\"trap\"><b>Trap:</b> Expecting serverless jobs in standard performance mode to start in seconds. Use performance optimized mode for time-sensitive runs.</div><div class=\"trap\"><b>Trap:</b> Installing PySpark or a package that depends on it into a serverless or environments-mode notebook; it ends the session.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which workloads still need classic compute, and why (RDDs, R, GPUs, custom networking)?</li><li>Are compute policies enforcing auto-termination, tags and allowed node types?</li><li>Which runtime is pinned in jobs, and who owns the LTS upgrade calendar?</li></ul>"
+     "t": "Example",
+     "b": "<p>Nightly pipeline: serverless job. Ad hoc exploration: a small all-purpose cluster with auto-termination at 30 minutes.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Which classic access mode does Databricks recommend for most workloads?",
-     "a": "Standard access mode (formerly shared); use dedicated only for needs like GPU ML runtime, RDD APIs or R."
+     "q": "A scheduled job runs on an all-purpose cluster. Why change it?",
+     "a": "Job compute (or serverless) bills at a lower rate and doesn't idle between runs."
     },
     {
-     "q": "What are the two performance modes for serverless jobs, and how do they trade off?",
-     "a": "Standard mode uses fewer DBUs with roughly 4 to 6 minute startup; performance optimized starts and runs faster at higher DBU consumption."
-    },
-    {
-     "q": "Which Databricks Runtime is the current LTS as of November 2026?",
-     "a": "Databricks Runtime 18 LTS; DBR 19 (Spark 4.2) is GA but not labeled LTS in its release notes."
-    },
-    {
-     "q": "Why can jobs compute cost less than an all-purpose cluster for the same work?",
-     "a": "Jobs compute bills at a lower DBU rate than all-purpose compute and terminates when the run finishes."
-    },
-    {
-     "q": "What does Photon do?",
-     "a": "It is Databricks' native vectorized query engine that speeds up SQL and DataFrame operations, especially large scans, joins and aggregations."
+     "q": "When might you still choose classic compute over serverless?",
+     "a": "When you need custom networking, images or libraries serverless doesn't support in your region."
     }
    ]
   },
   {
-   "n": "Cost model, billing system tables and performance tuning",
-   "g": "foundations",
-   "s": "Databricks bills in DBUs per product and SKU, which you attribute and govern with system.billing tables, tags, serverless usage policies and budgets, and you reduce spend mainly by fixing data layout, compute choice and query shape found in the query profile and Spark UI.",
+   "n": "Cost: DBUs and attribution",
+   "g": "platform",
+   "s": "Spend is DBUs per SKU (plus cloud VMs on classic), so tag everything, query the billing system tables, and fix layout and compute choice before buying more.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>A <b>DBU</b> is a unit of processing capacity billed per second. Rates differ by SKU (all-purpose, jobs, serverless jobs, SQL classic, pro or serverless, model serving, apps, and so on). Classic compute also incurs cloud VM cost on your Azure bill.</li><li><code>system.billing.usage</code> holds every usage record with <code>sku_name</code>, <code>usage_quantity</code>, <code>billing_origin_product</code>, <code>custom_tags</code> and identity metadata (365-day default retention). <code>system.billing.list_prices</code> has list prices; join them for list cost.</li><li><b>Tags</b>: cluster, pool, warehouse and job tags flow to billing. Serverless has no cluster to tag, so <b>serverless usage policies</b> (Public Preview; formerly called budget policies) apply custom tags to serverless notebooks, jobs, pipelines, serving endpoints and apps.</li><li><b>Budgets</b> monitor spend and alert; query tags for SQL warehouses (GA September 2026) attribute SQL workloads.</li></ul>",
-     "c": [
-      {
-       "t": "Example: list cost by product and cost center",
-       "b": "<pre><code>SELECT u.usage_date,\n       u.billing_origin_product,\n       u.custom_tags['cost_center'] AS cost_center,\n       SUM(u.usage_quantity * p.pricing.default) AS list_cost_usd\nFROM system.billing.usage u\nJOIN system.billing.list_prices p\n  ON u.sku_name = p.sku_name\n AND u.cloud = p.cloud\n AND u.usage_start_time &gt;= p.price_start_time\n AND (p.price_end_time IS NULL OR u.usage_start_time &lt; p.price_end_time)\nWHERE u.usage_date &gt;= current_date() - INTERVAL 30 DAYS\nGROUP BY ALL\nORDER BY list_cost_usd DESC;</code></pre><p>This gives list price, not your negotiated rate.</p>"
-      }
-     ]
+     "t": "Model",
+     "b": "<ul><li>system.billing.usage holds every usage record with SKU, quantity and tags; join system.billing.list_prices for cost.</li><li>Tags on clusters, warehouses and jobs flow into billing; serverless uses usage policies for attribution.</li><li>Budgets alert on spend.</li><li>Biggest levers: serverless or job compute instead of all-purpose, auto-stop, incremental processing, good layout, right-sized warehouses.</li></ul>",
+     "c": []
     },
     {
-     "t": "Performance tuning workflow",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Start with the <b>query profile</b> (SQL warehouses and serverless) or <b>Spark UI</b> (classic): find the operator with the most time, rows or spill.</li><li>Check pruning: files read versus files pruned. Poor pruning usually means missing liquid clustering keys or filters on non-clustered columns.</li><li>Check joins: broadcast versus shuffle, skew (one task far longer than the median), and exploding row counts.</li><li>Check spill and memory: spill to disk signals undersized compute or a wide shuffle.</li><li>Fix layout first (managed tables, liquid clustering, predictive optimization), then query shape, then compute size.</li></ol>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Untagged serverless usage nobody can attribute.</div><div class=\"trap\"><b>Trap:</b> Tuning cluster size before checking the query profile; most waste is scans and shuffles.</div>",
+     "c": []
     },
     {
-     "t": "Common anti-patterns",
-     "b": "<ul><li>Many tiny files from frequent small appends without compaction; let predictive optimization or <code>OPTIMIZE</code> handle it.</li><li><code>collect()</code> or <code>toPandas()</code> on large DataFrames, pulling data to the driver.</li><li>Python UDFs where a built-in SQL function exists.</li><li>Over-partitioning by high-cardinality columns; use liquid clustering instead.</li><li>Always-on all-purpose clusters with long or no auto-termination.</li><li>Streaming jobs with very short trigger intervals that run 24/7 when an hourly <code>availableNow</code> run would meet the SLA.</li></ul><div class=\"trap\"><b>Trap:</b> Comparing serverless and classic only on DBU rate. Classic adds VM cost, idle time and startup overhead; serverless includes infrastructure and bills only while running. Compare total cost per workload with system tables.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Can every dollar in <code>system.billing.usage</code> be attributed to a team through tags or usage policies?</li><li>Which top-10 jobs by cost have been tuned, and what changed?</li><li>Are budgets alerting the right owners, and does anyone review the query history system table for runaway SQL?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>SELECT custom_tags['team'] AS team, SUM(usage_quantity) AS dbus\nFROM system.billing.usage\nWHERE usage_unit = 'DBU' AND usage_date &gt;= current_date() - 30\nGROUP BY 1 ORDER BY 2 DESC</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Which system table holds Databricks usage records for cost attribution?",
-     "a": "system.billing.usage, joined to system.billing.list_prices for list cost."
+     "q": "Serverless spend can't be traced to teams. What fixes attribution?",
+     "a": "Serverless usage policies (and tags), so usage records carry team metadata."
     },
     {
-     "q": "How do you attribute serverless spend when there is no cluster to tag?",
-     "a": "Assign serverless usage policies, which apply custom tags that appear in the custom_tags column of system.billing.usage."
-    },
-    {
-     "q": "Do budgets in Databricks stop spending when exceeded?",
-     "a": "No; budgets monitor and alert on spend. Attribution comes from tags and usage policies."
-    },
-    {
-     "q": "In a query profile, what does reading most files with little pruning suggest?",
-     "a": "The table layout does not match the filters, so clustering keys or data skipping need attention."
-    },
-    {
-     "q": "Why can joining usage to list_prices understate or overstate your real bill?",
-     "a": "list_prices holds list prices, not negotiated discounts or commitments."
+     "q": "A warehouse is slow and expensive. What do you inspect before resizing?",
+     "a": "The query profile: scans, pruning, shuffles and spill."
     }
    ]
   },
   {
-   "n": "Unity Catalog managed tables and Delta Lake essentials",
-   "g": "storage",
-   "s": "Unity Catalog managed tables are the default and recommended table type, storing Delta Lake (or Iceberg) data in Databricks-managed locations so the platform can optimize, recover and govern them, while external tables leave file lifecycle to you.",
+   "n": "Tables and layout",
+   "g": "tables",
+   "s": "Use Unity Catalog managed tables so the platform owns layout and maintenance, cluster with liquid clustering instead of partitions, and let predictive optimization compact and vacuum.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Managed table</b>: Unity Catalog controls the storage path and lifecycle. Delta is the default format; <code>USING iceberg</code> creates a managed Iceberg table.</li><li><b>External table</b>: you register data at a path under an external location; dropping the table leaves the files.</li><li>Delta gives ACID transactions, time travel (<code>VERSION AS OF</code>, <code>TIMESTAMP AS OF</code>), <code>MERGE</code>, schema enforcement and evolution, and deletion vectors that mark deleted rows instead of rewriting files.</li><li>Managed-only features: predictive optimization, automatic liquid clustering, metadata caching, catalog commits, multi-statement transactions (off by default), and external access through the Unity REST API and Iceberg REST Catalog with credential vending.</li><li>Dropped managed tables keep their files for a recovery period (default 7 days) and can be restored with <code>UNDROP TABLE</code>. A configurable recovery period (0 hours or 7 to 30 days) is in Public Preview.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Managed</b> tables: Unity Catalog controls path and lifecycle; managed-only features include predictive optimization and automatic liquid clustering. <b>External</b>: you own the files.</li><li>Delta: ACID, time travel, MERGE, deletion vectors.</li><li><b>Liquid clustering</b> (CLUSTER BY, or CLUSTER BY AUTO) replaces partitioning and Z-order and is maintained incrementally.</li><li><b>Predictive optimization</b> runs OPTIMIZE, VACUUM and ANALYZE on managed tables.</li><li>Iceberg: managed Iceberg tables and UniForm let Iceberg engines read the same data.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>External writes to managed Delta tables went GA in October 2026; they require catalog commits so the catalog coordinates every commit.</li><li>Transactions across managed Delta and Iceberg tables went GA in October 2026; multi-statement transactions must be enabled per table.</li><li>Access tables by three-part name, never by path. Path-based access to managed tables is not supported.</li><li>Parquet v2 for Delta tables went GA in June 2026; check reader compatibility before external engines read the files directly.</li><li>For time travel beyond 7 days, raise <code>delta.deletedFileRetentionDuration</code> before VACUUM removes old files.</li></ul>",
-     "c": [
-      {
-       "t": "Example: managed table with clustering and time travel",
-       "b": "<pre><code>CREATE TABLE main.clinical.encounters (\n  encounter_id BIGINT,\n  patient_id   BIGINT,\n  provider_id  BIGINT,\n  encounter_ts TIMESTAMP,\n  state        STRING\n) CLUSTER BY (patient_id, encounter_ts);\n\n-- what did the table look like yesterday?\nSELECT * FROM main.clinical.encounters TIMESTAMP AS OF current_date() - 1;\n\n-- undo a bad load\nRESTORE TABLE main.clinical.encounters TO VERSION AS OF 42;</code></pre>"
-      }
-     ]
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Hand-built partitioning on high-cardinality columns: small files and slow scans.</div><div class=\"trap\"><b>Trap:</b> Changing clustering keys and expecting old data to move; that needs OPTIMIZE FULL.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Choosing external tables by habit. You lose predictive optimization, automatic clustering and UNDROP, and you inherit file cleanup. Use external tables only when another system must own the files.</div><div class=\"trap\"><b>Trap:</b> Expecting time travel to survive VACUUM. Once files older than the retention window are vacuumed, older versions cannot be read.</div><div class=\"trap\"><b>Trap:</b> Writing to a managed table's storage path directly with an outside tool. Use the Unity REST API or Iceberg REST Catalog so commits go through the catalog.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which tables are external, and what is the reason for each?</li><li>What time-travel and recovery window does the business need for audit or reprocessing?</li><li>Which external engines write to our tables, and do those tables have catalog commits enabled?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>CREATE TABLE silver.encounters (...) CLUSTER BY (clinic_id, event_date);</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What happens to data files when you DROP a Unity Catalog managed table?",
-     "a": "They are kept for a recovery period (default 7 days) during which UNDROP TABLE can restore the table, then deleted."
+     "q": "A new table is filtered by clinic and date. Partition or cluster?",
+     "a": "Liquid clustering on (clinic_id, event_date); partitioning risks small files and can't evolve."
     },
     {
-     "q": "What is the default and recommended table type in Databricks?",
-     "a": "Unity Catalog managed tables, Delta Lake by default or Iceberg with USING iceberg."
-    },
-    {
-     "q": "What do deletion vectors do?",
-     "a": "They mark rows as deleted without rewriting whole Parquet files, which speeds up DELETE, UPDATE and MERGE."
-    },
-    {
-     "q": "What must be enabled before external Delta clients can safely write to a managed table?",
-     "a": "Catalog commits on the table, so writes go through Unity Catalog."
+     "q": "You changed clustering keys but old data didn't reorganize. Why?",
+     "a": "Clustering is incremental; rewriting existing data needs OPTIMIZE FULL."
     }
    ]
   },
   {
-   "n": "Liquid clustering and predictive optimization",
-   "g": "storage",
-   "s": "Liquid clustering replaces partitioning and Z-ordering with incrementally maintained clustering keys, and predictive optimization automatically runs OPTIMIZE, VACUUM and ANALYZE on Unity Catalog managed tables so layout stays healthy without hand-built maintenance jobs.",
+   "n": "Unity Catalog privileges",
+   "g": "gov",
+   "s": "Unity Catalog is a catalog, schema, object hierarchy where grants on a parent are inherited below it, so grant to groups at the highest level that is still least privilege.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><code>CLUSTER BY (cols)</code> sets clustering keys; <code>CLUSTER BY AUTO</code> lets Databricks choose and evolve keys from query patterns (requires DBR 15.4+ and predictive optimization); <code>CLUSTER BY NONE</code> turns it off.</li><li>Clustering is incremental: <code>OPTIMIZE</code> clusters new data; <code>OPTIMIZE FULL</code> reclusters everything (needed after changing keys if you want old data rewritten).</li><li>Predictive optimization runs on UC managed tables (Delta and Iceberg): OPTIMIZE (compaction and clustering, never ZORDER), VACUUM (default 7-day retention), and ANALYZE for statistics. It bills to the serverless jobs SKU.</li><li>It is on by default for accounts created on or after November 11, 2024, with existing accounts enabled through a rollout scheduled to finish by August 2026. Override with <code>ALTER CATALOG | SCHEMA | TABLE ... ENABLE | DISABLE | INHERIT PREDICTIVE OPTIMIZATION</code>.</li><li>Converting a partitioned table to liquid clustering went GA in June 2026.</li></ul>",
-     "c": [
-      {
-       "t": "Example",
-       "b": "<pre><code>ALTER TABLE main.clinical.encounters CLUSTER BY (patient_id, encounter_ts);\nOPTIMIZE main.clinical.encounters FULL;   -- recluster existing data\n\nALTER TABLE main.clinical.claims CLUSTER BY AUTO;\n\nALTER SCHEMA main.clinical ENABLE PREDICTIVE OPTIMIZATION;\n\nSELECT * FROM system.storage.predictive_optimization_operations_history\nWHERE table_name = 'encounters' ORDER BY start_time DESC;</code></pre>"
-      }
-     ]
+     "t": "Model",
+     "b": "<ul><li>Metastore (one per region), then catalog, schema, then tables, views, volumes, functions and models.</li><li>Reading a table needs USE CATALOG, USE SCHEMA and SELECT; writing needs MODIFY.</li><li>BROWSE exposes metadata without data. Ownership confers full control.</li><li>Every access path is checked and audited against the grants.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Pick keys from the most common filter and join columns; key order does not matter. Keep the number of keys small (the documented maximum has long been four).</li><li>Liquid clustering cannot be combined with <code>PARTITIONED BY</code> or ZORDER on the same table.</li><li>Updated rows are not reclustered automatically; they wait for the next OPTIMIZE.</li><li>An explicit DISABLE at catalog, schema or table level stays in force even if the account later enables predictive optimization.</li><li>On DBR 18 LTS+, <code>DESCRIBE TABLE EXTENDED ... AS JSON</code> shows why a predictive optimization operation was skipped.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Granting to individuals: access becomes unreviewable. Grant to groups.</div><div class=\"trap\"><b>Trap:</b> Granting SELECT on a catalog when one schema was meant: inheritance includes future tables.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Keeping nightly hand-written OPTIMIZE and VACUUM jobs alongside predictive optimization. You pay twice and may fight over retention settings.</div><div class=\"trap\"><b>Trap:</b> Expecting predictive optimization on external tables or OpenSharing recipient tables. It runs only on UC managed tables.</div><div class=\"trap\"><b>Trap:</b> Firewalled storage without serverless private connectivity: predictive optimization operations fail with PRIVATE_LINK_SETUP_ERROR.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which tables are still partitioned or Z-ordered, and what is the plan to convert them?</li><li>Is predictive optimization enabled everywhere it should be, and who watches its operations history?</li><li>Do clustering keys match the filters in the slowest queries in query history?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>GRANT USE CATALOG ON CATALOG clinical TO `analysts`;\nGRANT USE SCHEMA, SELECT ON SCHEMA clinical.gold TO `analysts`;</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What does CLUSTER BY AUTO require?",
-     "a": "Databricks Runtime 15.4 or above and predictive optimization on a Unity Catalog managed table."
+     "q": "A user has SELECT on a table but still gets access denied. What is likely missing?",
+     "a": "USE CATALOG and USE SCHEMA on the parents."
     },
     {
-     "q": "Which operations does predictive optimization run?",
-     "a": "OPTIMIZE (compaction and liquid clustering, not ZORDER), VACUUM and ANALYZE."
-    },
-    {
-     "q": "Which billing SKU covers predictive optimization?",
-     "a": "The serverless jobs SKU."
-    },
-    {
-     "q": "After changing clustering keys, how do you recluster existing data?",
-     "a": "Run OPTIMIZE ... FULL; normal OPTIMIZE only clusters new or unclustered data."
-    },
-    {
-     "q": "Which system table tracks predictive optimization activity?",
-     "a": "system.storage.predictive_optimization_operations_history."
+     "q": "Why is granting SELECT at catalog level risky?",
+     "a": "It is inherited by every current and future table in the catalog."
     }
    ]
   },
   {
-   "n": "Apache Iceberg, UniForm and open table access",
-   "g": "storage",
-   "s": "Databricks supports managed Iceberg tables in Unity Catalog, Iceberg reads on Delta tables through UniForm, Iceberg v3 features shared with Delta, and an Iceberg REST Catalog so external engines can read and write governed tables.",
+   "n": "Row filters, masks and ABAC",
+   "g": "gov",
+   "s": "Protect sensitive rows and columns with SQL functions attached as row filters and column masks, and at scale with tag-driven ABAC policies that apply them to every matching table.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Managed Iceberg tables</b>: <code>CREATE TABLE ... USING iceberg</code> in Unity Catalog. Requires DBR 16.4 LTS+ and predictive optimization; supports liquid clustering.</li><li><b>Foreign Iceberg tables</b>: tables owned by Glue, Hive metastore or Snowflake Horizon, read through Lakehouse Federation (read-only).</li><li><b>Iceberg reads on Delta (UniForm)</b>: set <code>delta.universalFormat.enabledFormats = 'iceberg'</code> so Iceberg clients can read a Delta table's metadata.</li><li><b>Iceberg v3</b> (DBR 18 LTS+): deletion vectors, VARIANT, row lineage, geospatial types and write defaults. Data + AI Summit 2026 positioned v3 as GA with Delta and Iceberg sharing data files.</li><li><b>Iceberg REST Catalog</b>: external engines (Spark, Trino, Snowflake, and others) read and write managed tables with credential vending scoped to the caller's grants.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Row filter: a boolean function per table. Column mask: a function returning the value or a masked version, usually checking is_account_group_member().</li><li>Governed tags mark sensitive columns (for example phi). ABAC policies (GA 2026) apply filters and masks wherever the tags match, including new tables.</li><li>Data classification can detect and tag PII automatically.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Choose the format by who writes. If Databricks writes and others read, Delta with Iceberg reads is simplest. If external engines must write natively, managed Iceberg with the REST catalog fits.</li><li>External Iceberg clients cannot commit equality deletes to managed Iceberg tables; they must use copy-on-write or deletion vectors.</li><li>External engines cannot read Unity Catalog views through the Iceberg REST Catalog; external access to views through the Unity REST API went GA in October 2026.</li><li>Credential vending is not supported on workspaces that use default storage.</li></ul>",
-     "c": [
-      {
-       "t": "Example",
-       "b": "<pre><code>-- managed Iceberg v3 table\nCREATE TABLE main.shared.events_ice (id BIGINT, payload VARIANT)\nUSING iceberg\nTBLPROPERTIES ('format-version' = 3);\n\n-- Delta table readable by Iceberg clients\nCREATE TABLE main.shared.events_delta (id BIGINT, ts TIMESTAMP)\nTBLPROPERTIES (\n  'delta.universalFormat.enabledFormats' = 'iceberg',\n  'delta.enableIcebergCompatV3' = 'true'\n);</code></pre>"
-      }
-     ]
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Masking per table by hand: the next new table with MRNs ships unmasked. Tag-driven policies close that gap.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Upgrading a table to Iceberg v3 before confirming every reader supports v3. Downgrade requires RESTORE to a pre-upgrade version with protocol downgrade allowed.</div><div class=\"trap\"><b>Trap:</b> Pointing an external engine at storage paths instead of the REST catalog. It bypasses Unity Catalog permissions and audit.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which non-Databricks engines read or write our tables, and through which catalog API?</li><li>Do any consumers need v3 features, or would v3 break an older reader?</li><li>Is the interoperability need met by OpenSharing or Fabric mirroring instead?</li></ul>"
+     "t": "Example",
+     "b": "<p>Tag MRN columns phi; one policy masks them for everyone except care-operations, across every current and future table.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "How do you create a managed Iceberg table in Databricks?",
-     "a": "CREATE TABLE ... USING iceberg in a Unity Catalog schema, on DBR 16.4 LTS or above with predictive optimization enabled."
+     "q": "New tables keep shipping with unmasked MRNs. What structural fix?",
+     "a": "Governed tags plus an ABAC column-mask policy that applies to every tagged column automatically."
     },
     {
-     "q": "Which table property lets Iceberg clients read a Delta table?",
-     "a": "delta.universalFormat.enabledFormats = 'iceberg' (UniForm Iceberg reads)."
-    },
-    {
-     "q": "Which runtime is required for Iceberg v3 features?",
-     "a": "Databricks Runtime 18 LTS or above."
-    },
-    {
-     "q": "Which API lets external engines read and write Unity Catalog managed Iceberg tables with scoped credentials?",
-     "a": "The Iceberg REST Catalog with credential vending."
+     "q": "What function typically drives a column mask's decision?",
+     "a": "A group-membership check such as is_account_group_member()."
     }
    ]
   },
   {
-   "n": "Change data feed",
-   "g": "storage",
-   "s": "Change data feed exposes row-level inserts, updates and deletes between table versions, and the newer automatic CDF computes those changes at query time from row tracking instead of writing extra change files on every MERGE or UPDATE.",
+   "n": "Compliance and audit",
+   "g": "gov",
+   "s": "For HIPAA data, enable the compliance security profile on the workspace, and use system tables for audit, lineage and access review.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Write-time (legacy) CDF</b>: enable per table with <code>delta.enableChangeDataFeed = true</code>; changes are written during each operation.</li><li><b>Automatic CDF</b> (GA September 2026): requires DBR 19+, a Unity Catalog table with row tracking (managed or external Delta) or an Iceberg v3 table. No per-table property; MERGE and UPDATE run faster because change files are not written.</li><li>Read with <code>table_changes('t', startVersion)</code> in SQL, or <code>readChangeFeed=true</code> in batch or streaming.</li><li><code>_change_type</code> values: <code>insert</code>, <code>update_preimage</code>, <code>update_postimage</code>, <code>delete</code>; plus <code>_commit_version</code> and <code>_commit_timestamp</code>.</li></ul>",
-     "c": [
-      {
-       "t": "Example",
-       "b": "<pre><code>SELECT * FROM table_changes('main.clinical.patients', 120, 130)\nWHERE _change_type IN ('insert', 'update_postimage', 'delete');\n\n# incremental downstream processing\n(spark.readStream\n   .option(\"readChangeFeed\", \"true\")\n   .table(\"main.clinical.patients\")\n   .writeStream\n   .option(\"checkpointLocation\", \"/Volumes/main/ops/chk/patients_cdf\")\n   .trigger(availableNow=True)\n   .toTable(\"main.silver.patients_changes\"))</code></pre>"
-      }
-     ]
+     "t": "Model",
+     "b": "<ul><li>The compliance security profile (HIPAA standard) adds hardened images, automatic cluster updates, enhanced monitoring and TLS requirements, at added cost. Check which serverless products it covers in your region.</li><li>A BAA covers it: with Databricks on AWS and GCP, with Microsoft on Azure Databricks. You stay responsible for your own controls.</li><li>System tables: access.audit for who did what, table and column lineage, query history. Retention as of Nov 2026: about 395 days for audit and lineage, 365 for query history, billing indefinitely.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>CDF only covers changes after it was enabled and only within the table's history retention; copy it to a table if you need permanent history.</li><li>Legacy and automatic CDF cannot be combined; to migrate, unset <code>delta.enableChangeDataFeed</code>.</li><li>Only Databricks readers can query automatic CDF on Delta; external Iceberg readers cannot.</li><li>Lakebase synced tables in triggered or continuous mode need a change feed on the source (write-time or automatic).</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Assuming every serverless product is covered by the profile in every region. Check before routing PHI.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Reading CDF across a non-additive schema change (rename, drop, type change). The read fails; split the range around the change.</div><div class=\"trap\"><b>Trap:</b> Automatic CDF on tables with row filters or column masks is not supported, which matters for PHI tables governed by ABAC.</div><div class=\"trap\"><b>Trap:</b> Restarting a stream from a starting version that VACUUM or log cleanup already removed.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which downstream consumers need row-level changes, and can they all run on DBR 19+ for automatic CDF?</li><li>Do any CDF source tables carry row filters or masks?</li><li>What retention covers the slowest consumer's catch-up window?</li></ul>"
+     "t": "Example",
+     "b": "<p>Quarterly access review: query system.access.audit for reads on tagged PHI tables by principal, and compare with approved roles.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What are the four _change_type values in change data feed?",
-     "a": "insert, update_preimage, update_postimage and delete."
+     "q": "What must be on before a Databricks workspace processes HIPAA data?",
+     "a": "The compliance security profile with the HIPAA standard (plus a BAA)."
     },
     {
-     "q": "What does automatic CDF require?",
-     "a": "Databricks Runtime 19 or above and a Unity Catalog Delta table with row tracking, or an Iceberg v3 table."
-    },
-    {
-     "q": "How do you read changes between versions 10 and 20 in SQL?",
-     "a": "SELECT * FROM table_changes('catalog.schema.table', 10, 20)."
-    },
-    {
-     "q": "Is change data feed a permanent audit history?",
-     "a": "No; it covers only changes after enablement and within retention, so copy it to a table for permanent history."
+     "q": "Where do you prove who read a PHI table last quarter?",
+     "a": "The audit system table (system.access.audit)."
     }
    ]
   },
   {
-   "n": "Unity Catalog object model and privileges",
-   "g": "governance",
-   "s": "Unity Catalog organizes data and AI assets in a metastore, catalog, schema, object hierarchy where privileges granted on a parent are inherited by everything beneath it, and every access path is checked and audited against those grants.",
+   "n": "Ingest incrementally",
+   "g": "eng",
+   "s": "Ingest with tools that track what they have processed: Lakeflow Connect for databases and SaaS apps, Auto Loader for files, each resuming from a checkpoint.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>Hierarchy: <b>metastore</b> (one per region) &gt; <b>catalog</b> &gt; <b>schema</b> &gt; tables, views, materialized views, streaming tables, metric views, <b>volumes</b> (governed files), <b>functions</b> (SQL and Python UDFs) and <b>registered models</b>.</li><li>Securables outside the hierarchy: storage credentials, external locations, service credentials, connections (for federation, Lakeflow Connect, Power BI), shares and recipients, clean rooms.</li><li>To read a table a principal needs <code>USE CATALOG</code>, <code>USE SCHEMA</code> and <code>SELECT</code>. Writes need <code>MODIFY</code>. Volumes use <code>READ VOLUME</code> and <code>WRITE VOLUME</code>; functions and models use <code>EXECUTE</code>.</li><li><code>BROWSE</code> lets users discover metadata without reading data. <code>MANAGE</code> lets a non-owner grant, drop and manage policies on an object.</li><li>Grants on a catalog or schema inherit downward, including to objects created later.</li></ul>",
-     "c": [
-      {
-       "t": "Example: least-privilege grants",
-       "b": "<pre><code>GRANT USE CATALOG ON CATALOG clinical TO `bi_analysts`;\nGRANT USE SCHEMA, SELECT ON SCHEMA clinical.gold TO `bi_analysts`;\nGRANT BROWSE ON CATALOG clinical TO `account users`;\n\nGRANT USE CATALOG, USE SCHEMA ON CATALOG clinical TO `etl_sp`;\nGRANT MODIFY, SELECT, CREATE TABLE ON SCHEMA clinical.silver TO `etl_sp`;\n\nSHOW GRANTS ON SCHEMA clinical.gold;</code></pre>"
-      }
-     ]
+     "t": "Model",
+     "b": "<ul><li><b>Lakeflow Connect</b>: managed connectors (SQL Server CDC, Salesforce, Workday and more) writing streaming tables; database connectors run an ingestion gateway.</li><li><b>Auto Loader</b> (cloudFiles): exactly-once file ingestion, schema inference and evolution, unexpected fields in _rescued_data; file events beat directory listing at scale.</li><li>Triggers: availableNow for cheap batch-like runs, processingTime for continuous micro-batches.</li><li>Change data feed exposes row-level changes downstream.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Grant to groups, never to individual users. Make service principals own production objects so ownership does not break when people leave.</li><li>Design catalogs around environment and sensitivity (for example <code>dev_clinical</code>, <code>prod_clinical</code>, <code>prod_deid</code>) and bind sensitive catalogs to specific workspaces.</li><li>Volumes replace DBFS mounts for files; mounts and DBFS root are legacy and bypass fine-grained governance.</li><li>Access requests at the metastore level (Public Preview) and the Discover page with domains (GA October 2026) help self-service discovery without over-granting.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Deleting or sharing a checkpoint between streams: the stream reprocesses or skips data.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Granting SELECT on a catalog to a broad group to unblock one request. Inheritance gives access to every current and future table in it.</div><div class=\"trap\"><b>Trap:</b> Leaving a person as owner of production tables. Owners hold all privileges and can re-grant; transfer ownership to a group or service principal.</div><div class=\"trap\"><b>Trap:</b> Keeping workloads on Hive metastore or DBFS mounts. Many current features (serverless, ABAC, predictive optimization, Power BI publish) require Unity Catalog.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Who owns each production catalog and schema, and is it a group or service principal?</li><li>Can we explain every grant on PHI catalogs from the SHOW GRANTS output?</li><li>Are any workloads still on Hive metastore, mounts or DBFS root?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>spark.readStream.format(\"cloudFiles\")\n  .option(\"cloudFiles.format\", \"json\")\n  .option(\"cloudFiles.schemaLocation\", \"/Volumes/.../schema\")\n  .load(path).writeStream.trigger(availableNow=True)...</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What three privileges does a user need to query a table?",
-     "a": "USE CATALOG on the catalog, USE SCHEMA on the schema and SELECT on the table (or inherited from a parent)."
+     "q": "A file-ingestion stream should run hourly and stop when done. Which trigger?",
+     "a": "availableNow=True: process everything new, then stop."
     },
     {
-     "q": "Which privilege lets users see metadata without reading data?",
-     "a": "BROWSE."
-    },
-    {
-     "q": "Which privilege lets a non-owner manage grants and policies on an object?",
-     "a": "MANAGE."
-    },
-    {
-     "q": "What Unity Catalog object governs non-tabular files?",
-     "a": "A volume, accessed through /Volumes/catalog/schema/volume paths with READ VOLUME and WRITE VOLUME."
-    },
-    {
-     "q": "Do privileges granted on a schema apply to tables created later?",
-     "a": "Yes; grants inherit to all current and future child objects."
-    }
-   ]
-  },
-  {
-   "n": "Row filters, column masks, ABAC and governed tags",
-   "g": "governance",
-   "s": "Unity Catalog enforces fine-grained access with SQL UDF row filters and column masks attached per table, or at scale with attribute-based access control policies that apply those functions automatically to every table whose governed tags match.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Table-level</b>: attach a boolean UDF as a row filter, or a masking UDF to a column. Functions typically call <code>is_account_group_member()</code> or <code>current_user()</code>.</li><li><b>Governed tags</b>: account-level tag keys and allowed values with controlled assignment (GA May 2026). Tag catalogs, schemas, tables and columns, for example <code>phi = ssn</code>.</li><li><b>ABAC policies</b> (row filter and column mask policies GA May 13, 2026): <code>CREATE POLICY ... ON CATALOG | SCHEMA | TABLE</code> with <code>TO</code> and <code>EXCEPT</code> principals, a <code>WHEN</code> tag condition and <code>MATCH COLUMNS has_tag(...)</code>. Cross-engine ABAC went GA October 1, 2026.</li><li><b>Data classification</b> (GA May 2026, API GA October 2026) scans tables to detect PII and PHI, with HIPAA classifiers, and can feed tagging.</li><li>Requirements: DBR 16.4+ or serverless; creating a policy needs MANAGE (or ownership) on the securable and EXECUTE on the UDF.</li></ul>",
-     "c": [
-      {
-       "t": "Example: table-level filter and mask",
-       "b": "<pre><code>CREATE FUNCTION gov.fn.va_only(state STRING)\nRETURN is_account_group_member('phi_all_states') OR state = 'VA';\nALTER TABLE clinical.gold.encounters SET ROW FILTER gov.fn.va_only ON (state);\n\nCREATE FUNCTION gov.fn.mask_ssn(ssn STRING)\nRETURN CASE WHEN is_account_group_member('phi_readers') THEN ssn\n            ELSE concat('***-**-', right(ssn, 4)) END;\nALTER TABLE clinical.gold.patients ALTER COLUMN ssn SET MASK gov.fn.mask_ssn;</code></pre>"
-      },
-      {
-       "t": "Example: ABAC column mask policy on a whole catalog",
-       "b": "<pre><code>CREATE POLICY mask_ssn_everywhere\nON CATALOG clinical\nCOMMENT 'Mask any column tagged phi=ssn'\nCOLUMN MASK gov.fn.mask_ssn\nTO `account users`\nEXCEPT `phi_readers`\nFOR TABLES\nMATCH COLUMNS has_tag_value('phi', 'ssn') AS ssn_col\nON COLUMN ssn_col;</code></pre>"
-      }
-     ]
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>ABAC scales governance from per-table wiring to tag hygiene: the policy is only as good as tagging, so pair it with data classification and tag ownership.</li><li>Beta extensions as of November 2026: metastore-level policies, policies on views, DENY policies that block MANAGE ACCESS CONTROL, time travel enforcing ABAC, and governed tag propagation.</li><li>A row filter policy allows up to six MATCH COLUMNS expressions and a column mask up to three; all must match.</li><li>Policy evaluation uses the querying user's identity, so views and functions respect the caller's permissions.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Assuming filtered tables flow everywhere. OpenSharing cannot share tables with row filters or column masks, Fabric mirroring skips tables with them, and automatic CDF is unsupported on them.</div><div class=\"trap\"><b>Trap:</b> Masking functions with a return type that cannot cast to the column type; the policy fails to apply.</div><div class=\"trap\"><b>Trap:</b> Expensive filter UDFs (subqueries against large mapping tables) on hot dashboard tables; every query pays the cost.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which governed tags define PHI and who may assign them?</li><li>Which consumers (sharing, Fabric, external engines) cannot read filtered or masked tables, and what is their de-identified alternative?</li><li>Is there a test that queries each protected table as a non-privileged principal?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What SQL statement creates an ABAC column mask that applies to every tagged column in a catalog?",
-     "a": "CREATE POLICY ... ON CATALOG ... COLUMN MASK fn TO principals FOR TABLES MATCH COLUMNS has_tag_value(...) AS alias ON COLUMN alias."
-    },
-    {
-     "q": "What privileges do you need to create an ABAC policy on a schema?",
-     "a": "MANAGE on the schema (or ownership) and EXECUTE on the UDF."
-    },
-    {
-     "q": "What is the minimum compute for row filters, masks and ABAC policies?",
-     "a": "Databricks Runtime 16.4 or above, or serverless compute."
-    },
-    {
-     "q": "Can OpenSharing share a table that has a row filter or column mask?",
-     "a": "No; share a dynamic view or a de-identified table instead."
-    },
-    {
-     "q": "Which function is commonly used inside row filters to check group membership?",
-     "a": "is_account_group_member('group_name')."
-    }
-   ]
-  },
-  {
-   "n": "System tables, lineage and audit logs",
-   "g": "governance",
-   "s": "System tables in the system catalog give account-wide, queryable records of billing, audit events, lineage, compute, jobs, pipelines and query history, which you use for cost attribution, security monitoring and impact analysis.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Key schemas: <code>billing</code> (usage, list_prices), <code>access</code> (audit, table_lineage, column_lineage), <code>compute</code> (clusters, warehouses, node_timeline), <code>lakeflow</code> (jobs, job_run_timeline, pipelines; pipelines system tables GA October 2026), <code>query.history</code> (GA September 2026), <code>storage</code>, <code>serving</code>.</li><li>Default retention is mostly 365 days (node_timeline 90 days). Configurable retention from 30 to 3,650 days is in Beta.</li><li>Access: account plus metastore admins by default; grant others <code>USE CATALOG</code> on <code>system</code> and <code>USE SCHEMA</code> and <code>SELECT</code> on the schemas.</li><li>Querying system tables is free apart from the compute used.</li><li>Lineage is captured automatically for queries on Unity Catalog compute, down to columns, and shown in Catalog Explorer; external lineage (systems outside Databricks) went GA June 2026.</li></ul>"
-    },
-    {
-     "t": "Example queries",
-     "b": "<p>Two queries every platform owner should keep saved.</p>",
-     "c": [
-      {
-       "t": "Who read a PHI table in the last 7 days",
-       "b": "<pre><code>SELECT event_time, user_identity.email, action_name, request_params\nFROM system.access.audit\nWHERE event_date &gt;= current_date() - 7\n  AND service_name = 'unityCatalog'\n  AND request_params['full_name_arg'] = 'clinical.gold.patients'\nORDER BY event_time DESC;</code></pre>"
-      },
-      {
-       "t": "Downstream impact of changing a table",
-       "b": "<pre><code>SELECT DISTINCT target_table_full_name, entity_type, entity_id\nFROM system.access.table_lineage\nWHERE source_table_full_name = 'clinical.silver.encounters'\n  AND event_date &gt;= current_date() - 90;</code></pre>"
-      }
-     ]
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>System tables cover all workspaces in the account within the same region; build one governed monitoring catalog of views on top of them rather than granting raw access widely.</li><li><code>system.access.audit</code> is labeled Public Preview in the docs; you can also deliver diagnostic logs to Azure Monitor or storage for SIEM retention.</li><li>Saving an unchanged job no longer adds rows to the jobs system tables (October 2026), which reduces noise in change tracking.</li><li>Data retained beyond 395 days under configurable retention will incur storage charges once that feature is GA.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Assuming lineage covers everything. Lineage is captured for workloads that run on Unity Catalog compute and read by table name; path-based reads and external tools need external lineage entries.</div><div class=\"trap\"><b>Trap:</b> Relying on the default 365-day retention for HIPAA audit evidence when policy requires six years; export audit data to long-term storage or raise retention.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which dashboards and alerts are built on billing, audit and query history, and who receives them?</li><li>How long must audit evidence be retained, and where is it kept beyond system table retention?</li><li>Do we run lineage impact checks before dropping or changing a gold table?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Which system table records table-to-table lineage?",
-     "a": "system.access.table_lineage (column-level is system.access.column_lineage)."
-    },
-    {
-     "q": "What is the default retention for most system tables?",
-     "a": "365 days."
-    },
-    {
-     "q": "What grants does a non-admin need to read billing system tables?",
-     "a": "USE CATALOG on system plus USE SCHEMA and SELECT on the billing schema."
-    },
-    {
-     "q": "Which system table gives account-wide SQL query records with status and duration?",
-     "a": "system.query.history."
-    }
-   ]
-  },
-  {
-   "n": "OpenSharing (the next version of Delta Sharing), clean rooms and Lakehouse Federation",
-   "g": "governance",
-   "s": "OpenSharing shares live, read-only tables, views, volumes, models and metric views with other organizations without copying data, clean rooms let parties run approved code on combined data without seeing each other's rows, and Lakehouse Federation queries external databases in place through foreign catalogs.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>OpenSharing</b>: Delta Sharing was renamed OpenSharing on June 10, 2026 and is now a Linux Foundation project. Providers create <b>shares</b> and <b>recipients</b>. <b>Databricks-to-Databricks</b> sharing needs no token and supports volumes, models and notebooks; <b>Databricks-to-open</b> uses a bearer token or OIDC federation for Spark, pandas, Power BI and Iceberg clients.</li><li>Shareable in both modes: tables (Delta or managed Iceberg), streaming tables, views including dynamic views, materialized views and metric views. Shares are read-only and update in near real time.</li><li><b>Clean rooms</b>: a governed space where collaborators add tables and approved notebooks; outputs go to output tables. Shared output, JAR workloads and identity-resolution setup went GA in October 2026.</li><li><b>Lakehouse Federation</b>: a <b>connection</b> plus a <b>foreign catalog</b> exposes SQL Server, Postgres, Snowflake, OneLake and others under Unity Catalog with grants and lineage; queries push down where possible.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Tables with row filters, column masks, VOID columns or collations cannot be shared; share a dynamic view or a de-identified copy.</li><li>Sharing foreign (federated) schemas materializes data and incurs compute and storage cost, while sharing foreign Delta tables from OneLake, Glue or Hive metastore avoids copying (GA September 2026).</li><li>Shares can be added to Lakeflow Jobs table update triggers (GA September 2026) so recipients run pipelines when providers update data.</li><li>Federation is for occasional or exploratory access and migration; for heavy, repeated analytics, ingest with Lakeflow Connect.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Using open sharing bearer tokens without rotation or IP restrictions. Prefer Databricks-to-Databricks or OIDC federation, and set token lifetimes.</div><div class=\"trap\"><b>Trap:</b> Pointing dashboards at federated operational databases. Every refresh hits the source system and inherits its performance.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Is the partner on Databricks (use D2D) or another platform (open sharing with OIDC)?</li><li>Does any shared object contain PHI, and is there a BAA or data use agreement covering the recipient?</li><li>Would a clean room meet the use case better than sharing raw rows?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is Delta Sharing called as of June 2026?",
-     "a": "OpenSharing, an open protocol now hosted by the Linux Foundation."
-    },
-    {
-     "q": "Which sharing mode supports volumes, models and notebook files?",
-     "a": "Databricks-to-Databricks sharing only."
-    },
-    {
-     "q": "How do you share a PHI table that has column masks?",
-     "a": "You cannot share it directly; share a dynamic view or a de-identified table."
-    },
-    {
-     "q": "Which two Unity Catalog objects does Lakehouse Federation need?",
-     "a": "A connection to the external system and a foreign catalog created from it."
-    }
-   ]
-  },
-  {
-   "n": "HIPAA and the compliance security profile",
-   "g": "governance",
-   "s": "Processing HIPAA-regulated data on Databricks requires enabling the compliance security profile with the HIPAA standard on the workspace, which adds hardened images, automatic cluster updates, enhanced security monitoring and TLS requirements at an added cost, while you remain responsible for your own compliance.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>The <b>compliance security profile</b> is required to process data regulated under HIPAA, HITRUST, PCI-DSS and other standards listed in the docs.</li><li>It enables a CIS Level 1 hardened compute image, automatic cluster updates in maintenance windows, enhanced security monitoring agents, and TLS 1.2+ for in-cluster, egress and metastore traffic.</li><li>Enabling it incurs charges for the <b>Enhanced Security and Compliance add-on</b>.</li><li>Standards apply to specific regions and compute planes; check the compliance page for which serverless products are covered in your region.</li></ul>"
-    },
-    {
-     "t": "What is confirmed for 2026",
-     "b": "<ul><li>Lakebase reached GA for compliance-profile workspaces with the HIPAA standard (AWS release notes, March 2026).</li><li>Databricks Apps is on by default for compliance-profile workspaces (September 2026), and Unity Gateway supports all compliance standards and is on by default there.</li><li>Account-level Genie One does not aggregate data from compliance-profile workspaces.</li><li>Data classification includes HIPAA classifiers (GA May 2026) for finding PHI columns.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>The profile protects infrastructure; it does not decide who may see PHI. You still need Unity Catalog grants, ABAC masks, audit review and minimum-necessary design.</li><li>Automatic cluster updates restart long-running clusters in maintenance windows; continuous streaming jobs must tolerate restarts.</li><li>Preview features may have different compliance coverage than GA features; confirm before PHI touches them.</li><li>Contractual coverage (BAA) comes from your agreement with Microsoft or Databricks; confirm it covers each service you use.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Enabling a preview feature in a PHI workspace because it appears in the UI, without confirming compliance coverage.</div><div class=\"trap\"><b>Trap:</b> Putting PHI in job names, cluster names, tags, Git URLs or credential names; those fields may leave the compliance boundary.</div><div class=\"trap\"><b>Trap:</b> Sharing PHI externally through OpenSharing or Genie integrations (Slack, Teams) without legal review of where the data lands.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Is the compliance security profile on with the HIPAA standard for every workspace that touches PHI?</li><li>Which features in our design are preview, and is each covered under our compliance standard and region?</li><li>How do we prove minimum-necessary access to an auditor using system tables?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What must be enabled on a Databricks workspace before processing HIPAA data?",
-     "a": "The compliance security profile with the HIPAA compliance standard selected."
-    },
-    {
-     "q": "Name three controls the compliance security profile adds.",
-     "a": "A hardened CIS Level 1 image, automatic cluster updates, enhanced security monitoring (plus TLS 1.2+ requirements)."
-    },
-    {
-     "q": "Does the compliance security profile cost extra?",
-     "a": "Yes; it incurs charges for the Enhanced Security and Compliance add-on."
-    },
-    {
-     "q": "Does account-level Genie One include data from compliance-profile workspaces?",
-     "a": "No; it does not aggregate data from workspaces with the compliance security profile."
-    }
-   ]
-  },
-  {
-   "n": "Lakeflow Connect and Zerobus Ingest",
-   "g": "engineering",
-   "s": "Lakeflow Connect provides managed, serverless ingestion connectors for databases, SaaS apps and files that land incremental data into Unity Catalog streaming tables, and Zerobus Ingest is a push-based API for writing events directly into tables.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Connector families</b>: database CDC (SQL Server, MySQL, PostgreSQL; MySQL integrated CDC GA October 2026), query-based (no gateway), SaaS (Salesforce, Workday, ServiceNow, Dynamics 365, HubSpot and many more), file (SharePoint, Google Drive), streaming, and community connectors.</li><li><b>Architecture</b>: a Unity Catalog <b>connection</b> plus an <b>ingestion pipeline</b> (a Lakeflow pipeline on serverless) writing streaming tables. Database connectors add an <b>ingestion gateway</b> (classic compute, runs continuously in its own job) and staging storage.</li><li>Schedules create Lakeflow Jobs with the ingestion pipeline as a task; failed connectors retry with backoff and resume from the last cursor.</li><li>Many new connectors arrive in Beta each month (for example Microsoft Entra ID, Azure DevOps and Google Workspace in October 2026); check each connector's release state.</li><li><b>Zerobus Ingest</b> (GA): a managed push API, with Arrow Flight support GA and Kafka-compatible APIs in Beta, for producers that write events instead of you pulling them.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Deploy connectors with Declarative Automation Bundles or the Connections API; connectors that only support browser OAuth (for example HubSpot, Jira, Slack) cannot be created programmatically.</li><li>SaaS connectors call source APIs from serverless; with a restricted serverless network policy you must allow the API domains.</li><li>For on-premises SQL Server, the gateway needs network reach (ExpressRoute or peered VNet); this is the biggest lift in an ADF-to-Databricks migration.</li><li>Monitor cost through <code>system.billing.usage</code>; the gateway's always-on classic compute is often the largest line item.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Assuming every table supports incremental ingestion. Some sources and tables still require full refreshes; check per connector.</div><div class=\"trap\"><b>Trap:</b> Ignoring source-side prerequisites such as SQL Server change tracking or CDC, and log retention long enough to cover gateway downtime.</div><div class=\"trap\"><b>Trap:</b> Building production on a Beta connector without a fallback; Databricks may also discontinue a connector if the source API changes.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>For each ADF pipeline, is there a managed connector, a Lakehouse Federation option, or must we build a custom ingest?</li><li>What is the freshness SLA, and does it justify a continuously running gateway?</li><li>Who owns source credentials, and are they stored as Unity Catalog connections?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Which extra component do Lakeflow Connect database connectors need that SaaS connectors do not?",
-     "a": "An ingestion gateway (plus staging storage) that captures changes continuously."
-    },
-    {
-     "q": "What compute runs Lakeflow Connect ingestion pipelines?",
-     "a": "Serverless compute running a Lakeflow pipeline that writes streaming tables."
-    },
-    {
-     "q": "What is Zerobus Ingest?",
-     "a": "A managed, push-based ingestion API for writing events directly into Unity Catalog tables."
-    },
-    {
-     "q": "Why can some connectors not be deployed from CI/CD?",
-     "a": "Connectors whose only auth option is browser-based U2M OAuth cannot be created programmatically."
-    }
-   ]
-  },
-  {
-   "n": "Auto Loader and Structured Streaming",
-   "g": "engineering",
-   "s": "Auto Loader (the cloudFiles source) incrementally and exactly-once ingests new files from cloud storage with schema inference and evolution, running on Structured Streaming, whose checkpoints, triggers and real-time mode determine latency, cost and recovery.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><code>spark.readStream.format(\"cloudFiles\")</code> tracks processed files in the checkpoint. Discovery uses directory listing or file notifications.</li><li><b>File events</b> (recommended): enable on the Unity Catalog external location and set <code>cloudFiles.useManagedFileEvents=true</code>; one Databricks-managed queue serves all streams on that location. Needs DBR 14.3 LTS+.</li><li>Schema: <code>cloudFiles.schemaLocation</code> stores the inferred schema; new columns trigger evolution and unparseable data lands in <code>_rescued_data</code>.</li><li>Triggers: <code>availableNow=True</code> processes everything new then stops (batch-like, cheap); <code>processingTime</code> runs micro-batches continuously; <b>real-time mode</b> gives sub-second latency for operational use cases (GA in Lakeflow pipelines October 29, 2026; Kinesis real-time mode GA on classic compute in DBR 19).</li></ul>",
-     "c": [
-      {
-       "t": "Example",
-       "b": "<pre><code>(spark.readStream.format(\"cloudFiles\")\n   .option(\"cloudFiles.format\", \"json\")\n   .option(\"cloudFiles.schemaLocation\", \"/Volumes/main/raw/_schemas/visits\")\n   .option(\"cloudFiles.useManagedFileEvents\", \"true\")\n   .load(\"abfss://landing@acct.dfs.core.windows.net/visits/\")\n   .writeStream\n   .option(\"checkpointLocation\", \"/Volumes/main/raw/_chk/visits\")\n   .trigger(availableNow=True)\n   .toTable(\"main.bronze.visits\"))</code></pre>"
-      }
-     ]
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Classic file notification mode (<code>cloudFiles.useNotifications</code>) creates a queue per stream and hits per-account limits (500 streams per ADLS account); migrate to file events.</li><li>A file-events stream must run at least once every seven days or its cache expires and it falls back to directory listing.</li><li>Notifications do not guarantee order; design for out-of-order arrival.</li><li>Real-time mode needs enough task slots for all stages at once and dedicated compute; use micro-batch for medallion ETL where seconds or minutes are fine.</li><li><code>transformWithState</code> (with async processing GA October 2026) is the modern API for custom stateful logic.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Deleting or sharing a checkpoint between streams. The checkpoint is the stream's identity; a new checkpoint reprocesses everything.</div><div class=\"trap\"><b>Trap:</b> Changing the source path on a classic notification stream.</div><div class=\"trap\"><b>Trap:</b> Running a 24/7 stream for data that lands once a day; schedule availableNow runs instead.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which trigger matches the real freshness SLA?</li><li>Where do checkpoints and schemas live, and are they in governed volumes?</li><li>How are rescued-data rows monitored and replayed?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Which option enables Auto Loader to use Unity Catalog managed file events?",
-     "a": "cloudFiles.useManagedFileEvents set to true, with file events enabled on the external location."
-    },
-    {
-     "q": "What does trigger(availableNow=True) do?",
-     "a": "Processes all data available at start in one or more batches, then stops, which suits scheduled incremental jobs."
-    },
-    {
-     "q": "Where does Auto Loader put data that does not match the schema?",
+     "q": "Where do unexpected fields land with Auto Loader schema evolution?",
      "a": "In the _rescued_data column."
-    },
-    {
-     "q": "What happens if a file-events Auto Loader stream does not run for more than seven days?",
-     "a": "The file events cache expires and Auto Loader falls back to directory listing."
-    },
-    {
-     "q": "When should you choose real-time mode over micro-batch?",
-     "a": "When the use case needs sub-second latency, such as fraud blocking; standard ETL should stay on micro-batch."
     }
    ]
   },
   {
-   "n": "Lakeflow pipelines (Spark Declarative Pipelines, formerly DLT)",
-   "g": "engineering",
-   "s": "Lakeflow pipelines let you declare streaming tables, materialized views and flows in SQL or Python, and the engine infers dependencies, manages checkpoints, enforces expectations, handles CDC with AUTO CDC and refreshes incrementally.",
+   "n": "Declarative pipelines",
+   "g": "eng",
+   "s": "Declare streaming tables and materialized views and let the engine infer dependencies, manage checkpoints, enforce expectations and apply CDC.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>Naming: Delta Live Tables became Lakeflow Declarative Pipelines in 2025; current docs say <b>Lakeflow pipelines</b>, built on <b>Spark Declarative Pipelines</b> (open source in Apache Spark 4.1). Classic SKUs and event log schemas still say DLT.</li><li><b>Streaming table</b>: append-oriented, processes each input row once. <b>Materialized view</b>: precomputed query result, refreshed incrementally when possible. <b>Temporary view</b>: intermediate logic.</li><li>Python API: <code>from pyspark import pipelines as dp</code>; <code>@dp.table</code> creates streaming tables, <code>@dp.materialized_view</code> materialized views, <code>@dp.temporary_view</code> views. <code>import dlt</code> still works.</li><li><b>Expectations</b>: <code>CONSTRAINT name EXPECT (cond)</code> with default warn, <code>ON VIOLATION DROP ROW</code>, or <code>ON VIOLATION FAIL UPDATE</code>; metrics go to the event log.</li><li><b>AUTO CDC</b> (formerly APPLY CHANGES, same syntax) applies CDC feeds as SCD type 1 or 2 with <code>KEYS</code>, <code>SEQUENCE BY</code> and <code>APPLY AS DELETE WHEN</code>; <b>AUTO CDC FROM SNAPSHOT</b> derives changes from periodic snapshots.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Lakeflow pipelines (formerly DLT, built on Spark Declarative Pipelines): streaming tables process each input once; materialized views refresh incrementally when possible.</li><li>Expectations: CONSTRAINT ... EXPECT with warn, drop or fail on violation, recorded in the event log.</li><li>AUTO CDC applies change feeds with ordering and SCD Type 1 or 2.</li></ul>",
+     "c": []
     },
     {
-     "t": "Examples",
-     "b": "<p>A bronze, silver, gold flow in Python, and a CDC flow in SQL.</p>",
-     "c": [
-      {
-       "t": "Python with expectations",
-       "b": "<pre><code>from pyspark import pipelines as dp\nfrom pyspark.sql.functions import col\n\n@dp.table(comment=\"raw visits\")\ndef bronze_visits():\n    return (spark.readStream.format(\"cloudFiles\")\n            .option(\"cloudFiles.format\", \"json\")\n            .load(\"/Volumes/main/raw/landing/visits\"))\n\n@dp.table\n@dp.expect_or_drop(\"has_patient\", \"patient_id IS NOT NULL\")\n@dp.expect_or_fail(\"valid_ts\", \"visit_ts &lt;= current_timestamp()\")\ndef silver_visits():\n    return spark.readStream.table(\"bronze_visits\").where(col(\"status\") != \"TEST\")\n\n@dp.materialized_view\ndef gold_daily_visits():\n    return spark.read.table(\"silver_visits\").groupBy(\"visit_date\").count()</code></pre>"
-      },
-      {
-       "t": "SQL AUTO CDC as SCD type 2",
-       "b": "<pre><code>CREATE OR REFRESH STREAMING TABLE patients_history;\n\nCREATE FLOW patients_cdc AS AUTO CDC INTO patients_history\nFROM stream(main.bronze.patients_cdc)\nKEYS (patient_id)\nAPPLY AS DELETE WHEN operation = 'DELETE'\nSEQUENCE BY change_seq\nCOLUMNS * EXCEPT (operation, change_seq)\nSTORED AS SCD TYPE 2;</code></pre>"
-      }
-     ]
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Expectations set to warn everywhere: bad data flows and nobody looks at the log.</div><div class=\"trap\"><b>Trap:</b> Full refreshes of streaming tables that discard history the source no longer has.</div>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>SCD type 2 adds <code>__START_AT</code> and <code>__END_AT</code>; a null <code>__END_AT</code> is the current row. <code>TRACK HISTORY ON * EXCEPT (cols)</code> limits history columns.</li><li><code>SEQUENCE BY</code> must be sortable and non-null; for ties use a struct of columns.</li><li>Recent GA features: pipeline parameters, real-time mode, pipelines system tables, deleting a pipeline retains its tables by default (September 2026). Managed tables written by pipelines is Beta.</li><li>Streaming tables, materialized views and AUTO CDC flows can also be created directly in Databricks SQL without a pipeline definition.</li><li>Lakeflow Designer (GA June 2026) is a no-code visual builder that generates declarative pipelines for analysts.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Using a materialized view where a streaming table belongs (append-only raw ingestion) or the reverse (aggregations that need recomputation when late data arrives).</div><div class=\"trap\"><b>Trap:</b> Full-refreshing a streaming table fed by a source with short retention; data that has aged out of the source is lost.</div><div class=\"trap\"><b>Trap:</b> Expecting AUTO CDC in open source Apache Spark Declarative Pipelines; it is Databricks-only.</div><div class=\"trap\"><b>Trap:</b> Putting quality rules that call Python functions or other tables into expectations; conditions must be plain SQL.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which tables are streaming tables versus materialized views, and why?</li><li>Which expectations warn, drop or fail, and who is alerted on drop counts?</li><li>Is the pipeline triggered or continuous, and does the SLA justify continuous?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>CREATE OR REFRESH STREAMING TABLE silver_encounters (\n  CONSTRAINT valid_id EXPECT (encounter_id IS NOT NULL) ON VIOLATION DROP ROW\n) AS SELECT * FROM STREAM(bronze_encounters);</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the current Python import for Lakeflow pipelines?",
-     "a": "from pyspark import pipelines as dp (the old import dlt still works)."
+     "q": "Rows with null keys must never reach silver but the pipeline should keep running. Which expectation action?",
+     "a": "ON VIOLATION DROP ROW (tracked in the event log)."
     },
     {
-     "q": "What is the default action for a failed expectation?",
-     "a": "Warn: the record is written and the violation is counted in metrics."
-    },
-    {
-     "q": "What did APPLY CHANGES get renamed to?",
-     "a": "AUTO CDC, with the same syntax."
-    },
-    {
-     "q": "In an SCD type 2 AUTO CDC target, how do you identify the current row?",
-     "a": "Its __END_AT column is null."
-    },
-    {
-     "q": "Which decorator creates a materialized view in the new Python API?",
-     "a": "@dp.materialized_view; @dp.table now creates a streaming table."
+     "q": "What does AUTO CDC handle that a hand-written MERGE often gets wrong?",
+     "a": "Out-of-order changes, by sequencing on a column, plus SCD Type 1 or 2 history."
     }
    ]
   },
   {
-   "n": "Lakeflow Jobs orchestration",
-   "g": "engineering",
-   "s": "Lakeflow Jobs (formerly Databricks Workflows) orchestrates multi-task DAGs of notebooks, scripts, pipelines, SQL, dbt, Power BI and other tasks with schedule, file arrival, table update and continuous triggers, conditional and looping control flow, and repair runs.",
+   "n": "Jobs and bundles",
+   "g": "eng",
+   "s": "Orchestrate with Lakeflow Jobs and define jobs, pipelines and dashboards in bundles, so the same reviewed YAML deploys to every environment.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Tasks</b>: notebook, Python script, Python wheel, JAR, SQL, dbt, pipeline, run job, SQL alert (GA June 2026), Power BI (Public Preview), Genie Code task (GA October 2026), and more. Serverless is the default compute for notebook, script, wheel, JAR and dbt tasks.</li><li><b>Control flow</b>: task dependencies, <b>Run if</b> conditions (for example all done, at least one failed), <b>If/else</b> condition tasks and <b>For each</b> tasks that loop a nested task over a list of inputs with configurable concurrency.</li><li><b>Triggers</b>: scheduled (cron), <b>file arrival</b> on a Unity Catalog location, <b>table update</b> on Unity Catalog tables (including OpenSharing objects and system tables, GA September 2026), and <b>continuous</b>. Multiple triggers per job (up to five) is Beta; continuous cannot combine with others.</li><li><b>Parameters</b>: job parameters push to every task; task values pass outputs between tasks.</li><li><b>Repair run</b>: rerun only failed and skipped tasks; you can also run task subsets with dependencies.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li>Jobs: task DAGs with run-if conditions, if/else and for-each, and triggers on schedule, file arrival or table update; repair runs rerun only unsuccessful tasks and their dependents.</li><li>Bundles (Declarative Automation Bundles, formerly Asset Bundles): databricks.yml with targets; bundle validate, plan, deploy -t prod.</li><li>Deploy prod from CI as a service principal.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Table update triggers replace polling patterns in ADF: downstream jobs start when upstream tables commit, which decouples teams.</li><li>Default max concurrent runs is one; extra triggered runs are skipped (job completion triggers queue instead). Raise concurrency deliberately.</li><li>Run production jobs as a service principal and deploy them with bundles so the UI is read-only for prod.</li><li><code>system.lakeflow.job_run_timeline</code> and <code>job_task_run_timeline</code> give SLA and cost history across all jobs.</li></ul>",
-     "c": [
-      {
-       "t": "Example: job in a bundle with a table update trigger",
-       "b": "<pre><code>resources:\n  jobs:\n    refresh_gold:\n      name: refresh_gold_${bundle.target}\n      trigger:\n        table_update:\n          table_names:\n            - ${var.catalog}.silver.encounters\n      tasks:\n        - task_key: build_gold\n          notebook_task:\n            notebook_path: ../src/build_gold.ipynb\n        - task_key: post_checks\n          depends_on:\n            - task_key: build_gold\n          sql_task:\n            warehouse_id: ${var.warehouse_id}\n            file:\n              path: ../sql/post_checks.sql</code></pre>"
-      }
-     ]
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Editing prod jobs in the UI: the next bundle deploy reverts them.</div><div class=\"trap\"><b>Trap:</b> Cron schedules racing upstream data; use table-update triggers.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Assuming a skipped run is a failure or a queued run. With max concurrency 1, overlapping triggers are skipped silently unless you alert on it.</div><div class=\"trap\"><b>Trap:</b> Building loops by having a notebook call other notebooks with dbutils.notebook.run; you lose per-iteration visibility and repair. Use a For each task.</div><div class=\"trap\"><b>Trap:</b> Mixing the legacy schedule, trigger or continuous fields with the new triggers array in the Jobs API; set only one style.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which jobs should move from schedules to table update or file arrival triggers?</li><li>What is the retry, timeout and notification policy per task?</li><li>Do all prod jobs run as service principals with bundle-managed definitions?</li></ul>"
+     "t": "Example",
+     "b": "<pre><code>databricks bundle validate\ndatabricks bundle deploy -t prod   # from CI, as a service principal</code></pre>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "Which trigger starts a job when upstream Unity Catalog tables change?",
-     "a": "The table update trigger."
+     "q": "A gold job sometimes runs before silver finishes. Which trigger fixes it?",
+     "a": "A table-update trigger on the silver table instead of a cron schedule."
     },
     {
-     "q": "What does a repair run do?",
-     "a": "Reruns only the failed and skipped tasks of a job run, reusing successful task results."
-    },
-    {
-     "q": "Which task type iterates a nested task over a list of inputs?",
-     "a": "The For each task."
-    },
-    {
-     "q": "Can a continuous trigger be combined with other triggers on one job?",
-     "a": "No; continuous cannot be combined with any other trigger."
-    },
-    {
-     "q": "What happens to a triggered run when the job is already at max concurrency?",
-     "a": "For most trigger types it is skipped; job completion triggers keep pending completions instead."
+     "q": "One task in a 12-task job failed. How do you rerun efficiently?",
+     "a": "A repair run, which reruns only the failed and dependent tasks."
     }
    ]
   },
   {
-   "n": "Declarative Automation Bundles (formerly Databricks Asset Bundles)",
-   "g": "devops",
-   "s": "Declarative Automation Bundles define jobs, pipelines, dashboards, Genie Agents, apps, models and other resources as YAML (or Python) in source control and deploy them per target environment with the Databricks CLI, which is the standard path for CI/CD on Databricks.",
+   "n": "Serve BI",
+   "g": "serve",
+   "s": "Serve BI from serverless SQL warehouses, define KPIs once as metric views, and diagnose slow queries with the query profile before resizing.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li>Renamed from Databricks Asset Bundles on March 16, 2026; the <code>databricks bundle</code> commands and existing configs are unchanged.</li><li><code>databricks.yml</code> declares the bundle, <b>variables</b>, <b>targets</b> (dev, test, prod with <code>mode: development</code> or <code>production</code>) and <b>resources</b>.</li><li>Lifecycle: <code>bundle validate</code>, <code>bundle plan</code> (preview changes), <code>bundle deploy -t prod</code>, <code>bundle run job_key</code>, <code>bundle destroy</code>.</li><li>The <b>direct deployment engine</b> went GA June 10, 2026 and is the default for new bundles, replacing the Terraform engine; existing bundles can migrate.</li><li>Resource types now include Genie Agents (<code>genie_space</code>), AI Search endpoints and indexes, Lakebase projects and branches, dashboards, apps, pipelines, jobs, schemas and volumes. Deployment history is in Public Beta (October 2026).</li></ul>",
-     "c": [
-      {
-       "t": "Example databricks.yml",
-       "b": "<pre><code>bundle:\n  name: clinical_gold\n\nvariables:\n  catalog:\n    default: dev_clinical\n  warehouse_id:\n    lookup:\n      warehouse: \"Shared Serverless\"\n\ninclude:\n  - resources/*.yml\n\ntargets:\n  dev:\n    mode: development        # prefixes resource names, pauses schedules\n    default: true\n    workspace:\n      host: https://adb-1111.11.azuredatabricks.net\n  prod:\n    mode: production\n    workspace:\n      host: https://adb-2222.22.azuredatabricks.net\n      root_path: /Workspace/Shared/.bundles/${bundle.name}\n    variables:\n      catalog: prod_clinical\n    run_as:\n      service_principal_name: 00000000-0000-0000-0000-000000000000\n    permissions:\n      - group_name: data-platform\n        level: CAN_MANAGE</code></pre>"
-      }
-     ]
+     "t": "Model",
+     "b": "<ul><li>Serverless warehouses start in seconds and include Photon; size sets per-cluster power, min and max clusters set concurrency, auto-stop ends idle cost.</li><li>Metric views: measures and dimensions defined once in YAML as Unity Catalog objects, queried with MEASURE() at any grain.</li><li>Power BI connects to warehouses or gets semantic models published from Unity Catalog; Genie offers natural-language Q and A over curated data.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Use <code>bundle generate</code> plus <code>bundle deployment bind</code> to adopt jobs and pipelines that were built in the UI.</li><li>Development mode prefixes names with the user and pauses schedules, so engineers can deploy personal copies safely.</li><li>Custom bundle templates standardize project layout across teams.</li><li>Python support for bundles has been GA since October 2025, useful for generating many similar jobs from metadata.</li><li><code>--select</code> on plan and deploy targets specific resources but is documented as not for production use.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Scaling warehouse size for concurrency. Size speeds single queries; more clusters serve more users.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Deploying to prod as a human user. Use a service principal through CI with OAuth M2M or workload identity federation.</div><div class=\"trap\"><b>Trap:</b> Editing a bundle-managed job in the UI. The next deploy overwrites the change; treat prod UI as read-only.</div><div class=\"trap\"><b>Trap:</b> Leaving prod root_path in a shared folder anyone can write to; set root_path and permissions explicitly.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Is every production job, pipeline and dashboard defined in a bundle?</li><li>Does CI run validate and plan on pull requests and deploy only from main?</li><li>Which environment-specific values are variables, and are any secrets in YAML?</li></ul>"
+     "t": "Example",
+     "b": "<p>Monday-morning dashboard queuing: raise max clusters from 1 to 3, keep size; check query history for queue time versus run time.</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What are Databricks Asset Bundles called now?",
-     "a": "Declarative Automation Bundles (renamed March 2026); the CLI command is still databricks bundle."
+     "q": "Dashboards queue when many users log in, but single queries are fast. What do you change?",
+     "a": "Max clusters (scale-out for concurrency), not warehouse size."
     },
     {
-     "q": "Which command previews what a bundle deploy will change?",
-     "a": "databricks bundle plan."
-    },
-    {
-     "q": "Which deployment engine do new bundles use by default since June 2026?",
-     "a": "The direct deployment engine, replacing the Terraform-based engine."
-    },
-    {
-     "q": "What does mode: development do in a bundle target?",
-     "a": "It prefixes deployed resource names for the user and pauses schedules and triggers so dev copies do not run on their own."
-    },
-    {
-     "q": "How do you bring an existing UI-built job under bundle control?",
-     "a": "Run bundle generate to create its config, then bundle deployment bind to link it to the existing resource."
+     "q": "How do metric views keep KPI definitions consistent?",
+     "a": "Each measure is defined once as a governed object and computed correctly at any grain with MEASURE()."
     }
    ]
   },
   {
-   "n": "Git folders, CLI, SDKs, Databricks Connect and Terraform",
-   "g": "devops",
-   "s": "Git folders sync workspace code with a Git provider, the Databricks CLI and SDKs automate everything the REST API exposes, Databricks Connect runs local IDE code on remote Databricks compute, and the Terraform provider manages account and workspace infrastructure.",
+   "n": "Databricks or Fabric",
+   "g": "serve",
+   "s": "Both store open Delta data and serve Power BI; choose by pricing model, governance, engineering depth and operating model, and expect to integrate rather than replace.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Git folders</b>: clone a repo into the workspace, branch, commit, pull and push from the UI; notebooks, files and AI/BI dashboards (Git support GA July 2026) are versioned.</li><li><b>Databricks CLI</b>: auth profiles in <code>~/.databrickscfg</code>, OAuth U2M for humans and M2M for service principals; it runs bundles and wraps the REST API.</li><li><b>SDKs</b>: Python, Java, Go and others for automation scripts and apps.</li><li><b>Databricks Connect</b>: a client library for DBR 13.3 LTS+ that runs DataFrame code from VS Code or PyCharm on a cluster or serverless (serverless from Connect 15.4 LTS). Package version must not exceed the compute runtime version, and local Python must match.</li><li><b>Terraform provider</b>: workspaces, networking, Unity Catalog metastores, catalogs, grants, storage credentials and policies; the usual split is Terraform for platform and bundles for workloads.</li></ul>"
+     "t": "Model",
+     "b": "<ul><li><b>Pricing</b>: Databricks bills consumption (DBUs); Fabric bills a shared capacity with smoothing and throttling.</li><li><b>Governance</b>: Unity Catalog versus workspace roles, OneLake security and Purview.</li><li><b>Engineering</b>: Databricks is deeper on Spark, streaming, pipelines and ML; Fabric bundles Data Factory, a T-SQL warehouse and real-time intelligence.</li><li><b>BI</b>: Fabric is Power BI's home (Direct Lake).</li><li>Integration: Fabric can mirror Unity Catalog, and Unity Catalog tables in OneLake are in Beta.</li></ul>",
+     "c": []
     },
     {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Databricks Connect requires a Unity Catalog workspace and standard or dedicated access mode; UDFs need local and remote Python versions to match.</li><li>Unused service principal OAuth secrets are deleted automatically after 90 days (September 2026); rotate on a schedule instead of relying on long-lived secrets.</li><li>Run unit tests locally with Databricks Connect or a local Spark, and integration tests after deploy with <code>bundle run</code>.</li><li>Personal access tokens are legacy for automation; prefer OAuth.</li></ul>"
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Choosing on feature checklists. The real differences are cost shape, governance model and team skills.</div>",
+     "c": []
     },
     {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Developing directly in a production Git folder on main. Use personal Git folders and pull requests.</div><div class=\"trap\"><b>Trap:</b> Managing the same job in both Terraform and bundles; two tools fight over state.</div><div class=\"trap\"><b>Trap:</b> Upgrading Databricks Connect past the cluster's runtime version; the client must be at or below the runtime.</div>"
+     "t": "Example",
+     "b": "<p>Heavy streaming and ML engineering: Databricks for engineering, Fabric or Power BI for consumption, joined by mirroring.</p>",
+     "c": []
     },
     {
-     "t": "Design review questions",
-     "b": "<ul><li>Which resources does Terraform own, and which do bundles own?</li><li>How do CI pipelines authenticate, and when were their credentials last rotated?</li><li>Can an engineer run and test pipeline code locally before deploying?</li></ul>"
+     "t": "Ask",
+     "b": "<p>Is spend spiky (favors consumption) or steady (favors capacity)?</p>",
+     "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the version rule between Databricks Connect and the compute runtime?",
-     "a": "The Databricks Connect package version must be the same as or lower than the compute's Databricks Runtime version."
+     "q": "Workloads are spiky with long idle periods. Which pricing model fits better?",
+     "a": "Consumption (Databricks DBUs) over a fixed shared capacity."
     },
     {
-     "q": "From which Databricks Connect version is serverless compute supported?",
-     "a": "Databricks Connect 15.4 LTS."
-    },
-    {
-     "q": "What is a common ownership split between Terraform and bundles?",
-     "a": "Terraform manages platform infrastructure (workspaces, networking, Unity Catalog setup); bundles manage workloads (jobs, pipelines, dashboards)."
-    },
-    {
-     "q": "Which auth method should CI use against Databricks?",
-     "a": "OAuth machine-to-machine with a service principal (or workload identity federation), not personal access tokens."
-    }
-   ]
-  },
-  {
-   "n": "Databricks SQL warehouses and the query profile",
-   "g": "analytics",
-   "s": "Databricks SQL runs BI and SQL workloads on SQL warehouses (serverless, pro or classic, with Lakehouse Real-Time in Beta), and the query profile and query history show where each query spends time.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Serverless</b>: starts in about 2 to 6 seconds, includes Photon, Predictive IO and Intelligent Workload Management; recommended default.</li><li><b>Pro</b>: Photon and Predictive IO, runs in your subscription, about 4 minutes to start; for regions without serverless or custom networking.</li><li><b>Classic</b>: Photon only, entry-level performance.</li><li><b>Lakehouse Real-Time (Lakehouse//RT)</b>: Beta serverless warehouse type for sub-second, high-concurrency SELECT queries on Unity Catalog tables.</li><li>Sizing: T-shirt size sets per-cluster compute; min and max clusters set scale-out for concurrency; auto stop sets idle shutdown.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>The UI defaults to serverless, but the SQL warehouses API defaults to classic; set <code>enable_serverless_compute</code> and <code>warehouse_type</code> explicitly in automation.</li><li>Scale up (bigger size) for slow single queries; scale out (more clusters) for queueing under concurrency.</li><li>Query tags (GA September 2026) attribute SQL cost; <code>system.query.history</code> shows status, duration and source for every query.</li><li>AI functions are not available on classic warehouses.</li><li>Power BI direct connections to a Lakehouse//RT warehouse are not supported; use a gateway.</li></ul>"
-    },
-    {
-     "t": "Reading a query profile",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Sort operators by time; the top one or two explain most slow queries.</li><li>Compare files and bytes read against pruned; poor pruning means a layout problem.</li><li>Look for spill, large shuffles and skewed tasks in joins and aggregations.</li><li>Check whether results came from cache; repeated dashboard queries should hit the result cache.</li><li>Check time in queue versus executing; queueing means scale out, not up.</li></ol><div class=\"trap\"><b>Trap:</b> Raising the warehouse size to fix queueing. Queueing is a concurrency problem; add clusters.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which warehouses serve BI, ad hoc and ETL, and are they separated to avoid noisy neighbors?</li><li>Are auto stop and max clusters set to match usage patterns?</li><li>Which top queries by duration in query history have been profiled?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is the default warehouse type when creating a SQL warehouse through the API?",
-     "a": "Classic; set enable_serverless_compute true and warehouse_type pro to get serverless."
-    },
-    {
-     "q": "Which SQL warehouse type offers Intelligent Workload Management?",
-     "a": "Serverless."
-    },
-    {
-     "q": "A dashboard is slow because queries queue at peak hours; scale up or out?",
-     "a": "Scale out by raising max clusters; queueing is a concurrency issue."
-    },
-    {
-     "q": "Which SQL warehouse type is in Beta for sub-second, high-concurrency SELECT queries?",
-     "a": "Lakehouse Real-Time (Lakehouse//RT)."
-    }
-   ]
-  },
-  {
-   "n": "Unity Catalog metric views",
-   "g": "analytics",
-   "s": "Metric views define measures and dimensions once in YAML as Unity Catalog objects, so dashboards, Genie Agents, SQL users and external BI tools compute the same KPIs at any grain with the MEASURE() function.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li>Create with <code>CREATE VIEW ... WITH METRICS LANGUAGE YAML AS $$ ... $$</code>; YAML <code>version: 1.1</code> defines source, joins (star and snowflake), filter, dimensions and measures.</li><li>Query by wrapping measures in <code>MEASURE()</code> and grouping by any dimension; the engine generates correct aggregation at that grain, including ratios and distinct counts.</li><li>Features: window measures (GA October 2026) for trailing, cumulative and period-over-period; parameters (Public Preview); materialization with automatic query rewrite; agent metadata such as synonyms and display formats; relationships between metric views (Beta).</li><li>Consumed by AI/BI dashboards, Genie Agents, alerts, notebooks, and BI tools such as Power BI, Tableau and Sigma; shareable through OpenSharing (GA September 2026).</li><li>Requires DBR 16.4+ to create; tutorial features need DBR 17.3+ or a SQL warehouse.</li></ul>",
-     "c": [
-      {
-       "t": "Example",
-       "b": "<pre><code>CREATE OR REPLACE VIEW prod_clinical.gold.visit_metrics\nWITH METRICS LANGUAGE YAML AS $$\nversion: 1.1\nsource: prod_clinical.gold.fact_visits\njoins:\n  - name: provider\n    source: prod_clinical.gold.dim_provider\n    on: source.provider_id = provider.provider_id\ndimensions:\n  - name: visit_month\n    expr: DATE_TRUNC('MONTH', visit_date)\n  - name: specialty\n    expr: provider.specialty\nmeasures:\n  - name: visits\n    expr: COUNT(1)\n  - name: no_show_rate\n    expr: SUM(CASE WHEN status = 'NO_SHOW' THEN 1 ELSE 0 END) / COUNT(1)\n$$;\n\nSELECT specialty, MEASURE(visits), MEASURE(no_show_rate)\nFROM prod_clinical.gold.visit_metrics\nGROUP BY specialty;</code></pre>"
-      }
-     ]
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Metric views solve the non-additive measure problem that plain views cannot: a ratio defined once is recomputed correctly at every grain.</li><li>Genie Code's BI import can turn Power BI <code>.tmdl</code> files into metric views (October 2026), which helps migrate DAX-era semantic models.</li><li>Fabric mirroring excludes metric views, so Fabric consumers will not see them through a mirrored catalog.</li><li>Treat metric view YAML as code: deploy with bundles and review changes like any KPI definition change.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Selecting a measure without MEASURE(); measures must be wrapped.</div><div class=\"trap\"><b>Trap:</b> Duplicating the same KPI as a DAX measure in Power BI and a metric view; definitions drift. Pick one system of record.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which certified KPIs live in metric views, and who approves changes?</li><li>Do Power BI models consume metric views or redefine the measures?</li><li>Which metric views need materialization for dashboard latency?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "How do you query a measure from a metric view?",
-     "a": "Wrap it in MEASURE(measure_name) and GROUP BY the dimensions you want."
-    },
-    {
-     "q": "What clause makes a CREATE VIEW statement define a metric view?",
-     "a": "WITH METRICS LANGUAGE YAML AS $$ ... $$."
-    },
-    {
-     "q": "Why use a metric view instead of a regular view for a ratio KPI?",
-     "a": "A regular view fixes the aggregation grain; a metric view recomputes the ratio correctly at whatever grain is queried."
-    },
-    {
-     "q": "Are metric views included in a Fabric mirrored Azure Databricks catalog?",
-     "a": "No; views and metric views are excluded from Fabric mirroring."
-    }
-   ]
-  },
-  {
-   "n": "AI/BI dashboards, Genie Agents, Genie One and Genie Code",
-   "g": "analytics",
-   "s": "AI/BI dashboards are Databricks' native BI layer, Genie Agents (formerly Genie spaces) are curated natural-language Q and A over governed data, Genie One (formerly Databricks One) is the business-user front door, and Genie Code (formerly Databricks Assistant) is the developer coding agent.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>AI/BI dashboards</b>: datasets (SQL or metric views) plus widgets, published with embedded or viewer credentials, with Ask Genie on dashboards (GA July 2026), Git folder support (GA) and import from Power BI and Tableau files (GA August 2026).</li><li><b>Genie Agents</b>: authors add Unity Catalog tables or metric views, instructions, example SQL, SQL expressions and verified answers; users ask questions and get SQL, tables and charts. Benchmarks measure accuracy. Renamed from Genie spaces in July 2026.</li><li><b>Genie One</b>: the simplified business UI with chat, dashboards, Genie Agents and apps; renamed from Databricks One (and Genie) in June 2026.</li><li><b>Genie Code</b>: the in-product coding agent for notebooks, pipelines, SQL and dashboards; renamed from Databricks Assistant in March 2026. It can run as scheduled tasks and as a Lakeflow Jobs task.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Genie accuracy depends on curation: well-commented tables, metric views, example queries and narrow scope beat large, generic agents.</li><li>Every Genie answer runs as the asking user under Unity Catalog grants and masks; Genie does not bypass governance.</li><li>Pricing as of November 2026: Genie Agents moved to pay-as-you-go on July 8, 2026; Genie One and Genie Agents usage is promotionally free through January 31, 2027 (service principal usage excluded); Genie Code includes 150 free DBUs per user per month.</li><li>Integrations with Slack, Microsoft Teams and M365 Copilot exist in various preview stages; treat them as data egress paths for PHI review.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Pointing a Genie Agent at dozens of raw tables with cryptic column names and expecting accurate answers. Curate a small, documented set.</div><div class=\"trap\"><b>Trap:</b> Publishing dashboards with embedded credentials over PHI. Viewers see what the publisher can see; use viewer credentials where per-user filtering matters.</div><div class=\"trap\"><b>Trap:</b> Searching old docs for Genie spaces or Databricks Assistant and assuming features vanished; they were renamed.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which KPIs are answered by dashboards versus Genie Agents, and are both built on the same metric views?</li><li>Who curates each Genie Agent, and how often are benchmarks rerun?</li><li>What is the budget plan for Genie after the free period ends in January 2027?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What were Genie Agents previously called?",
-     "a": "Genie spaces."
-    },
-    {
-     "q": "What is Genie Code?",
-     "a": "The Databricks coding agent for notebooks, SQL, pipelines and dashboards, formerly Databricks Assistant."
-    },
-    {
-     "q": "Whose permissions apply when a user asks a Genie Agent a question?",
-     "a": "The asking user's Unity Catalog permissions, including row filters and column masks."
-    },
-    {
-     "q": "What do Genie Agent benchmarks do?",
-     "a": "They run a set of known questions with expected answers to measure and monitor the agent's accuracy."
-    }
-   ]
-  },
-  {
-   "n": "Power BI integration",
-   "g": "analytics",
-   "s": "Power BI connects to Databricks SQL warehouses through the Databricks connector (with an ADBC driver now GA), and Databricks can publish Unity Catalog tables as Power BI semantic models from Catalog Explorer or a Lakeflow Jobs Power BI task in Import or DirectQuery mode.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Connector</b>: Power BI Desktop or service connects with the warehouse server hostname and HTTP path; auth via OAuth (Entra ID), service principal client credentials or PAT. The ADBC driver went GA October 15, 2026.</li><li><b>Publish to Power BI</b>: from Catalog Explorer pick a SQL warehouse and tables or a schema, choose Import or DirectQuery, and OAuth (recommended) or PAT. Requires Unity Catalog, a SQL warehouse, Premium, PPU or Fabric capacity, and XMLA read-write.</li><li><b>Power BI task</b> in Lakeflow Jobs (Public Preview): publishes or updates the semantic model and optionally refreshes it after upstream tasks finish; needs a Unity Catalog Power BI connection and a SQL warehouse.</li><li>Column comments become Power BI descriptions and foreign keys become relationships (only one active path between two tables).</li></ul>"
-    },
-    {
-     "t": "Import versus DirectQuery",
-     "b": "<ul><li><b>Import</b>: data cached in Power BI; fastest visuals, scheduled refresh cost on the warehouse, data latency equals refresh cadence, and row-level security must be rebuilt in Power BI because Unity Catalog filters apply only at refresh as the refresh identity.</li><li><b>DirectQuery</b>: each visual queries the warehouse; fresh data and Unity Catalog row filters and masks apply per query when using per-user OAuth SSO, but latency and warehouse cost scale with users and visuals.</li><li><b>Dual</b> mode for dimension tables mixes both. Aggregation tables or metric views reduce DirectQuery load.</li><li>Size the warehouse for DirectQuery concurrency (scale out) and turn on result caching benefits by keeping queries deterministic.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Import mode with a service principal over PHI tables, assuming Unity Catalog masks protect report viewers. The refresh identity's view of the data is cached for everyone; implement Power BI RLS or use DirectQuery with SSO.</div><div class=\"trap\"><b>Trap:</b> Editing the semantic model in Power BI service while a Power BI task updates it; it can get stuck on pending changes.</div><div class=\"trap\"><b>Trap:</b> Expecting publish to work for guest users or other tenants; it only publishes to workspaces in your home tenant.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which models need per-user security, and does the mode choice preserve it?</li><li>Is the semantic layer in Power BI DAX, Databricks metric views, or both, and which is authoritative?</li><li>Is model refresh orchestrated by the Lakeflow job that builds the tables, so refresh never runs on half-loaded data?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What Power BI licensing does publish to Power BI from Databricks require?",
-     "a": "Premium capacity, Premium Per User or Fabric capacity, with XMLA endpoint set to read-write."
-    },
-    {
-     "q": "In Import mode with a service principal, do Unity Catalog row filters protect report viewers?",
-     "a": "No; data is cached as the refresh identity sees it, so you need Power BI RLS or DirectQuery with SSO."
-    },
-    {
-     "q": "Which Lakeflow Jobs task publishes and refreshes Power BI semantic models after a pipeline?",
-     "a": "The Power BI task (Public Preview), which uses a Unity Catalog Power BI connection and a SQL warehouse."
-    },
-    {
-     "q": "What happens to Unity Catalog column comments when publishing to Power BI?",
-     "a": "They become Power BI column descriptions."
-    }
-   ]
-  },
-  {
-   "n": "Databricks and Microsoft Fabric side by side",
-   "g": "analytics",
-   "s": "Databricks and Microsoft Fabric both store open Delta-format data and serve Power BI, differ mainly in pricing model, governance layer, engineering depth and operating model, and now integrate through Fabric mirroring of Unity Catalog, publishing catalogs to OneLake and OneLake catalog federation.",
-   "x": [
-    {
-     "t": "How they differ",
-     "b": "<ul><li><b>Pricing</b>: Databricks bills consumption in DBUs per workload (plus cloud VMs for classic). Fabric bills a capacity (F SKU) shared by all its workloads, with smoothing and throttling when overused.</li><li><b>Governance</b>: Databricks uses Unity Catalog (grants, ABAC, lineage, system tables, OpenSharing). Fabric uses workspace roles, OneLake security and Microsoft Purview.</li><li><b>Engineering</b>: Databricks centers on Spark, Lakeflow pipelines, Lakeflow Jobs, streaming and ML or agent tooling. Fabric offers Spark notebooks, Data Factory pipelines and dataflows, a T-SQL warehouse, and real-time intelligence.</li><li><b>BI</b>: Fabric is Power BI's home with Direct Lake over OneLake. Databricks has AI/BI dashboards and Genie, and serves Power BI through the connector or mirroring.</li></ul>"
-    },
-    {
-     "t": "Integration options (confirmed November 2026)",
-     "b": "<ul><li><b>Fabric mirroring of an Azure Databricks catalog</b> (GA): Fabric reads Unity Catalog tables through shortcuts without copying; SQL analytics endpoint and Direct Lake. Views and metric views are excluded; the limitations page also lists tables with row filters or column masks, OpenSharing tables, federated tables and streaming tables as unsupported. Fabric needs network access to the ADLS account.</li><li><b>Publish a Unity Catalog catalog to Fabric</b> (Public Preview): initiated from Catalog Explorer, publishes the whole catalog as a mirrored item.</li><li><b>OneLake as a Unity Catalog external location</b> (Beta): Databricks writes managed tables into OneLake.</li><li><b>OneLake catalog federation</b> (GA June 2026): Databricks reads Fabric Lakehouse and Warehouse data read-only as a foreign catalog (DBR 18.0+ standard access mode or SQL warehouse; no complex types or views).</li></ul>"
-    },
-    {
-     "t": "Example: read Fabric data from Databricks",
-     "b": "<pre><code>CREATE CONNECTION fabric_conn TYPE onelake\nOPTIONS (workspace '&lt;fabric-workspace-id&gt;', credential '&lt;storage-credential&gt;');\n\nCREATE FOREIGN CATALOG fabric_finance USING CONNECTION fabric_conn\nOPTIONS (data_item '&lt;lakehouse-item-id&gt;', item_type 'Lakehouse');\n\nSELECT COUNT(*) FROM fabric_finance.dbo.gl_entries;</code></pre>"
-    },
-    {
-     "t": "Senior-level nuance and traps",
-     "b": "<ul><li>A common split: Databricks for engineering, governance and ML on Unity Catalog; Fabric for Power BI-centric consumption through mirroring. This creates two security models to keep aligned.</li><li>PHI tables protected by Unity Catalog masks will not mirror to Fabric; plan de-identified gold tables for Fabric consumers.</li><li>Fabric capacity throttling and Databricks DBU spikes fail differently: one slows everyone on the capacity, the other raises the bill. Cost governance must cover both.</li></ul><div class=\"trap\"><b>Trap:</b> Comparing list prices without workload profiles. Model the same three or four representative workloads on both before deciding.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which system is the governance source of truth for PHI, and how are permissions mirrored or re-implemented on the other side?</li><li>Which workloads need Spark streaming, ML or agents (Databricks strengths) versus Power BI-centric self-service (Fabric strengths)?</li><li>Does the team have the skills to operate both, and what is the exit cost if one is dropped?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "Which Fabric feature exposes Unity Catalog tables in Fabric without copying data, and what is its status?",
-     "a": "Mirrored Azure Databricks catalog, which is generally available."
-    },
-    {
-     "q": "Will a Unity Catalog table with column masks appear in a Fabric mirrored catalog?",
-     "a": "No; tables with row-level security or column masking policies are unsupported for mirroring."
-    },
-    {
-     "q": "How does Databricks read Fabric Lakehouse tables in place?",
-     "a": "OneLake catalog federation: a onelake connection plus a foreign catalog, read-only."
-    },
-    {
-     "q": "What is the core pricing difference between Databricks and Fabric?",
-     "a": "Databricks charges per-workload DBU consumption; Fabric charges for a shared capacity SKU that all workloads draw from."
-    }
-   ]
-  },
-  {
-   "n": "Unity Gateway, Model Serving and AI functions in SQL",
-   "g": "ai",
-   "s": "Unity Gateway is the control plane for governed access to models, MCP tools and skills with routing, spend limits and audit, Model Serving hosts custom models as endpoints, and AI functions bring model inference into SQL for batch enrichment of governed tables.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Unity Gateway</b> (API and developer tools GA September 2026): one place to govern Databricks-hosted foundation models (for example system-provided pay-per-token services in <code>system.ai</code>), your own provider accounts (OpenAI, Anthropic, Bedrock, Azure Foundry), MCP servers and skills. It provides routing, usage and spend tracking, budgets and spend limits, PII masking, guardrails and audit logs. It also governs coding agents through the <code>ug</code> CLI.</li><li><b>Foundation model capacity</b>: pay-per-token or on-demand provisioned throughput.</li><li><b>Custom model serving</b>: MLflow models from Unity Catalog served on CPU or GPU endpoints with traffic splitting, inference tables and optional scale to zero (not recommended for production because capacity is not guaranteed).</li><li><b>AI functions</b>: <code>ai_query</code> (GA June 2026) for any supported model, plus task functions such as <code>ai_parse_document</code>, <code>ai_extract</code> and <code>ai_classify</code> (GA June 2026), <code>ai_mask</code>, <code>ai_summarize</code>, <code>ai_forecast</code>, and Beta functions like <code>ai_search</code> and <code>ai_enrich</code>. AI functions Unity Catalog permissions went GA October 2026.</li></ul>"
-    },
-    {
-     "t": "Example: batch extraction from clinical notes",
-     "b": "<pre><code>SELECT note_id,\n       ai_classify(note_text, ARRAY('medication_change', 'safety_concern', 'routine')) AS note_type,\n       ai_mask(note_text, ARRAY('person', 'phone', 'email', 'address')) AS masked_text\nFROM prod_clinical.silver.session_notes\nWHERE note_date = current_date() - 1;\n\nSELECT ai_query('&lt;hosted-model-endpoint&gt;',\n                concat('Summarize the follow-up plan: ', masked_text)) AS plan\nFROM prod_clinical.silver.notes_masked;</code></pre><p>Model endpoint names vary by workspace and change as models are retired; check the serving page before hardcoding one.</p>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Submit the whole dataset in one AI function query; the engine parallelizes and retries. AI functions need DBR 15.4 LTS+ and do not run on classic SQL warehouses.</li><li>Billing: the compute running the query plus inference; task functions bill under <code>AI_FUNCTIONS</code>, <code>ai_query</code> under the serving endpoint, visible in <code>system.billing.usage</code>.</li><li>Hosted models retire frequently (several retirements in October 2026); parameterize model names and watch the retirement notices.</li><li>For PHI, confirm that the chosen model and region are covered by your compliance standard, and prefer Databricks-hosted models over external providers unless a BAA covers the provider.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Calling a scale-to-zero endpoint from a latency-sensitive app; the cold start breaks the SLA.</div><div class=\"trap\"><b>Trap:</b> Looping ai_query row by row from Python; use a single set-based SQL query.</div><div class=\"trap\"><b>Trap:</b> Sending unmasked PHI to an external model provider without contractual coverage.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Which models are approved for PHI, and are they enforced through Unity Gateway policies?</li><li>Who owns spend limits for AI usage, including coding agents?</li><li>How are model retirements detected before they break a job?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is Unity Gateway?",
-     "a": "Databricks' control plane for governed access to models, MCP tools and skills, with routing, spend limits, guardrails and audit logs."
-    },
-    {
-     "q": "Why is scale to zero not recommended for production model serving endpoints?",
-     "a": "Capacity is not guaranteed when scaled to zero, and scaling back up adds cold-start latency."
-    },
-    {
-     "q": "Which SQL function sends a prompt to any supported model?",
-     "a": "ai_query."
-    },
-    {
-     "q": "Can AI functions run on a classic SQL warehouse?",
-     "a": "No; AI functions are not available on classic SQL warehouses."
-    },
-    {
-     "q": "Under which billing_origin_product do task-specific AI function costs appear?",
-     "a": "AI_FUNCTIONS in system.billing.usage."
-    }
-   ]
-  },
-  {
-   "n": "Agent Bricks, MLflow 3 and AI Search",
-   "g": "ai",
-   "s": "Agent Bricks is Databricks' developer platform for building and running custom agents, MLflow 3 provides tracing, evaluation, prompt registry and LoggedModel tracking, and AI Search (formerly Vector Search) provides governed vector, hybrid and full-text retrieval over Unity Catalog data.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Agent Bricks</b>: code-first agents (any framework, with LangGraph and OpenAI Agents SDK templates) deployed to <b>Agent Runtime</b>, which runs the agent server on Databricks Apps and exposes <code>/api/invocations</code>. The Agent Bricks CLI (<code>agentbricks init | dev | deploy</code>) is Beta. Managed agent memory and sessions (Lakebase-backed) are Beta.</li><li>Knowledge Assistant and Supervisor Agent became legacy on October 12, 2026; Databricks directs low-code builders to Genie Agents.</li><li><b>MLflow 3</b>: <code>LoggedModel</code> tracks a model across training, evaluation and deployment; GenAI tracing auto-instruments 20+ frameworks; <code>mlflow.genai.evaluate</code> with LLM judges; human feedback review; Prompt Registry in Unity Catalog; Unity Catalog is the default model registry.</li><li><b>AI Search</b> (renamed from Vector Search June 1, 2026): Delta Sync indexes (managed or self-managed embeddings) or Direct Vector Access indexes; standard endpoints (up to about 320M vectors at 768 dimensions) or storage-optimized endpoints (over 1B vectors, faster indexing, roughly 250 ms extra latency); hybrid search with reciprocal rank fusion; full-text indexes in Beta.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Evaluation is the gating step: build an evaluation dataset of real questions with expected answers, run judges in CI, and monitor production traces with the same scorers.</li><li>Delta Sync indexes need change data feed on the source; self-managed embedding indexes cannot be converted to Databricks-managed later.</li><li>Agents inherit governance from Unity Catalog and Unity Gateway; give each agent its own service principal with least privilege.</li><li>In MLflow 3, log models with <code>name</code> instead of <code>artifact_path</code>, and use <code>mlflow.genai.evaluate</code> for LLM apps since <code>mlflow.evaluate</code> is deprecated.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Building on Knowledge Assistant or Supervisor Agent now; both are legacy.</div><div class=\"trap\"><b>Trap:</b> Shipping an agent without traces; you cannot debug or evaluate production behavior after the fact.</div><div class=\"trap\"><b>Trap:</b> Choosing a storage-optimized endpoint for a latency-critical chat app, or a standard endpoint for a billion-vector corpus.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>What evaluation set and quality bar must an agent pass before production?</li><li>Which identity does the agent use for data access, and can it read PHI?</li><li>Which retrieval index type and endpoint type match the corpus size and latency target?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is Vector Search called as of June 2026?",
-     "a": "AI Search."
-    },
-    {
-     "q": "Which MLflow 3 function evaluates GenAI apps with LLM judges?",
-     "a": "mlflow.genai.evaluate (mlflow.evaluate is deprecated)."
-    },
-    {
-     "q": "What are the two AI Search index types?",
-     "a": "Delta Sync indexes that sync from a source table, and Direct Vector Access indexes updated through the API."
-    },
-    {
-     "q": "Where do Agent Bricks agents run?",
-     "a": "On Agent Runtime, which runs the agent server on Databricks Apps behind an invocations API."
-    },
-    {
-     "q": "What is the status of Knowledge Assistant and Supervisor Agent?",
-     "a": "Legacy since October 2026; use Genie Agents for low-code or Agent Bricks for code-first agents."
-    }
-   ]
-  },
-  {
-   "n": "Databricks Apps and Lakebase",
-   "g": "ai",
-   "s": "Databricks Apps hosts Python and Node.js web apps on serverless compute next to governed data, and Lakebase is Databricks' managed, autoscaling Postgres for transactional app state, with synced tables that serve lakehouse data to apps at low latency.",
-   "x": [
-    {
-     "t": "How it works",
-     "b": "<ul><li><b>Databricks Apps</b>: Streamlit, Dash, Gradio, React, Express and similar frameworks; OAuth sign-in; each app has its own service principal and can also act on behalf of the user; resources include SQL warehouses, serving endpoints, secrets, Genie Agents and Lakebase databases. Billed per hour while running. Horizontal scaling and OpenTelemetry telemetry to Unity Catalog went GA in September 2026.</li><li><b>Lakebase</b>: serverless Postgres with autoscaling, scale to zero, branching and instant restore. GA on AWS (January 2026), on Azure, and on GCP (October 30, 2026); available for HIPAA compliance-profile workspaces on AWS since March 2026.</li><li><b>Synced tables</b>: read-only Postgres copies of Unity Catalog tables in snapshot, triggered or continuous mode; triggered and continuous need change data feed (write-time or automatic) on the source.</li><li>Lakebase Search (hybrid vector and full-text inside Postgres) is GA on AWS and Beta on GCP.</li></ul>"
-    },
-    {
-     "t": "Senior-level nuance",
-     "b": "<ul><li>Use Lakebase for row-level reads and writes from apps (forms, workflow state, feature lookups) and the lakehouse for analytics; synced tables bridge gold data to the app.</li><li>Synced tables: snapshot suits more than 10 percent change per cycle; continuous has a 15-second minimum interval and the highest cost; each source table supports up to 20 synced tables; changing a primary key requires recreating the synced table.</li><li>Branching lets you test schema migrations against a copy of production data without duplicating storage.</li><li>Prefer on-behalf-of-user authorization in apps that show PHI so Unity Catalog grants and masks apply per viewer.</li></ul>"
-    },
-    {
-     "t": "Failure modes",
-     "b": "<div class=\"trap\"><b>Trap:</b> Giving the app's service principal broad SELECT on PHI and filtering in app code; a bug exposes everything. Use user authorization or narrow grants.</div><div class=\"trap\"><b>Trap:</b> Pointing an app's interactive reads at a SQL warehouse for single-row lookups; Lakebase or synced tables are built for that latency.</div><div class=\"trap\"><b>Trap:</b> Running triggered synced tables every minute; intervals under five minutes are expensive.</div>"
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Does the app need transactional writes (Lakebase) or only analytical reads (SQL warehouse)?</li><li>Which identity does the app use to read data, and is it per user?</li><li>Which sync mode matches the freshness need and budget?</li></ul>"
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is Lakebase?",
-     "a": "Databricks' managed serverless Postgres with autoscaling, scale to zero and branching, integrated with Unity Catalog and Databricks Apps."
-    },
-    {
-     "q": "What are the three Lakebase synced table modes?",
-     "a": "Snapshot, triggered and continuous."
-    },
-    {
-     "q": "What do triggered and continuous synced tables require on the source table?",
-     "a": "A change data feed, either write-time CDF or automatic CDF."
-    },
-    {
-     "q": "How are Databricks Apps billed?",
-     "a": "Per hour of compute while the app is running, based on provisioned capacity."
-    },
-    {
-     "q": "How can a Databricks App enforce per-viewer data permissions?",
-     "a": "Use on-behalf-of-user authorization so queries run with the viewer's Unity Catalog permissions."
+     "q": "What is Fabric's main structural advantage for Power BI-heavy shops?",
+     "a": "It's Power BI's home, with Direct Lake over OneLake."
     }
    ]
   }
