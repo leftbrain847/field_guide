@@ -9,6 +9,7 @@ The reader studies 2 concepts a day. Retrieval practice and spacing do the teach
 2. `Traps`: what breaks it, 2-3 lines (trap blocks).
 3. `Example`: one concrete case (for numbers, one worked example).
 4. `Ask` (optional): one design-review question.
+5. `Try it` (optional): one real-world practice prompt, for skills learned by doing (EQ).
 The summary `s` is the rule, one sentence.
 
 **Cards: 3 per concept by default.** The page already adds a rule card from the summary (`CONFIG.autoCardFromSummary`), so write 2: one application or discrimination card (a scenario: which pattern applies?) and one trap card. Write up to 4 only for numeric concepts, and as few as 1 for a small residue concept. No "list the five X" cards; ask which item explains a scenario instead. Questions focused and effortful, never yes/no.

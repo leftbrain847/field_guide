@@ -40,7 +40,7 @@ About 26 minutes on a laptop CPU for every topic; only changed topics are re-rec
 - `drafts/`: partial or retired content. `verification/`: independent dose-check reports for the medicine tab.
 
 ## Study plan
-Two new concepts a day, one work topic and one operator/human topic, at 3 cards each (2 written plus the summary card). With FSRS-style scheduling at 90% retention that settles near 60 reviews, about 8 minutes, a day. The 124 compact concepts take about two months for a first pass. New material must pass the admission test in `FORMAT.md`; at the 150-concept cap, something of lower value leaves.
+Two new concepts a day, one work topic and one operator/human topic, at 3 cards each (2 written plus the summary card). With FSRS-style scheduling at 90% retention that settles near 60 reviews, about 8 minutes, a day. The 142 compact concepts take about ten weeks for a first pass. New material must pass the admission test in `FORMAT.md`; at the 150-concept cap, something of lower value leaves.
 
 ## Adding a topic
 1. Write `topics/topic-<id>.json` following `FORMAT.md` (compact standard), and add it to `build/limits.json`.
