@@ -52,6 +52,38 @@
    ]
   },
   {
+   "n": "Mapping ADF to Workato",
+   "g": "core",
+   "s": "Moving off Azure Data Factory, map each ADF construct to its Workato equivalent, and re-platform anything bulk or analytical instead of porting it.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Pipeline and activities → recipe and actions.</li><li>Schedule and tumbling-window triggers → scheduled triggers (keep the window watermark yourself); storage or custom events → new-file, polling or webhook triggers.</li><li>Linked services → connections.</li><li>Self-hosted integration runtime → on-prem agent group.</li><li>Parameters → recipe function inputs; global parameters → environment or project properties; lookup tables for values that change.</li><li>Copy activity → Fabric pipelines or Copy job; Workato Data Pipelines only for its supported destinations (Fabric isn't one).</li><li>Data flows → Fabric notebooks, dbt or Databricks.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Two tools syncing the same target. Pick one system of record per data flow.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Nightly claims copy: Fabric. New-referral sync from the EHR to scheduling and billing: Workato. Pushing a modeled risk score back to the CRM: Workato (reverse ETL).</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "What replaces ADF's self-hosted integration runtime in Workato?",
+     "a": "An on-prem agent group."
+    },
+    {
+     "q": "Where do ADF data flows (Spark transforms) go?",
+     "a": "Fabric notebooks, dbt or Databricks, not Workato."
+    }
+   ]
+  },
+  {
    "n": "Triggers and jobs",
    "g": "core",
    "s": "Every trigger event becomes a job, so choose real-time triggers for latency, polling for simplicity, and filter with trigger conditions so unwanted events never become jobs.",
@@ -144,6 +176,102 @@
     {
      "q": "What do you give up by raising recipe concurrency above 1?",
      "a": "Ordering: later events can finish before earlier ones, so steps must be order-independent and idempotent."
+    }
+   ]
+  },
+  {
+   "n": "Reaching on-prem systems",
+   "g": "core",
+   "s": "The on-prem agent runs inside your network and lets connections reach private databases and file shares without opening inbound firewall ports, so run at least two per group.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Install agents on servers in the private network; connections using them originate there.</li><li>Agents in an on-prem group share the load; Workato recommends several for availability.</li><li>Targets include JDBC databases (SQL Server, Oracle, Postgres), file systems, SAP, message queues and scripts.</li><li>Cloud profiles let you configure on-prem connections in Workato and push them to every agent in the group.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> A single agent on one VM: patching it stops every recipe that uses that database.</div><div class=\"trap\"><b>Trap:</b> Polling a large table without an incremental key: every poll rescans it.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>The EHR's reporting database sits on-prem: two agents in a group, a SQL Server connection through the group, a new/updated-row trigger keyed on the primary key and sorted by a datetime2 last-modified column.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Why run at least two on-prem agents per group?",
+     "a": "High availability: patching or losing one VM shouldn't stop every dependent recipe."
+    },
+    {
+     "q": "Does the on-prem agent need inbound firewall ports?",
+     "a": "No: it connects outbound from your network."
+    }
+   ]
+  },
+  {
+   "n": "Compose recipes",
+   "g": "core",
+   "s": "Build integrations from reusable parts: recipe functions for shared logic, event streams to fan one event out to many consumers, and API recipes to expose logic, keeping each part small.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Recipe functions</b>: called synchronously or asynchronously, with a return step; your shared library for alerting, PHI-safe logging and lookups. Async calls plus \"wait\" fan out in parallel.</li><li><b>Event streams</b>: topics with a schema and retention (7 days by default, up to 90); each subscriber evolves and fails independently. Consumers must be idempotent.</li><li><b>API Platform</b>: endpoints from recipes or proxies, keys per client, rate limits. Endpoint jobs time out after 30 seconds by default (240 max), so accept, hand off async, and return 202.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Async fan-out into a function with low concurrency (recipes default to 1): calls queue behind each other. Size its concurrency to the fan-out.</div><div class=\"trap\"><b>Trap:</b> Event streams as long-term storage: messages expire.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>New intake publishes once to a topic; scheduling, billing and the BI landing zone each subscribe.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "One event must update three systems that fail independently. Which Workato pattern?",
+     "a": "Publish to an event stream topic with one subscriber recipe per system."
+    },
+    {
+     "q": "An API recipe does five minutes of work and callers time out. Redesign?",
+     "a": "Accept the request, hand the work to an async recipe function or event stream, and return 202 with a tracking ID."
+    }
+   ]
+  },
+  {
+   "n": "Extend and store",
+   "g": "core",
+   "s": "Use the HTTP connector for one-off APIs and the Connector SDK once an API is reused, and keep reference data in lookup tables, mutable state in data tables, and shared rules in decision models.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li>Move from HTTP to the SDK when the same API appears in three or more recipes, needs pagination or token refresh, or should serve citizen builders. SDK connectors are Ruby, developed and tested locally, kept in Git.</li><li><b>Lookup tables</b>: small static mappings (codes to names).</li><li><b>Data tables</b>: mutable state across jobs (watermarks, idempotency keys, app data).</li><li><b>Decision models</b>: decision tables for business rules, reused across recipes and agent skills.</li><li>History and joins at scale belong in a database or warehouse.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Copy-pasting one HTTP request into many recipes: every auth or pagination fix must be repeated.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A scheduling vendor API used in six recipes becomes an SDK connector; the last-sync watermark lives in a data table.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "Where should a recipe keep its last-processed watermark?",
+     "a": "In a data table (mutable state across jobs)."
+    },
+    {
+     "q": "When should an HTTP-connector integration become an SDK connector?",
+     "a": "When it's reused in several recipes or needs pagination, token refresh or use by non-engineers."
     }
    ]
   },
@@ -376,6 +504,26 @@
   {
    "title": "Product Scoop – September 2026",
    "url": "https://www.workato.com/product-hub/product-scoop-september-2026/"
+  },
+  {
+   "title": "Workato docs: On-prem groups",
+   "url": "https://docs.workato.com/en/on-prem/groups"
+  },
+  {
+   "title": "Workato docs: Cloud profiles",
+   "url": "https://docs.workato.com/on-prem/agents/connection/cloud"
+  },
+  {
+   "title": "Workato docs: Event streams retention",
+   "url": "https://docs.workato.com/connectors/pubsub/pubsub-retention"
+  },
+  {
+   "title": "Workato docs: Decision models",
+   "url": "https://docs.workato.com/recipes/decision-models.html"
+  },
+  {
+   "title": "Workato docs: Data retention FAQs",
+   "url": "https://docs.workato.com/security/data-protection/data-retention/data-retention-faqs.html"
   }
  ]
 }
