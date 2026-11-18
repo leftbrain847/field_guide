@@ -50,6 +50,11 @@
      "t": "Example",
      "b": "<p>A peer derails your roadmap in a meeting. Notice: jaw tight. Name: \"cornered\". Reframe: they are under budget pressure. Respond: loop their concern, then state your limit.</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>After your next charged meeting, write one line per link: noticed, named, reframed, responded. The weakest line is what to train.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -81,6 +86,11 @@
     {
      "t": "Example",
      "b": "<p>A vendor says EQ predicts leadership. Ask: which stream, which instrument, and was personality controlled? Usually not, so discount it.</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Take the last EI claim you read; name the stream, the instrument and what was controlled. If you can't, discount it.</p>",
      "c": []
     }
    ],
@@ -114,6 +124,11 @@
      "t": "Example",
      "b": "<p>\"Stressed\" leads nowhere. \"Resentful my team's work was credited elsewhere\" points to one conversation; \"anxious about the CIO review\" points to preparation.</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Three times a day for two weeks, log one specific emotion word, intensity 1-10 and the trigger; ban \"stressed\" and \"fine\".</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -146,6 +161,11 @@
      "t": "Example",
      "b": "<p>Default read: \"the exec is attacking my competence\". Plausible alternative: \"budget pressure; they need a cheaper option\". Situation move: send a pre-read so there are fewer surprises.</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Before a contentious meeting, write the threatening reading and the most plausible alternative, plus one move that changes the situation.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -177,6 +197,11 @@
     {
      "t": "Example",
      "b": "<p>Before: two sighs plus one if-then (\"if interrupted, I ask a question first\"). If flooded, ask for a break and decide nothing. After: debrief in third person.</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>For three high-stakes meetings, run the routine and log arousal before and after, and anything you regretted saying.</p>",
      "c": []
     }
    ],
@@ -215,6 +240,11 @@
      "t": "Ask",
      "b": "<p>Could the other side read your summary of their position and call it fair?</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Before a cross-team ask, write their position, top two pressures and their boss's win; check it with someone on their team.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -246,6 +276,11 @@
     {
      "t": "Example",
      "b": "<p>\"So the main risk you see is the migration date, and it sounds like you've been burned before. Is that it?\" \"Yes, exactly.\" Now propose.</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>In your next 1:1, give no opinion until you've looped once and heard \"yes, exactly\".</p>",
      "c": []
     }
    ],
@@ -279,6 +314,11 @@
      "t": "Example",
      "b": "<p>The talkative director goes quiet after the cost slide; the quiet engineer stays quiet. Only the director's silence is signal. Ask them privately.</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Mid-meeting, write your read of two people; check one privately afterward. Track your hit rate for a month.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -310,6 +350,11 @@
     {
      "t": "Example",
      "b": "<p>D: \"Scope changed three times last week without a ticket.\" E: \"I'm concerned we'll miss the CIO date.\" S: \"Route changes through intake.\" C: \"Then we can commit to dates.\"</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>After your next pushback, ask one attendee where you landed from too soft to too strong; compare with your guess.</p>",
      "c": []
     }
    ],
@@ -343,6 +388,11 @@
      "t": "Example",
      "b": "<p>Before a scope negotiation, write your first ask and walk-away point while calm. In the room: \"What's driving the date for you?\"</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>When a thread heats up, stop typing and send: \"Let's talk live for ten minutes; I want to understand your concern.\"</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -374,6 +424,11 @@
     {
      "t": "Example",
      "b": "<p>\"I'm flagging the deck's missing cost slide because the bar for CIO reviews is high and I know you can hit it. Add one cost-versus-option table by Friday.\"</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Ask one stakeholder what you could do differently; reply only with thanks and one clarifying question, and note which trigger fired.</p>",
      "c": []
     }
    ],
@@ -412,6 +467,11 @@
      "t": "Ask",
      "b": "<p>Could you write your boss's top three goals and how they like bad news delivered?</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Reframe your team's biggest current ask in terms of one of your boss's top goals.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -444,6 +504,11 @@
      "t": "Example",
      "b": "<p>Leader moves: frame work as uncertain, admit fallibility (\"I'll miss things\"), ask \"what risk haven't we discussed?\", thank the bearer of bad news by name.</p>",
      "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>At your next team meeting ask \"What risk haven't we discussed?\", wait through the silence, and thank the first person by name.</p>",
+     "c": []
     }
    ],
    "cards": [
@@ -475,6 +540,11 @@
     {
      "t": "Example",
      "b": "<p>Meetings end in nods, then nothing ships. Diagnosis: no real debate, so no commitment. Fix: ask each person for their objection before deciding.</p>",
+     "c": []
+    },
+    {
+     "t": "Try it",
+     "b": "<p>Before your next decision, ask each person for their strongest objection, then check a week later whether everyone acted on the decision.</p>",
      "c": []
     }
    ],
