@@ -1,0 +1,163 @@
+{
+ "topic": "fundamentals",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The data engineering map",
+   "src": "63e1c5f8b54f",
+   "n": "El mapa de la ingeniería de datos",
+   "s": "La mayoría de las fallas de datos en producción vienen de tres cadenas: exactitud (granularidad, claves, reejecución idempotente, tiempo), costo (organización física, luego movimiento de datos) y operabilidad (contratos, pruebas, frescura, responsables)."
+  },
+  {
+   "en": "Grain and fan-out",
+   "src": "1c51a8240c35",
+   "n": "Granularidad y multiplicación de filas",
+   "s": "Di en una oración qué representa una fila, hazlo cumplir con una prueba de unicidad y nunca hagas un join con una granularidad más fina antes de agregar."
+  },
+  {
+   "en": "Facts, dimensions and additivity",
+   "src": "4b48ef578de2",
+   "n": "Hechos, dimensiones y aditividad",
+   "s": "Los hechos guardan medidas a una granularidad declarada, las dimensiones guardan el contexto por el que filtras, y la aditividad de cada medida decide cómo se puede agregar."
+  },
+  {
+   "en": "Keys and history (SCD Type 2)",
+   "src": "08a2c435e86f",
+   "n": "Claves e historial (SCD tipo 2)",
+   "s": "Da a las filas de dimensión claves sustitutas estables, versiona los atributos que cambian como filas tipo 2, y une los hechos con la versión vigente en el momento del evento."
+  },
+  {
+   "en": "Dimension patterns",
+   "src": "d539935d322c",
+   "n": "Patrones de dimensión",
+   "s": "Los patrones de dimensión de Kimball resuelven problemas de modelado recurrentes: una dimensión en varios roles, identificadores sin atributos, indicadores dispersos, eventos sin medida, e historial elegido por columna."
+  },
+  {
+   "en": "Idempotent writes and MERGE",
+   "src": "6ed670409d65",
+   "n": "Escrituras idempotentes y MERGE",
+   "s": "Cada proceso debe dejar el mismo estado final sin importar cuántas veces corra con las mismas entradas, porque los orquestadores reintentan y la gente vuelve a ejecutar."
+  },
+  {
+   "en": "Incremental loads",
+   "src": "034fe806f72a",
+   "n": "Cargas incrementales",
+   "s": "Carga solo lo que cambió desde la última ejecución exitosa, avanza la marca de agua después de confirmar la escritura, y usa una ventana de solapamiento porque updated_at miente."
+  },
+  {
+   "en": "Backfills and late data",
+   "src": "4487cf32909e",
+   "n": "Recargas históricas y datos tardíos",
+   "s": "Haz que cada proceso sea función de un rango de fechas, para que las recargas y los datos que llegan tarde sean ejecuciones normales sobre particiones más antiguas."
+  },
+  {
+   "en": "Event time, processing time and streaming watermarks",
+   "src": "b46d92729913",
+   "n": "Tiempo del evento, tiempo de procesamiento y marcas de agua",
+   "s": "Agrega las preguntas de negocio por tiempo del evento, guarda a su lado las marcas de ingesta y de procesamiento, y deja que la marca de agua del streaming decida cuándo una ventana está completa."
+  },
+  {
+   "en": "Delivery guarantees and dedup",
+   "src": "e4aa5f19369e",
+   "n": "Garantías de entrega y deduplicación",
+   "s": "Exactamente una vez es entrega de al menos una vez, sumada a un destino idempotente o transaccional, con una clave creada en el origen."
+  },
+  {
+   "en": "Change data capture",
+   "src": "f1d752277b91",
+   "n": "Captura de cambios (CDC)",
+   "s": "Lee los cambios del registro de transacciones del origen, aplícalos con MERGE en el orden del registro, y trata el paso de la instantánea al flujo continuo como el momento más riesgoso."
+  },
+  {
+   "en": "Contracts, schema change and quarantine",
+   "src": "7fa5f98e6c7b",
+   "n": "Contratos, cambios de esquema y cuarentena",
+   "s": "Acuerda con los productores esquema, significado, calidad y frescura en código, sé permisivo en la capa cruda y estricto en el núcleo, y pon en cuarentena los registros malos en vez de fallar o descartarlos."
+  },
+  {
+   "en": "Layout: read less",
+   "src": "f0686ce4a7a6",
+   "n": "Organización física: leer menos",
+   "s": "La mayor parte del costo de una consulta son los bytes leídos, así que guarda en formato columnar, filtra por las columnas con que están organizados los datos, y deja que las estadísticas salten archivos."
+  },
+  {
+   "en": "Files and table formats",
+   "src": "b15d887e1fa5",
+   "n": "Archivos y formatos de tabla",
+   "s": "Mantén pocos archivos grandes con compactación, y usa un formato de tabla como Delta o Iceberg para que cada escritura sea una instantánea atómica que puedes volver a consultar."
+  },
+  {
+   "en": "Concurrent writers",
+   "src": "58fc3491b8b3",
+   "n": "Escritores concurrentes",
+   "s": "Los formatos de tabla usan concurrencia optimista: cada escritor confirma por su cuenta y solo chocan cuando tocan los mismos datos, así que diseña procesos que no se solapen y deja que los reintentos del formato absorban el resto."
+  },
+  {
+   "en": "Data movement: shuffle and joins",
+   "src": "1784b136ea6d",
+   "n": "Movimiento de datos: shuffle y uniones",
+   "s": "Lo más caro que hace un motor distribuido es mover datos entre máquinas, así que reduce, filtra y difunde las tablas pequeñas antes de unir o agrupar."
+  },
+  {
+   "en": "Skew and spill",
+   "src": "ed3f4f20260d",
+   "n": "Sesgo y desbordamiento a disco",
+   "s": "Cuando una tarea tarda mucho más que las demás, unas pocas claves calientes concentran la mayoría de los datos; cuando las tareas escriben a disco a mitad de etapa, las particiones son demasiado grandes para la memoria."
+  },
+  {
+   "en": "Cost and FinOps",
+   "src": "77a43dee8847",
+   "n": "Costos y FinOps",
+   "s": "Asigna cada dólar de cómputo a un pipeline y a un responsable, y luego elimina el tiempo ocioso, las lecturas desperdiciadas y las programaciones demasiado frecuentes antes de comprar nada."
+  },
+  {
+   "en": "Testing pyramid for data",
+   "src": "bcdeab550743",
+   "n": "Pirámide de pruebas para datos",
+   "s": "Prueba la lógica con pruebas unitarias rápidas, los datos con aserciones en cada capa, y el pipeline completo con una ejecución pequeña de punta a punta, con más peso en la base."
+  },
+  {
+   "en": "Observe and respond",
+   "src": "1e29eb77b88f",
+   "n": "Observar y responder",
+   "s": "Promete frescura y exactitud por conjunto de datos, vigílalas con el linaje, dale a cada conjunto un solo responsable, y haz análisis posteriores sin culpas cuando se rompa una promesa."
+  },
+  {
+   "en": "Orchestration design",
+   "src": "70ad958da266",
+   "n": "Diseño de la orquestación",
+   "s": "Modela los pipelines como tareas pequeñas, idempotentes y parametrizadas con dependencias explícitas, y dispáralas cuando lleguen los datos, no según suposiciones de reloj."
+  },
+  {
+   "en": "CI/CD and environment promotion",
+   "src": "96a344666ba8",
+   "n": "CI/CD y promoción entre entornos",
+   "s": "Entrega el código de los pipelines como código de aplicación: versiónalo, pruébalo en CI y promueve el mismo artefacto por desarrollo, pruebas y producción cambiando configuración, no código."
+  },
+  {
+   "en": "Medallion layering",
+   "src": "32476f8fcb4d",
+   "n": "Capas medallón",
+   "s": "Separa las capas cruda (bronce), limpia y conformada (plata) y lista para consumo (oro), para que siempre puedas reprocesar desde lo crudo y cambiar una etapa a la vez."
+  },
+  {
+   "en": "Semantic layer and metric definitions",
+   "src": "f591753e9c73",
+   "n": "Capa semántica y definición de métricas",
+   "s": "Define cada métrica de negocio una sola vez, con responsable, granularidad y filtros, en una capa semántica gobernada, para que todas las herramientas reporten el mismo número."
+  },
+  {
+   "en": "PHI governance",
+   "src": "823471b6fa29",
+   "n": "Gobierno de datos de salud protegidos (PHI)",
+   "s": "Trata la información de salud protegida con mínimo privilegio por defecto: clasifícala, enmascárala o tokenízala fuera de su propósito, audita el acceso y mantenla fuera de los entornos inferiores."
+  },
+  {
+   "en": "Symptom to pattern",
+   "src": "5632bf042238",
+   "n": "Del síntoma al patrón",
+   "s": "Diagnostica relacionando el síntoma con la cadena a la que pertenece, y prueba primero la causa más común de esa cadena."
+  }
+ ]
+}

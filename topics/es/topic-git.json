@@ -1,0 +1,103 @@
+{
+ "topic": "git",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The Git map",
+   "src": "b1493f93dfe1",
+   "n": "El mapa de Git",
+   "s": "Git es un grafo de instantáneas direccionadas por contenido con etiquetas móviles, la estrategia de integración de tu equipo es la forma que le das a ese grafo, y el pipeline a su alrededor es una superficie de ataque."
+  },
+  {
+   "en": "Objects, refs and the three trees",
+   "src": "e72002a0fcb1",
+   "n": "Objetos, referencias y los tres árboles",
+   "s": "Un commit es una instantánea más sus padres y metadatos, una rama es un archivo que guarda el identificador de un commit, y tu trabajo se mueve entre el directorio de trabajo, el índice y HEAD."
+  },
+  {
+   "en": "Undo and recovery",
+   "src": "21c99877038d",
+   "n": "Deshacer y recuperar",
+   "s": "Elige cómo deshacer según el alcance del daño: restaura archivos, resetea commits locales, revierte todo lo publicado, y usa el reflog para encontrar lo que perdiste."
+  },
+  {
+   "en": "Merge, rebase and squash",
+   "src": "7ec4e1f23694",
+   "n": "Merge, rebase y squash",
+   "s": "Merge conserva lo que pasó, rebase reaplica tus commits sobre una nueva base para dejar una línea recta, y squash comprime una rama en un solo commit; nunca reescribas historial que otros ya descargaron."
+  },
+  {
+   "en": "Investigating history",
+   "src": "05f359c29fc4",
+   "n": "Investigar el historial",
+   "s": "Averigua cuándo y por qué cambió algo: bisect para regresiones, blame para el origen de una línea, y pickaxe para saber cuándo apareció o desapareció un texto."
+  },
+  {
+   "en": "Trunk-based flow",
+   "src": "320532902699",
+   "n": "Flujo basado en trunk",
+   "s": "Integra cambios pequeños al menos una vez al día en un main siempre listo para publicar, esconde el trabajo sin terminar detrás de banderas, y separa los entornos con la configuración de despliegue, no con ramas."
+  },
+  {
+   "en": "Pull requests that land",
+   "src": "e8a1634520bc",
+   "n": "Pull requests que se integran",
+   "s": "Mantén los pull requests pequeños y con un solo propósito, asigna la revisión con CODEOWNERS, y agrega una cola de merge cuando dos PR en verde puedan romper main juntos."
+  },
+  {
+   "en": "Rulesets",
+   "src": "d066a2dc0372",
+   "n": "Rulesets",
+   "s": "Protege main con rulesets que exijan pull requests y verificaciones de estado, bloqueen los force push y los borrados, y no tengan identidades de automatización en la lista de excepciones."
+  },
+  {
+   "en": "CI on GitHub Actions",
+   "src": "26215211efae",
+   "n": "CI en GitHub Actions",
+   "s": "Un workflow se dispara con un evento, ejecuta jobs en runners, y debe compilar, probar y desplegar el mismo commit que revisaste."
+  },
+  {
+   "en": "The pipeline is an attack surface",
+   "src": "e884f23ee4fe",
+   "n": "El pipeline es una superficie de ataque",
+   "s": "Los workflows guardan credenciales, así que dale al GITHUB_TOKEN el mínimo privilegio, usa OIDC en vez de claves de nube guardadas, fija las actions a un SHA de commit, y trata los datos del evento como entrada hostil."
+  },
+  {
+   "en": "Secrets: prevent, then rotate",
+   "src": "a7b57ca83d21",
+   "n": "Secretos: prevenir y luego rotar",
+   "s": "Bloquea los secretos antes del push, y cuando uno llegue a un remoto, rótalo primero; reescribir el historial va después y puede que no valga la pena."
+  },
+  {
+   "en": "Identity and tokens",
+   "src": "cd883c69059b",
+   "n": "Identidad y tokens",
+   "s": "Dale a cada persona una verificación en dos pasos resistente al phishing y a cada automatización su propia identidad acotada y de corta duración, para que cada acción sea atribuible y revocable."
+  },
+  {
+   "en": "Repository design",
+   "src": "166a0a68dc20",
+   "n": "Diseño del repositorio",
+   "s": "Mantén los repositorios livianos y reproducibles: ignora los resultados de compilación, normaliza los finales de línea, deja los binarios grandes fuera de Git, y elige monorepo o varios repos según cómo se mueven los cambios juntos."
+  },
+  {
+   "en": "Git in Fabric and Databricks",
+   "src": "b70d2dc14abb",
+   "n": "Git en Fabric y Databricks",
+   "s": "Trata los espacios de trabajo de Fabric y Databricks como copias de una rama de Git, promueve los cambios con pull requests y herramientas de despliegue, y deja los resultados de consultas y los datos PHI fuera de los commits."
+  },
+  {
+   "en": "Azure DevOps next to GitHub",
+   "src": "b3415d25934f",
+   "n": "Azure DevOps junto a GitHub",
+   "s": "Las empresas que usan Microsoft suelen tener Azure DevOps; la mayoría de sus conceptos de repositorio y pipeline tienen equivalentes cercanos en GitHub, y migrar tiene más que ver con los pipelines y las identidades que con el código."
+  },
+  {
+   "en": "Git with coding agents",
+   "src": "a2fac31b091d",
+   "n": "Git con agentes de programación",
+   "s": "Los agentes deben trabajar en sus propias ramas o worktrees, hacer commits pequeños y atribuidos, publicar temprano, e integrar solo por el mismo camino protegido que las personas."
+  }
+ ]
+}

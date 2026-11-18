@@ -95,3 +95,21 @@ test("playback flows on to the next concept in the same file, and seeks for repe
   assert.equal(L.flowsOn(a, { ...b, file: "g" }, 5.2, 1.5), false); // another topic's file
   assert.equal(L.flowsOn(b, a, 9.1, 1.5), false);                  // going backwards
 });
+
+test("Spanish uses a current translation and falls back to the English summary, flagging each item's language", () => {
+  const sel = new Set(["t/0", "t/1"]);
+  const tr = { t: [["Primero", "Uno."], null, null] };
+  const q = L.buildQueue([topic], sel, { ...opts, lang: "es", tr });
+  const first = q.find(it => it.ci === 0), second = q.find(it => it.ci === 1);
+  assert.equal(first.lang, "es"); assert.equal(first.title, "Primero"); assert.deepEqual(first.parts, ["Primero. Uno."]);
+  assert.equal(second.lang, "en"); assert.equal(second.title, "Second"); assert.deepEqual(second.parts, ["Second. Two."]);
+  assert.ok(L.buildQueue([topic], sel, { ...opts, tr }).every(it => it.lang === "en"));   // English mode ignores translations
+});
+
+test("recordings play for English items in Summaries or Español, never for Full notes or Spanish text", () => {
+  assert.equal(L.useRecording({ lang: "en" }, "summary"), true);
+  assert.equal(L.useRecording({ lang: "en" }, "es"), true);
+  assert.equal(L.useRecording({ lang: "es" }, "es"), false);
+  assert.equal(L.useRecording({ lang: "en" }, "full"), false);
+  assert.equal(L.useRecording(null, "summary"), false);
+});

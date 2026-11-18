@@ -1,0 +1,151 @@
+{
+ "topic": "firstaid",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "Scene safety, checking the person, and the recovery position",
+   "src": "14120e283426",
+   "n": "Seguridad de la escena, revisar a la persona y la posición de recuperación",
+   "s": "Asegúrate de que la escena sea segura para ti, revisa si la persona responde y respira con normalidad, y usa la posición de recuperación solo con alguien que no responde, respira con normalidad y no tiene sospecha de lesión en la columna."
+  },
+  {
+   "en": "Calling 911 and what to tell the dispatcher",
+   "src": "0d4a2695bc5d",
+   "n": "Llamar al 911 y qué decirle al operador",
+   "s": "Llama al 911 temprano, da primero la ubicación exacta, no cuelgues, y sigue las instrucciones del operador, porque puede guiarte en la reanimación y otros cuidados mientras llega la ayuda."
+  },
+  {
+   "en": "Good Samaritan laws and consent (US, general)",
+   "src": "2da759dabf7b",
+   "n": "Leyes del Buen Samaritano y consentimiento (Estados Unidos, en general)",
+   "s": "En Estados Unidos, las leyes del Buen Samaritano suelen proteger a quien da ayuda razonable de buena fe en una emergencia, aunque los detalles varían por estado y nada de esto es asesoría legal."
+  },
+  {
+   "en": "Recognizing life-threatening bleeding (Stop the Bleed ABCs)",
+   "src": "33fdc180de98",
+   "n": "Reconocer un sangrado que amenaza la vida (el ABC de Stop the Bleed)",
+   "s": "El curso Stop the Bleed del Colegio Americano de Cirujanos enseña alertar llamando al 911, encontrar el sangrado y comprimir, y define el sangrado que amenaza la vida por lo que ves: sangre que sale a chorros, que empapa o que se acumula sin parar."
+  },
+  {
+   "en": "Direct pressure and wound packing",
+   "src": "b4192417538b",
+   "n": "Presión directa y taponamiento de la herida",
+   "s": "La presión firme y continua sobre el origen del sangrado controla la mayoría de las hemorragias, y las heridas profundas o grandes necesitan gasa metida en la cavidad con presión sostenida encima."
+  },
+  {
+   "en": "Tourniquet application and placement",
+   "src": "357691f4694c",
+   "n": "Cómo y dónde poner un torniquete",
+   "s": "Ante un sangrado de una extremidad que amenaza la vida, pon un torniquete comercial de 5 a 8 centímetros por encima de la herida y no sobre una articulación, apriétalo hasta que pare el sangrado, anota la hora y déjalo puesto."
+  },
+  {
+   "en": "Improvised tourniquets and tourniquet myths",
+   "src": "ca3fd0f64b65",
+   "n": "Torniquetes improvisados y mitos sobre torniquetes",
+   "s": "Los torniquetes improvisados por lo general no logran detener un sangrado arterial, así que lleva un torniquete comercial con varilla y usa la presión y el taponamiento como respaldo."
+  },
+  {
+   "en": "Junctional wounds and bleeding control kits",
+   "src": "8818cff2f2d3",
+   "n": "Heridas en zonas de unión y botiquines para controlar sangrados",
+   "s": "Las heridas en el cuello, la axila o la ingle no admiten un torniquete de extremidad y necesitan taponamiento con presión fuerte, y un botiquín público para controlar sangrados tiene lo necesario para ambas cosas."
+  },
+  {
+   "en": "Adult CPR and Hands-Only CPR",
+   "src": "f27e258f1582",
+   "n": "Reanimación cardiopulmonar en adultos y solo con las manos",
+   "s": "Ante un adulto que no responde y no respira con normalidad, llama al 911, consigue un desfibrilador y comprime fuerte y rápido en el centro del pecho, de 100 a 120 veces por minuto y al menos 5 centímetros, unas 2 pulgadas, de profundidad."
+  },
+  {
+   "en": "Child and infant CPR",
+   "src": "a224d93c1608",
+   "n": "Reanimación en niños y lactantes",
+   "s": "Los niños y los lactantes reciben reanimación con respiraciones, y compresiones al mismo ritmo de 100 a 120 por minuto, comprimiendo al menos un tercio de la profundidad del pecho, y las guías 2025 de la AHA eliminaron la técnica de dos dedos en lactantes."
+  },
+  {
+   "en": "Using an AED",
+   "src": "95d03fad3533",
+   "n": "Cómo usar un desfibrilador externo automático",
+   "s": "Enciende el desfibrilador y sigue sus instrucciones de voz, pon los parches sobre la piel descubierta, que nadie toque a la persona durante el análisis y la descarga, y reanuda las compresiones de inmediato después."
+  },
+  {
+   "en": "Choking (adult, child, infant)",
+   "src": "c3e331dcb125",
+   "n": "Atragantamiento en adultos, niños y lactantes",
+   "s": "En un atragantamiento grave, las guías 2025 de la AHA recomiendan ciclos de 5 golpes en la espalda y 5 compresiones abdominales en adultos y niños, y de 5 golpes en la espalda y 5 compresiones en el pecho en lactantes, con reanimación si la persona deja de responder."
+  },
+  {
+   "en": "Heart attack warning signs",
+   "src": "4a1c89ec4ca0",
+   "n": "Señales de alarma de un infarto",
+   "s": "Dolor o molestia en el pecho que se extiende al brazo, la mandíbula, el cuello o la espalda, falta de aire, náuseas o mareo significan llamar al 911 de inmediato, y las mujeres tienen con más frecuencia síntomas distintos al dolor de pecho."
+  },
+  {
+   "en": "Stroke recognition (F.A.S.T.)",
+   "src": "f14ad0ba8e4e",
+   "n": "Reconocer un derrame cerebral (FAST)",
+   "s": "Usa la revisión FAST, cara caída, debilidad en un brazo, dificultad para hablar, y tiempo de llamar al 911, para detectar un derrame cerebral; llama al 911 de inmediato y anota cuándo empezaron los síntomas."
+  },
+  {
+   "en": "Seizures",
+   "src": "e40e24146417",
+   "n": "Convulsiones",
+   "s": "Protege de lesiones a la persona que convulsiona, nunca la sujetes ni le metas nada en la boca, mide la duración de la convulsión, ponla de lado, y llama al 911 si dura más de 5 minutos o ante cualquier señal de alarma."
+  },
+  {
+   "en": "Anaphylaxis and epinephrine auto-injectors",
+   "src": "7dcadbbc717f",
+   "n": "Anafilaxia y autoinyectores de epinefrina",
+   "s": "La anafilaxia es una reacción alérgica grave que se trata con epinefrina lo antes posible, y quien da primeros auxilios debe ayudar a la persona a usar su propio autoinyector en la parte externa del muslo y llamar al 911."
+  },
+  {
+   "en": "Opioid overdose and naloxone",
+   "src": "73b55a17aee1",
+   "n": "Sobredosis de opioides y naloxona",
+   "s": "Ante una sospecha de sobredosis de opioides, llama al 911, da naloxona lo antes posible, apoya la respiración o empieza la reanimación si la persona no respira con normalidad, y quédate con ella."
+  },
+  {
+   "en": "Poisoning and chemical exposure",
+   "src": "308195dd2bb3",
+   "n": "Intoxicaciones y exposición a químicos",
+   "s": "Ante una posible intoxicación en una persona despierta y que respira, llama a la Línea de Ayuda por Envenenamiento, al uno, ochocientos, dos dos dos, uno dos dos dos, y llama al 911 si se desmaya, convulsiona o tiene dificultad para respirar."
+  },
+  {
+   "en": "Shock",
+   "src": "e8a9144c6e75",
+   "n": "Estado de choque",
+   "s": "El estado de choque es una falla circulatoria que amenaza la vida y se ve como piel pálida o grisácea, pulso rápido, respiración rápida y confusión; los primeros auxilios son llamar al 911, tratar la causa, acostar a la persona y mantenerla abrigada."
+  },
+  {
+   "en": "Burns",
+   "src": "08be6c787a36",
+   "n": "Quemaduras",
+   "s": "Enfría la quemadura bajo agua corriente fresca lo antes posible durante al menos 10 y, mejor, 20 minutos, nunca con hielo ni mantequilla, luego cúbrela sin apretar y busca atención para quemaduras grandes, profundas o de alto riesgo."
+  },
+  {
+   "en": "Fractures, sprains, and spinal precautions",
+   "src": "0a26707af053",
+   "n": "Fracturas, esguinces y precauciones con la columna",
+   "s": "Inmoviliza una posible fractura en la posición en que la encontraste, controla el sangrado de las fracturas abiertas, trata los esguinces con reposo, frío, compresión y elevación, y deja quieta a una persona con posible lesión de columna si respira con normalidad."
+  },
+  {
+   "en": "Head injury and concussion",
+   "src": "725f7fd9ef89",
+   "n": "Golpes en la cabeza y conmoción cerebral",
+   "s": "Después de un golpe en la cabeza, vigila las señales de peligro de los CDC, como un dolor de cabeza que empeora, vómitos repetidos, pupilas desiguales, convulsiones o una confusión creciente, que requieren atención de emergencia."
+  },
+  {
+   "en": "Nosebleeds",
+   "src": "5cc4452ce325",
+   "n": "Sangrado nasal",
+   "s": "Ante un sangrado nasal, siéntate, inclínate hacia adelante y aprieta la parte blanda de la nariz de 10 a 15 minutos, y busca atención de emergencia si dura más de 15 minutos o viene después de una lesión grave."
+  },
+  {
+   "en": "Heat illness, hypothermia, and frostbite",
+   "src": "66e31180cae1",
+   "n": "Enfermedades por calor, hipotermia y congelación",
+   "s": "El golpe de calor es una emergencia que necesita enfriar todo el cuerpo de inmediato, idealmente sumergiéndolo en agua fría, mientras que la hipotermia necesita protección suave contra más pérdida de calor y recalentamiento sin frotar las extremidades."
+  }
+ ]
+}

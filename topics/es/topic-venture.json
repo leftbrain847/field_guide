@@ -1,0 +1,73 @@
+{
+ "topic": "venture",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The venture map",
+   "src": "694eb4d094f6",
+   "n": "El mapa del capital de riesgo",
+   "s": "Tres fuerzas deciden cuánto cobra un fundador con capital de riesgo: la ley de potencias que mueve a los inversionistas, la cascada que decide quién cobra primero, y la opción que conservas al levantar menos."
+  },
+  {
+   "en": "The founder base rate",
+   "src": "9374f83cade1",
+   "n": "La tasa base de los fundadores",
+   "s": "En el estudio más grande, el 84 por ciento de los fundadores con capital de riesgo no recibió nada en la salida, y los que cobraron recibieron una mediana de unos 5.6 millones de dólares, así que planea con la mediana, no con el promedio."
+  },
+  {
+   "en": "What moves the odds",
+   "src": "df86c613db2d",
+   "n": "Qué mueve las probabilidades",
+   "s": "El éxito previo, la industria y el año en que empiezas y, para fundadores primerizos, un inversionista experimentado son los predictores mejor documentados; un fracaso previo casi no ayuda."
+  },
+  {
+   "en": "The liquidation waterfall",
+   "src": "f1e440684eae",
+   "n": "La cascada de liquidación",
+   "s": "Los inversionistas con acciones preferentes cobran antes que las acciones comunes, así que el total de preferencias decide si los fundadores cobran en una salida modesta."
+  },
+  {
+   "en": "Dilution, pools and SAFEs",
+   "src": "ac51e4d87982",
+   "n": "Dilución, reservas de opciones y SAFE",
+   "s": "Cada ronda con precio suele vender alrededor de una quinta parte de la empresa, y con SAFE y reservas de opciones en la mediana, el equipo fundador conserva cerca del 56 por ciento después del seed y del 36 por ciento después de la Serie A."
+  },
+  {
+   "en": "Fund math and misalignment",
+   "src": "9a99226a2684",
+   "n": "Matemática de los fondos y desalineación",
+   "s": "Un fondo de capital de riesgo necesita que unas pocas empresas devuelvan el fondo entero, así que los inversionistas prefieren una pequeña probabilidad de una salida enorme, mientras los fundadores a menudo prefieren una alta probabilidad de una salida decente."
+  },
+  {
+   "en": "Raise, bootstrap or wait",
+   "src": "8948476daa2c",
+   "n": "Levantar capital, autofinanciarse o esperar",
+   "s": "Levanta capital de riesgo solo para un mercado que pueda producir una empresa muy grande y rápido; si no, los clientes, los ahorros, la deuda y las subvenciones conservan tu participación y tus opciones de salida."
+  },
+  {
+   "en": "Term sheet terms that move money and control",
+   "src": "3cf7ae41f1f1",
+   "n": "Términos que mueven dinero y control",
+   "s": "Más allá de la valoración, la preferencia, la participación, la protección antidilución, los dividendos, el pay-to-play y los derechos de control deciden quién cobra y quién decide."
+  },
+  {
+   "en": "Founder equity hygiene",
+   "src": "1e83c0cc17b7",
+   "n": "Higiene del capital de los fundadores",
+   "s": "Haz que las acciones de los fundadores se consoliden en cuatro años con un período mínimo de un año, presenta la elección 83(b) dentro de 30 días, y constituye una C corporation para mantener disponible el QSBS."
+  },
+  {
+   "en": "The idea scorecard",
+   "src": "3645b2b155b0",
+   "n": "La tarjeta de evaluación de ideas",
+   "s": "Aplica cuatro filtros de aprobado o reprobado antes de puntuar una idea, y luego puntúa a las sobrevivientes con seis criterios ponderados, sabiendo que solo dos tienen investigación detrás."
+  },
+  {
+   "en": "Getting to a paying exit",
+   "src": "3126514a328c",
+   "n": "Llegar a una salida que pague",
+   "s": "La mayoría de los pagos a fundadores viene de adquisiciones, así que cultiva compradores desde temprano, mantén pequeño el total de preferencias, y modela cada término de una oferta, no solo el precio."
+  }
+ ]
+}

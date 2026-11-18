@@ -1,0 +1,85 @@
+{
+ "topic": "gtm",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The motion map",
+   "src": "2b080b5aeeb6",
+   "n": "El mapa de los modelos de venta",
+   "s": "Cuánto paga un cliente y quién firma el cheque deciden tu modelo de salida al mercado; el tipo de producto es solo la rama de abajo."
+  },
+  {
+   "en": "Pick a beachhead",
+   "src": "5a4e3440200b",
+   "n": "Elige una cabeza de playa",
+   "s": "Gana por completo un segmento estrecho antes de expandirte, porque los compradores convencionales compran por referencias de gente como ellos."
+  },
+  {
+   "en": "Position against the real alternative",
+   "src": "36bd32dbb846",
+   "n": "Posiciónate frente a la alternativa real",
+   "s": "El posicionamiento empieza por lo que harían los clientes sin ti, y luego nombra tu valor único, a quién le importa más, y la categoría que lo hace evidente."
+  },
+  {
+   "en": "Find the one channel",
+   "src": "94b3a8410ce9",
+   "n": "Encuentra el canal",
+   "s": "La mayoría de las empresas gana a través de un canal dominante, así que prueba varios a bajo costo y luego concéntrate en el que funciona."
+  },
+  {
+   "en": "Consumer software",
+   "src": "e80fcb6229c3",
+   "n": "Software para consumidores",
+   "s": "Las aplicaciones de consumo viven primero de la retención y después de la adquisición barata, porque las instalaciones pagadas solo rinden cuando un usuario vale más de lo que cuesta."
+  },
+  {
+   "en": "Physical products",
+   "src": "4bf4d15f8ca0",
+   "n": "Productos físicos",
+   "s": "Los bienes físicos son un juego de flujo de efectivo y de canal: prueba la demanda a bajo costo, modela el margen de contribución por unidad, y financia el canal antes de que te pague."
+  },
+  {
+   "en": "SMB software",
+   "src": "fc7f36a3c27e",
+   "n": "Software para pequeñas empresas",
+   "s": "Las pequeñas empresas compran por confianza entre pares, encaje con su trabajo diario y un cambio sin dolor, así que las herramientas verticales ganan por redes e integraciones de la industria y las horizontales por adopción guiada por el producto."
+  },
+  {
+   "en": "Founder-led enterprise sales",
+   "src": "fd4a006e9b49",
+   "n": "Ventas empresariales lideradas por el fundador",
+   "s": "El fundador vende los primeros contratos empresariales hasta que el camino al cierre sea repetible, porque ese camino es lo que el primer vendedor debe copiar."
+  },
+  {
+   "en": "Regulated buyers",
+   "src": "f91c0e5dfc0e",
+   "n": "Compradores regulados",
+   "s": "Salud y gobierno agregan regulación, integración y vehículos de contratación a la venta empresarial, así que la preparación en cumplimiento y la prueba de valor van antes de la primera reunión."
+  },
+  {
+   "en": "Marketplaces",
+   "src": "02d4d10e7556",
+   "n": "Marketplaces",
+   "s": "Un marketplace debe alcanzar liquidez primero en un nicho estrecho, normalmente sembrando a mano el lado más difícil."
+  },
+  {
+   "en": "Services first",
+   "src": "0cbb8fcbe777",
+   "n": "Primero, servicios",
+   "s": "Vender un servicio genera dinero desde el primer cliente y revela el mercado, y productizarlo con alcance, proceso y precio fijos lo vuelve repetible sin construir software todavía."
+  },
+  {
+   "en": "Unit economics and price",
+   "src": "f42ac3a65bea",
+   "n": "Economía unitaria y precio",
+   "s": "El precio fija tu escalón, y el negocio funciona solo cuando la utilidad bruta de cada cliente recupera lo que costó ganarlo, lo bastante rápido para financiar el crecimiento."
+  },
+  {
+   "en": "Prove demand",
+   "src": "470c5eb24578",
+   "n": "Prueba la demanda",
+   "s": "Trata como evidencia solo los compromisos: pregunta por comportamientos pasados, no por opiniones sobre tu idea, y escala solo cuando los usuarios extrañarían el producto."
+  }
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "topic": "workato",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "The Workato map",
+   "src": "76be3a54fca1",
+   "n": "El mapa de Workato",
+   "s": "Workato es integración de aplicaciones guiada por eventos: un disparador crea un job, las acciones transforman y entregan, las reejecuciones repiten el evento guardado, y los entornos, roles y la medición por tareas lo gobiernan; las cargas ELT pesadas por lotes van en el almacén de datos."
+  },
+  {
+   "en": "Mapping ADF to Workato",
+   "src": "55e589077c8b",
+   "n": "De ADF a Workato",
+   "s": "Al salir de Azure Data Factory, relaciona cada pieza de ADF con su equivalente en Workato, y cambia de plataforma todo lo masivo o analítico en vez de trasladarlo."
+  },
+  {
+   "en": "Triggers and jobs",
+   "src": "a4365fe59097",
+   "n": "Disparadores y jobs",
+   "s": "Cada evento de un disparador se convierte en un job, así que elige disparadores en tiempo real si importa la latencia y de sondeo si importa la simplicidad, y filtra con condiciones de disparo para que los eventos no deseados nunca se vuelvan jobs."
+  },
+  {
+   "en": "Failures, retries and reruns",
+   "src": "f6d8bac0762d",
+   "n": "Fallas, reintentos y reejecuciones",
+   "s": "Envuelve los pasos riesgosos en un bloque Monitor con reintentos cortos, termina los caminos fallidos con Stop job para que las fallas sigan visibles, y diseña las escrituras para que resistan reejecuciones que repiten el evento guardado."
+  },
+  {
+   "en": "Concurrency and limits",
+   "src": "ccfa47dc4a12",
+   "n": "Concurrencia y límites",
+   "s": "Fija la concurrencia de cada receta a propósito: 1 conserva el orden de los eventos, más sube el rendimiento pero exige pasos idempotentes que no dependan del orden, y cada job corre dentro de tiempos límite y límites del plan."
+  },
+  {
+   "en": "Reaching on-prem systems",
+   "src": "d75f763c484f",
+   "n": "Llegar a sistemas locales",
+   "s": "El agente local corre dentro de tu red y permite que las conexiones lleguen a bases de datos y carpetas privadas sin abrir puertos de entrada en el firewall, así que usa al menos dos por grupo."
+  },
+  {
+   "en": "Compose recipes",
+   "src": "5dade9b32c37",
+   "n": "Componer recetas",
+   "s": "Arma las integraciones con piezas reutilizables: funciones de receta para la lógica compartida, flujos de eventos para repartir un evento a muchos consumidores, y recetas de API para exponer lógica, con cada pieza pequeña."
+  },
+  {
+   "en": "Extend and store",
+   "src": "f546b64e9f65",
+   "n": "Extender y almacenar",
+   "s": "Usa el conector HTTP para APIs puntuales y el Connector SDK cuando una API se reutiliza, y guarda los datos de referencia en tablas de búsqueda, el estado que cambia en tablas de datos, y las reglas compartidas en modelos de decisión."
+  },
+  {
+   "en": "Promotion and access",
+   "src": "951de10f2ccc",
+   "n": "Promoción y acceso",
+   "s": "Edita solo en desarrollo, despliega los proyectos a pruebas y producción, y da acceso con roles de proyecto asignados a grupos, porque los despliegues sobrescriben lo editado en el destino y nunca borran lo que quitaste."
+  },
+  {
+   "en": "PHI controls",
+   "src": "bcda49576c4a",
+   "n": "Controles para datos de salud (PHI)",
+   "s": "Para datos PHI: firma el BAA, enmascara los pasos sensibles, acorta la retención de datos de los jobs, toma las credenciales de un gestor de secretos, y envía los registros de auditoría a tu SIEM."
+  },
+  {
+   "en": "Agents need a governed gateway",
+   "src": "e03031320e4c",
+   "n": "Los agentes necesitan una puerta gobernada",
+   "s": "Expón los sistemas internos a los agentes de IA con herramientas acotadas y gobernadas, con identidad por usuario, acceso a herramientas por rol y auditoría, en vez de credenciales amplias."
+  },
+  {
+   "en": "Task metering",
+   "src": "7db4cb0cbbcc",
+   "n": "Medición por tareas",
+   "s": "Workato cobra sobre todo por tareas, una por cada acción exitosa, así que pasos por job multiplicados por volumen de jobs es tu modelo de costo, y los bucles son donde se dispara."
+  }
+ ]
+}

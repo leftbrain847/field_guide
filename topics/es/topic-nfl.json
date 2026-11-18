@@ -1,0 +1,163 @@
+{
+ "topic": "nfl",
+ "language": "es",
+ "note": "Spanish name and summary per concept, for Listen's Español option. src fingerprints the English it was translated from; a changed name or summary makes that line stale and the page reads the English instead.",
+ "concepts": [
+  {
+   "en": "Scoring values, the field and the try",
+   "src": "ac9832af566d",
+   "n": "Valores de anotación, el campo y la conversión",
+   "s": "Un touchdown vale 6, un gol de campo 3 y un safety 2, y después de un touchdown el equipo que anotó intenta 1 punto con una patada desde la yarda 15 o 2 puntos con una jugada desde la yarda 2."
+  },
+  {
+   "en": "Regular-season overtime",
+   "src": "045504861b8a",
+   "n": "Tiempo extra en temporada regular",
+   "s": "El tiempo extra de temporada regular es un periodo de 10 minutos en el que ambos equipos tienen una posesión, salvo que la defensa anote en la primera; después, la siguiente anotación gana, y si sigue empatado al final, termina en empate."
+  },
+  {
+   "en": "Postseason overtime",
+   "src": "ab375030e7eb",
+   "n": "Tiempo extra en postemporada",
+   "s": "El tiempo extra de playoffs usa periodos de 15 minutos con una posesión garantizada para ambos equipos, luego muerte súbita, y se sigue jugando hasta que alguien gane."
+  },
+  {
+   "en": "Touchbacks across play types",
+   "src": "2a8c0ff6bbc6",
+   "n": "Touchbacks según el tipo de jugada",
+   "s": "Dónde queda el balón tras un touchback depende de la jugada: una patada de salida a la zona de anotación sale a la yarda 35, una que cae en la zona de aterrizaje y rueda hasta adentro sale a la 20, y los despejes y las pérdidas de balón en la zona de anotación salen a la 20."
+  },
+  {
+   "en": "When the game clock stops and starts",
+   "src": "0a0d17ec51e7",
+   "n": "Cuándo se detiene y arranca el reloj",
+   "s": "El reloj se detiene con pases incompletos, jugadas que salen del campo, anotaciones, tiempos fuera, castigos y cambios de posesión, y al final de cada mitad una jugada fuera del campo mantiene el reloj detenido hasta el centro en vez de reiniciarlo con la señal de listo."
+  },
+  {
+   "en": "Two-minute warning and the 10-second runoff",
+   "src": "06bccfc49988",
+   "n": "Aviso de dos minutos y el descuento de 10 segundos",
+   "s": "El reloj se detiene automáticamente a los dos minutos de cada mitad y del tiempo extra, y dentro de esos dos minutos ciertas faltas ofensivas y revocaciones por repetición provocan un descuento de 10 segundos que un tiempo fuera puede cancelar."
+  },
+  {
+   "en": "Timeouts, injuries and end-of-half extensions",
+   "src": "57f404436741",
+   "n": "Tiempos fuera, lesiones y jugadas sin tiempo al final de la mitad",
+   "s": "Cada equipo tiene tres tiempos fuera por mitad, dos en el tiempo extra de temporada regular, y una mitad no puede terminar con una falta defensiva aceptada, lo que le da a la ofensiva una jugada sin tiempo."
+  },
+  {
+   "en": "The dynamic kickoff: alignment and landing zone",
+   "src": "637c8b148724",
+   "n": "La patada de salida dinámica: formación y zona de aterrizaje",
+   "s": "En la patada de salida dinámica, el equipo que cubre se alinea en la yarda 40 del equipo receptor y los bloqueadores en una zona de preparación entre la 30 y la 35, y nadie salvo los regresadores puede moverse hasta que el balón toque el suelo o a un jugador en la zona de aterrizaje."
+  },
+  {
+   "en": "Kickoff outcomes and spots",
+   "src": "10543f4af995",
+   "n": "Resultados y ubicación en la patada de salida",
+   "s": "Una patada que cae antes de la zona de aterrizaje o sale del campo le da al equipo receptor el balón en su yarda 40, una patada en la zona de aterrizaje debe regresarse, y un touchback en la zona de anotación sale a la 35."
+  },
+  {
+   "en": "Onside kicks in 2026",
+   "src": "8aa33c565a1e",
+   "n": "Patadas cortas en 2026",
+   "s": "Desde 2026 cualquier equipo puede intentar una patada corta en cualquier momento y con cualquier marcador, pero debe avisar a los oficiales antes, así que las patadas cortas por sorpresa siguen siendo ilegales."
+  },
+  {
+   "en": "Punts, fair catches and field goals",
+   "src": "6462963d58e4",
+   "n": "Despejes, recepciones libres y goles de campo",
+   "s": "Los despejes y los goles de campo son patadas desde la línea de golpeo, así que un despeje a la zona de anotación, o un gol de campo fallado desde la 20 o más cerca, sale a la 20, y un fallo más largo le da al rival el balón en el lugar de la patada."
+  },
+  {
+   "en": "Downs, the line to gain and turnover on downs",
+   "src": "1f5d4911bf7f",
+   "n": "Oportunidades, la línea por avanzar y la pérdida por downs",
+   "s": "La ofensiva tiene cuatro oportunidades para llegar a la línea por avanzar, y si falla en cuarta oportunidad, la defensa toma el balón donde terminó la jugada."
+  },
+  {
+   "en": "The tush push and assisting the runner",
+   "src": "cc3f24c169c6",
+   "n": "El tush push y la ayuda al corredor",
+   "s": "El tush push sigue siendo legal en 2026, porque ningún equipo propuso prohibirlo después de que la votación de 2025 se quedó a dos votos de aprobarse."
+  },
+  {
+   "en": "Fourth-down rule set for decision models",
+   "src": "18fea329c96f",
+   "n": "Las reglas de cuarta oportunidad para modelos de decisión",
+   "s": "Las reglas que más importan en cuarta oportunidad son el lugar de la pérdida por downs, el lugar tras un gol de campo fallado, la restricción del balón suelto en cuarta oportunidad, y los castigos que dan primera oportunidad o mueven el balón."
+  },
+  {
+   "en": "The catch process",
+   "src": "5af2870854c9",
+   "n": "El proceso de recepción",
+   "s": "Una recepción exige control del balón antes de que toque el suelo, ambos pies u otra parte del cuerpo dentro del campo, y un movimiento propio del futbol americano o tiempo suficiente para hacerlo."
+  },
+  {
+   "en": "Forward passes, backward passes and intentional grounding",
+   "src": "36d60c848260",
+   "n": "Pases hacia adelante, pases hacia atrás y lanzamiento intencional al suelo",
+   "s": "Solo se permite un pase hacia adelante por jugada y solo desde detrás de la línea, los pases hacia atrás se pueden lanzar en cualquier momento, y un pase lanzado para evitar una captura sin receptor cerca es lanzamiento intencional al suelo."
+  },
+  {
+   "en": "Pass interference and illegal contact",
+   "src": "dd026187772e",
+   "n": "Interferencia de pase y contacto ilegal",
+   "s": "La interferencia defensiva de pase se castiga en el lugar de la falta con primera oportunidad automática, el contacto ilegal es de 5 yardas y primera oportunidad, y la interferencia ofensiva es de 10 yardas desde el lugar anterior."
+  },
+  {
+   "en": "Fumbles, recoveries and the late-game fumble rule",
+   "src": "4584c5390602",
+   "n": "Balones sueltos, recuperaciones y la regla de final de partido",
+   "s": "Cualquier equipo puede recuperar y avanzar un balón suelto, salvo que en cuarta oportunidad o después del aviso de dos minutos solo el jugador que lo soltó puede avanzar un balón suelto de su propio equipo."
+  },
+  {
+   "en": "Safeties",
+   "src": "fc886bf957e9",
+   "n": "Safeties",
+   "s": "Un safety le da 2 puntos a la defensa cuando el balón queda muerto detrás de la propia línea de gol de la ofensiva por impulso de la propia ofensiva, y luego el equipo que recibió la anotación patea desde su yarda 20."
+  },
+  {
+   "en": "Enforcement spots: basic spot and the three-and-one principle",
+   "src": "906919659bb3",
+   "n": "Lugar de aplicación: el punto básico y el principio de tres y uno",
+   "s": "La mayoría de las faltas se aplican desde un punto básico que depende del tipo de jugada, salvo las faltas de la ofensiva detrás de ese punto, que se aplican desde el lugar de la falta."
+  },
+  {
+   "en": "Accept or decline, half the distance and double fouls",
+   "src": "590f962ad18b",
+   "n": "Aceptar o declinar, la mitad de la distancia y faltas dobles",
+   "s": "El equipo afectado elige entre aceptar el castigo o el resultado de la jugada, ningún castigo puede mover el balón más de la mitad de la distancia a la línea de gol del infractor, y las faltas de ambos equipos suelen compensarse."
+  },
+  {
+   "en": "Fouls on scoring plays and the next kickoff",
+   "src": "9d68e934cd59",
+   "n": "Faltas en jugadas de anotación y la siguiente patada de salida",
+   "s": "Con las reglas de la patada de salida dinámica, una falta del rival durante un touchdown se aplica en la conversión, y las faltas durante un gol de campo, un safety o una conversión exitosa pasan a la patada de salida moviendo el punto de la patada."
+  },
+  {
+   "en": "Player safety fouls: hip-drop, helmet, roughing and conduct",
+   "src": "4d7bd3d750be",
+   "n": "Faltas de seguridad del jugador: hip-drop, casco, rudeza y conducta",
+   "s": "Las faltas graves de seguridad del jugador son de 15 yardas con primera oportunidad automática cuando las comete la defensa, y desde 2026 la oficina de la liga puede ordenar una expulsión por un acto flagrante que los oficiales no vieron."
+  },
+  {
+   "en": "Coach challenges and booth reviews",
+   "src": "0da19cc9fa54",
+   "n": "Desafíos de los entrenadores y revisiones desde la cabina",
+   "s": "Cada entrenador tiene dos desafíos y un tercero si al menos uno prospera, mientras que la cabina revisa todas las anotaciones y pérdidas de balón y asume todas las revisiones en los últimos dos minutos de cada mitad y en el tiempo extra."
+  },
+  {
+   "en": "Replay assist and league-office intervention",
+   "src": "4214fc8a289f",
+   "n": "Asistencia de repetición e intervención de la liga",
+   "s": "La asistencia de repetición permite a la cabina y a la oficina de la liga corregir errores objetivos y, desde 2025, revertir ciertos castigos, y desde 2026 también pueden impulsar expulsiones por actos flagrantes no marcados."
+  },
+  {
+   "en": "Every 2026 rule change",
+   "src": "8aab70f76082",
+   "n": "Todos los cambios de reglas de 2026",
+   "s": "Los dueños aprobaron cinco cambios de reglas de juego para 2026 en la reunión de marzo en Phoenix; cuatro están en el reglamento de 2026, y el quinto, un plan de contingencia para oficiales de reemplazo, nunca entró en vigor."
+  }
+ ]
+}
