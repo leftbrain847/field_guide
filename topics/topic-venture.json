@@ -178,7 +178,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<p>Carta data: median dilution about 20% at seed and at Series A; median founding-team ownership about 56% after seed and 36% after Series A; under 10% of 2025 software seeds sold 30% or more.</p><ul><li><b>Option pool shuffle</b>: a pool created in the pre-money dilutes only existing holders, lowering the effective price.</li><li><b>SAFE</b> (Y Combinator): not debt; converts at the next priced round at the better of cap or discount. A post-money SAFE fixes the holder's stake ($1M at a $10M cap = 10%), so all SAFE dilution falls on founders, then stacks with the round.</li></ul>",
+     "b": "<p>Carta data: median dilution about 20% at seed and at Series A; median founding-team ownership about 56% after seed and 36% after Series A; under 10% of 2025 software seeds sold 30% or more.</p><ul><li><b>Option pool shuffle</b>: a pool created in the pre-money dilutes only existing holders, lowering the effective price.</li><li><b>SAFE</b> (Y Combinator): not debt; converts at the next priced round at the better of cap or discount. A post-money SAFE fixes the holder's stake ($1M at a $10M cap = 10%), so all SAFE dilution falls on founders, then stacks with the round.</li><li><b>Convertible notes</b> are debt with interest and a maturity date; at maturity, principal plus interest comes due unless it converts or is extended.</li></ul>",
      "c": []
     },
     {
