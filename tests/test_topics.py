@@ -104,3 +104,17 @@ def test_concept_cap():
     assert set(LIMITS["enforced"]) <= set(LIMITS["topic_targets"])
     if set(LIMITS["enforced"]) == set(LIMITS["topic_targets"]):
         assert total <= LIMITS["total_concept_cap"]
+
+
+def test_every_topic_has_a_current_recording():
+    """Listen's recorded summaries must match the text: changing a concept's name or summary without re-recording
+    would silently drop that topic to the device voice (silent in the Claude app). Fix: python3 build/audio.py."""
+    spec = importlib.util.spec_from_file_location("fg_audio", ROOT / "build" / "audio.py")
+    audio = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(audio)
+    order = re.search(r"^ORDER = \[(.*)\]$", BUILD, re.M).group(1)
+    for tid in re.findall(r'"([a-z0-9_]+)"', order):
+        meta = ROOT / "audio" / "summary" / f"{tid}.json"
+        assert meta.exists(), f"{tid}: no recording; run python3 build/audio.py {tid}"
+        t = json.loads((ROOT / "topics" / f"topic-{tid}.json").read_text())
+        assert json.loads(meta.read_text())["hash"] == audio.topic_hash(t), f"{tid}: recording is stale; run python3 build/audio.py {tid}"
