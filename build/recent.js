@@ -34,11 +34,11 @@ const Recent = (() => {
     return d + "d ago";
   }
 
-  // Which topics may be suggested: built topics, minus excluded topic ids or category keys.
-  function eligible(cats, topicById, exclude){
-    const skip = new Set(exclude || []);
-    return cats.filter(c => !skip.has(c.key)).flatMap(c => c.topics)
-      .filter(id => topicById[id] && !topicById[id].placeholder && !skip.has(id));
+  // Which topics are ranked: built topics, minus excluded topics and categories (kept apart: an id can be both).
+  function eligible(cats, topicById, excludeTopics, excludeCategories){
+    const noT = new Set(excludeTopics || []), noC = new Set(excludeCategories || []);
+    return cats.filter(c => !noC.has(c.key)).flatMap(c => c.topics)
+      .filter(id => topicById[id] && !topicById[id].placeholder && !noT.has(id));
   }
 
   function touch(stamps, id, now){ return { ...(stamps || {}), [id]: now }; }

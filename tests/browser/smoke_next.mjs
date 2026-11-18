@@ -54,6 +54,6 @@ for (const c of await p.$$eval('.cat', x => x.map(t => t.dataset.key))) {
   for (const m of ['#modeRead', '#modeNext']) { await p.click(m); hs.push(await p.evaluate(() => document.querySelector('.bar').offsetHeight)); }
   check(hs[0] === hs[1], `${c}: nav height Read ${hs[0]} = Next ${hs[1]}`);
 }
-await p.evaluate(() => scrollTo(0, 0)); await p.screenshot({ path: 'shot-next.png' });
+await p.evaluate(() => scrollTo(0, 0)); await p.screenshot({ path: (process.env.TMPDIR || '/tmp') + '/shot-next.png' });
 check(errs.length === 0, 'no page errors ' + JSON.stringify(errs));
 await b.close();

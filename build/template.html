@@ -251,10 +251,10 @@ body.has-lbar{padding-bottom:130px}
 
   <section id="nextView" hidden style="flex-direction:column;gap:8px">
     <p class="nexthint">Whole topics, the one you've gone longest without first. Opening a concept, grading a card or playing one counts as a use; this browser keeps the record.</p>
-    <p class="nexthead" id="nextHead">Review next</p>
-    <ol class="nextlist" id="nextList"></ol>
-    <p class="nexthead" id="freshHead">Not started</p>
-    <ol class="nextlist" id="freshList"></ol>
+    <h2 class="nexthead" id="nextHead">Review next</h2>
+    <ol class="nextlist" id="nextList" aria-labelledby="nextHead"></ol>
+    <h2 class="nexthead" id="freshHead">Not started</h2>
+    <ol class="nextlist" id="freshList" aria-labelledby="freshHead"></ol>
   </section>
 
   <section id="listenView" hidden style="flex-direction:column;gap:12px">
@@ -350,7 +350,9 @@ const CONFIG = {
   },
   staleAfterDays: 90,          // default; a topic's refreshDays overrides. Show a "refresh recommended" chip after this many days
   next: {                      // Next mode: every topic ranked by how long since you last used it, so study rotates
-    exclude: [],               // topic ids or category keys left out of the list (e.g. "medicine")
+    excludeTopics: [],         // topic ids left out of the list (e.g. "nfl")
+    excludeCategories: [],     // category keys left out of the list (e.g. "medicine")
+    minGapMs: 60000,           // a topic's clock resets at most once a minute
     countsAs: ["read", "study", "listen"],   // uses that reset a topic's clock: opening a concept, grading a card, playing a concept
     openIn: "read",            // mode a tapped topic opens in
     showDue: true,             // show each topic's due flashcards
@@ -889,7 +891,7 @@ function speakPart(){
   const v = chosenVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LC.voice.preferredLangs[0];
   u.rate = lp.speed;
   const my = ++lgen;
-  u.onstart = () => { if (my === lgen) { clearTimeout(lwatch); setStatus(""); } };
+  u.onstart = () => { if (my === lgen) { clearTimeout(lwatch); setStatus(""); markUsed(it.tid, "listen"); } };
   u.onend = () => { if (my === lgen && lplaying) { clearTimeout(lwatch); advance(); } };
   u.onerror = e => {
     if (my !== lgen || !lplaying || e.error === "interrupted" || e.error === "canceled") return;
@@ -919,11 +921,10 @@ const recFor = it => (it && lp.content === "summary" ? Listen.recSpan(REC, it.ti
 const sameFile = f => player.src && decodeURI(player.src).endsWith(f);
 function startItem(){
   const it = lq[li]; if (!it) { stopListen(); return; }
-  markUsed(it.tid, "listen");
   const r = recFor(it);
-  if (r) playRec(r); else { if (!player.paused) player.pause(); speakPart(); }
+  if (r) playRec(r, it); else { if (!player.paused) player.pause(); speakPart(); }
 }
-function playRec(r){
+function playRec(r, it){
   const my = ++lgen; recGen = my; recCur = r;
   if (synth && (synth.speaking || synth.pending)) synth.cancel();
   if (!sameFile(r.file)) player.src = LC.audioBase + r.file;
@@ -932,6 +933,7 @@ function playRec(r){
   if (player.readyState >= 1) seek(); else player.addEventListener("loadedmetadata", seek, { once: true });
   setStatus("");
   const pr = player.play();
+  if (pr) pr.then(() => { if (my === lgen) markUsed(it.tid, "listen"); }, () => {});   // count it only once sound starts
   if (pr) pr.catch(e => { if (my === lgen && lplaying) { stopListen(); setStatus("The recording didn't start (" + e.name + "). Tap play again."); } });
 }
 function onRecEnd(){
@@ -1020,12 +1022,13 @@ if (!synth) $("lHint").textContent += " This browser has no device voice, so onl
 // starting to play (Listen); just landing on a topic doesn't count. Stamps live in this browser only.
 const NX = CONFIG.next;
 let recent = (() => { try { return JSON.parse(localStorage.getItem(NX.storageKey) || "{}") || {}; } catch (e) { return {}; } })();
-const NX_IDS = Recent.eligible(CATS, TOPIC_BY_ID, NX.exclude);
+const NX_IDS = Recent.eligible(CATS, TOPIC_BY_ID, NX.excludeTopics, NX.excludeCategories);
 function markUsed(id, kind){
-  if (!NX.countsAs.includes(kind) || !NX_IDS.includes(id)) return;
-  recent = Recent.touch(recent, id, Date.now());
+  const now = Date.now();
+  if (!NX.countsAs.includes(kind) || !NX_IDS.includes(id) || now - (recent[id] || 0) < NX.minGapMs) return;   // Expand all or a playing queue: one stamp, not dozens
+  recent = Recent.touch(recent, id, now);
   try { localStorage.setItem(NX.storageKey, JSON.stringify(recent)); } catch (e) {}
-  if (ui.mode === "next") renderNext();
+  if (ui.mode === "next" && !document.getElementById("nextView").contains(document.activeElement)) renderNext();   // don't reorder rows under a focused row
 }
 function dueIn(id){ const now = Date.now(); return CARDS[id].reduce((n, k) => { const st = cardState(k); return n + (st && st.due <= now ? 1 : 0); }, 0); }
 function nextRow(id, rank, ageText){

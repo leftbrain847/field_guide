@@ -14,13 +14,13 @@ The index's homepage copies `web/mastery_field_guide.html` from `main` nightly (
 pip install pytest && pytest -q     # every topic file is well formed and wired in, and the committed page is current
 node --test                         # snapshot script tests
 ```
-`node --test` also covers Listen mode's logic (`tests/listen.test.mjs`) and Next mode's ranking (`tests/recent.test.mjs`). Browser smoke checks at phone width (not in CI): `PWMOD=$(npm root -g)/playwright node tests/browser/smoke_categories.mjs $PWD/web/mastery_field_guide.html`, and `node tests/browser/smoke_listen.mjs $PWD/web/mastery_field_guide.html shot.png` (Listen with a fake speech engine). `smoke_next.mjs` takes the same argument and checks Next mode end to end.
+`node --test` also covers Listen mode's logic (`tests/listen.test.mjs`) and Next mode's ranking (`tests/recent.test.mjs`). Browser smoke checks at phone width (not in CI): `PWMOD=$(npm root -g)/playwright node tests/browser/smoke_categories.mjs $PWD/web/mastery_field_guide.html`, and `node tests/browser/smoke_listen.mjs $PWD/web/mastery_field_guide.html shot.png` (Listen with a fake speech engine). `smoke_next.mjs` and `smoke_next_listen.mjs` take the same argument and check Next mode end to end.
 
 ## Deployed
 - Live: https://leftbrain847.github.io/mastery_field_guide/ (once the index points at this repo)
 
 ## Next
-A fourth mode: every built topic ranked by how long since you last used it, so daily study rotates across whole topics. **Review next** lists started topics, longest-unused first, with due flashcards; **Not started** keeps untouched topics apart so they don't crowd the list. A use is opening a concept, grading a card or a concept playing in Listen; landing on a tab doesn't count. Uses are kept in this browser only. Settings: `CONFIG.next` (exclusions, what counts, where a tap opens); logic in `build/recent.js`.
+A fourth mode: every built topic ranked by how long since you last used it, so daily study rotates across whole topics. **Review next** lists started topics, longest-unused first, with due flashcards; **Not started** keeps untouched topics apart so they don't crowd the list. A use is opening a concept, grading a card or a concept playing in Listen; landing on a tab doesn't count. Uses are kept in this browser only. A topic's clock resets at most once a minute, and Listen counts a concept only once sound actually starts. Settings: `CONFIG.next` (excluded topics and categories, what counts, where a tap opens, due counts); logic in `build/recent.js`.
 
 ## Listen
 A third mode beside Read and Study, modelled on comprehensible_input's player. Tick topics, groups or single concepts (the selection spans the whole guide), choose **Summaries** or **Full notes**, and press play. The bottom bar shows what is playing (tap it for the queue), then repeat (each concept ×2, ×3, off), previous, play/pause, next and speed (0.8–2×).

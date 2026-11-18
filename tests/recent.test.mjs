@@ -1,4 +1,5 @@
 // Next mode logic (build/recent.js, inlined into the page by build/build.py).
+process.env.TZ = "America/New_York";   // day math must hold across DST in the reader's zone, not just UTC
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -32,11 +33,17 @@ test("label counts calendar days, so last night is 1d ago, not today", () => {
   assert.equal(R.label(now - 12 * DAY, now), "12d ago");
 });
 
-test("eligible skips planned topics and excluded topics or categories", () => {
-  const cats = [{ key: "data", topics: ["a", "p"] }, { key: "med", topics: ["m"] }, { key: "mind", topics: ["e", "h"] }];
-  const byId = { a: {}, p: { placeholder: true }, m: {}, e: {}, h: {} };
-  assert.deepEqual(R.eligible(cats, byId, []), ["a", "m", "e", "h"]);
-  assert.deepEqual(R.eligible(cats, byId, ["med", "h"]), ["a", "e"]);
+test("label stays in calendar days across DST changes", () => {
+  assert.equal(R.label(new Date(2026, 2, 7, 23, 30).getTime(), new Date(2026, 2, 8, 9, 0).getTime()), "1d ago");    // spring forward
+  assert.equal(R.label(new Date(2026, 9, 31, 12, 0).getTime(), new Date(2026, 10, 2, 0, 30).getTime()), "2d ago");  // fall back
+});
+
+test("eligible skips planned topics, excluded topics and excluded categories separately", () => {
+  const cats = [{ key: "data", topics: ["a", "p"] }, { key: "venture", topics: ["venture", "g"] }, { key: "mind", topics: ["e", "h"] }];
+  const byId = { a: {}, p: { placeholder: true }, venture: {}, g: {}, e: {}, h: {} };
+  assert.deepEqual(R.eligible(cats, byId, [], []), ["a", "venture", "g", "e", "h"]);
+  assert.deepEqual(R.eligible(cats, byId, ["venture", "h"], []), ["a", "g", "e"]);   // the topic, not its category
+  assert.deepEqual(R.eligible(cats, byId, [], ["venture"]), ["a", "e", "h"]);
 });
 
 test("touch returns a new stamp map and leaves the old one alone", () => {
