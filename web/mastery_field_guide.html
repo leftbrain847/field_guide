@@ -1208,7 +1208,8 @@ let recent = (() => { try { return JSON.parse(localStorage.getItem(NX.storageKey
 const NX_IDS = Recent.eligible(CATS, TOPIC_BY_ID, NX.excludeTopics, NX.excludeCategories);
 function markUsed(id, kind){
   const now = Date.now();
-  if (!NX.countsAs.includes(kind) || !NX_IDS.includes(id) || now - (recent[id] || 0) < NX.minGapMs) return;   // Expand all or a playing queue: one stamp, not dozens
+  const prev = recent[id] || 0;   // a stamp from the future (clock set back) never blocks a new one
+  if (!NX.countsAs.includes(kind) || !NX_IDS.includes(id) || (prev <= now && now - prev < NX.minGapMs)) return;   // Expand all or a playing queue: one stamp, not dozens
   recent = Recent.touch(recent, id, now);
   try { localStorage.setItem(NX.storageKey, JSON.stringify(recent)); } catch (e) {}
   if (ui.mode === "next" && !document.getElementById("nextView").contains(document.activeElement)) renderNext();   // don't reorder rows under a focused row

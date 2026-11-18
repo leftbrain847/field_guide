@@ -34,7 +34,8 @@ test("label counts calendar days, so last night is 1d ago, not today", () => {
 });
 
 test("label stays in calendar days across DST changes", () => {
-  assert.equal(R.label(new Date(2026, 2, 7, 23, 30).getTime(), new Date(2026, 2, 8, 9, 0).getTime()), "1d ago");    // spring forward
+  assert.equal(R.label(new Date(2026, 2, 8, 23, 30).getTime(), new Date(2026, 2, 9, 9, 0).getTime()), "1d ago");    // across the 23-hour day
+  assert.equal(R.label(new Date(2026, 2, 7, 12, 0).getTime(), new Date(2026, 2, 9, 0, 30).getTime()), "2d ago");    // spanning spring forward
   assert.equal(R.label(new Date(2026, 9, 31, 12, 0).getTime(), new Date(2026, 10, 2, 0, 30).getTime()), "2d ago");  // fall back
 });
 
