@@ -231,7 +231,7 @@
    "x": [
     {
      "t": "Model",
-     "b": "<p>Anyone responsible for a contribution that affects results is an executive, manager or not. Redefine your contribution in every new job, and ask who uses your output.</p><p>Staffing: start from what a person does uncommonly well; design jobs by task, not personality; accept weaknesses to get strengths, never a lack of integrity. A job that defeats two or three good people in a row is badly designed.</p>",
+     "b": "<p>Anyone responsible for a contribution that affects results is an executive, manager or not. Redefine your contribution in every new job, and ask who uses your output.</p><p>Staffing: start from what a person does uncommonly well; design jobs by task, not personality; accept weaknesses to get strengths, never a lack of integrity. A job that defeats two or three good people in a row is badly designed.</p><p>Put opportunities on page one and problems on page two; staff opportunities with your best people (Drucker, HBR 2004).</p>",
      "c": []
     },
     {
@@ -317,6 +317,38 @@
     {
      "q": "A strategy funds every team's wish list. What is missing?",
      "a": "Real resource allocation: a strategy should hurt by saying no."
+    }
+   ]
+  },
+  {
+   "n": "Lead the team",
+   "g": "company",
+   "s": "Hughes Johnson: build trust through self-awareness and candor, manage each person by their skill and will, and keep only high-stakes, irreversible decisions for yourself.",
+   "x": [
+    {
+     "t": "Model",
+     "b": "<ul><li><b>Four operating principles</b>: build self-awareness to build mutual awareness; say the thing you think you cannot say; distinguish management (running the system) from leadership (changing it); come back to the operating system.</li><li><b>Skill and will</b> (from Max Landsberg): too little skill, train or hire; too much (bored), stretch; too little will, reconnect to purpose; too much, help set realistic goals.</li><li><b>Decisions</b>: judge consequence and reversibility; make high-stakes, irreversible calls yourself and delegate the rest as learning.</li></ul>",
+     "c": []
+    },
+    {
+     "t": "Traps",
+     "b": "<div class=\"trap\"><b>Trap:</b> Over-delegating irreversible decisions or under-delegating reversible ones; both slow the team.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Vendor selection with a three-year contract: you decide. Dashboard design: the analyst decides and you review after.</p>",
+     "c": []
+    }
+   ],
+   "cards": [
+    {
+     "q": "A strong engineer finds the work too easy and is bored. Which skill/will case, and the move?",
+     "a": "Too much skill: make their goals more demanding."
+    },
+    {
+     "q": "Which decisions should a scaling leader keep?",
+     "a": "High-stakes, irreversible ones; delegate the rest."
     }
    ]
   },
@@ -441,6 +473,14 @@
   {
    "title": "Alex Murrell: Good Strategy Bad Strategy summary",
    "url": "https://www.alexmurrell.co.uk/summaries/richard-rumelt-good-strategy-bad-strategy"
+  },
+  {
+   "title": "Rotman Insights Hub: Claire Hughes Johnson's four operating principles",
+   "url": "https://www-2.rotman.utoronto.ca/insightshub/talent-management-inclusion/personal-management-principles"
+  },
+  {
+   "title": "Shortform: Scaling People summary (skill and will)",
+   "url": "https://www.shortform.com/pdf/scaling-people-pdf-claire-hughes-johnson"
   }
  ]
 }
