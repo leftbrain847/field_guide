@@ -1,17 +1,21 @@
 {
  "id": "gtm",
  "title": "Go-to-market",
- "updated": "2026-11-14",
+ "updated": "2026-11-18",
  "refreshDays": 365,
- "note": "Launch playbooks organized by motion: who pays and how much decides the playbook, with product type as the branch underneath. Fees, programs and benchmarks change yearly, so refresh annually.",
+ "note": "Launch playbooks ordered by motion: price and buyer pick the motion, then beachhead, positioning, channel, economics and proof. Fees, programs and benchmarks are dated Nov 2026; refresh yearly.",
  "groups": [
   {
    "key": "map",
-   "label": "The motion map"
+   "label": "Map"
+  },
+  {
+   "key": "focus",
+   "label": "Focus"
   },
   {
    "key": "consumer",
-   "label": "Self-serve consumer"
+   "label": "Consumer"
   },
   {
    "key": "smb",
@@ -19,720 +23,404 @@
   },
   {
    "key": "upmarket",
-   "label": "Enterprise, healthcare and government"
+   "label": "Enterprise and regulated"
   },
   {
    "key": "models",
-   "label": "Other business models"
+   "label": "Other models"
   },
   {
-   "key": "launch",
-   "label": "Launch and economics"
+   "key": "economics",
+   "label": "Economics and proof"
   }
  ],
  "concepts": [
   {
-   "n": "The motion ladder",
+   "n": "The motion map",
    "g": "map",
-   "s": "How much one customer pays you, and who signs the check, decides your go-to-market motion more than whether you sell software or a physical product.",
+   "s": "What one customer pays and who signs the check decide your go-to-market motion; product type is only the branch underneath.",
    "x": [
     {
-     "t": "The hierarchy",
-     "b": "<p>Pick the rung first, then the branch. Each rung has its own playbook in this tab.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Self-serve consumer.</b> One person buys with their own money, in seconds, with no salesperson. Branches: apps and games, retail and CPG, DTC and Amazon, consumer hardware.</li><li><b>SMB.</b> An owner or office manager buys for a small business. Branches: vertical SaaS (one industry), horizontal product-led SaaS (any industry).</li><li><b>Mid-market and enterprise.</b> A committee buys after a security review and procurement. Branches: general enterprise, regulated buyers such as healthcare.</li><li><b>Government.</b> Buying follows statute and contract vehicles.</li></ol><p>Marketplaces and services sit across rungs and get their own section.</p>",
-     "c": []
-    },
-    {
-     "t": "The math behind it",
-     "b": "<p>Christoph Janz of Point Nine Capital framed it in his post \"Five ways to build a $100 million business\": you need roughly 1,000 customers paying $100k a year (elephants), 10,000 paying $10k (deer), 100,000 paying $1k (rabbits), 1 million paying $100 (mice), or 10 million monetized at $10 (flies). The price point tells you how much you can spend to win each customer, and that spending budget picks the channel.</p><p>In his 2019 SaaS update Janz dropped the $10 flies, added whales (about $1M a year per customer), and noted that portfolio companies often moved upmarket, rabbits to deer or elephants, when they hit a ceiling.</p>",
-     "c": []
-    },
-    {
-     "t": "What changes between rungs",
-     "b": "<ul><li><b>Who decides:</b> one user, one owner, a buying committee, a contracting officer.</li><li><b>Sales cycle:</b> minutes, days to weeks, months, a year or more.</li><li><b>Trust you must earn before the sale:</b> reviews and price, peer referrals, security reviews and references, compliance certifications.</li><li><b>What you can afford per customer:</b> a few dollars of ads, an inside-sales call, a field rep and solution engineer.</li></ul>",
+     "t": "Model",
+     "b": "<p>Christoph Janz's ladder for a $100M business: about 1,000 customers at $100k a year, 10,000 at $10k, 100,000 at $1k, or 1 million at $100. The price sets how much you can spend to win each customer, and that budget picks the channel.</p><ul><li><b>Self-serve consumer</b>: no salesperson; apps, retail, DTC.</li><li><b>SMB</b>: an owner buys through peers and integrations.</li><li><b>Enterprise and regulated</b>: a committee, security review and procurement.</li><li><b>Government</b>: contract vehicles.</li></ul><p>Then the sequence: beachhead, positioning, channel, unit economics, proof of demand.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Picking a price that lands between rungs. A $3k-a-year product is too expensive for pure self-serve trust and too cheap to pay for a salesperson. In his original post, Janz wrote that hunting rabbits looks less straightforward than hunting flies or elephants.</div><div class=\"trap\"><b>Trap:</b> Treating B2B vs B2C as the main split. A $15 consumer widget and a $9-a-month SMB tool both need zero-touch sales; a $200k hospital deal and a $20k SMB deal share almost nothing.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> The rabbit rung (about $1k a year per customer) is too costly for zero-touch trust and too cheap to pay a salesperson; Janz found rabbits less straightforward to hunt than flies or elephants.</div><div class=\"trap\"><b>Trap:</b> B2B vs B2C as the main split. A $15 widget and a $9-a-month SMB tool share a motion; a $200k hospital deal shares little with either.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Dental-office payroll at $300 a month is an SMB rung: peers, associations and practice-system integrations, not paid social or field sales.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "In Janz's framework, how many customers paying $10k a year does a $100M business need?",
-     "a": "About 10,000 (the \"deer\")."
+     "q": "A product priced at $2,500 a year struggles with both ads and sales reps. Why?",
+     "a": "It is on Janz's rabbit rung: too expensive for self-serve trust, too cheap to fund a salesperson per deal."
     },
     {
-     "q": "What two facts decide your go-to-market motion?",
-     "a": "How much one customer pays you, and who signs the check (and therefore how they buy)."
-    },
-    {
-     "q": "Why is a roughly $1k-$5k annual price point hard?",
-     "a": "It is too expensive for zero-touch consumer-style trust and too cheap to pay for a salesperson on each deal."
-    },
-    {
-     "q": "What did Janz drop in his five-years-later SaaS update?",
-     "a": "The $10-per-year \"flies\". He kept mice, rabbits, deer and elephants and added whales at about $1M a year per customer."
+     "q": "In Janz's ladder, how many $10k-a-year customers make $100M?",
+     "a": "About 10,000 (deer)."
     }
    ]
   },
   {
-   "n": "Picking the beachhead",
-   "g": "map",
-   "s": "A beachhead is one narrow segment you can dominate first, chosen because its buyers share a pain, talk to each other, and give you references for the next segment.",
+   "n": "Pick a beachhead",
+   "g": "focus",
+   "s": "Win one narrow segment completely before expanding, because mainstream buyers buy on references from people like them.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<p>Geoffrey Moore's <i>Crossing the Chasm</i> argues that early adopters buy vision but the mainstream buys references from people like them. So you win one niche completely, then use it to knock over adjacent niches (his \"bowling pin\" model).</p><p>A good beachhead has: an urgent, costly pain; buyers you can name and reach; buyers who talk to each other (associations, conferences, forums); and a whole-product need you can meet alone.</p>",
-     "c": []
-    },
-    {
-     "t": "Applied by rung",
-     "b": "<ul><li><b>Consumer:</b> one community or use case (one sport, one hobby, one region) where word of mouth spreads.</li><li><b>SMB vertical:</b> one trade in one region, such as independent dental offices in one state, before all dentists.</li><li><b>Enterprise:</b> one department in one industry with a budget line.</li><li><b>Physical retail:</b> one regional chain or one store format before national distribution.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "Design review questions",
-     "b": "<ul><li>Can you name 50 target buyers today?</li><li>Where do they gather, and will they refer each other?</li><li>Is the beachhead big enough to matter and small enough to win in 12-18 months?</li><li>Which segment does winning this one unlock next?</li></ul>",
+     "t": "Model",
+     "b": "<p>Geoffrey Moore (<i>Crossing the Chasm</i>): early adopters buy the vision; the mainstream buys references. Dominate one niche, then use it to topple adjacent ones (the bowling pin).</p><p>A good beachhead: urgent, costly pain; buyers you can name and reach; buyers who talk to each other; a whole product you can deliver, with partners if needed.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> \"Our market is everyone with a phone.\" A broad target spreads a small budget so thin that no segment ever reaches the reference density that drives mainstream adoption.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> \"Our market is everyone.\" A small budget spread wide never reaches the reference density that tips a segment.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Independent dental offices in one state, reached through the state association, before \"all of healthcare\".</p>",
+     "c": []
+    },
+    {
+     "t": "Ask",
+     "b": "<p>Can you name 50 target buyers today, and where they gather?</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "In Moore's model, what does the mainstream buy on?",
-     "a": "References from peers like them, rather than the product vision early adopters buy."
+     "q": "Two segments: one large but scattered, one small with an active trade association. Which is the better beachhead?",
+     "a": "The small one: reachable buyers who talk to each other create references fast."
     },
     {
-     "q": "Name three traits of a good beachhead.",
-     "a": "Urgent costly pain, nameable and reachable buyers, and buyers who talk to each other (plus a whole product you can deliver)."
-    },
-    {
-     "q": "What is Moore's \"bowling pin\" idea?",
-     "a": "Win one niche fully, then use its references to topple adjacent niches one at a time."
+     "q": "Why does winning one niche help win the next?",
+     "a": "Mainstream buyers in adjacent niches buy on references from peers in the niche you already own."
     }
    ]
   },
   {
-   "n": "Positioning",
-   "g": "map",
-   "s": "Positioning defines what your product is best at, for whom, compared with what they would do instead, and it comes before messaging, pricing and channel.",
+   "n": "Position against the real alternative",
+   "g": "focus",
+   "s": "Positioning starts from what customers would do without you, then names your unique value, who cares most, and the category that makes it obvious.",
    "x": [
     {
-     "t": "April Dunford's components",
-     "b": "<p>In <i>Obviously Awesome</i>, Dunford breaks positioning into five components plus one optional, defined in this order because each depends on the last:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Competitive alternatives:</b> what customers would use if you did not exist (often a spreadsheet, an intern, or doing nothing).</li><li><b>Unique attributes:</b> what you have that the alternatives lack.</li><li><b>Value:</b> what those attributes do for the customer.</li><li><b>Best-fit customers:</b> who cares most about that value.</li><li><b>Market category:</b> the frame that makes your value obvious.</li><li><b>Relevant trends</b> (optional): why now.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Why it matters for GTM",
-     "b": "<p>The market category tells buyers who you compete with and what price to expect. Calling a payroll tool for dental offices \"dental practice payroll\" sets a different comparison, price and channel than calling it \"HR software\".</p>",
+     "t": "Model",
+     "b": "<p>April Dunford's order (<i>Obviously Awesome</i>), each step built on the last:</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li>Competitive alternatives (often a spreadsheet, an intern, or nothing).</li><li>Unique attributes.</li><li>Value those attributes create.</li><li>Best-fit customers.</li><li>Market category.</li><li>Relevant trends (optional).</li></ol><p>The category sets who you are compared with and what price buyers expect.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Starting from features. Dunford's process starts from competitive alternatives because that is how customers think and how you know a market exists.</div><div class=\"trap\"><b>Trap:</b> Ignoring the status quo as a competitor. In B2B many deals are lost to \"keep doing it the old way\", which no feature comparison addresses.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Starting from features. Buyers think in alternatives, and the status quo wins many B2B deals.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>\"Dental practice payroll\" sets a different comparison, price and channel than \"HR software\" for the same product.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the first positioning component Dunford says to define?",
-     "a": "Competitive alternatives: what customers would use if your product did not exist."
+     "q": "Your demo wins praise but deals stall at \"we'll keep using Excel\". Which positioning step did you skip?",
+     "a": "Competitive alternatives: you positioned against products instead of the status quo."
     },
     {
-     "q": "What does the market category do for a buyer?",
-     "a": "It frames who you compete with, which features to expect, and roughly what you should cost."
-    },
-    {
-     "q": "List Dunford's five core positioning components in order.",
-     "a": "Competitive alternatives, unique attributes, value, best-fit customers, market category (plus optional relevant trends)."
+     "q": "What does choosing a market category do?",
+     "a": "It frames who you compete with, which features buyers expect and what price seems right."
     }
    ]
   },
   {
-   "n": "Pricing as a GTM decision",
-   "g": "map",
-   "s": "Price sets which rung you are on, so it decides your channel and sales cost as much as your margin.",
+   "n": "Find the one channel",
+   "g": "focus",
+   "s": "Most companies win through one dominant channel, so test several cheaply and then concentrate on the one that works.",
    "x": [
     {
-     "t": "How it works",
-     "b": "<ul><li><b>Price to value, not cost.</b> Anchor on what the customer saves or earns against the competitive alternative.</li><li><b>Pick a value metric</b> that grows with the customer's success: per seat, per location, per transaction, per patient.</li><li><b>Physical goods</b> work backward from shelf price: retailer margin, distributor margin, trade spend, freight and returns all come out before your cost of goods.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "Pricing by rung",
-     "b": "<ul><li><b>Consumer software:</b> free tier or trial, then a simple subscription or in-app purchases.</li><li><b>SMB:</b> published tiers, monthly or annual, priced per location or per user.</li><li><b>Enterprise:</b> quoted pricing, annual contracts, volume tiers, implementation fees.</li><li><b>Retail product:</b> shelf price set against the category, with your margin what is left after the channel takes its cut.</li></ul>",
+     "t": "Model",
+     "b": "<p>Weinberg and Mares (<i>Traction</i>) list 19 channels, from SEO and content to sales, communities and engineering as marketing. Bullseye: brainstorm all 19, rank a few, test cheaply, then focus on the winner until it saturates.</p><ul><li>Consumer apps: app-store search, short video, referrals, paid social.</li><li>Retail: brokers, distributors, buyer meetings.</li><li>SMB vertical: associations, conferences, integrations, advisors.</li><li>Enterprise: founder outbound, intros, partners.</li></ul>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Underpricing to win early customers. It locks you onto a lower rung where the channel you need is too expensive for the price you charge.</div><div class=\"synth\"><b>Synthesis:</b> Raising price is usually the fastest unit-economics fix available to an early company, because it moves revenue per customer without changing acquisition cost. Test it on new customers first.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Defaulting to the channel you already know.</div><div class=\"trap\"><b>Trap:</b> Five channels at once with no budget for any: no test reaches a readable signal.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Three cheap tests for SMB payroll: one association webinar, one integration listing, 100 cold emails. Double down on whichever books demos at the lowest cost.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is a value metric?",
-     "a": "The unit you charge on (seat, location, transaction) chosen so revenue grows as the customer gets more value."
+     "q": "You have $3k to find a channel. What does Bullseye prescribe?",
+     "a": "Run a few cheap parallel tests, then concentrate on the one with the best cost per qualified lead."
     },
     {
-     "q": "For a retail product, what comes out of shelf price before your cost of goods?",
-     "a": "Retailer margin, distributor margin, trade and promotion spend, freight and returns."
-    },
-    {
-     "q": "Why does underpricing hurt go-to-market?",
-     "a": "It puts you on a lower rung where you cannot afford the sales or marketing channel your buyers need."
+     "q": "Why not run every channel at modest spend?",
+     "a": "None gets enough volume to separate signal from noise."
     }
    ]
   },
   {
-   "n": "Choosing a channel",
-   "g": "map",
-   "s": "Most companies win through one dominant acquisition channel, so the job early is to test several cheaply and then concentrate on the one that works.",
-   "x": [
-    {
-     "t": "The Bullseye framework",
-     "b": "<p>In <i>Traction</i>, Gabriel Weinberg (DuckDuckGo founder) and Justin Mares list 19 traction channels, including SEO, content, paid search and social, PR, unconventional PR, viral loops, email, engineering as marketing, business development, sales, affiliates, communities, trade shows, offline events, speaking, existing platforms and targeting blogs.</p><ol style=\"padding-left:18px;margin:0 0 8px\"><li>Brainstorm how each of the 19 could work for you.</li><li>Rank them and pick a few promising ones.</li><li>Run cheap tests, then focus on the channel that wins until it stops working.</li></ol><p>They also argue founders should split time roughly evenly between product and traction from the start.</p>",
-     "c": []
-    },
-    {
-     "t": "Channels that usually fit each rung",
-     "b": "<ul><li><b>Consumer apps:</b> app store search, short-form video, virality and referrals, paid social.</li><li><b>Retail product:</b> brokers and distributors, retailer buyer meetings and trade shows, in-store demos.</li><li><b>SMB vertical:</b> trade associations, industry conferences, partner integrations, referrals from the advisors the owner trusts (accountants, consultants).</li><li><b>Enterprise:</b> founder-led outbound, warm introductions, conferences, partner and reseller channels.</li><li><b>Government:</b> contract vehicles, prime contractors, agency innovation programs.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Defaulting to the channel you already know. The Bullseye's value is forcing you to consider channels you would otherwise skip.</div><div class=\"trap\"><b>Trap:</b> Running five channels at once with no budget for any. Spread too thin, no test gets enough volume to tell signal from noise.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "How many traction channels do Weinberg and Mares list?",
-     "a": "19."
-    },
-    {
-     "q": "What are the three Bullseye steps?",
-     "a": "Brainstorm all channels, rank and pick the promising few, test cheaply and then focus on the winner."
-    },
-    {
-     "q": "Name two channels that typically fit SMB vertical software.",
-     "a": "Trade associations and industry conferences (also integration partners and advisor referrals)."
-    }
-   ]
-  },
-  {
-   "n": "Consumer apps and games",
+   "n": "Consumer software",
    "g": "consumer",
-   "s": "Consumer apps live or die on retention first and cheap acquisition second, because paid user acquisition only works when a user is worth more than they cost.",
+   "s": "Consumer apps live on retention first and cheap acquisition second, because paid installs only pay when a user is worth more than they cost.",
    "x": [
     {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ship a narrow version to a small community and measure whether people come back on day 1, day 7 and day 30.</li><li>Fix retention before buying traffic. A leaky product makes every acquisition dollar leak too.</li><li>Build a loop: sharing, invites, user-generated content, or content that ranks in app store search.</li><li>Pick a monetization model that fits the use: subscriptions for ongoing utility, in-app purchases or ads for games.</li><li>Only then test paid acquisition, keeping cost per install well under expected revenue per user.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Numbers that matter",
-     "b": "<ul><li>Retention curves by cohort; a curve that flattens means a core of users stays.</li><li>Viral coefficient (K): new users each user brings in. K above 1 means self-sustaining growth, which is rare.</li><li>Lifetime value against cost per install.</li><li>Free-to-paid conversion. Benchmark roundups put freemium conversion in the low single digits, with time-limited trials converting higher.</li></ul>",
+     "t": "Model",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Ship narrow to one community; measure day 1, 7 and 30 retention by cohort.</li><li>Fix retention before buying traffic; a flattening curve means a core stays.</li><li>Build a loop: invites, sharing, content that ranks; a viral coefficient above 1 means growth sustains itself.</li><li>Monetize to fit the use: subscriptions for utility, purchases or ads for games.</li><li>Buy installs only when revenue per user beats cost per install.</li></ol><p>Freemium converts in the low single digits; trials convert higher.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Buying installs to look like traction. Bought users with poor retention make the curve look worse, not better, and burn cash.</div><div class=\"trap\"><b>Trap:</b> Relying on one platform's algorithm. App store or social reach can disappear with a policy or ranking change.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Buying installs to look like traction. Bought users who churn worsen the curve and burn cash.</div><div class=\"trap\"><b>Trap:</b> Living on one platform's algorithm; reach can vanish with a policy change.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A game with 40% day-1 but 3% day-30 retention fixes onboarding and progression before any ad spend.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What should you fix before paying for consumer app installs?",
-     "a": "Retention: whether users come back on day 1, 7 and 30."
+     "q": "Day-30 retention keeps falling toward zero. Should you start paid acquisition?",
+     "a": "No: fix retention first; until the curve flattens, every bought user leaks."
     },
     {
      "q": "What does a viral coefficient above 1 mean?",
-     "a": "Each user brings in more than one new user, so growth sustains itself without paid acquisition."
-    },
-    {
-     "q": "What does a flattening retention curve show?",
-     "a": "A core group of users keeps using the product long term."
-    },
-    {
-     "q": "When does paid acquisition make sense for an app?",
-     "a": "When expected revenue per user is reliably above cost per install."
+     "a": "Each user brings in more than one new user, so growth sustains itself."
     }
    ]
   },
   {
-   "n": "Retail and CPG",
+   "n": "Physical products",
    "g": "consumer",
-   "s": "Getting a physical product into stores like Walmart or a convenience chain is a channel game: brokers, distributors and buyers decide placement, and sell-through velocity decides whether you stay.",
+   "s": "Physical goods are a cash-and-channel game: prove demand cheaply, model contribution margin per unit, and fund the channel before it pays you.",
    "x": [
     {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Prove demand locally: farmers markets, independent stores, online sales. Retail buyers want evidence the product sells.</li><li>Get retail-ready: UPC barcodes (GS1), case packs, liability insurance, retail-grade packaging, and the capacity to fill a chain order.</li><li>Start regional. Win a regional chain or a small store count, then expand on sales data.</li><li>Go through the channel: brokers pitch buyers for a commission; distributors warehouse and deliver for a margin. Convenience stores buy mostly through wholesale distributors.</li><li>Fund the launch: slotting fees, free fill, promotions and demos are paid up front, long before you are paid.</li><li>Drive sell-through. Buyers review velocity (units per store per week) at line reviews and cut slow items.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Walmart specifically",
-     "b": "<p>Walmart runs an annual Open Call where US entrepreneurs pitch shelf-ready products made, grown or assembled in the US directly to buyers, applying through the RangeMe platform. It ties to Walmart's commitment to buy an extra $350 billion in US-made products. Golden Ticket winners get a path to Walmart and Sam's Club shelves or online.</p>",
-     "c": []
-    },
-    {
-     "t": "Money in, money out",
-     "b": "<p>The FTC's 2003 staff study of grocery slotting found average fees of roughly $2,300 to $21,800 per item, per retailer, per metro area, varying by retailer and metro area. Suppliers estimated $1.5 to $2 million to launch one new product nationally; FTC staff estimated a little under $1 million to over $2 million. The data is old; treat it as an order of magnitude.</p><p>Retailer and distributor margins come out of shelf price first, so a product needs a large gap between landed cost and shelf price.</p>",
+     "t": "Model",
+     "b": "<ul><li><b>Retail</b>: brokers pitch buyers; distributors deliver; buyers cut items on velocity (units per store per week). The FTC's 2003 study found slotting fees of about $2,300-21,800 per item per retailer per metro, and suppliers estimated $1.5-2M for a national grocery launch. Walmart's Open Call takes US-made pitches through RangeMe.</li><li><b>DTC and Amazon</b>: Amazon's referral fee is 15% in most categories, with a $0.30 minimum; first orders often lose money after ad cost, so repeat purchase carries it.</li><li><b>Hardware</b>: pre-orders before tooling; FCC authorization for electronics; months of cash out before revenue.</li></ul>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Winning a big chain before you can fund it. Slotting, free fill, promotions, chargebacks for compliance errors, and 30-90 day payment terms can bankrupt a small brand that \"won\".</div><div class=\"trap\"><b>Trap:</b> Treating placement as the finish line. Paying to get on the shelf buys a trial period; velocity keeps you there.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Winning a big chain you can't fund: slotting, free fill, promotions and chargebacks arrive before 30-90 day payment.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Prove demand at local stores and online pre-orders, then one regional chain, then national on sales data.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What metric do retail buyers use to cut slow products?",
-     "a": "Velocity: units sold per store per week (sell-through)."
+     "q": "A buyer offers 500 stores. What do you check before saying yes?",
+     "a": "Cash to fund slotting, free fill, promotions and payment terms, and whether velocity will hold."
     },
     {
-     "q": "What does a food broker do?",
-     "a": "Represents your product to retail buyers in exchange for a commission."
-    },
-    {
-     "q": "What did the FTC's 2003 study estimate for a national grocery launch of one product in slotting fees?",
-     "a": "About $1.5 to $2 million, per suppliers surveyed (old data, order of magnitude only)."
-    },
-    {
-     "q": "What is Walmart Open Call?",
-     "a": "An annual event where entrepreneurs pitch US-made, shelf-ready products directly to Walmart and Sam's Club buyers, applying via RangeMe."
-    },
-    {
-     "q": "Why can winning a big retail account sink a small brand?",
-     "a": "Up-front slotting, free fill, promotions and chargebacks arrive before payment, which often comes 30-90 days later."
+     "q": "Why do DTC brands obsess over repeat purchase?",
+     "a": "The first order often loses money after ad cost; repeat orders carry the economics."
     }
    ]
   },
   {
-   "n": "DTC and Amazon",
-   "g": "consumer",
-   "s": "Selling a physical product direct online trades retail gatekeepers for paid acquisition and marketplace fees, so contribution margin per order decides everything.",
-   "x": [
-    {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Validate with pre-orders, a crowdfunding campaign, or a small batch before ordering inventory at scale.</li><li>Model contribution margin per order: price minus cost of goods, shipping, payment fees, returns, marketplace fees and ad cost per order.</li><li>Pick a home: your own store (keep the customer data and margin) or Amazon (traffic and trust, but fees and less customer data). Many brands do both.</li><li>Grow repeat purchase. Repeat buyers carry DTC economics because the first order often loses money after ad costs.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Amazon economics",
-     "b": "<p>Amazon's referral fee is a percentage of the sale price, 15% in most categories with a $0.30 per-item minimum, and lower in categories such as electronics. Fees for Fulfillment by Amazon are charged per unit by size and weight, plus storage. Referral percentages held steady for 2026, while FBA fees rose slightly in January 2026 and a fuel and logistics surcharge was added in April 2026, per seller-fee trackers citing Seller Central. Check Seller Central before modeling.</p>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Judging a channel by revenue. A DTC brand can grow revenue while losing money on every first order once ad cost is counted.</div><div class=\"trap\"><b>Trap:</b> Ignoring the $0.30 minimum on cheap items. On a low-priced product the effective referral rate rises well above 15%.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is Amazon's referral fee in most categories?",
-     "a": "15% of the sale price, with a $0.30 per-item minimum."
-    },
-    {
-     "q": "What carries DTC economics when the first order loses money on ad cost?",
-     "a": "Repeat purchases."
-    },
-    {
-     "q": "Name four costs in DTC contribution margin besides cost of goods.",
-     "a": "Shipping, payment fees, returns and ad cost per order (plus marketplace fees if on Amazon)."
-    },
-    {
-     "q": "What is a cheap way to validate a physical product before buying inventory?",
-     "a": "Pre-orders or a crowdfunding campaign."
-    }
-   ]
-  },
-  {
-   "n": "Consumer hardware",
-   "g": "consumer",
-   "s": "Hardware combines the inventory risk of retail with long build cycles, so the playbook front-loads demand proof and protects cash.",
-   "x": [
-    {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Prototype, then prove demand with pre-orders or crowdfunding before tooling.</li><li>Design for manufacturing early; tooling and certification changes are expensive later.</li><li>Budget for certification: electronics sold in the US generally need FCC authorization, and many retailers require safety listings.</li><li>Price with room for the channel. Retail and distributor margins come out of shelf price, so hardware sold in stores needs a wide gap over its bill of materials.</li><li>Launch DTC first, then add retail once the product and supply chain are stable.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> The cash cycle. You pay for components and manufacturing months before revenue arrives; a successful launch can create a cash crunch.</div><div class=\"trap\"><b>Trap:</b> Shipping late on a crowdfunding promise. Delays erode backer trust and can force refunds.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "Why is consumer hardware cash-intensive even when it sells?",
-     "a": "You pay for components and manufacturing months before customers pay you."
-    },
-    {
-     "q": "What should come before paying for tooling?",
-     "a": "Demand proof, such as pre-orders or a crowdfunding campaign."
-    },
-    {
-     "q": "What US certification do most electronic products need?",
-     "a": "FCC equipment authorization (retailers often also require safety listings)."
-    }
-   ]
-  },
-  {
-   "n": "Vertical SaaS for SMBs",
+   "n": "SMB software",
    "g": "smb",
-   "s": "Software for one industry, such as payroll for dental offices, wins through trust networks inside that industry and deep workflow fit, then expands revenue by owning more of the customer's operations.",
+   "s": "Small businesses buy on peer trust, workflow fit and painless switching, so vertical tools win through industry networks and integrations while horizontal tools win through product-led adoption.",
    "x": [
     {
-     "t": "Who buys",
-     "b": "<p>The buyer is usually the owner or office manager: busy, skeptical of software, and loyal once switched. They buy on peer recommendations, ease of switching, and integration with the system they already run (in dentistry, the practice management system).</p>",
-     "c": []
-    },
-    {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Pick one workflow that hurts (payroll, scheduling, billing) and do it far better than the generic tool.</li><li>Integrate with the industry's system of record so setup is painless.</li><li>Sell where the industry gathers: state associations, conferences, buying groups, consultants and accountants who advise these businesses.</li><li>Run inside sales plus self-serve: demos by phone or video, simple monthly pricing, white-glove onboarding.</li><li>Expand: add adjacent workflows and embedded payments or financial products, which grow revenue per customer.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Numbers that matter",
-     "b": "<ul><li>Logo churn. SMBs close, sell, and switch more often than enterprises, so retention benchmarks are weaker than enterprise ones.</li><li>Revenue per location and expansion revenue.</li><li>Payback on acquisition cost; SMB deals cannot carry a long payback.</li></ul>",
+     "t": "Model",
+     "b": "<ul><li><b>Vertical</b> (one industry): the owner or office manager buys. Do one painful workflow far better, integrate with the industry's system of record, sell through associations, conferences and advisors, then expand into adjacent workflows and embedded payments.</li><li><b>Horizontal product-led</b>: fast time to value, a defined activation event, sharing that pulls in teammates, then sales on product-qualified accounts.</li></ul>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Building a horizontal tool and calling it vertical. Owners switch for workflow fit and industry language, not for a logo on the landing page.</div><div class=\"trap\"><b>Trap:</b> Underestimating onboarding. Data migration from the old system is the real switching cost.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Underestimating onboarding. Migrating data from the old system is the real switching cost.</div><div class=\"trap\"><b>Trap:</b> Assuming product-led means no sales. Bigger accounts still need a person for security and contracts.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Dental payroll integrates with the practice management system, launches at a state dental meeting, and migrates payroll history for free.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "Who usually buys vertical SMB software?",
-     "a": "The owner or office manager."
+     "q": "Trials sign up but few convert. Which product-led metric do you engineer first?",
+     "a": "Time to value and the activation event that predicts retention."
     },
     {
-     "q": "Name two channels that suit vertical SMB software.",
-     "a": "Industry associations and conferences, plus advisors such as consultants and accountants (integration partners also work)."
-    },
-    {
-     "q": "How do vertical SaaS companies commonly expand revenue per customer?",
+     "q": "How does vertical SMB software usually grow revenue per customer?",
      "a": "Adding adjacent workflows and embedded payments or financial products."
-    },
-    {
-     "q": "What is often the real switching cost for an SMB?",
-     "a": "Migrating data and workflows from the old system."
-    }
-   ]
-  },
-  {
-   "n": "Product-led horizontal SaaS",
-   "g": "smb",
-   "s": "Product-led growth lets users find, try and adopt the product themselves, then adds sales once usage shows which accounts are worth a conversation.",
-   "x": [
-    {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Shorten time to value: the first useful result within minutes of signup.</li><li>Choose freemium (permanent free tier) or a free trial (full access for limited time). Freemium favors reach and network effects; trials favor conversion.</li><li>Instrument activation: define the action that predicts retention and push new users toward it.</li><li>Build in sharing: invites, shared docs, collaboration that pulls in teammates.</li><li>Layer sales on product-qualified leads: accounts whose usage signals they would buy more with help.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Benchmarks",
-     "b": "<p>Roundups of SaaS conversion data put freemium-to-paid in the low single digits, opt-in trials (no card) in the teens, and opt-out trials (card at signup) much higher because fewer, more committed people start them. Treat these as rough ranges; they vary by price and buyer.</p>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Giving away too much in the free tier, so nobody needs to upgrade.</div><div class=\"trap\"><b>Trap:</b> Assuming product-led means no sales. Larger accounts still want a person for security, procurement and contracts.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "What is a product-qualified lead?",
-     "a": "An account whose product usage signals it is likely to buy or expand with sales help."
-    },
-    {
-     "q": "Freemium or free trial: which typically converts a higher share?",
-     "a": "Free trial; freemium trades conversion rate for reach."
-    },
-    {
-     "q": "Why do opt-out trials convert higher than opt-in trials?",
-     "a": "Requiring a card at signup filters to fewer, more committed users."
-    },
-    {
-     "q": "What is the first metric to engineer in product-led growth?",
-     "a": "Time to value and activation: the action that predicts retention."
     }
    ]
   },
   {
    "n": "Founder-led enterprise sales",
    "g": "upmarket",
-   "s": "Early enterprise sales should be run by a founder until the company knows who buys, why, and how the deal closes, because that knowledge is what a first sales hire needs to repeat.",
+   "s": "A founder sells the first enterprise deals until the path to close is repeatable, because that path is what the first salesperson must copy.",
    "x": [
     {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Founder sells the first deals; outbound to a named list plus warm introductions.</li><li>Find the champion (who feels the pain) and the economic buyer (who owns the budget).</li><li>Run paid pilots with written success criteria and a pre-agreed path to a contract.</li><li>Prepare for security review: questionnaires, a SOC 2 report for most US buyers, data handling documentation.</li><li>Map procurement early: legal review, vendor onboarding, and budget cycles add months.</li><li>Hire the first salesperson when the founder can describe a repeatable path, then a second to tell skill from luck.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Qualification",
-     "b": "<p>Enterprise teams commonly use frameworks such as MEDDICC (metrics, economic buyer, decision criteria, decision process, identify pain, champion, competition) to check whether a deal is real.</p>",
+     "t": "Model",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Outbound to a named list plus warm intros.</li><li>Find the champion (feels the pain) and the economic buyer (owns the budget).</li><li>Paid pilots with written success criteria and a path to contract.</li><li>Security ready: questionnaires and, for most US buyers, a SOC 2 report.</li><li>Map procurement and budget cycles early.</li><li>Hire one salesperson when the path repeats, then a second to tell skill from luck.</li></ol><p>MEDDICC (metrics, economic buyer, decision criteria and process, pain, champion, competition) checks whether a deal is real.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Free pilots that never convert. A pilot without success criteria, a budget owner and a contract path is unpaid consulting.</div><div class=\"trap\"><b>Trap:</b> Hiring a sales leader before the founder has closed deals. Nobody can scale a process that does not exist yet.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Free pilots with no success criteria or budget owner are unpaid consulting.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A pilot that ends in \"we loved it\" but has no budget line was never a deal; qualify the economic buyer before starting.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is the difference between a champion and an economic buyer?",
-     "a": "The champion feels the pain and pushes for you; the economic buyer controls the budget and signs."
+     "q": "Your champion loves the product but the deal stalls for months. What did you likely miss?",
+     "a": "The economic buyer: the person who owns the budget and signs."
     },
     {
-     "q": "What three things make a pilot likely to convert?",
-     "a": "Written success criteria, a budget owner involved, and a pre-agreed path to a contract."
-    },
-    {
-     "q": "What security document do most US enterprise buyers ask for?",
-     "a": "A SOC 2 report (plus security questionnaires)."
-    },
-    {
-     "q": "When should the first salesperson be hired?",
-     "a": "When the founder has closed deals and can describe a repeatable path to close."
+     "q": "When should a founder hire the first salesperson?",
+     "a": "After closing deals personally and seeing a repeatable path to close."
     }
    ]
   },
   {
-   "n": "Selling into healthcare",
+   "n": "Regulated buyers",
    "g": "upmarket",
-   "s": "Healthcare buyers add regulation, EHR integration and long committee decisions to enterprise selling, so proof of clinical or financial value and compliance readiness come first.",
+   "s": "Healthcare and government add regulation, integration and contract vehicles to enterprise selling, so compliance readiness and proof of value come before the first meeting.",
    "x": [
     {
-     "t": "What changes",
-     "b": "<ul><li><b>HIPAA:</b> a vendor that handles protected health information for a covered entity is a business associate and must sign a business associate agreement (BAA).</li><li><b>Buyers:</b> clinical champions, IT and security, compliance, and finance all weigh in; health systems often run formal value-analysis committees.</li><li><b>Integration:</b> the EHR is the system of record. Epic's third-party program is Showroom, which replaced its App Orchard marketplace; its Connection Hub lists vendors with live integrations and carried a $500 annual fee at launch, per Fierce Healthcare.</li><li><b>Reimbursement:</b> if a provider can bill for the service your product enables, adoption gets easier.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Start with smaller buyers (independent practices, specialty groups) or innovation teams at health systems.</li><li>Prove one outcome in numbers: time saved, revenue captured, readmissions avoided.</li><li>Be compliance-ready before the first meeting: BAA, security documentation, data flow diagram.</li><li>Use reference customers aggressively; health systems copy peers.</li></ol>",
+     "t": "Model",
+     "b": "<ul><li><b>Healthcare</b>: handling PHI for a covered entity makes you a business associate, so you sign a BAA. Clinical, IT, compliance and finance all weigh in. The EHR is the system of record; Epic's third-party program is Showroom. Billable services ease adoption.</li><li><b>Government</b>: SBIR/STTR awards were reauthorized in April 2026 through September 30, 2031. Agencies buy through contract vehicles such as GSA schedules, or via prime contractors. Cloud software needs FedRAMP, which is moving to its 20x process (as of Nov 2026).</li></ul>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Pitching clinical benefit to a buyer who is judged on cost. Match the value to each committee member's metric.</div><div class=\"trap\"><b>Trap:</b> Underestimating cycle length. Budget cycles, committees and integration queues can stretch a health-system deal to a year or more.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Pitching clinical benefit to a buyer judged on cost. Match value to each committee member's metric.</div><div class=\"trap\"><b>Trap:</b> Mistaking a program office's enthusiasm for a buying path.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Start with specialty groups or a health system's innovation team, prove one outcome in numbers, and bring the BAA and data-flow diagram to the first meeting.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What must a vendor handling PHI for a covered entity sign?",
-     "a": "A business associate agreement (BAA) under HIPAA."
+     "q": "A health system loves your demo but legal won't proceed. What document is usually missing?",
+     "a": "A business associate agreement (BAA) for handling PHI."
     },
     {
-     "q": "What replaced Epic's App Orchard?",
-     "a": "Epic Showroom, including the Connection Hub directory of vendors with live integrations."
-    },
-    {
-     "q": "Why does reimbursement matter for healthcare GTM?",
-     "a": "If providers can bill for the service your product enables, the product pays for itself and adoption is easier."
-    },
-    {
-     "q": "Name a softer entry point than a large health system.",
-     "a": "Independent practices, specialty groups, or a health system's innovation team."
-    }
-   ]
-  },
-  {
-   "n": "Selling to government",
-   "g": "upmarket",
-   "s": "Government buying follows statute and contract vehicles, so the playbook is about getting onto the right vehicle and partnering with those already on it.",
-   "x": [
-    {
-     "t": "Entry routes",
-     "b": "<ul><li><b>SBIR/STTR:</b> federal R&amp;D awards for small businesses. Authorization lapsed on September 30, 2025 and was restored on April 13, 2026, through September 30, 2031, per the Congressional Research Service. The reauthorization added a new post-Phase II award category called Strategic Breakthrough.</li><li><b>Contract vehicles:</b> schedules such as GSA's Multiple Award Schedule let agencies buy without a full competition.</li><li><b>Prime contractors:</b> subcontract to a prime that already holds the contract.</li><li><b>Cloud software:</b> federal agencies generally require FedRAMP. In 2026 FedRAMP renamed authorization to certification and is replacing Low/Moderate/High labels with lettered classes under its 20x program; check current FedRAMP guidance.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Mistaking interest for a buying path. A program office that loves your demo still needs funding and a vehicle to pay you.</div><div class=\"trap\"><b>Trap:</b> Starting the compliance path too late. Certifications take months and require ongoing monitoring.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "When was SBIR/STTR reauthorized, and through when?",
-     "a": "April 13, 2026, through September 30, 2031, after a lapse that began October 1, 2025."
-    },
-    {
-     "q": "What does a contract vehicle do?",
-     "a": "Lets agencies buy from pre-approved vendors without running a full competition each time."
-    },
-    {
-     "q": "What compliance program governs federal cloud software?",
-     "a": "FedRAMP (now issuing certifications under its 20x program)."
-    },
-    {
-     "q": "Name a faster route into government than winning a prime contract yourself.",
-     "a": "Subcontracting to a prime contractor that already holds the contract."
+     "q": "Name two routes into federal buying for a small vendor.",
+     "a": "Subcontract through a prime contractor, or sell through an existing contract vehicle; SBIR/STTR awards are a third, non-dilutive route."
     }
    ]
   },
   {
    "n": "Marketplaces",
    "g": "models",
-   "s": "A marketplace must solve the chicken-and-egg problem by building liquidity in a narrow slice first, usually by seeding the harder side.",
+   "s": "A marketplace must reach liquidity in a narrow slice first, usually by seeding the harder side by hand.",
    "x": [
     {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Constrain the market: one city, one category, one campus. Liquidity in a small market beats thin coverage of a large one.</li><li>Seed the harder side, usually supply, by hand: recruit providers, list inventory yourself, or offer a tool that is useful before demand arrives.</li><li>Measure liquidity: the share of listings that transact, or of searches that find a match.</li><li>Set a take rate the value justifies, and watch for buyers and sellers taking the relationship off-platform.</li><li>Expand to the next city or category once the first one sustains itself.</li></ol>",
+     "t": "Model",
+     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Constrain: one city, category or campus.</li><li>Seed the harder side (usually supply) manually or with a tool useful before demand arrives.</li><li>Measure liquidity: share of listings that transact or searches that match.</li><li>Set a take rate the value justifies.</li><li>Expand only when the first slice sustains itself.</li></ol>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Launching nationally. National launch spreads both sides so thin that nobody finds a match and both sides leave.</div><div class=\"trap\"><b>Trap:</b> Disintermediation. If a repeat transaction is easy to take offline, the platform needs ongoing value (payments, insurance, scheduling, reviews) to keep it.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> National launch: both sides too thin to match, so both leave.</div><div class=\"trap\"><b>Trap:</b> Disintermediation: repeat pairs move off-platform unless you add ongoing value (payments, insurance, scheduling).</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>A tutoring marketplace launches at one university with 30 hand-recruited tutors before opening a second campus.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What is marketplace liquidity?",
-     "a": "The likelihood that a listing sells or a search finds a match within a reasonable time."
+     "q": "Buyers and sellers meet on your platform, then transact privately. What is this and what counters it?",
+     "a": "Disintermediation; counter with ongoing value such as payments, insurance or scheduling."
     },
     {
-     "q": "Which side is usually seeded first?",
-     "a": "The harder side, usually supply."
-    },
-    {
-     "q": "What is disintermediation?",
-     "a": "Buyers and sellers who met on the platform transacting off it to avoid fees."
-    },
-    {
-     "q": "Why constrain geography or category at launch?",
-     "a": "To reach liquidity in a small market rather than thin coverage everywhere."
+     "q": "Why constrain a new marketplace's geography or category?",
+     "a": "To reach liquidity in a small slice instead of thin coverage everywhere."
     }
    ]
   },
   {
-   "n": "Services and productized services",
-   "g": "models",
-   "s": "Services earn cash from the first customer and teach you the market, and productizing them (fixed scope, fixed price) makes them repeatable without becoming software.",
+   "n": "Unit economics and price",
+   "g": "economics",
+   "s": "Price sets your rung, and the business works only when each customer's gross profit repays what it cost to win them, fast enough to fund growth.",
    "x": [
     {
-     "t": "Playbook",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li>Sell an outcome to a narrow niche you know, priced by value or project, not hours.</li><li>Standardize: same deliverable, same process, fixed price.</li><li>Document and template every repeated step, then delegate or automate it.</li><li>Use client patterns to spot software opportunities, and pre-sell before building.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Why it fits a side launch",
-     "b": "<p>Services need little capital, can run beside a job, and generate revenue and customer evidence immediately. They also supply a list of named buyers for any product that grows out of them.</p>",
+     "t": "Model",
+     "b": "<ul><li>CAC = sales and marketing spend (including salaries) / new customers.</li><li>Payback months = CAC / (monthly revenue x gross margin).</li><li>LTV (simple) = monthly gross profit / monthly churn; 3:1 LTV:CAC is a common rule of thumb.</li><li>Physical goods: contribution margin per unit after cost of goods, freight, channel margin, trade spend, returns and acquisition.</li></ul><p>Price to value against the alternative, on a value metric that grows with the customer (seat, location, transaction).</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Custom work for every client. Without a fixed scope you are a staffing business with founder hours as the bottleneck.</div><div class=\"trap\"><b>Trap:</b> Assuming services convert neatly into a software company. Many stay services businesses, which can be good outcomes but have different exit values.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> Underpricing to win early customers locks you on a rung whose channel you can't afford.</div><div class=\"trap\"><b>Trap:</b> Revenue instead of gross profit in payback.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>CAC $1,200, $100 a month at 80% margin: payback is 15 months. Raising price to $150 cuts it to 10 without touching acquisition.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "What does productizing a service mean?",
-     "a": "Fixed scope, fixed process, fixed price for a standard deliverable."
+     "q": "CAC is $1,200, price $100 a month, gross margin 80%. What is the payback?",
+     "a": "15 months: 1,200 / (100 x 0.8)."
     },
     {
-     "q": "Why do services suit a side launch?",
-     "a": "Low capital, immediate revenue, and direct customer evidence while keeping a job."
-    },
-    {
-     "q": "What is the main scaling limit of an unproductized service?",
-     "a": "Founder hours on custom work."
+     "q": "Why is a price increase often the fastest unit-economics fix?",
+     "a": "It raises revenue per customer without changing acquisition cost."
     }
    ]
   },
   {
-   "n": "Unit economics by motion",
-   "g": "launch",
-   "s": "Each motion has a different cost to win a customer, so the test is whether a customer's gross profit repays that cost fast enough to fund growth.",
+   "n": "Prove demand",
+   "g": "economics",
+   "s": "Treat only commitments as evidence: ask about past behavior, not opinions of your idea, and scale only when users would miss the product.",
    "x": [
     {
-     "t": "Core formulas",
-     "b": "<ul><li><b>CAC</b> (customer acquisition cost) = sales and marketing spend / new customers.</li><li><b>CAC payback</b> (months) = CAC / (monthly revenue per customer x gross margin).</li><li><b>LTV</b> = monthly gross profit per customer / monthly churn rate (a simple version).</li><li><b>Net revenue retention</b> = revenue this year from last year's customers / their revenue last year.</li><li><b>Physical goods:</b> contribution margin per unit = price minus cost of goods, freight, channel margin, trade spend, returns and acquisition cost per unit.</li></ul>",
-     "c": []
-    },
-    {
-     "t": "How benchmarks shift by rung",
-     "b": "<p>Benchmark reports agree on the shape: payback lengthens as contract size rises, and enterprise buyers can justify longer paybacks because they churn less and expand more. A 3:1 LTV-to-CAC ratio is a widely used rule of thumb. Exact medians vary widely between surveys, so compare against your segment.</p>",
+     "t": "Model",
+     "b": "<p><b>The Mom Test</b> (Rob Fitzpatrick): talk about their life, not your idea; ask about specifics in the past, not hypotheticals; talk less. Compliments, fluff and feature ideas are bad data. Each meeting should end in commitment or advancement paid in time, reputation or money.</p><p>Ladder: interviews, then deposits, letters of intent and paid pilots, then manual delivery (Paul Graham's \"do things that don't scale\"), then retention. Sean Ellis's test: 40%+ of users \"very disappointed\" without it signals product-market fit. Write kill criteria (milestone, metric, date) first.</p>",
      "c": []
     },
     {
      "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Leaving salaries out of CAC. Count sales and marketing people, tools and ads.</div><div class=\"trap\"><b>Trap:</b> Using revenue instead of gross profit in payback. A low-margin product pays back far slower than its revenue suggests.</div>",
+     "b": "<div class=\"trap\"><b>Trap:</b> \"Would you use this?\" invites a polite yes. Ask when they last had the problem and what they did.</div>",
+     "c": []
+    },
+    {
+     "t": "Example",
+     "b": "<p>Bad: \"Would you pay for faster payroll?\" Good: \"Walk me through last month's payroll. What broke? What did that cost you?\" Then ask for a pilot.</p>",
      "c": []
     }
    ],
    "cards": [
     {
-     "q": "How do you calculate CAC payback in months?",
-     "a": "CAC divided by monthly revenue per customer times gross margin."
+     "q": "A prospect says \"I'd definitely buy that.\" How do you classify it, and what next?",
+     "a": "Fluff (a future promise); ask about a specific past instance, then for a commitment such as a pilot or intro."
     },
     {
-     "q": "What is a common LTV-to-CAC rule of thumb?",
-     "a": "About 3 to 1."
-    },
-    {
-     "q": "Why can enterprise companies tolerate longer CAC payback?",
-     "a": "Their customers churn less and expand more, so lifetime value is higher."
-    },
-    {
-     "q": "What does net revenue retention measure?",
-     "a": "Revenue this year from last year's customers compared with their revenue last year, including expansion and churn."
-    }
-   ]
-  },
-  {
-   "n": "Proving demand before scaling",
-   "g": "launch",
-   "s": "Before spending on growth, run the cheapest test that could prove you wrong, and scale only when customers show they would miss the product.",
-   "x": [
-    {
-     "t": "The validation ladder",
-     "b": "<ol style=\"padding-left:18px;margin:0 0 8px\"><li><b>Interviews</b> about the problem and current alternatives (not your idea).</li><li><b>Commitment tests:</b> waitlist with a deposit, letter of intent, pre-order, paid pilot.</li><li><b>Manual delivery:</b> do the service by hand before automating. Paul Graham's essay \"Do Things That Don't Scale\" argues founders should recruit early users one by one.</li><li><b>Retention and pull:</b> repeat use, referrals, and the Sean Ellis survey. Ellis's test asks users how they would feel if they could no longer use the product; 40% or more answering \"very disappointed\" is his threshold for product-market fit.</li></ol>",
-     "c": []
-    },
-    {
-     "t": "Kill criteria",
-     "b": "<p>Write down before you start: the milestone, the metric, and the date that would make you stop or pivot. This pairs with the scorecard in the Venture capital tab.</p>",
-     "c": []
-    },
-    {
-     "t": "Traps",
-     "b": "<div class=\"trap\"><b>Trap:</b> Counting compliments as demand. Only money, time, or reputation spent by the customer counts.</div><div class=\"trap\"><b>Trap:</b> Scaling acquisition before retention. Growth spending on a product people do not keep is the most expensive way to learn it does not work.</div>",
-     "c": []
-    }
-   ],
-   "cards": [
-    {
-     "q": "What threshold does the Sean Ellis test use?",
-     "a": "40% or more of users saying they would be \"very disappointed\" without the product."
-    },
-    {
-     "q": "Name three commitment tests stronger than interviews.",
-     "a": "Deposits or pre-orders, letters of intent, and paid pilots."
-    },
-    {
-     "q": "What should kill criteria specify?",
-     "a": "The milestone, the metric, and the date that would make you stop or pivot."
-    },
-    {
-     "q": "What does \"Do Things That Don't Scale\" recommend?",
-     "a": "Recruit and serve early users by hand, one by one, before automating."
+     "q": "What does the Sean Ellis test measure, and its threshold?",
+     "a": "Share of users who'd be very disappointed without the product; 40% or more signals fit."
     }
    ]
   }
@@ -817,6 +505,14 @@
   {
    "title": "Growth Unhinged: Startups become what they hunt",
    "url": "https://www.growthunhinged.com/p/startups-become-what-they-hunt"
+  },
+  {
+   "title": "Ybrikman: The Mom Test by Rob Fitzpatrick (summary)",
+   "url": "https://www.ybrikman.com/blog/2023/03/29/the-mom-test/"
+  },
+  {
+   "title": "mtlynch: The Mom Test book report",
+   "url": "https://mtlynch.io/book-reports/the-mom-test/"
   }
  ]
 }

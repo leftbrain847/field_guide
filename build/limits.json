@@ -21,6 +21,7 @@
   },
   "enforced": [
     "eq",
-    "bookshelf"
+    "bookshelf",
+    "gtm"
   ]
 }
