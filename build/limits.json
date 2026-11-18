@@ -17,9 +17,10 @@
     "eq": 14,
     "gtm": 12,
     "venture": 10,
-    "bookshelf": 12
+    "bookshelf": 11
   },
   "enforced": [
-    "eq"
+    "eq",
+    "bookshelf"
   ]
 }
